@@ -1,0 +1,33 @@
+name: AI Security Patches
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  ai-patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Run semgrep
+        run: |
+          pip install semgrep
+          semgrep --config=p/ci --json --output=semgrep.json || true
+
+      - name: Run AI patch script
+        env:
+          AI_SERVICE_URL: ${{ secrets.AI_SERVICE_URL }}
+          AI_SERVICE_KEY: ${{ secrets.AI_SERVICE_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          node .github/scripts/post-findings.js semgrep.json

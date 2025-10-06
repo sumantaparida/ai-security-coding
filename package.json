@@ -1,0 +1,31 @@
+{
+  "name": "ai-security-coding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node server/index.ts",
+    "test": "node test-server.js",
+    "test:manual": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "AI",
+  "license": "ISC",
+  "packageManager": "pnpm@10.7.1",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "dependencies": {
+    "@octokit/rest": "^22.0.0",
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.6",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
