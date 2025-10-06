@@ -15,7 +15,7 @@
 
 const fs = require("fs");
 const { execSync } = require("child_process");
-const fetch = require("node-fetch"); // node 18+ has fetch, but include for safety
+// Using native fetch available in Node.js 18+
 const { Octokit } = require("@octokit/rest");
 
 const args = process.argv.slice(2);
@@ -26,14 +26,17 @@ if (args.length < 1) {
 const SEMGREP_FILE = args[0];
 
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL;
-const AI_SERVICE_KEY = process.env.AI_SERVICE_KEY;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY; // owner/repo
 
-if (!AI_SERVICE_URL || !AI_SERVICE_KEY || !GITHUB_TOKEN || !GITHUB_REPOSITORY) {
+if (!AI_SERVICE_URL || !GITHUB_TOKEN || !GITHUB_REPOSITORY) {
   console.error(
-    "Missing env vars. Ensure AI_SERVICE_URL, AI_SERVICE_KEY, GITHUB_TOKEN, and GITHUB_REPOSITORY are set."
+    "Missing env vars. Ensure AI_SERVICE_URL, GITHUB_TOKEN, and GITHUB_REPOSITORY are set."
   );
+  console.error("Current values:");
+  console.error("AI_SERVICE_URL:", AI_SERVICE_URL ? "[SET]" : "[MISSING]");
+  console.error("GITHUB_TOKEN:", GITHUB_TOKEN ? "[SET]" : "[MISSING]");
+  console.error("GITHUB_REPOSITORY:", GITHUB_REPOSITORY ? GITHUB_REPOSITORY : "[MISSING]");
   process.exit(2);
 }
 
@@ -78,38 +81,32 @@ function makePromptPayload(finding) {
     : "";
 
   const payload = {
-    instruction:
-      "You are a security-aware code assistant. Given a vulnerable JavaScript/TypeScript snippet and repo context, return JSON with fields: explanation (string), diff (unified diff string or empty), test_plan (string).",
     vuln_type: checkId,
-    detector: "semgrep",
     file_path: filePath,
-    repo: `${owner}/${repo}`,
     before_snippet: beforeSnippet,
-    context: context,
-    constraints: [
-      "Return ONLY valid JSON with fields explanation, diff, test_plan.",
-      "Prefer minimal behavioral change. Keep patch small and limited to necessary lines.",
-      "If no safe automated patch possible, return diff as empty string and explain why.",
-    ],
+    context: `Repository: ${owner}/${repo}\nDetector: semgrep\n\n${context}`
   };
 
   return payload;
 }
 
 async function callAiService(payload) {
-  const res = await fetch(AI_SERVICE_URL, {
+  const serviceUrl = AI_SERVICE_URL.endsWith('/') ? AI_SERVICE_URL + 'suggest-patch' : AI_SERVICE_URL + '/suggest-patch';
+  
+  const res = await fetch(serviceUrl, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${AI_SERVICE_KEY}`,
       "Content-Type": "application/json",
+      // Remove Authorization header since our server doesn't use it yet
     },
     body: JSON.stringify(payload),
-    timeout: 120000,
   });
+  
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`AI service error ${res.status}: ${text}`);
   }
+  
   const json = await res.json();
   return json;
 }

@@ -26,7 +26,6 @@ jobs:
       - name: Run AI patch script
         env:
           AI_SERVICE_URL: ${{ secrets.AI_SERVICE_URL }}
-          AI_SERVICE_KEY: ${{ secrets.AI_SERVICE_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
