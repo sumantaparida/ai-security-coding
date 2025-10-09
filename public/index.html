@@ -1,1 +1,191 @@
-{}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Security Coding - Vulnerability Patch Assistant</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">
+          <i class="fas fa-shield-alt"></i>
+          <h1>AI Security Assistant</h1>
+        </div>
+        <div class="status" id="status">
+          <span class="status-dot"></span>
+          <span class="status-text">Ready</span>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Input Section -->
+        <section class="input-section">
+          <div class="section-header">
+            <h2><i class="fas fa-bug"></i> Vulnerability Analysis</h2>
+            <p>
+              Submit your vulnerable code and get AI-powered security patches
+            </p>
+          </div>
+
+          <div class="analysis-mode-toggle">
+            <button id="snippetModeBtn" class="toggle-btn active">
+              Snippet Analysis
+            </button>
+            <button id="directoryModeBtn" class="toggle-btn">
+              Directory Scan
+            </button>
+          </div>
+
+          <form class="vulnerability-form" id="vulnerabilityForm">
+            <div id="snippet-form">
+              <div class="form-group">
+                <label for="vulnType">Vulnerability Type</label>
+                <select id="vulnType" name="vuln_type">
+                  <option value="">Select vulnerability type...</option>
+                  <option value="SQL Injection">SQL Injection</option>
+                  <option value="Cross-Site Scripting">
+                    Cross-Site Scripting (XSS)
+                  </option>
+                  <option value="Path Traversal">Path Traversal</option>
+                  <option value="CSRF">Cross-Site Request Forgery</option>
+                  <option value="Authentication Bypass">
+                    Authentication Bypass
+                  </option>
+                  <option value="Buffer Overflow">Buffer Overflow</option>
+                  <option value="Insecure Deserialization">
+                    Insecure Deserialization
+                  </option>
+                  <option value="Command Injection">Command Injection</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="filePath">File Path</label>
+                <input
+                  type="text"
+                  id="filePath"
+                  name="file_path"
+                  placeholder="e.g., /src/controllers/user.js"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="codeSnippet">Vulnerable Code Snippet</label>
+                <textarea
+                  id="codeSnippet"
+                  name="before_snippet"
+                  placeholder="Paste your vulnerable code here..."
+                ></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="context">Additional Context</label>
+                <textarea
+                  id="context"
+                  name="context"
+                  placeholder="Provide any additional context about the vulnerability or codebase..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div id="directory-form" style="display: none">
+              <div class="form-group">
+                <label for="directoryPath">Directory Path</label>
+                <input
+                  type="text"
+                  id="directoryPath"
+                  name="directory_path"
+                  placeholder="e.g., /Users/user/my-project/src"
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+              <i class="fas fa-magic"></i>
+              <span>Generate Security Patch</span>
+              <div class="loading-spinner"></div>
+            </button>
+          </form>
+
+          <!-- Quick Examples -->
+          <div class="examples">
+            <h3>Quick Examples</h3>
+            <div class="example-buttons">
+              <button class="example-btn" data-example="sql">
+                <i class="fas fa-database"></i>
+                SQL Injection
+              </button>
+              <button class="example-btn" data-example="xss">
+                <i class="fas fa-code"></i>
+                XSS Attack
+              </button>
+              <button class="example-btn" data-example="path">
+                <i class="fas fa-folder-open"></i>
+                Path Traversal
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section" id="resultsSection">
+          <div class="section-header">
+            <h2>
+              <i class="fas fa-clipboard-check"></i> AI-Generated Security Patch
+            </h2>
+          </div>
+
+          <div class="results-container" id="resultsContainer">
+            <div class="empty-state">
+              <i class="fas fa-robot"></i>
+              <h3>Ready to analyze vulnerabilities</h3>
+              <p>
+                Submit a vulnerability above to get AI-powered security
+                recommendations
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-content">
+          <p>
+            &copy; 2024 AI Security Coding Assistant. Powered by OpenAI GPT-4
+          </p>
+          <div class="footer-links">
+            <a href="#" data-tooltip="View documentation"
+              ><i class="fas fa-book"></i
+            ></a>
+            <a href="#" data-tooltip="GitHub repository"
+              ><i class="fab fa-github"></i
+            ></a>
+            <a href="#" data-tooltip="Report issues"
+              ><i class="fas fa-bug"></i
+            ></a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
+  </body>
+</html>
