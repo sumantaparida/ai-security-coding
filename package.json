@@ -8,7 +8,9 @@
     "build": "tsc",
     "start": "node dist/server/index.js",
     "test": "node test-server.js",
-    "test:manual": "echo \"Error: no test specified\" && exit 1"
+    "test:manual": "echo \"Error: no test specified\" && exit 1",
+    "audit": "npm audit --registry=https://registry.npmjs.org/",
+    "audit:fix": "npm audit fix --registry=https://registry.npmjs.org/"
   },
   "keywords": [],
   "author": "AI",
@@ -19,9 +21,11 @@
   },
   "dependencies": {
     "@octokit/rest": "^22.0.0",
+    "@types/node-fetch": "^2.6.13",
     "body-parser": "^2.2.0",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.6",
