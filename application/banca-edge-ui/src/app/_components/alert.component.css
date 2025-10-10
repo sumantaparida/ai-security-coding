@@ -1,0 +1,31 @@
+/* [AlertType.Success]: 'alert alert-success',
+            [AlertType.Error]: 'alert alert-danger',
+            [AlertType.Info]: 'alert alert-info',
+            [AlertType.Warning]: 'alert alert-warning' */
+div.alert.alert-success {
+	background-color:  green
+}
+div.alert.alert-danger {
+	background-color:  red
+}
+div.alert.alert-warning {
+	background-color:  yellow
+}
+div.alert.alert-info {
+	background-color:  blue
+}
+
+div.alert{
+    padding: 20px;
+    color: white;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+div.a{
+	display:block;
+}
+.mat-icon {
+	float: right;
+   vertical-align: middle;
+}

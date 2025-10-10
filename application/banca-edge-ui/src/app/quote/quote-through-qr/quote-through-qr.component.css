@@ -1,0 +1,93 @@
+.quote-container
+  ::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: #673ab7;
+}
+
+.quote-container
+  ::ng-deep
+  .mat-radio-button.mat-accent
+  .mat-radio-inner-circle {
+  background-color: #673ab7;
+}
+
+.quote-details-header {
+  padding: 15px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.heading-row {
+  padding: 20px 1px;
+  background: #673ab7;
+}
+
+.health-details-form {
+  padding: 15px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+label {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.heading-text {
+  font-size: 30px;
+  color: white;
+  font-weight: 500;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.mat-form-field {
+  width: 97%;
+}
+
+.center-label {
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.center-text {
+  text-align: center;
+}
+
+table {
+  border: 2px solid lightsalmon;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+
+.generate-quote-btn {
+  /* width: 10rem; */
+  padding: 5px 15px;
+  display: block;
+  background: #03dac5;
+  color: white;
+  font-size: 18px;
+  margin: auto;
+  left: 0;
+  right: 0;
+}
+
+@media (max-width: 619px) {
+  .quote-details-header {
+    font-size: 25px;
+    margin: 0 !important;
+  }
+  label {
+    font-size: 16px;
+  }
+}

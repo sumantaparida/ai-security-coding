@@ -1,0 +1,82 @@
+<div *ngIf="state === 'serviceRequestAgainst'" class="service-request-against">
+  <form [formGroup]="form">
+    <div class="description">
+      <mat-label></mat-label>
+      <mat-form-field appearance="fill" class="example-dropdown">
+        <mat-label>Nature of Request</mat-label>
+        <mat-select
+          name="food"
+          formControlName="serviceRequestAgainst"
+          (selectionChange)="changeOption($event)"
+        >
+          <mat-option *ngFor="let option of serviceNatureRequest" [value]="option.desc">
+            {{ option.desc }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="otherServiceRequest" class="text-box-div">
+        <mat-form-field class="example-full-width">
+          <mat-label>Describe the request</mat-label>
+          <textarea
+            #message
+            maxlength="1500"
+            matInput
+            placeholder="5 - 1500 characters"
+            formControlName="otherServiceRequestAgainst"
+          ></textarea>
+          <mat-hint align="start"><strong></strong> </mat-hint>
+          <mat-hint align="end">{{ message.value.length }} /1500</mat-hint>
+        </mat-form-field>
+        <div
+          *ngIf="
+            form.get('otherServiceRequestAgainst').dirty &&
+            !form.get('otherServiceRequestAgainst').valid
+          "
+          class="error"
+        >
+          Please describe the request
+        </div>
+        <!-- *ngIf="claimIcons" -->
+        <div *ngIf="claimIcons" class="claim-icon">
+          <a class="text-dec-none" href="{{ processLink }}" target="_blank">
+            <mat-icon>assignment_turned_in</mat-icon><span>Know the Process</span>
+          </a>
+        </div>
+        <div class="documents">
+          <!-- <mat-file-upload *ngFor="let option of documentArray;let i = index" class="document-option"
+          labelText="{{i+1}} {{option.desc}}"
+          [selectButtonText]="'Choose File'" [acceptedTypes]="'.png, .jpg, .jpeg, .pdf'" 
+          (uploadClicked)="onUploadClicked($event)"> -->
+          <!-- <span *ngIf="option.mandatory" class="error">*</span> -->
+          <!-- </mat-file-upload> accept="image/*" -->
+          <div *ngFor="let option of documentArray; let i = index" class="document-option">
+            {{ i + 1 }} {{ option.desc }}
+            <span *ngIf="option.mandatory" class="error">*</span>&nbsp;&nbsp;
+            <input
+              type="file"
+              #Image
+              accept="image*/"
+              required="option.mandatory"
+              name="document_{{ i }}"
+              (change)="handleUpload($event, option.desc, i)"
+            />
+            <button
+              name="button_{{ i }}"
+              id="button_{{ i }}"
+              disabled
+              mat-raised-button
+              [disabled]="!docsToUpload[i]"
+              (click)="uploadFile(i)"
+              class="upload-button"
+              color="primary"
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+    </div>
+  </form>
+</div>

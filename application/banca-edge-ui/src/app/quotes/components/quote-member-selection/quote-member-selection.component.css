@@ -1,0 +1,101 @@
+.block-conatiner {
+    margin: auto;
+}
+
+.toggle-btn .mat-button-toggle-checked {
+    background-color: #11B9F0 !important;
+    color: white
+}
+
+.toggle-btn {
+    color: white;
+}
+
+.center-label {
+    text-align: center;
+}
+
+.margin-bottom-row {
+    margin-bottom: 18px;
+}
+
+.label-question {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.option-label {
+    font-size: 16px;
+}
+
+.gender mat-button-toggle {
+    width: 7rem;
+    padding: 0px 10px;
+}
+
+.img-div {
+    text-align: center;
+}
+
+.img-box {
+    cursor: pointer;
+    width: 80px;
+    height: 75px;
+    text-align: center;
+    padding: 5px 5px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    /* margin: 15px 5px; */
+    box-shadow: 0 1px 10px 5px #eee;
+}
+
+.img-box:hover {
+    border: 2px solid #11B9F0;
+    height: 72px;
+}
+
+.selected {
+    border: 2px solid #11B9F0;
+    height: 73px;
+    color: #11B9F0;
+}
+
+.img-box::selection {
+    border: 2px solid #11B9F0;
+    height: 73px;
+}
+
+.next-btn-row {
+    margin-top: 25px;
+}
+
+.next-btn {
+    width: 10rem;
+    /* background: #03dac5; */
+    background: #11B9F0;
+    color: white;
+    font-size: 18px;
+}
+
+.add-container {
+    background-color: #11B9F0;
+    color: white;
+    position: relative;
+    display: grid;
+    top: -13px;
+    height: 25px;
+    border-radius: 10px;
+}
+
+.add-btn {
+    font-size: 20px;
+    margin-right: 5px;
+    float: right;
+}
+
+.sub-btn {
+    font-size: 20px;
+    float: left;
+    margin-left: 10px;
+}

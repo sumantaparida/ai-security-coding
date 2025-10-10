@@ -1,0 +1,27 @@
+<div class="service-request-resolution">
+  <span mat-dialog-title class="resoluiton-desc">Remarks on Resolution</span>
+  <div [formGroup]="serviceRequestForm" >
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Leave a comment</mat-label>
+      <textarea matInput placeholder="Enter the remarks" formControlName="resolutionServiceRequest"></textarea>
+    </mat-form-field>
+
+
+    <!-- <div class="form-group shadow-textarea">
+      <textarea class="form-control z-depth-1"  formControlName="resolutionComplaint" placeholder="Write the resolution remarks here... " id="exampleFormControlTextarea6" rows="3"></textarea>
+    </div> -->
+      <!-- <textarea  rows="3" formControlName="resolutionComplaint" placeholder="Write something here... "></textarea> -->
+  </div>
+
+  <div mat-dialog-actions>
+    <button [disabled]="serviceRequestForm.get('resolutionServiceRequest').value.length < 20" mat-raised-button (click)="onSaveStatus()" class="save">Save</button>
+    <button mat-raised-button mat-dialog-close class="exit">Exit</button>
+    <!-- <button class="save-exit-button btn-primary" (click)="onSaveStatus()" > Save</button>
+    <button class="save-exit-button btn-primary"  mat-dialog-close>Exit</button> -->
+  </div>
+
+<!-- dummy -->
+
+
+</div>

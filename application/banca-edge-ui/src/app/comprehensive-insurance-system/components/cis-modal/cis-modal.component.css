@@ -1,0 +1,26 @@
+.customerDetail{
+    border:2px solid black;
+}
+.textFormat{
+    font-weight: bold;
+}
+.textContainer{
+    padding: 10px;
+}
+.validate{
+    margin:3px;
+    display: flex;
+    align-items: flex-start;
+    gap:5px;
+}
+
+.btn{
+    padding: 5px 30px;
+    background-color: #2994d9;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+.btn:hover{
+    background-color: #155987;
+}

@@ -1,0 +1,41 @@
+.big{
+    width:500px ;
+}
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  .file-name {
+    margin-left: 10px;
+    border: 1px solid #5264D2;
+    padding: 10px; /* or whatever margin you require */
+}
+.btn-color{
+    background-color: #5264D2;
+    padding: 6px 45px;
+    color: white;
+  
+    margin: 5px 10px;
+}
+.height-20{
+    height: 20px;
+}
+.note{
+    font-weight: 500;
+    color: gray;
+    margin: 10px 10px 10px 0;
+}
+.next-btn {
+    padding: 6px 45px;
+    font-size: 15px;
+    border-radius: 5%;
+    margin: 5px 10px;
+    outline: none;
+    color: white;
+    background-color: #03dac5;
+  }

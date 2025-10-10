@@ -1,0 +1,367 @@
+<div class="health-details-container">
+    <form [formGroup]="offlinePurchaseForm">
+        <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+            <div fxFlex="90" class="health-details-header">
+                <div fxLayout="row" fxLayout.xs="column" class="heading-row" fxLayout.sm="column" fxLayoutGap="10px">
+                    <div class="heading-text">
+                        <span>{{'quote.PROTECTION'| translate }}</span>
+                    </div>
+                </div>
+                <ng-container>
+                    <div fxLayout="row" fxLayout.xs="column" class="help-description" fxLayout.sm="column"
+                        fxLayoutGap="10px">
+                        <!-- Policy Description column  -->
+                        <div fxFlex="25" class="policy-description">
+                            <img class="health-details-img" src="{{insurerLogo}}" alt="{{productName}}">
+                        </div>
+                        <div fxFlex="75">
+                            <div class="width-100 product-name margin-35">
+                                <label>{{productName}}</label>
+                            </div>
+                            <div class="width-100 margin-15">
+                                <div class="width-20">
+                                    <label>{{'quote.OFFLINE_SUM_INSURED' |
+                                        translate}}</label>
+                                </div>
+
+                                <mat-form-field appearance="fill" class="width-25">
+                                    <input matInput #input readonly placeholder="Rs. {{sumInsured}}">
+                                </mat-form-field>
+                                <div class="width-20 text-center"><label>{{'component.PREMIUM' | translate}}</label>
+                                </div>
+                                <mat-form-field appearance="fill" class="width-25">
+                                    <input matInput #input readonly placeholder="Rs. {{premiumAmount}}">
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div *ngIf="showForms" class="padding">
+            <div class="form-container">
+                <h2>
+                    <mat-icon>account_box</mat-icon><span>{{'quote.OFFLINE_CUSTOMER_DETAILS' | translate}}</span>
+                </h2>
+                <div class="form-fields">
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_TYPE_OF_CUSTOMER' | translate}}
+                            </mat-label>
+                            <mat-select disabled formControlName="customerType" matInput>
+                                <mat-option value="INDV">{{'quote.INDIVIDUAL' | translate}}</mat-option>
+                                <mat-option value="BUSI">Business</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row required-field" *ngIf="customerType=='INDV'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_FIRST_NAME' | translate}}<span
+                                    class="man-field">*</span></mat-label>
+                            <input matInput class="form-control minimal text-capitalize" id="firstName"
+                                formControlName="firstName">
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'firstName'}">
+                        </ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='INDV'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_LAST_NAME' | translate}}<span
+                                    class="man-field">*</span></mat-label>
+                            <input matInput class="form-control minimal text-capitalize" id="lastName"
+                                formControlName="lastName">
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'lastName'}">
+                        </ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='INDV'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.DATE_OF_BIRTH'|translate }}<span
+                                    class="man-field">*</span></mat-label>
+                            <input (dateInput)="inputEvent($event,'dob')" matInput [matDatepicker]="dobpicker"
+                                placeholder="Enter DOB*" [min]="MinDate()" [max]="maxAdultDate" readonly
+                                formControlName="dob">
+                            <mat-datepicker-toggle matSuffix [for]="dobpicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dobpicker></mat-datepicker>
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'dob'}"></ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='INDV'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.GENDER'|translate }}<span
+                                    class="man-field">*</span></mat-label>
+                            <mat-select formControlName="gender">
+                                <mat-option value="M">{{'component.MALE'|translate }}</mat-option>
+                                <mat-option value="F">{{'component.FEMALE'|translate }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'gender'}"></ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='INDV'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.MOBILE_NUMBER'|translate }}<span
+                                    class="man-field">*</span></mat-label>
+                            <input matInput class="form-control minimal" id="mobileNo" formControlName="mobileNo"
+                                mask="0000000000">
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'mobileNo'}">
+                        </ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='INDV'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.EMAIL'|translate }}<span
+                                    class="man-field">*</span></mat-label>
+                            <input matInput class="form-control minimal" id="emailID" formControlName="emailID">
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'emailID'}"></ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='BUSI'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.NAME_OF_BUSINESS_ENTITY'|translate}}<span
+                                    class="man-field">*</span>
+                            </mat-label>
+                            <input matInput class="form-control minimal" id="businessEntityName"
+                                formControlName="businessEntityName">
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'businessEntityName'}">
+                        </ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='BUSI'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.DATE_OF_INCORPORATION'|translate}}<span
+                                    class="man-field">*</span>
+                            </mat-label>
+                            <input matInput [matDatepicker]="dobpicker"
+                                (dateInput)="inputEvent($event,'dateOfIncorporation')" [min]="MinDate()"
+                                [max]="maxTodayDate" readonly formControlName="dateOfIncorporation">
+                            <mat-datepicker-toggle matSuffix [for]="dobpicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dobpicker></mat-datepicker>
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'dateOfIncorporation'}">
+                        </ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='BUSI'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.PAN_NUMBER'|translate }}<span
+                                    class="man-field">*</span></mat-label>
+                            <input matInput #input formControlName="panNo" class="form-control minimal">
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'panNo'}"></ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='BUSI'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.GSTN_NUMBER'|translate }}</mat-label>
+                            <input matInput #input formControlName="gstin" class="form-control minimal">
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'gstin'}"></ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='BUSI'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.MOBILE_NUMBER'|translate }}<span
+                                    class="man-field">*</span>
+                            </mat-label>
+                            <input matInput class="form-control minimal" id="primaryMobile"
+                                formControlName="primaryMobile" mask="0000000000">
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'primaryMobile'}">
+                        </ng-container>
+                    </div>
+                    <div class="row required-field" *ngIf="customerType=='BUSI'">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.PRIMARY_EMAIL'|translate}}<span
+                                    class="man-field">*</span>
+                            </mat-label>
+                            <input matInput class="form-control minimal" id="primaryEmail"
+                                formControlName="primaryEmail">
+                        </mat-form-field>
+                        <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'primaryEmail'}">
+                        </ng-container>
+                    </div>
+                    <div class="row">
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
+                <h2>
+                    <mat-icon>list</mat-icon>{{'quote.OFFLINE_MEMBER_DETAILS' | translate}}
+                </h2>
+                <div class="form-fields">
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.DATE_OF_BIRTH'|translate }}</mat-label>
+                            <input matInput class="form-control minimal" readonly
+                                value="{{offlineProposalData.applicationData.additionalData.insuredDob}}">
+                        </mat-form-field>
+                    </div>
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'component.GENDER'|translate }}</mat-label>
+                            <input *ngIf="offlineProposalData.applicationData.additionalData.insuredGender=='M'"
+                                matInput class="form-control minimal" readonly value="Male">
+                            <input *ngIf="offlineProposalData.applicationData.additionalData.insuredGender=='F'"
+                                matInput class="form-control minimal" readonly value="Female">
+                        </mat-form-field>
+                    </div>
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_SMOKER_NON_SMOKER' | translate}}
+                            </mat-label>
+                            <input *ngIf="offlineProposalData.applicationData.additionalData.insuredRating=='NS'"
+                                matInput class="form-control minimal" readonly value="Non Smoker">
+                            <input *ngIf="offlineProposalData.applicationData.additionalData.insuredRating=='S'"
+                                matInput class="form-control minimal" readonly value="Smoker">
+                        </mat-form-field>
+                    </div>
+                    <ng-container *ngIf="offlineProposalData.applicationData.additionalData.isJointLife">
+                        <div class="row required-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label class="cus-form-label">{{'component.DATE_OF_BIRTH'|translate }}</mat-label>
+                                <input matInput class="form-control minimal" readonly
+                                    value="{{offlineProposalData.applicationData.additionalData.secInsuredDob}}">
+                            </mat-form-field>
+                        </div>
+                        <div class="row required-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label class="cus-form-label">{{'component.GENDER'|translate }}</mat-label>
+                                <input *ngIf="offlineProposalData.applicationData.additionalData.secInsuredGender=='M'"
+                                    matInput class="form-control minimal" readonly value="Male">
+                                <input *ngIf="offlineProposalData.applicationData.additionalData.secInsuredGender=='F'"
+                                    matInput class="form-control minimal" readonly value="Female">
+                            </mat-form-field>
+                        </div>
+                        <div class="row required-field">
+                            <mat-form-field appearance="fill">
+                                <mat-label class="cus-form-label">{{'quote.OFFLINE_SMOKER_NON_SMOKER' | translate}}
+                                </mat-label>
+                                <input *ngIf="offlineProposalData.applicationData.additionalData.secInsuredRating=='NS'"
+                                    matInput class="form-control minimal" readonly value="Non Smoker">
+                                <input *ngIf="offlineProposalData.applicationData.additionalData.secInsuredRating=='S'"
+                                    matInput class="form-control minimal" readonly value="Smoker">
+                            </mat-form-field>
+                        </div>
+                    </ng-container>
+                    <div class="row">
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
+                <!-- Policy Details-->
+                <h2>
+                    <mat-icon>description</mat-icon>{{'quote.OFFLINE_POLICY_DETAILS' | translate}}
+                </h2>
+                <div class="form-fields">
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_BANK_BRANCH_CODE' | translate}}
+                            </mat-label>
+                            <input matInput class="form-control minimal" readonly value="{{branchCode}}">
+                        </mat-form-field>
+                    </div>
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_BANK_BRANCH_LOCATION' | translate}}
+                            </mat-label>
+                            <input matInput class="form-control minimal" readonly value="{{branchLocation}}">
+                        </mat-form-field>
+                    </div>
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_POLICY_TYPE' | translate}}</mat-label>
+                            <input matInput class="form-control minimal" readonly value="{{policyType}}">
+                        </mat-form-field>
+                    </div>
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_POLICY_TERM' | translate}}</mat-label>
+                            <input matInput class="form-control minimal" readonly value="{{policyTerm}} Year">
+                        </mat-form-field>
+                    </div>
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_PREMIUM_PAYING_TERM' | translate}}
+                            </mat-label>
+                            <input matInput class="form-control minimal" readonly value="{{premiumPayingTerm}} Year">
+                        </mat-form-field>
+                    </div>
+                    <div class="row required-field">
+                        <mat-form-field appearance="fill">
+                            <mat-label class="cus-form-label">{{'quote.OFFLINE_MODE' | translate}}</mat-label>
+                            <input matInput class="form-control minimal" readonly value="{{displayMode}}">
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
+                <ng-container *ngIf="additionalBenefits?.length>0">
+                    <h2>
+                        <mat-icon>note_add</mat-icon>{{'quote.OFFLINE_ADDITIONAL_COVERS' | translate}}
+                    </h2>
+                    <div class="form-fields block">
+                        <div *ngFor="let item of additionalBenefits" class="row required-field">
+                            <mat-form-field appearance="fill">
+                                <!-- <mat-label class="cus-form-label">Additional Benefits Opted</mat-label> -->
+                                <input matInput class="form-control minimal" readonly
+                                    value="{{item.displayName}} - Rs. {{item.premium[0]['netPremium']}}">
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <span>&nbsp;</span>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="action">
+                    <button mat-raised-button type="button" (click)="backBtn('back')" color="warn"
+                        class="cancel-btn">{{'component.CANCEL' | translate}}</button>
+                    <button *ngIf="showButton" mat-raised-button type="submit" [disabled]="!disableGenerateBtn()"
+                        (click)="submitForm()" class="next-btn">{{'component.SAVE' | translate}}</button>
+                    <button *ngIf="!showButton" mat-raised-button type="button" (click)="showNextScreen()"
+                        class="next-btn">{{'quote.OFFLINE_NEXT'| translate}}</button>
+                </div>
+            </div>
+        </div><!-- show only if customer is ready -->
+    </form>
+
+    <div *ngIf="showThanks" flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+        <div fxFlex="80" class="thanks-details-header">
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="thanks-description"
+                fxLayout.sm="column" fxLayoutGap="10px">
+                <p>
+                    {{'quote.OFFLINE_THANK_YOU_DESC' | translate}}<br />
+                    {{'quote.OFFLINE_THANK_YOU_UNIQUE_ID_NUMBER' | translate}}
+                    {{offlineProposalData.applicationNo}}.<br />
+                    {{'quote.OFFLINE_THANK_YOU_QUOTE_NUMBER' | translate}}.
+                    <br />
+                    <br />
+                    {{'quote.OFFLINE_THANK_YOU_INSURER_REPRESENTATIVE' | translate}}:<br />
+                    <span class="rm-details">{{'quote.OFFLINE_THANK_YOU_NAME' | translate}}:
+                        <b>{{offlineProposalData.applicationData.insurerRmName}}</b></span>
+                    <span class="rm-details">{{'quote.OFFLINE_THANK_YOU_CONTACT_DETAILS' | translate}}:
+                        <b>{{offlineProposalData.applicationData.insurerRmContact}}</b></span>
+                </p>
+
+            </div>
+            <div *ngIf="qrCodeError" class="qr-code-error">
+                <p>There was some error generating QR Code. Please try after sometime.</p>
+            </div>
+            <div class="close-btn-div">
+                <button mat-raised-button class="cancel-btn" (click)="backBtn('close')"
+                    color="warn">{{'quote.OFFLINE_THANK_YOU_CLOSE' | translate}}</button>
+                <button mat-raised-button class="next-btn"
+                    (click)="generateQRCode()">{{'quote.OFFLINE_THANK_YOU_GENERATE_QR_CODE'
+                    | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #customerErrorTemplate let-key="key">
+    <div class="validation-container">
+        <ng-container *ngFor="let validation of validationMessages[key]">
+            <div *ngIf="offlinePurchaseForm.get(key)?.hasError(validation.type) && (offlinePurchaseForm.get(key)?.dirty || offlinePurchaseForm.get(key)?.touched)"
+                class="invalid-feedback">
+                {{validation.message}}
+            </div>
+        </ng-container>
+    </div>
+</ng-template>

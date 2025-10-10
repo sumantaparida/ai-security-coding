@@ -1,0 +1,103 @@
+<div *ngIf="state === 'riskType' && orgCode !== 'DCB' " class="riskType">
+  <div class="riskType-desc">In my investment strategy, I am willing to accept</div>
+  <form [formGroup]="form">
+    <div id="index-gallery" class="flex-container-risk">
+      <div class="item">
+        <img
+          class="risk-images"
+          *ngIf="form.get('genderValue').value === 'F'"
+          [ngClass]="{ selected: form.get('riskTypeValue').value === 1 }"
+          (click)="onRiskSelected('Minimal')"
+          src="../../../assets/images/Investment Risk level - Low.svg"
+        />
+        <img
+          class="risk-images"
+          *ngIf="form.get('genderValue').value === 'M'"
+          [ngClass]="{ selected: form.get('riskTypeValue').value === 1 }"
+          (click)="onRiskSelected('Minimal')"
+          src="../../../assets/images/Investment Risk level - Low - Man.svg"
+        />
+        <p>Minimal</p>
+      </div>
+      <div class="item">
+        <img
+          class="risk-images"
+          *ngIf="form.get('genderValue').value === 'F'"
+          [ngClass]="{ selected: form.get('riskTypeValue').value === 2 }"
+          (click)="onRiskSelected('Moderate')"
+          src="../../../assets/images/Investment Risk level - Medium.svg"
+        />
+        <img
+          class="risk-images"
+          *ngIf="form.get('genderValue').value === 'M'"
+          [ngClass]="{ selected: form.get('riskTypeValue').value === 2 }"
+          (click)="onRiskSelected('Moderate')"
+          src="../../../assets/images/Investment Risk level - Medium - Man.svg"
+        />
+        <p>Moderate</p>
+      </div>
+      <div class="item">
+        <img
+          class="risk-images"
+          *ngIf="form.get('genderValue').value === 'F'"
+          [ngClass]="{ selected: form.get('riskTypeValue').value === 3 }"
+          (click)="onRiskSelected('Significant')"
+          src="../../../assets/images/Investment Risk level - High.svg"
+        />
+        <img
+          class="risk-images"
+          *ngIf="form.get('genderValue').value === 'M'"
+          [ngClass]="{ selected: form.get('riskTypeValue').value === 3 }"
+          (click)="onRiskSelected('Significant')"
+          src="../../../assets/images/Investment Risk level - High - Man.svg"
+        />
+        <p>Significant</p>
+      </div>
+    </div>
+
+    <!-- <div class="risk-div lg-screen">
+      <div (click)="onRiskSelected('Minimal')" class="container minimal-color minimal">Minimal
+        <input type="radio" value="Minimal" formControlName="riskTypeValue">
+        <span class="checkmark"></span>
+      </div>
+      <div (click)="onRiskSelected('Moderate')" class="container moderate-color moderate">Moderate
+        <input type="radio" value="Moderate" formControlName="riskTypeValue">
+        <span class="checkmark"></span>
+      </div>
+      <div (click)="onRiskSelected('Significant')" class="container significant-color significant">Significant
+        <input type="radio" value="Significant" formControlName="riskTypeValue">
+        <span class="checkmark"></span>
+      </div>
+    </div> -->
+
+    <!-- small screen -->
+    <!-- <div class="risk-div sm-screen">
+        <div (click)="onRiskSelected('Minimal')" class="container minimal-color minimal">Minimal
+          <input type="radio" value="Minimal" formControlName="riskTypeValue">
+          <span class="checkmark"></span>
+        </div>
+        <div (click)="onRiskSelected('Moderate')" class="container moderate-color moderate">Moderate
+          <input type="radio" value="Moderate" formControlName="riskTypeValue">
+          <span class="checkmark"></span>
+        </div>
+        <div (click)="onRiskSelected('Significant')" class="container significant-color significant">Significant
+          <input type="radio" value="Significant" formControlName="riskTypeValue">
+          <span class="checkmark"></span>
+        </div>
+      </div> -->
+  </form>
+  <p class="risk-definition" [innerHTML]="riskDefiniton"></p>
+
+  <mat-error
+    class="error-msg"
+    *ngIf="form.get('riskTypeValue').dirty && !form.get('riskTypeValue').valid"
+    >Please select an option</mat-error
+  >
+</div>
+<div *ngIf="state === 'riskType' && orgCode === 'DCB'">
+  <app-dcb-need-analysis
+    [form]="form"
+    (riskChange)="onRiskChange($event)"
+    (stateChange)="onStateChange($event)"
+  ></app-dcb-need-analysis>
+</div>

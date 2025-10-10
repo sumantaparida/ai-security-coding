@@ -1,0 +1,44 @@
+<div class="home-complaint">
+  <app-policy-number
+    [state]="state"
+    [form]="serviceRequestForm"
+    [policyDetails]="policyDetails"
+    (yesOrNoClicked)="setState($event)"
+    [isLoading]="isLoading"
+  ></app-policy-number>
+  <!-- <app-details-correction [state]="state" [form]="complaintForm"></app-details-correction> -->
+  <app-customer-mail-id [state]="state" [form]="serviceRequestForm"></app-customer-mail-id>
+  <app-service-request-against
+    [state]="state"
+    [form]="serviceRequestForm"
+    [serviceNatureRequest]="serviceNatureRequest"
+    [documentArray]="serviceNatureRequest"
+    [isLoading]="isLoading"
+    (docs)="onDocsUploaded($event)"
+  ></app-service-request-against>
+  <app-service-request-mode [state]="state" [form]="serviceRequestForm"></app-service-request-mode>
+  <app-service-request-nature
+    [state]="state"
+    [form]="serviceRequestForm"
+  ></app-service-request-nature>
+  <app-upload-documents
+    [state]="state"
+    [form]="serviceRequestForm"
+    [isLoading]="isLoading"
+  ></app-upload-documents>
+
+  <!-- <button mat-raised-button color="primary" class="btn btn-primary next-btn nextIndex" >Primary</button> -->
+  <div class="next-cancel-div">
+    <button
+      mat-raised-button
+      [disabled]="!showOrHideNextBtn()"
+      (click)="stateTransition()"
+      class="next-btn"
+    >
+      Next
+    </button>
+    <button mat-raised-button color="warn" class="cancel-btn" (click)="cancelComplaintCreation()">
+      Cancel
+    </button>
+  </div>
+</div>

@@ -1,0 +1,121 @@
+.policy-number {
+    text-align: center;
+    width: 100%;
+}
+
+.description {
+    position: relative;
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.text-size {
+    font-size: 17px;
+    position: relative;
+}
+
+.table td {
+    padding: 6px;
+}
+
+td:nth-child(odd) {
+    text-align: right;
+    padding-right: 10px !important;
+}
+
+td:nth-child(even) {
+    text-align: left;
+    padding-left: 10px !important;
+}
+
+.example-form {
+    width: 300px;
+}
+
+i {
+    color: #1390d0;
+}
+
+.error-msg-complaints {
+    color: #B00020;
+}
+
+input {
+    width: 200px;
+}
+
+/* details correction */
+
+.correction-option {
+    width: 100%;
+    position: absolute;
+    margin-top: 15px;
+    right: 8%;
+}
+
+.font-size-17 {
+    font-size: 18px;
+    position: relative;
+    left: 18%;
+    font-weight: 500;
+}
+
+.option-yes {
+    /* width:50%; */
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    float: left;
+}
+
+.option-yes .mat-raised-button {
+    background: #03DAC5;
+}
+
+.option-no {
+    /* width:50%; */
+    margin-bottom: 20px;
+    margin-top: 5px;
+    margin-left: 10px;
+    float: left;
+}
+
+.option-no .mat-raised-button {
+    background: #B00020;
+    color: white;
+}
+
+.width-5 {
+    width: 7rem;
+}
+
+.application-details {
+    margin-top: 3rem;
+}
+
+mat-progress-spinner {
+    position: absolute;
+    left: 40%;
+    top: 185px;
+}
+
+@media only screen and (max-width: 600px) {
+    .description {
+        left: -16%;
+        font-size: 20px;
+    }
+    input {
+        font-size: 20px;
+        width: 12rem;
+    }
+}
+
+@media (max-width: 619px) {
+    .example-form {
+        width: 200px;
+    }
+}

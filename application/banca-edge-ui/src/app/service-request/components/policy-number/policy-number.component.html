@@ -1,0 +1,70 @@
+<div *ngIf="state==='policy'" class="policy-number">
+  <form [formGroup]="form">
+    <div class="description">
+      <span>
+        <form class="example-form" [formGroup]="form">
+          <mat-form-field class="error" class="example-full-width">
+            <mat-label>Policy Number</mat-label>
+
+            <input class="width-100" matInput [readonly]="makeReadOnly(appNo)" formControlName="policyNumber"
+              (keyup)="onKeyUp()" placeholder="Ex. CCN134567">
+            <mat-error class="error"
+              *ngIf="form.get('policyNumber').hasError('email') && !form.get('policyNumber').hasError('required')">
+              Please enter a valid email address
+            </mat-error>
+            <mat-error class="error" *ngIf="form.get('policyNumber').hasError('required')">
+              Policy number is required
+            </mat-error>
+            <mat-error *ngIf="form.get('policyNumber').errors?.invalidPolicyNumber">
+              {{form.get('policyNumber').errors?.errorDetails}}
+            </mat-error>
+          </mat-form-field>
+        </form>
+      </span>
+    </div>
+  </form>
+</div>
+<div *ngIf="policyDetails" class="application-details">
+  <div *ngIf="state === 'detailsCorrection'">
+    <table class="table table-sm text-size">
+      <tr>
+        <td class="right">Application Number</td>
+        <td class="left">{{policyDetails.applicationNo}} </td>
+      </tr>
+      <tr>
+        <td class="right">Name of the Insurer</td>
+        <td class="left">{{policyDetails.insurerName}}</td>
+      </tr>
+      <tr>
+        <td class="right">Product Name</td>
+        <td class="left">{{policyDetails.productName}}</td>
+      </tr>
+      <tr>
+        <td class="right">Product Type</td>
+        <td class="left">{{policyDetails.productType}}</td>
+      </tr>
+      <tr>
+        <td class="right">Policy Start Date</td>
+        <td class="left">{{policyDetails.policyStartDate}}</td>
+      </tr>
+      <tr>
+        <td class="right">Policy End Date</td>
+        <td class="left">{{policyDetails.policyEndDate}}</td>
+      </tr>
+    </table>
+
+    <br />
+    <div class="font-size-17">Are these details correct?
+      <div class="correction-option">
+
+        <div class="option-yes">
+          <button mat-raised-button class="width-5 bg-primary" (click)="onCorrectionSelected('yes')">Accept</button>
+        </div>
+        <div class="option-no">
+          <button mat-raised-button color="warn" class="width-5 bg-red"
+            (click)="onCorrectionSelected('no')">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

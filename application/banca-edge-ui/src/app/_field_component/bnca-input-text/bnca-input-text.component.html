@@ -1,0 +1,25 @@
+<div class="text_container">
+<div *ngIf="!fetch" class="custom-input" [class.focused]="focused" [class.enteredVal]="enteredVal">
+    <input type="text" (click)="emitClickEvent($event)"  [class.disabled]="disabled"
+    (change)="emitChangeEvent($event)"
+    (focus)="emitFocusEvent($event)"
+    (blur)="emitBlurEvent($event)"
+    (input)="emitInputEvent($event)"
+    [formControl]="control">
+    <label  [class.enteredVal]="enteredVal" class="custom-placeholder">{{label}}</label>
+  </div>
+
+  <div *ngIf="fetch" class="custom-input" [class.focused]="focused" [class.enteredVal]="enteredVal">
+    <div class="fetchInput">
+      <input  type="text" [class.disabled]="disabled"
+      (focus)="emitFocusEvent($event)"
+      (blur)="emitBlurEvent($event)"
+      (input)="emitInputEvent($event)"
+      [formControl]="control" >
+      <button [disabled]="!control.valid" type="button" (click)="emitClickEvent($event)">{{fetch}}</button>
+    </div>
+    <label  [class.enteredVal]="enteredVal" class="custom-placeholder">{{label}}</label>
+  </div>
+  <app-bnca-input-error *ngIf="control.touched && control.errors" [label]="label" [errors]="control.touched ? control.errors : ''"></app-bnca-input-error>
+</div>
+  

@@ -1,0 +1,717 @@
+<mat-card id="Card">
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+    <div class="align-center" fxFlex="90" fxFlex.sm="100"
+      *ngIf="insuredData?.lob === 'Health' && insuredData?.productType !== 'PA'">
+      <span *ngIf="applicationData?.insureds?.length === 1" class="text-styling marron-text" id="health">Health
+        Insurance for 1 Adult(s) on Individual Basis</span>
+      <span *ngIf="applicationData?.insureds?.length > 1" class="text-styling marron-text" id="health">Health Insurance
+        for {{ applicationData?.insureds.length }} members on Family Floater
+        Basis</span>
+    </div>
+    <div class="align-center" fxFlex="90" fxFlex.sm="100"
+      *ngIf="insuredData?.lob === 'Health' && insuredData?.productType === 'PA'">
+      <span *ngIf="applicationData?.insureds?.length === 1" class="text-styling marron-text" id="health">Personal
+        Accident Insurance for 1 Adult(s) on Individual Basis</span>
+      <span *ngIf="applicationData?.insureds?.length > 1" class="text-styling marron-text" id="health">Personal Accident
+        for {{ applicationData?.insureds.length }} members on Family Floater
+        Basis</span>
+    </div>
+    <div class="align-center" fxFlex="90" fxFlex.sm="100" *ngIf="insuredData?.lob === 'Travel'">
+      <span *ngIf="applicationData?.insureds?.length === 1" class="text-styling marron-text" id="health">Travel
+        Insurance for 1 Adult(s) on Individual Basis</span>
+      <span *ngIf="applicationData?.insureds?.length > 1" class="text-styling marron-text" id="health">Travel Insurance
+        for {{ applicationData?.insureds.length }} members on Family Floater
+        Basis</span>
+    </div>
+    <div class="align-center" fxFlex="10" fxFlex.sm="100">
+      <a *ngIf="applicationData?.quoteId" [routerLink]="['/', 'quote', applicationData?.quoteId]">
+        <mat-icon>keyboard_arrow_left</mat-icon>Back to results
+      </a>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+    <div class="align-center" fxFlex="20" fxFlex.xs="100">
+      <!-- <span class="logo"></span> -->
+      <!-- <img
+        *ngIf="insuredData?.insurerCode == '132'"
+        src="../../assets/logos/future-generali.svg"
+      />
+      <img
+        *ngIf="insuredData?.insurerCode == '122'"
+        src="../../assets/logos/aviva.svg"
+      />
+      <img
+        *ngIf="insuredData?.insurerCode == '151'"
+        src="../../assets/logos/manipal-cigna.svg"
+      />
+      <img
+        *ngIf="insuredData?.insurerCode == '512'"
+        src="../../assets/logos/lic.svg"
+      /> -->
+      <img [src]="insuredData?.insurerLogo" />
+    </div>
+    <div class="align-center" fxFlex="80">
+      <p class="text-styling">
+        {{ insuredData?.productName }}
+      </p>
+      <p class="text-styling font-size-sum-insured">
+        <span *ngIf="insuredData?.lob === 'Motor'">IDV </span>
+        <span *ngIf="insuredData?.lob !== 'Motor' && insuredData?.productId !== '147N068V01'">Sum Insured
+        </span>
+        <strong style="color: #e05757"
+          *ngIf="insuredData?.lob !== 'Travel' && insuredData?.productId !== '147N068V01'">{{
+          insuredData?.applicationData?.sumInsured | currency: 'INR':'symbol-narrow':'4.2-2'
+          }}</strong><strong style="color: #e05757" *ngIf="insuredData?.lob === 'Travel'">{{
+          insuredData?.applicationData?.sumInsured | currency: 'USD':'symbol-narrow':'4.2-2'
+          }}</strong>
+        <span *ngIf="insuredData?.insurerCode === 122"> SINGLE PREMIUM </span>
+        <span *ngIf="insuredData?.insurerCode !== 122 && insuredData?.productType !== 'ANN'">
+          MODAL PREMIUM
+        </span>
+        <span *ngIf="insuredData?.insurerCode !== 122 && insuredData?.productType === 'ANN'">
+          PURCHASE PRICE
+        </span>
+        <strong *ngIf="insuredData?.productType !== 'ANN'" style="color: #e05757">{{
+          insuredData?.premiumAmount | currency: 'INR':'symbol-narrow':'4.2-2'
+          }}</strong>
+        <strong *ngIf="insuredData?.productType === 'ANN'" style="color: #e05757">{{
+          insuredData?.applicationData?.ap | currency: 'INR':'symbol-narrow':'4.2-2'
+          }}</strong>
+        <span *ngIf="insuredData?.productType !== 'ANN'"> (Including GST)*</span>
+      </p>
+    </div>
+  </div>
+</mat-card>
+
+<div class="application-error-display" *ngIf="errorLoadingApplicationDetails">
+  <span class="submit-error">{{ errorMessage }}</span>
+</div>
+<ng-container *ngIf="stepperFormGroups.length > 0">
+  <mat-horizontal-stepper *ngIf="!smallScreen && !errorLoadingApplicationDetails" (selectionChange)="setIndex($event)"
+    labelPosition="bottom" [linear]="true" #stepper>
+    <!-- linear -->
+    <ng-container *ngFor="let screen of screens.screens; let i = index; let first = first">
+      <mat-step [stepControl]="stepperFormGroups[i]">
+        <ng-template matStepLabel>{{ screen?.screenName }}</ng-template>
+        <ng-container *ngIf="screen.component === 'medical-questions' && stepperFormGroups[i]">
+          <app-policy-questions [countriesList]="countriesList" [travelStartDate]="applicationData?.travelStartDate"
+            [travelEndDate]="applicationData?.travelEndDate" [countryCodes]="applicationData?.countryCodes"
+            [isEditable]="isFormEditable" [answers]="applicationData?.answers" [insuredData]="insuredData"
+            [policyQuestionsForm]="stepperFormGroups[i]" [policyData]="policyQuestions" [insurers]="insurersNames"
+            [sections]="screen?.sections">
+          </app-policy-questions>
+        </ng-container>
+        <ng-container *ngIf="screen.screenName === 'Policy' && stepperFormGroups[i]">
+          <app-policy-term [policyTermFormGroup]="stepperFormGroups[i]" [isEditable]="isFormEditable"
+            [sections]="screen?.sections" [insuredData]="insuredData"></app-policy-term>
+        </ng-container>
+        <ng-container *ngIf="
+            (screen.screenName === 'Additional Covers' || screen.screenName === 'Documents') &&
+            stepperFormGroups[i]
+          ">
+          <app-add-on-covers (recalculatePremiumClicked)="onRecalculatePremiumClicked($event)"
+            [addOnForm]="stepperFormGroups[i]" [illustrationLink]="applicationData?.illustrationUrl"
+            [fnaLink]="applicationData?.suitabilityUrl" [covers]="applicationData?.addonBenefits"
+            [insuredData]="insuredData" [errorFromCovers]="errorFromCovers"
+            [insuredAge]="insuredDetails[0]?.age"></app-add-on-covers>
+        </ng-container>
+        <ng-container *ngIf="
+            screen?.screenName === 'Insured' &&
+            screen.component !== 'genral' &&
+            stepperFormGroups[i]
+          ">
+          <app-insured *ngIf="stepperFormGroups[i]" [insuredProposerForm]="stepperFormGroups[i]"
+            [relationshipDropdown]="relationshipDropdown" [insuredDetails]="insuredDetails"
+            [isEditable]="isFormEditable" [sections]="screen?.sections"></app-insured>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Property' && stepperFormGroups[i]">
+          <app-property *ngIf="stepperFormGroups[i]" [propertyForm]="stepperFormGroups[i]"
+            [propertyDetails]="applicationData" [isEditable]="isFormEditable"
+            [sections]="screen?.sections"></app-property>
+        </ng-container>
+        <ng-container *ngIf="screen?.component === 'Vehicle' && stepperFormGroups[i]">
+          <app-vehicle-details [vehicleDetailsFormGroup]="stepperFormGroups[i]" [isEditable]="isFormEditable"
+            [vehicleInfo]="applicationData?.vehicleInfo" [sections]="screen?.sections"></app-vehicle-details>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Previous Policy' && stepperFormGroups[i]">
+          <app-previous-policy [previouPolicyFormGroup]="stepperFormGroups[i]"
+            [prevInsurance]="applicationData?.prevInsurance" [sections]="screen?.sections"
+            [isEditable]="isFormEditable"></app-previous-policy>
+        </ng-container>
+        <ng-container *ngIf="screen?.component === 'genral' && stepperFormGroups[i]">
+          <app-genral [applicationData]="applicationData" [sections]="screen?.sections" [isEditable]="isFormEditable"
+            [genralFormGroup]="stepperFormGroups[i]" [insuredData]="insuredData" [policyQuestions]="policyQuestions"
+            [insurersNames]="insurersNames" [answers]="applicationData.answers" [screenName]="screen?.screenName"
+            [isArray]="screen?.isArray" [tag]="screen.tag" [relationshipDropdown]="relationshipDropdown"></app-genral>
+        </ng-container>
+        <ng-container *ngIf="
+            (screen?.screenName === 'Proposer' ||
+              screen?.screenName === 'Basic Info About Proposer') &&
+            screen.component !== 'genral' &&
+            stepperFormGroups[i]
+          ">
+          <app-proposer *ngIf="stepperFormGroups[i]" [proposerForm]="stepperFormGroups[i]"
+            [proposerDetails]="applicationData" [isEditable]="isFormEditable" [sections]="screen?.sections"
+            [isInsuredAlsoProposer]="isInsuredAlsoProposer">
+          </app-proposer>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Payment' && stepperFormGroups[i]">
+          <app-account-info *ngIf="stepperFormGroups[i]" [currentScreen]="screen" [paymentForm]="stepperFormGroups[i]"
+            [accountDetails]="customerAccountDetails">
+          </app-account-info>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Contact Info' && stepperFormGroups[i]">
+          <app-contact-info *ngIf="stepperFormGroups[i]" [isEditable]="isFormEditable"
+            [applicationData]="applicationData" [insuredData]="insuredData"
+            [contanctInfoForm]="stepperFormGroups[i]"></app-contact-info>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Success'">
+          <app-success [applicationDetails]="insuredData" [sendLeadToInsurerData]="sendLeadToInsurerData"></app-success>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Summary' && stepperFormGroups[i]">
+          <ng-container *ngFor="let screen of screens.screens; let j = index; let first = first">
+            <div *ngIf="!isFormEditable" class="margin-verticle-20" flex fxLayout="row wrap" fxLayout.xs="column"
+              fxLayout.sm="column" fxLayoutGap="15px">
+              <div fxFlex="20" fxLayoutAlign="start center" *ngIf="screen?.screenName !== 'Summary'">
+                <span class="headding">{{ screen?.screenName }}</span>
+              </div>
+              <div *ngIf="screen?.screenName !== 'Summary'" fxFlex="76" (click)="navigateToEditScreen(stepper, j)"
+                fxLayoutAlign="end center">
+                <span class="icon-rounded">
+                  <mat-icon class="red-icon" aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+                </span>
+              </div>
+            </div>
+            <!-- <div fxFlex=76 (click)="navigateToEditScreen(stepper, j)" fxLayoutAlign="end center">
+              <span class="icon-rounded">
+                <mat-icon class="red-icon" aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+              </span>
+            </div> -->
+            <ng-container *ngIf="screen?.component === 'genral' && stepperFormGroups[j]">
+              <app-genral [applicationData]="applicationData" [sections]="screen?.sections"
+                [isEditable]="isFormEditable" [genralFormGroup]="stepperFormGroups[j]" [insuredData]="insuredData"
+                [policyQuestions]="policyQuestions" [insurersNames]="insurersNames" [answers]="applicationData.answers"
+                [screenName]="screen?.screenName"></app-genral>
+            </ng-container>
+            <ng-container *ngIf="screen?.screenName === 'Property' && stepperFormGroups[j]">
+              <app-property *ngIf="stepperFormGroups[j]" [propertyForm]="stepperFormGroups[j]"
+                [propertyDetails]="applicationData" [isEditable]="isFormEditable"
+                [sections]="screen?.sections"></app-property>
+            </ng-container>
+            <ng-container *ngIf="screen.component === 'medical-questions'">
+              <app-policy-questions [countriesList]="countriesList" [travelStartDate]="applicationData?.travelStartDate"
+                [travelEndDate]="applicationData?.travelEndDate" [countryCodes]="applicationData?.countryCodes"
+                [isEditable]="isFormEditable" [answers]="applicationData?.answers" [insuredData]="insuredData"
+                [policyQuestionsForm]="stepperFormGroups[j]" [policyData]="policyQuestions" [insurers]="insurersNames"
+                [sections]="screen?.sections">
+              </app-policy-questions>
+            </ng-container>
+            <ng-container *ngIf="screen.screenName === 'Policy'">
+              <app-policy-term [policyTermFormGroup]="stepperFormGroups[j]" [isEditable]="isFormEditable"
+                [sections]="screen?.sections" [insuredData]="insuredData">
+              </app-policy-term>
+            </ng-container>
+            <ng-container *ngIf="screen?.component === 'Vehicle' && stepperFormGroups[j]">
+              <app-vehicle-details [vehicleDetailsFormGroup]="stepperFormGroups[j]" [isEditable]="isFormEditable"
+                [vehicleInfo]="applicationData?.vehicleInfo" [sections]="screen?.sections"></app-vehicle-details>
+            </ng-container>
+            <ng-container *ngIf="
+                screen?.screenName === 'Insured' &&
+                screen.component !== 'genral' &&
+                stepperFormGroups[j]
+              ">
+              <app-insured *ngIf="stepperFormGroups[j]" [insuredProposerForm]="stepperFormGroups[j]"
+                [relationshipDropdown]="relationshipDropdown" [insuredDetails]="insuredDetails"
+                [isEditable]="isFormEditable" [sections]="screen?.sections">
+              </app-insured>
+            </ng-container>
+            <ng-container *ngIf="screen?.screenName === 'Previous Policy' && stepperFormGroups[j]">
+              <app-previous-policy [previouPolicyFormGroup]="stepperFormGroups[j]"
+                [prevInsurance]="applicationData?.prevInsurance" [sections]="screen?.sections"
+                [isEditable]="isFormEditable"></app-previous-policy>
+            </ng-container>
+            <ng-container *ngIf="(screen?.screenName === 'Proposer' ||
+            screen?.screenName === 'Basic Info About Proposer') &&
+          screen.component !== 'genral' && stepperFormGroups[j]">
+              <app-proposer *ngIf="stepperFormGroups[j]" [proposerForm]="stepperFormGroups[j]"
+                [proposerDetails]="applicationData" [isEditable]="isFormEditable" [sections]="screen?.sections"
+                [isInsuredAlsoProposer]="isInsuredAlsoProposer">
+              </app-proposer>
+            </ng-container>
+            <ng-container *ngIf="screen?.screenName === 'Contact Info' && stepperFormGroups[j]">
+              <app-contact-info *ngIf="stepperFormGroups[j]" [isEditable]="isFormEditable"
+                [applicationData]="applicationData" [insuredData]="insuredData"
+                [contanctInfoForm]="stepperFormGroups[j]"></app-contact-info>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="applicationData.uwNotes && applicationData.uwNotes.length > 0">
+            <mat-card class="mat-card mat-focus-indicator margin-top-bottom-40">
+              <mat-card-title>UW Notes</mat-card-title>
+              <mat-card-content>
+                <table mat-table [dataSource]="applicationData.uwNotes" class="mat-elevation-z8">
+                  <ng-container matColumnDef="SlNo">
+                    <th mat-header-cell *matHeaderCellDef>Sl No</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      {{ i + 1 }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Comments">
+                    <th mat-header-cell *matHeaderCellDef>Comments</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.comment }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Date">
+                    <th mat-header-cell *matHeaderCellDef>Date</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.createdDate }}
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+          <mat-card class="margin-top-20">
+            <mat-card-content>
+              <span class="headding">DECLARATION</span>
+              <br /><br />
+              <div>
+                Please read the
+                <span *ngIf="insuredData?.productId !== '151HL09PA2'" (click)="openConsentForm(i)"
+                  class="terms-link">Terms & Conditions</span>
+                <span *ngIf="insuredData?.productId === '151HL09PA2'"><a
+                    href="https://s3.amazonaws.com/lastdecimal.brokeredge.data/brochure/BOM_LPGP_TnC_November.pdf"
+                    target="_blank" class="terms-link">Terms & Conditions</a></span>
+                and provide your consent
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card *ngIf="insuredData?.productId !== '151HL09PA2'" class="margin-top-20">
+            <mat-card-content *ngIf="insuredData?.insurerCode === 151">
+              <span class="headding">V. ELECTRONIC CLEARING SYSTEM (ECS) / STANDING INSTRUCTIONS (SI) CONSENT:</span>
+              <br /><br />
+              <div>
+                <p>
+                  I hereby authorize ManipalCigna Health Insurance Company Limited (ManipalCigna)
+                  and {{displayBankName}} (The Bank) to charge/debit the insurance premium amount
+                  (including applicable renewal premium amount from time to time) for aforesaid
+                  policy through ECS/SI from my account till further written notification.
+                </p>
+                <p>
+                  I understand that the aforesaid insurance cover will start only post receipt of
+                  full insurance premium amount by ManipalCigna. I understand that the insurance
+                  premium amount is subject to change as per age of oldest member at the time of
+                  renewal and/or applicable taxes and other levies as specified by the Govt. of
+                  India.
+                </p>
+              </div>
+            </mat-card-content>
+            <mat-card-content *ngIf="insuredData?.insurerCode !== 151">
+              <span class="headding">The information provided by me in this document is True to the best of my
+                knowledge.</span>
+              <br /><br />
+              <div [formGroup]="stepperFormGroups[stepperFormGroups.length - 1]">
+                <mat-checkbox *ngIf="
+                    customerToken !== null &&
+                    (insuredData['productId'] === '113HL01I01' ||
+                      insuredData['productId'] === '113HL01F01' || insuredData['productId'] === '130N092V01')
+                  " color="primary" class="checkBox" formControlName="consentCheck"></mat-checkbox>
+                This proposal will be the basis of any insurance policy that We may issue. You must
+                disclose all facts relevant to all persons proposed to be insured that may affect
+                Our decision to issue a policy or its price, terms, conditions and exclusions.
+                Non-compliance may result in the avoidance of the Policy. If there is insufficient
+                space for you to provide information whether as requested or otherwise, please
+                attach a separate sheet. If you are in any doubt, please seek the advice of your
+                insurance advisor. We are under no obligation to accept any proposal for insurance.
+                If We accept a proposal for insurance, it shall be subject to the Policy terms and
+                conditions and We shall have no liability to make any payment under the Policy if
+                premium is not received by Us in full and in time, or is not realised or
+                non-fullfillment of pre-policy check-up.
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <div class="spinner-height">
+            <p class="submit-error" *ngIf="showSubmitErrorMessage">
+              {{ submitErrorMessage }}
+            </p>
+            <p class="submit-error" *ngIf="showOtpError">OTP entered is invalid.</p>
+          </div>
+        </ng-container>
+        <div *ngIf="stepperFormGroups[i]" class="text-align-right">
+          <button class="cancel-btn" *ngIf="screen?.screenName !== 'Success' && !first" mat-button matStepperPrevious>
+            Back
+          </button>
+          <button *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName !== 'Summary' &&
+              screen?.screenName !== 'Success' &&
+              !screen?.isSummaryScreen &&
+              insuredData['status'] !== 'INFORCE'
+            " class="next-btn" [disabled]="!stepperFormGroups[i].valid && stepperFormGroups[i].status !== 'DISABLED'"
+            mat-button (click)="goToNextScreen(screen, screen.nextScreen, screen.component, i, stepper)" appGoToSummary
+            [nextScreen]="screen.nextScreen" [customerToken]="customerToken" [stepper]="stepper">
+            Next
+          </button>
+          <button *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName !== 'Summary' &&
+              screen?.screenName !== 'Success' &&
+              !screen?.isSummaryScreen &&
+              insuredData['status'] === 'INFORCE'
+            " class="next-btn" mat-button
+            (click)="goToNextScreen(screen, screen.nextScreen, screen.component, i, stepper)">
+            Next
+          </button>
+          <button *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName !== 'Summary' &&
+              !screen?.isSummaryScreen &&
+              screen?.screenName === 'Success'
+            " class="next-btn" mat-button routerLink="/policyvault">
+            Go To Policy Vault
+          </button>
+          <!-- <button
+            *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName !== 'Summary' &&
+              screen?.screenName === 'Success'
+            "
+            class="next-btn"
+            mat-button
+            (click)="generateQRCode()"
+          >
+            Generate QR Code
+          </button> -->
+          <button *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName === 'Summary' &&
+              insuredData.statusCode <= 3 &&
+              hasEditAccess
+            " class="next-btn" [disabled]="!stepperFormGroups[i].valid" mat-button (click)="onSubmitClicked()">
+            Submit
+          </button>
+          <button *ngIf="
+              stepperFormGroups[i] &&
+              screen?.isSummaryScreen &&
+              insuredData.statusCode <= 3 &&
+              hasEditAccess
+            " class="next-btn" mat-button (click)="onSubmitClicked()">
+            Submit
+          </button>
+        </div>
+      </mat-step>
+    </ng-container>
+  </mat-horizontal-stepper>
+</ng-container>
+
+<ng-container *ngIf="stepperFormGroups.length > 0">
+  <mat-vertical-stepper *ngIf="smallScreen && !errorLoadingApplicationDetails" (selectionChange)="setIndex($event)"
+    labelPosition="bottom" [linear]="true" #verticalStepper>
+    <ng-container *ngFor="let screen of screens.screens; let i = index; let first = first">
+      <mat-step [stepControl]="stepperFormGroups[i]">
+        <ng-template matStepLabel>{{ screen?.screenName }}</ng-template>
+        <ng-container *ngIf="screen.component === 'medical-questions' && stepperFormGroups[i]">
+          <app-policy-questions [countriesList]="countriesList" [travelStartDate]="applicationData?.travelStartDate"
+            [travelEndDate]="applicationData?.travelEndDate" [countryCodes]="applicationData?.countryCodes"
+            [isEditable]="isFormEditable" [answers]="applicationData?.answers" [insuredData]="insuredData"
+            [policyQuestionsForm]="stepperFormGroups[i]" [policyData]="policyQuestions" [insurers]="insurersNames"
+            [sections]="screen?.sections">
+          </app-policy-questions>
+        </ng-container>
+        <ng-container *ngIf="screen.screenName === 'Policy' && stepperFormGroups[i]">
+          <app-policy-term [policyTermFormGroup]="stepperFormGroups[i]" [isEditable]="isFormEditable"
+            [sections]="screen?.sections" [insuredData]="insuredData"></app-policy-term>
+        </ng-container>
+        <ng-container *ngIf="
+            (screen.screenName === 'Additional Covers' || screen.screenName === 'Documents') &&
+            stepperFormGroups[i]
+          ">
+          <app-add-on-covers (recalculatePremiumClicked)="onRecalculatePremiumClicked($event)"
+            [addOnForm]="stepperFormGroups[i]" [illustrationLink]="applicationData?.illustrationUrl"
+            [covers]="applicationData?.addonBenefits" [insuredData]="insuredData" [errorFromCovers]="errorFromCovers"
+            [insuredAge]="insuredDetails[0]?.age"></app-add-on-covers>
+        </ng-container>
+        <ng-container *ngIf="
+            screen?.screenName === 'Insured' &&
+            screen.component !== 'genral' &&
+            stepperFormGroups[i]
+          ">
+          <app-insured *ngIf="stepperFormGroups[i]" [insuredProposerForm]="stepperFormGroups[i]"
+            [relationshipDropdown]="relationshipDropdown" [insuredDetails]="insuredDetails"
+            [isEditable]="isFormEditable" [sections]="screen?.sections"></app-insured>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Property' && stepperFormGroups[i]">
+          <app-property *ngIf="stepperFormGroups[i]" [propertyForm]="stepperFormGroups[i]"
+            [propertyDetails]="applicationData" [isEditable]="isFormEditable"
+            [sections]="screen?.sections"></app-property>
+        </ng-container>
+        <ng-container *ngIf="screen?.component === 'Vehicle' && stepperFormGroups[i]">
+          <app-vehicle-details [vehicleDetailsFormGroup]="stepperFormGroups[i]" [isEditable]="isFormEditable"
+            [vehicleInfo]="applicationData?.vehicleInfo" [sections]="screen?.sections"></app-vehicle-details>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Previous Policy' && stepperFormGroups[i]">
+          <app-previous-policy [previouPolicyFormGroup]="stepperFormGroups[i]"
+            [prevInsurance]="applicationData?.prevInsurance" [sections]="screen?.sections"
+            [isEditable]="isFormEditable"></app-previous-policy>
+        </ng-container>
+        <ng-container *ngIf="screen?.component === 'genral' && stepperFormGroups[i]">
+          <app-genral [applicationData]="applicationData" [sections]="screen?.sections" [isEditable]="isFormEditable"
+            [genralFormGroup]="stepperFormGroups[i]" [insuredData]="insuredData" [policyQuestions]="policyQuestions"
+            [insurersNames]="insurersNames" [answers]="applicationData.answers" [screenName]="screen?.screenName"
+            [isArray]="screen?.isArray" [tag]="screen.tag" [relationshipDropdown]="relationshipDropdown"></app-genral>
+        </ng-container>
+        <ng-container *ngIf="
+            (screen?.screenName === 'Proposer' ||
+              screen?.screenName === 'Basic Info About Proposer') &&
+            screen.component !== 'genral' &&
+            stepperFormGroups[i]
+          ">
+          <app-proposer *ngIf="stepperFormGroups[i]" [proposerForm]="stepperFormGroups[i]"
+            [proposerDetails]="applicationData" [isEditable]="isFormEditable" [sections]="screen?.sections"
+            [isInsuredAlsoProposer]="isInsuredAlsoProposer">
+          </app-proposer>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Payment' && stepperFormGroups[i]">
+          <app-account-info *ngIf="stepperFormGroups[i]" [currentScreen]="screen" [paymentForm]="stepperFormGroups[i]"
+            [accountDetails]="customerAccountDetails">
+          </app-account-info>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Contact Info' && stepperFormGroups[i]">
+          <app-contact-info *ngIf="stepperFormGroups[i]" [isEditable]="isFormEditable"
+            [applicationData]="applicationData" [insuredData]="insuredData"
+            [contanctInfoForm]="stepperFormGroups[i]"></app-contact-info>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Success'">
+          <app-success [applicationDetails]="insuredData" [sendLeadToInsurerData]="sendLeadToInsurerData"></app-success>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Summary' && stepperFormGroups[i]">
+          <ng-container *ngFor="let screen of screens.screens; let j = index; let first = first">
+            <div *ngIf="!isFormEditable" class="margin-verticle-20" flex fxLayout="row wrap" fxLayout.xs="column"
+              fxLayout.sm="column" fxLayoutGap="15px">
+              <div fxFlex="20" fxLayoutAlign="start center" *ngIf="screen?.screenName !== 'Summary'">
+                <span class="headding">{{ screen?.screenName }}</span>
+              </div>
+              <div *ngIf="screen?.screenName !== 'Summary'" fxFlex="76"
+                (click)="navigateToEditScreen(verticalStepper, j)" fxLayoutAlign="end center">
+                <span class="icon-rounded">
+                  <mat-icon class="red-icon" aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+                </span>
+              </div>
+            </div>
+            <!-- <div fxFlex=76 (click)="navigateToEditScreen(stepper, j)" fxLayoutAlign="end center">
+              <span class="icon-rounded">
+                <mat-icon class="red-icon" aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+              </span>
+            </div> -->
+            <ng-container *ngIf="screen?.component === 'genral' && stepperFormGroups[j]">
+              <app-genral [applicationData]="applicationData" [sections]="screen?.sections"
+                [isEditable]="isFormEditable" [genralFormGroup]="stepperFormGroups[j]" [insuredData]="insuredData"
+                [policyQuestions]="policyQuestions" [insurersNames]="insurersNames" [answers]="applicationData.answers"
+                [screenName]="screen?.screenName"></app-genral>
+            </ng-container>
+            <ng-container *ngIf="screen?.screenName === 'Property' && stepperFormGroups[j]">
+              <app-property *ngIf="stepperFormGroups[j]" [propertyForm]="stepperFormGroups[j]"
+                [propertyDetails]="applicationData" [isEditable]="isFormEditable"
+                [sections]="screen?.sections"></app-property>
+            </ng-container>
+            <ng-container *ngIf="screen.component === 'medical-questions'">
+              <app-policy-questions [countriesList]="countriesList" [travelStartDate]="applicationData?.travelStartDate"
+                [travelEndDate]="applicationData?.travelEndDate" [countryCodes]="applicationData?.countryCodes"
+                [isEditable]="isFormEditable" [answers]="applicationData?.answers" [insuredData]="insuredData"
+                [policyQuestionsForm]="stepperFormGroups[j]" [policyData]="policyQuestions" [insurers]="insurersNames"
+                [sections]="screen?.sections">
+              </app-policy-questions>
+            </ng-container>
+            <ng-container *ngIf="screen.screenName === 'Policy'">
+              <app-policy-term [policyTermFormGroup]="stepperFormGroups[j]" [isEditable]="isFormEditable"
+                [sections]="screen?.sections" [insuredData]="insuredData">
+              </app-policy-term>
+            </ng-container>
+            <ng-container *ngIf="screen?.component === 'Vehicle' && stepperFormGroups[j]">
+              <app-vehicle-details [vehicleDetailsFormGroup]="stepperFormGroups[j]" [isEditable]="isFormEditable"
+                [vehicleInfo]="applicationData?.vehicleInfo" [sections]="screen?.sections"></app-vehicle-details>
+            </ng-container>
+            <ng-container *ngIf="
+                screen?.screenName === 'Insured' &&
+                screen.component !== 'genral' &&
+                stepperFormGroups[j]
+              ">
+              <app-insured *ngIf="stepperFormGroups[j]" [insuredProposerForm]="stepperFormGroups[j]"
+                [relationshipDropdown]="relationshipDropdown" [insuredDetails]="insuredDetails"
+                [isEditable]="isFormEditable" [sections]="screen?.sections">
+              </app-insured>
+            </ng-container>
+            <ng-container *ngIf="screen?.screenName === 'Previous Policy' && stepperFormGroups[j]">
+              <app-previous-policy [previouPolicyFormGroup]="stepperFormGroups[j]"
+                [prevInsurance]="applicationData?.prevInsurance" [sections]="screen?.sections"
+                [isEditable]="isFormEditable"></app-previous-policy>
+            </ng-container>
+            <ng-container *ngIf="(screen?.screenName === 'Proposer' ||
+            screen?.screenName === 'Basic Info About Proposer') &&
+          screen.component !== 'genral' && stepperFormGroups[j]">
+              <app-proposer *ngIf="stepperFormGroups[j]" [proposerForm]="stepperFormGroups[j]"
+                [proposerDetails]="applicationData" [isEditable]="isFormEditable" [sections]="screen?.sections"
+                [isInsuredAlsoProposer]="isInsuredAlsoProposer">
+              </app-proposer>
+            </ng-container>
+            <ng-container *ngIf="screen?.screenName === 'Contact Info' && stepperFormGroups[j]">
+              <app-contact-info *ngIf="stepperFormGroups[j]" [isEditable]="isFormEditable"
+                [applicationData]="applicationData" [insuredData]="insuredData"
+                [contanctInfoForm]="stepperFormGroups[j]"></app-contact-info>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="applicationData.uwNotes && applicationData.uwNotes.length > 0">
+            <mat-card class="mat-card mat-focus-indicator margin-top-bottom-40">
+              <mat-card-title>UW Notes</mat-card-title>
+              <mat-card-content>
+                <table mat-table [dataSource]="applicationData.uwNotes" class="mat-elevation-z8">
+                  <ng-container matColumnDef="SlNo">
+                    <th mat-header-cell *matHeaderCellDef>Sl No</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      {{ i + 1 }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Comments">
+                    <th mat-header-cell *matHeaderCellDef>Comments</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.comment }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Date">
+                    <th mat-header-cell *matHeaderCellDef>Date</th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.createdDate }}
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+          <mat-card class="margin-top-20">
+            <mat-card-content>
+              <span class="headding">DECLARATION</span>
+              <br /><br />
+              <div>
+                Please read the
+                <span *ngIf="insuredData?.productId !== '151HL09PA2'" (click)="openConsentForm(i)"
+                  class="terms-link">Terms & Conditions</span>
+                <span *ngIf="insuredData?.productId === '151HL09PA2'"><a
+                    href="https://s3.amazonaws.com/lastdecimal.brokeredge.data/brochure/BOM_LPGP_TnC_November.pdf"
+                    target="_blank" class="terms-link">Terms & Conditions</a></span>
+                and provide your consent
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card *ngIf="insuredData?.productId !== '151HL09PA2'" class="margin-top-20">
+            <mat-card-content *ngIf="insuredData?.insurerCode === 151">
+              <span class="headding">V. ELECTRONIC CLEARING SYSTEM (ECS) / STANDING INSTRUCTIONS (SI) CONSENT:</span>
+              <br /><br />
+              <div>
+                <p>
+                  I hereby authorize ManipalCigna Health Insurance Company Limited (ManipalCigna)
+                  and {{displayBankName}} (The Bank) to charge/debit the insurance premium amount
+                  (including applicable renewal premium amount from time to time) for aforesaid
+                  policy through ECS/SI from my account till further written notification.
+                </p>
+                <p>
+                  I understand that the aforesaid insurance cover will start only post receipt of
+                  full insurance premium amount by ManipalCigna. I understand that the insurance
+                  premium amount is subject to change as per age of oldest member at the time of
+                  renewal and/or applicable taxes and other levies as specified by the Govt. of
+                  India.
+                </p>
+              </div>
+            </mat-card-content>
+            <mat-card-content *ngIf="insuredData?.insurerCode !== 151">
+              <span class="headding">The information provided by me in this document is True to the best of my
+                knowledge.</span>
+              <br /><br />
+              <div [formGroup]="stepperFormGroups[stepperFormGroups.length - 1]">
+                <mat-checkbox *ngIf="
+                    customerToken !== null &&
+                    (insuredData['productId'] === '113HL01I01' ||
+                      insuredData['productId'] === '113HL01F01' || insuredData['productId'] === '130N092V01')
+                  " color="primary" class="checkBox" formControlName="consentCheck"></mat-checkbox>
+                This proposal will be the basis of any insurance policy that We may issue. You must
+                disclose all facts relevant to all persons proposed to be insured that may affect
+                Our decision to issue a policy or its price, terms, conditions and exclusions.
+                Non-compliance may result in the avoidance of the Policy. If there is insufficient
+                space for you to provide information whether as requested or otherwise, please
+                attach a separate sheet. If you are in any doubt, please seek the advice of your
+                insurance advisor. We are under no obligation to accept any proposal for insurance.
+                If We accept a proposal for insurance, it shall be subject to the Policy terms and
+                conditions and We shall have no liability to make any payment under the Policy if
+                premium is not received by Us in full and in time, or is not realised or
+                non-fullfillment of pre-policy check-up.
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <div class="spinner-height">
+            <p class="submit-error" *ngIf="showSubmitErrorMessage">
+              {{ submitErrorMessage }}
+            </p>
+            <p class="submit-error" *ngIf="showOtpError">OTP entered is invalid.</p>
+          </div>
+        </ng-container>
+        <div *ngIf="stepperFormGroups[i]" class="text-align-right">
+          <button class="cancel-btn" *ngIf="screen?.screenName !== 'Success' && !first" mat-button matStepperPrevious>
+            Back
+          </button>
+          <button *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName !== 'Summary' &&
+              screen?.screenName !== 'Success' &&
+              insuredData['status'] !== 'INFORCE'
+            " class="next-btn" [disabled]="!stepperFormGroups[i].valid && stepperFormGroups[i].status !== 'DISABLED'"
+            mat-button (click)="
+              goToNextScreen(screen, screen.nextScreen, screen.component, i, verticalStepper)
+            " appGoToSummary [nextScreen]="screen.nextScreen" [customerToken]="customerToken"
+            [stepper]="verticalStepper">
+            Next
+          </button>
+          <button *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName !== 'Summary' &&
+              screen?.screenName !== 'Success' &&
+              insuredData['status'] === 'INFORCE'
+            " class="next-btn" mat-button (click)="
+              goToNextScreen(screen, screen.nextScreen, screen.component, i, verticalStepper)
+            ">
+            Next
+          </button>
+          <button *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName !== 'Summary' &&
+              screen?.screenName === 'Success'
+            " class="next-btn" mat-button routerLink="/policyvault">
+            Go To Policy Vault
+          </button>
+          <!-- <button
+            *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName !== 'Summary' &&
+              screen?.screenName === 'Success'
+            "
+            class="next-btn"
+            mat-button
+            (click)="generateQRCode()"
+          >
+            Generate QR Code
+          </button> -->
+          <button *ngIf="
+              stepperFormGroups[i] &&
+              screen?.screenName === 'Summary' &&
+              insuredData.statusCode <= 3 &&
+              hasEditAccess
+            " class="next-btn" [disabled]="!stepperFormGroups[i].valid" mat-button (click)="onSubmitClicked()">
+            Submit
+          </button>
+        </div>
+      </mat-step>
+    </ng-container>
+  </mat-vertical-stepper>
+</ng-container>

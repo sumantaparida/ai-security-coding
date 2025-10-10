@@ -1,0 +1,56 @@
+.full-width {
+    width: 100%;
+}
+
+.adjust-width {
+   width: 40.5%;
+   justify-content: end;
+}
+
+.new-width {
+    width: 80%
+}
+
+.man-field {
+    font-size: 14px;
+    color: red;
+}
+
+.saError{
+    
+    text-align: center;
+    color: crimson;
+    border: 2px solid crimson;
+    background-color: white;
+    text-transform: uppercase;
+    font-size: larger;
+}
+
+.vehicle-screen-radio-box {
+    margin-bottom:3%;
+    background-color: rgba(0, 0, 0, .04);
+    color: #566266;
+    padding: 8px 10px 8px 10px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+    /* box-shadow: 0 2px 0 0 #c6cacc; */
+    display: inline-flex;
+    width: 41%;
+    box-shadow: 0 0 0 1px #cac2d5;
+}
+
+.display-flex {
+    display: flex;
+}
+
+.margin-left {
+    margin-left: 5px;
+}
+
+.margin-bottom-30 {
+    margin-bottom: 30px;
+}
+.margin-top-5{
+    margin-right:15px;
+}

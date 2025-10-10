@@ -1,0 +1,26 @@
+<div class="width">
+  <form [formGroup]="selectInsurerForm">
+    <mat-form-field appearance="fill" class="dialog-actions">
+      <mat-label>Select an Insurer</mat-label>
+      <mat-select formControlName="selectInsurer" disableRipple>
+        <mat-option *ngFor="let insurer of insurerList" [value]="insurer?.id">{{
+          insurer?.value
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div mat-dialog-actions class="dialog-actions">
+      <button
+        class="submit-btn"
+        mat-button
+        cdkFocusInitial
+        (click)="onSelect()"
+        [disabled]="!this.selectInsurerForm.valid"
+      >
+        Select Insurer
+      </button>
+      <button class="cancel-btn" mat-button [mat-dialog-close]="''">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,157 @@
+<ng-container *ngIf="stepperFormGroups.length > 0">
+  <mat-horizontal-stepper
+    *ngIf="!smallScreen && !errorLoadingApplicationDetails"
+    (selectionChange)="setIndex($event)"
+    labelPosition="bottom"
+    #stepper
+  >
+    <!-- linear -->
+    <ng-container *ngFor="let screen of screens.screens; let i = index; let first = first">
+      <mat-step [stepControl]="stepperFormGroups[i]">
+        <ng-template matStepLabel>{{ screen?.screenName }}</ng-template>
+
+        <ng-container *ngIf="screen?.component === 'general' && stepperFormGroups[i]">
+          <app-general
+            [isSummaryScreen]=false
+            [applicationData]="payload"
+            [sections]="screen?.sections"
+            [isEditable]="isFormEditable"
+            [genralFormGroup]="stepperFormGroups[i]"
+            [screenName]="screen?.screenName"
+            [lob]="lob"
+            [insurerId]="insurerId"
+            [products]="products"
+            (spCodeChanged)="onSpCodeChanged($event)"
+            [customerToken]="customerToken"
+          ></app-general>
+        </ng-container>
+        <ng-container *ngIf="screen?.component === 'contact-info' && stepperFormGroups[i]">
+          <app-contact-info
+            *ngIf="stepperFormGroups[i]"
+            [isEditable]="isFormEditable"
+            [applicationData]="payload"
+            [contanctInfoForm]="stepperFormGroups[i]"
+            [screen]="screen"
+          ></app-contact-info>
+        </ng-container>
+        <ng-container *ngIf="screen?.screenName === 'Summary' && stepperFormGroups[i]">
+          <ng-container *ngFor="let screen of screens.screens; let j = index; let first = first">
+            <div
+              *ngIf="!isFormEditable"
+              class="margin-verticle-20"
+              flex
+              fxLayout="row wrap"
+              fxLayout.xs="column"
+              fxLayout.sm="column"
+              fxLayoutGap="15px"
+            >
+              <div
+                fxFlex="20"
+                fxLayoutAlign="start center"
+                *ngIf="screen?.screenName !== 'Summary'"
+              >
+                <span class="headding">{{ screen?.screenName }}</span>
+              </div>
+              <div
+                *ngIf="screen?.screenName !== 'Summary'"
+                fxFlex="76"
+                (click)="navigateToEditScreen(stepper, j)"
+                fxLayoutAlign="end center"
+              >
+                <span class="icon-rounded">
+                  <mat-icon class="red-icon" aria-hidden="false" aria-label="Example home icon"
+                    >edit</mat-icon
+                  >
+                </span>
+              </div>
+            </div>
+            <!-- <div fxFlex=76 (click)="navigateToEditScreen(stepper, j)" fxLayoutAlign="end center">
+                <span class="icon-rounded">
+                  <mat-icon class="red-icon" aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+                </span>
+              </div> -->
+            <ng-container *ngIf="screen?.component === 'general' && stepperFormGroups[j]">
+              <app-general
+                [isSummaryScreen]=true
+                [applicationData]="payload"
+                [sections]="screen?.sections"
+                [isEditable]="isFormEditable"
+                [genralFormGroup]="stepperFormGroups[j]"
+                [screenName]="screen?.screenName"
+                [lob]="lob"
+                [insurerId]="insurerId"
+                [products]="products"
+              ></app-general>
+            </ng-container>
+            <ng-container *ngIf="screen?.screenName === 'Contact Info' && stepperFormGroups[j]">
+              <app-contact-info
+                *ngIf="stepperFormGroups[j]"
+                [isEditable]="isFormEditable"
+                [applicationData]="payload"
+                [contanctInfoForm]="stepperFormGroups[j]"
+              ></app-contact-info>
+            </ng-container>
+          </ng-container>
+          <mat-card  class="margin-top-20" *ngIf="customerToken" >
+            <mat-card-content>
+              <span class="headding">The information provided by me in this document is True to the best of my
+                knowledge.</span>
+              <br /><br />
+              <div [formGroup]="stepperFormGroups[stepperFormGroups.length - 1]">
+                <mat-checkbox color="primary" class="checkBox" formControlName="consentCheck" ></mat-checkbox>
+                This proposal will be the basis of any insurance policy that We may issue. You must
+                disclose all facts relevant to all persons proposed to be insured that may affect
+                Our decision to issue a policy or its price, terms, conditions and exclusions.
+                Non-compliance may result in the avoidance of the Policy. If there is insufficient
+                space for you to provide information whether as requested or otherwise, please
+                attach a separate sheet. If you are in any doubt, please seek the advice of your
+                insurance advisor. We are under no obligation to accept any proposal for insurance.
+                If We accept a proposal for insurance, it shall be subject to the Policy terms and
+                conditions and We shall have no liability to make any payment under the Policy if
+                premium is not received by Us in full and in time, or is not realised or
+                non-fullfillment of pre-policy check-up.
+              </div>
+              <br />
+              <div class="terms_Cond" (click)="openTC()">Terms and condition</div>
+            </mat-card-content>
+          </mat-card>
+          <div class="spinner-height">
+            <p class="submit-error" *ngIf="showSubmitErrorMessage">
+              {{ submitErrorMessage }}
+            </p>
+            <p class="submit-error" *ngIf="showOtpError">OTP entered is invalid.</p>
+          </div>
+        </ng-container>
+        <div *ngIf="stepperFormGroups[i]" class="text-align-right">
+          <button class="cancel-btn" *ngIf="!first" mat-button matStepperPrevious>Back</button>
+          <button
+            *ngIf="screen?.screenName !== 'Summary' && isFormEditable"
+            class="next-btn"
+            [disabled]="!stepperFormGroups[i].valid && stepperFormGroups[i].status !== 'DISABLED'"
+            mat-button
+            (click)="goToNextScreen(screen, screen.nextScreen, screen.component, i, stepper)"
+          >
+            Next
+          </button>
+          <button
+            *ngIf="screen?.screenName !== 'Summary' && !isFormEditable"
+            class="next-btn"
+            mat-button
+            (click)="goToNextScreen(screen, screen.nextScreen, screen.component, i, stepper)"
+          >
+            Next
+          </button>
+          <button
+            *ngIf="stepperFormGroups[i] && screen?.screenName === 'Summary'"
+            class="next-btn"
+            [disabled]="disableSubmit || !stepperFormGroups[i].valid"
+            mat-button
+            (click)="onSubmitClicked()"
+          >
+            Submit
+          </button>
+        </div>
+      </mat-step>
+    </ng-container>
+  </mat-horizontal-stepper>
+</ng-container>

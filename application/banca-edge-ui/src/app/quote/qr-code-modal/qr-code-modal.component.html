@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+    <!-- <p>{{data}}</p> -->
+    <qrcode [qrdata]="data" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+</div>
+<div mat-dialog-actions style="text-align: center">
+    <button mat-raised-button color="danger" (click)="onOkClicked()" cdkFocusInitial>Close</button>
+</div>

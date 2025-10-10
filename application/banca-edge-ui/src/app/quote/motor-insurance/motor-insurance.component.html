@@ -1,0 +1,642 @@
+<div class="motor-details-container">
+  <!-- <mat-progress-spinner class="loading-spinner" [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+    </mat-progress-spinner>-->
+  <form [formGroup]="motorInsuranceForm" (ngSubmit)="submitMotorQuote()">
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="motor-details-header">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="heading-row"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+        >
+          <div class="heading-text">
+            <span>{{ 'quote.MOTOR_INSURANCE_CAPS' | translate }}</span>
+          </div>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+          class="need-help-critical-div"
+        >
+          <div fxFlex="70">
+            <a (click)="toggleShow('policyDescription')">{{ needHideMotorDetails }} </a>
+          </div>
+        </div>
+
+        <ng-container *ngIf="isShownPolicyDescription">
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            class="help-description"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+          >
+            <!-- Policy Description column  -->
+
+            <div fxFlex="30" class="policy-description">
+              <img
+                class="motor-details-img"
+                src="../../../assets/images/Car_Insurance_ICON_og.svg"
+                alt="Critical Illness"
+              />
+            </div>
+
+            <div fxFlex="60">
+              <p>
+                Motor Insurance is mandatory as per law and you must get vehicle insurance in order
+                to use your vehicle on roads.
+              </p>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="nodatafound">
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            class="help-description error_data"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+          >
+            <!-- Policy Description column  -->
+
+            <!-- <div fxFlex="15" class="policy-description">
+                       <img src="assets/images/sentiimage.png">
+                    </div>-->
+
+            <div fxFlex="90">
+              <p>
+                Oops.. We could not find any policies for you. you may have to adjust your search
+                criteria.
+              </p>
+            </div>
+          </div>
+        </ng-container>
+        <div #noQuoteGenerated>
+          <ng-container *ngIf="errordatafound">
+            <div
+              fxLayout="row"
+              fxLayout.xs="column"
+              class="help-description error_data"
+              fxLayout.sm="column"
+              fxLayoutGap="10px"
+            >
+              <!-- Policy Description column  -->
+
+              <!--    <div fxFlex="15" class="policy-description">
+                       <img src="assets/images/sentiimage.png">
+                    </div>-->
+
+              <div fxFlex="90" id="httperrorresponse">
+                <p>
+                  {{ errorDetail }}
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="motor-details-form">
+        <!-- <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px"
+                class="form-row-gap-bottom">
+                <div fxFlex="50" class="center-label">
+                    <label>What kind of vehicle do you want to insure? 
+                    </label>
+                </div>
+
+                <div fxFlex="50">
+                     <mat-radio-group  aria-labelledby="example-radio-group-label" class="" formControlName="vehical_insured">
+                        <div class="policy-cover-radio" *ngFor="let option of vehicalCoverOption"  
+                        [ngClass]="{'selected': motorInsuranceForm.get('vehical_insured').value === option.value }">
+                            <mat-radio-button class="" [value]="option.value">
+                                {{option.viewValue}}
+                            </mat-radio-button>
+                        </div>
+
+                    </mat-radio-group>
+                   
+                </div>
+            </div> -->
+        <!-- --help text Start--  -->
+        <!-- <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+                    <div fxFlex="40">
+                        <a (click)="toggleShow('policyType')" class="">{{needHidePolicyType}}</a>
+                        <div *ngIf="isShownPolicyType" class="help-description">
+                            <p class="help-text">Choose Private Car option if you are using this vehicle primarily for
+                                your personal use
+                                and do not use it for commercial activities or for hire.<br>
+                                Choose Two Wheeler option if you are using this vehicle primarily for your personal use
+                                and do not use it
+                                for commercial activities or for hire.<br>
+                                Choose Tractor option if you are using this vehicle primarily for agricultural purposes
+                                and is not hired out.
+                            </p>
+                        </div>
+                    </div>
+                </div> -->
+        <!-- --help text End--  -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Do you Know the Vehicle Registration Number?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group (change)="checkReg()" formControlName="hasRegsNum">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{ selected: motorInsuranceForm.get('hasRegsNum').value === 'RG' }"
+              >
+                <mat-radio-button value="RG">{{ 'Yes' | translate }}</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{ selected: motorInsuranceForm.get('hasRegsNum').value === 'NRG' }"
+              >
+                <mat-radio-button value="NRG">{{ 'No' | translate }} </mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div
+          *ngIf="motorInsuranceForm.get('hasRegsNum').value === 'RG'"
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Please enter the Vehicle Registartion Number</label>
+          </div>
+          <div fxFlex="50" fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px">
+            <div fxFlex="70" class="text-wrap manufactured_year">
+              <input
+                placeholder="AB12CD3456"
+                #box
+                formControlName="registrationNumber"
+                id="regsNum"
+                maxlength="10"
+              />
+            </div>
+            <div fxFlex="30">
+              <a (click)="getRegistrationDetails()"> Fetch Details </a>
+            </div>
+            <mat-error *ngIf="isRegError">Registration number is not a Valid. </mat-error>
+          </div>
+        </div>
+        <ng-container *ngIf="showOptions">
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+            <div fxFlex="50" class="center-label">
+              <label
+                >Are you looking for a new Policy or are you renewing an existing policy?</label
+              >
+            </div>
+            <div fxFlex="50">
+              <mat-radio-group (change)="renewPolicy()" formControlName="policy">
+                <div
+                  class="gender-radio-box"
+                  [ngClass]="{ selected: motorInsuranceForm.get('policy').value === 'NB' }"
+                >
+                  <mat-radio-button value="NB">{{
+                    'quote.NEW_POLICY' | translate
+                  }}</mat-radio-button>
+                </div>
+                <div
+                  class="gender-radio-box margin-left"
+                  [ngClass]="{ selected: motorInsuranceForm.get('policy').value === 'RO' }"
+                >
+                  <mat-radio-button value="RO"
+                    >{{ 'quote.RENEW_MY_EXISTING_POLICY' | translate }}
+                  </mat-radio-button>
+                </div>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <!-- --help text Start--  -->
+          <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+            <div fxFlex="40">
+              <a (click)="toggleShow('policyCover')" class="">{{ needHidePolicyCover }}</a>
+              <div *ngIf="isShownPolicyCover" class="help-description">
+                <p class="help-text">
+                  Choose the appropriate option based on if you are buying an insurance policy for a
+                  new motor vehicle or you are renewing an existing policy.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- --help text End--  -->
+          <!-- Existing Cover 2a   -->
+          <ng-container>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+              <div fxFlex="50" class="center-label">
+                <label>Please select the Cover Type</label>
+              </div>
+              <div fxFlex="50">
+                <mat-form-field appearance="fill">
+                  <mat-select formControlName="coverType">
+                    <mat-option
+                      *ngFor="let cover of coverTypes"
+                      name="option"
+                      [value]="cover.value"
+                    >
+                      {{ cover.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+              <div fxFlex="50" class="center-label">
+                <label>What is the Make of the vehicle?</label>
+              </div>
+              <div fxFlex="50">
+                <mat-form-field appearance="fill">
+                  <mat-select
+                    formControlName="makeVehical"
+                    #makevehical
+                    (selectionChange)="getPCModelsForMakeSelection($event.value)"
+                  >
+                    <mat-option
+                      *ngFor="let makedetail of allMakeVehical"
+                      name="option"
+                      [value]="makedetail.id"
+                    >
+                      {{ makedetail.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+              <div fxFlex="50" class="center-label">
+                <label>What is the Model of the vehicle? </label>
+              </div>
+              <div fxFlex="50">
+                <mat-form-field appearance="fill">
+                  <mat-select
+                    formControlName="modelVehical"
+                    (selectionChange)="
+                      getPCVariantsForMakeAndModelSelection(makevehical.value, $event.value)
+                    "
+                  >
+                    <mat-option
+                      *ngFor="let modeldetail of allModelVehical"
+                      [value]="modeldetail.id"
+                    >
+                      {{ modeldetail.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+              <div fxFlex="50" class="center-label">
+                <label>What is the Variant of the vehicle? </label>
+              </div>
+              <div fxFlex="50">
+                <mat-form-field appearance="fill">
+                  <mat-select formControlName="vehicalVarient">
+                    <mat-option
+                      *ngFor="let variantdetail of allvariantVehical"
+                      [value]="variantdetail.id"
+                    >
+                      {{ variantdetail.value }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- --help Text--- start -->
+            <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+              <div fxFlex="40">
+                <div>
+                  <a (click)="toggleShow('detail')" class="">{{ needHideDetails }}</a>
+                </div>
+                <div *ngIf="isShowndetail" class="help-description">
+                  <p class="help-text">
+                    You will find this information in the Invoice that you received on purchase of
+                    your vehicle, or sometimes as a badge on the body of your vehicle.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- --help Text--- End -->
+          </ng-container>
+
+          <!-- vehicle manufactured Year  -->
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+            <div fxFlex="50" class="center-label">
+              <label>In which year was the vehicle manufactured? </label>
+            </div>
+            <div fxFlex="50">
+              <div class="date-wrap manufactured_year">
+                <input
+                  placeholder="YYYY"
+                  type="year"
+                  #box
+                  formControlName="year"
+                  id="year"
+                  maxlength="4"
+                />
+              </div>
+              <mat-error *ngIf="isYearErro"
+                >Manufactured Year should not be greater than current year.
+              </mat-error>
+              <mat-error *ngIf="isRenewYearError"
+                >Manufactured Year should not be greater than Registration year.
+              </mat-error>
+              <div *ngIf="formError.year.touched && formError.year.invalid" class="alert error_msg">
+                <div *ngIf="formError.year.errors.required">Number is required.</div>
+
+                <div *ngIf="formError.year.errors.pattern">Enter only number.</div>
+                <div *ngIf="formError.year.errors.minlength">Please Enter minimum 4 digit.</div>
+              </div>
+            </div>
+          </div>
+          <!-- --help text Start--  -->
+          <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+            <div fxFlex="40">
+              <a (click)="toggleShow('YearManufactured')" class="">{{
+                needHideYearManufactured
+              }}</a>
+              <div *ngIf="isShownYearManufactured" class="help-description">
+                <p class="help-text">
+                  You will find this information in the Registration Certificate Card/Book or in the
+                  Invoice you received when you purchased the vehicle.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- --help text End--  -->
+          <!-- vehicle registered Date  -->
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+            <div fxFlex="50" class="center-label" *ngIf="regLabelNeedText">
+              <label>On what date was the vehicle registered? </label>
+            </div>
+
+            <div fxFlex="50" *ngIf="renewPolicyCover === false">
+              <div class="date-wrap1">
+                <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+                  <mat-label>Select a Registration date</mat-label>
+
+                  <input
+                    placeholder="YYYY-MM-DD"
+                    readonly
+                    (dateInput)="inputEvent($event, 'vehicalRegNew')"
+                    matInput
+                    [matDatepicker]="picker"
+                    [min]="past"
+                    [max]="currentAndFutureday"
+                    type="text"
+                    formControlName="vehicalRegNew"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div fxFlex="50" *ngIf="renewPolicyCover == true">
+              <div class="date-wrap1">
+                <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+                  <mat-label>Select a Registration date</mat-label>
+
+                  <input
+                    placeholder="YYYY-MM-DD"
+                    readonly
+                    (dateInput)="inputEvent($event, 'vehicalRegRenew')"
+                    matInput
+                    [matDatepicker]="picker"
+                    [max]="renewDate"
+                    type="text"
+                    formControlName="vehicalRegRenew"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- --help text Start--  -->
+          <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="regLabelNeedText">
+            <div fxFlex="40">
+              <a (click)="toggleShow('RegDate')" class="">{{ needHideRegDate }}</a>
+              <div *ngIf="isShownRegDate" class="help-description">
+                <p class="help-text">
+                  You will find this information in the Registration Certificate Card/Book that you
+                  received when you registered your vehicle.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- --help text End--  -->
+          <!-- RTO Detail  -->
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+            <div fxFlex="50" class="center-label">
+              <label>Under which RTO is the vehicle currently registered?</label>
+            </div>
+            <div fxFlex="50">
+              <!--  <mat-form-field>
+                          <mat-select formControlName="rtoctrl" placeholder="Bank" #singleSelect>
+                            <mat-option>
+                              <ngx-mat-select-search formControlName="vahicalRto"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let rto of getAllRtos" [value]="rto.id">
+                              {{rto.id}}  - {{rto.value}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>-->
+              <mat-form-field appearance="fill">
+                <mat-select formControlName="vahicalRto">
+                  <mat-option>
+                    <ngx-mat-select-search
+                      placeholderLabel="Search"
+                      noEntriesFoundLabel="Not Found"
+                      formControlName="searchCtrl"
+                    >
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option
+                    *ngFor="
+                      let rto of getAllRtos
+                        | searchDropDown: motorInsuranceForm.get('searchCtrl').value:'value'
+                    "
+                    name="option"
+                    [value]="rto.id"
+                  >
+                    {{ rto.value }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <!--   <mat-form-field>
+                          <mat-select [formControl]="rtoCtrl" placeholder="Bank" #singleSelect>
+                            <mat-select-search [formControl]="rtoFilterCtrl"></mat-select-search>
+                            <mat-option *ngFor="let bank of filteredBanks | async" [value]="bank">
+                              {{bank.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>-->
+            </div>
+          </div>
+          <!-- --help text Start--  -->
+          <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+            <div fxFlex="40">
+              <a (click)="toggleShow('RTOVehical')" class="">{{ needHideRTOVehical }}</a>
+              <div *ngIf="isShownRTOVehical" class="help-description">
+                <p class="help-text">
+                  The RTO, for example MH 02, Is usually based on the Registered Address of your
+                  vehicle. Please check your Registration Certificate or the first 4 characters of
+                  your number plate.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- --help text End--  -->
+          <!-- Policy end date  -->
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutGap="25px"
+            class="form-row-gap-bottom"
+            *ngIf="renewPolicyCover"
+          >
+            <div fxFlex="50" class="center-label">
+              <label>On what date does the current policy end? </label>
+            </div>
+            <div fxFlex="50">
+              <div class="date-wrap1">
+                <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+                  <mat-label> Select a Policy end date</mat-label>
+                  <input
+                    matInput
+                    readonly
+                    (dateInput)="inputEvent($event, 'endDate')"
+                    [matDatepicker]="picker"
+                    [min]="past1"
+                    [max]="endDate"
+                    formControlName="endDate"
+                    placeholder="YYYY-MM-DD"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <!--        <div class="error_msg" *ngIf="errorPolicyEndDate">Policy End date should be greater than current date.</div>-->
+              </div>
+            </div>
+          </div>
+          <!-- --help text Start--  -->
+          <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="renewPolicyCover">
+            <div fxFlex="40">
+              <a (click)="toggleShow('PolicyEnd')" class="">{{ needHidePolicyEnd }}</a>
+              <div *ngIf="isShownPolicyEnd" class="help-description">
+                <p class="help-text">
+                  You will find this information in current insurance policy in your possession. If
+                  the expiry date has already passed, you may need a different process.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- --help text End--  -->
+          <!-- RTO Detail  -->
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutGap="25px"
+            class="form-row-gap-bottom"
+            *ngIf="renewPolicyCover"
+          >
+            <div fxFlex="50" class="center-label">
+              <label>If your current policy has a No-Claim-Bonus, choose a value.</label>
+            </div>
+            <div fxFlex="50">
+              <mat-form-field appearance="fill">
+                <mat-select formControlName="noClaim">
+                  <mat-option *ngFor="let claim_bonus of noClaimBonus" [value]="claim_bonus.value">
+                    {{ claim_bonus.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- --help text Start--  -->
+          <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="renewPolicyCover">
+            <div fxFlex="40">
+              <a (click)="toggleShow('NoClaim')" class="">{{ needHideNoClaim }}</a>
+              <div *ngIf="isShownNoClaim" class="help-description">
+                <p class="help-text">
+                  If you have not claimed under your policy, you may be entitled to a No-Claim-Bonus
+                  (NCB). Depending on the consecutive number of years of no-claim, the percentage of
+                  NCB will increase. If you make a claim, your NCB percentage is reset to zero.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- --help text End--  -->
+
+          <!-- Smoker  -->
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutGap="25px"
+            class="form-row-gap-bottom"
+            *ngIf="renewPolicyCover"
+          >
+            <div fxFlex="50" class="center-label">
+              <label>Have you submitted any claim in the current year?</label>
+            </div>
+            <div fxFlex="50">
+              <mat-radio-group aria-label="Select an option" formControlName="currentYear">
+                <div class="gender-radio-box">
+                  <mat-radio-button value="N">No</mat-radio-button>
+                </div>
+                <div class="gender-radio-box margin-left">
+                  <mat-radio-button value="Y">Yes</mat-radio-button>
+                </div>
+              </mat-radio-group>
+            </div>
+          </div>
+          <!-- --help Text--- start -->
+          <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="renewPolicyCover">
+            <div fxFlex="40">
+              <div>
+                <a (click)="toggleShow('claim_year')" class="">{{ needHideClaimyear }}</a>
+              </div>
+              <div *ngIf="isShownClaimyear" class="help-description">
+                <p class="help-text">
+                  It is possible that , you may have submitted a claim under your policy in the
+                  current year. Insurers will factor this in when quoting a price for renewing the
+                  policy.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- --help Text--- End -->
+          <!-- --ADD INSURER -->
+          <!--  <div fxLayout="row" fxLayout.xs="column" class="add-insurer-row">
+                  <div fxFlex="50"> 
+                  </div>
+                  <div fxFlex="50"> 
+                      <mat-icon class="add-insurer-icon" (click)="addInsurer()">add_circle_outline</mat-icon>
+                  </div>
+              </div>-->
+          <!-- ----- End -->
+        </ng-container>
+
+        <br />
+        <button mat-raised-button class="generate-quote-btn" [disabled]="!motorInsuranceForm.valid">
+          Generate Quote
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

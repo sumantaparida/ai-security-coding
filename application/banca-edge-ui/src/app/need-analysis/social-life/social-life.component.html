@@ -1,0 +1,14 @@
+<div [@socialLifeShowHide]="state" class="socialLife">
+  <div class="lg-screen">
+    <label>A lot of my personal and professional time is spent on the internet</label>
+    <div id="index-gallery" class="flex-container-internet">
+      <div class="item">
+        <img class="socialLife-img" (click)="onSocialLifeSelected('yes')"
+          src="../../../assets/images/Internet - Yes.svg">
+      </div>
+      <div class="item">
+        <img class="socialLife-img" (click)="onSocialLifeSelected('no')" src="../../../assets/images/Internet - No.svg">
+      </div>
+    </div>
+  </div>
+</div>

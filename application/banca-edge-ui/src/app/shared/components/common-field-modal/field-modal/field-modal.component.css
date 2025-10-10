@@ -1,0 +1,32 @@
+.dialog-actions {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .submit-btn {
+    padding: 5px 15px;
+    background: #03dac5;
+    color: white;
+    font-size: 18px;
+    width: 150px;
+  }
+  
+  .cancel-btn {
+    padding: 5px 15px;
+    background: #b00020 !important;
+    color: white;
+    font-size: 18px;
+    width: 150px;
+    margin-left: 25px;
+  }
+  
+  .width {
+    width: 700px;
+  }
+  
+  .marhin-right {
+    margin-right: 14px;
+  }
+  .man-field{
+    color:red;
+  }

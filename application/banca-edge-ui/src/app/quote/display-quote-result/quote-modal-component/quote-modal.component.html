@@ -1,0 +1,48 @@
+<div *ngIf="data['type']==='premiumBreakup'">
+    <mat-dialog-content>
+        <div class="heading">
+            <h2>Premium Breakup</h2>
+            <div (click)="onClose()" style="cursor:'pointer'">X</div>
+        </div>
+        <ng-container *ngFor="let breakup of data['content']['quoteResponse']['premiumBreakup']">
+            <div class="details-container">
+                <div class="details-label">
+                    <h3>{{breakup.label}}</h3>
+                    <ng-container *ngFor="let subBreakup of breakup.premiumSubBreakup" >
+                        <p>-{{subBreakup.label}}</p>
+                    </ng-container>
+                </div>
+                <div class="premiums">
+                    <h3>{{breakup.value}}</h3>
+                    <ng-container *ngFor="let subBreakup of breakup.premiumSubBreakup" >
+                        <p>{{subBreakup.value}}</p>
+                    </ng-container>
+                </div>
+            </div> 
+        </ng-container>
+    </mat-dialog-content>
+   
+</div>
+
+<div *ngIf="data['type'] === 'knowMore'">
+    <div class="knowMore-container">
+        <div class="heading knowMoreHeading">
+        <h2>Know More</h2>
+        <div (click)="onClose()" style="cursor:'pointer'">X</div>
+        </div>
+       <ng-container *ngFor="let product of data['errorList']">
+        <hr>
+        <div class="product-listing-container">
+            <img alt="" src="{{product.imageUrl}}">
+            <p>{{product.errorMsg}}</p>
+        </div>
+        <hr>
+       </ng-container>
+    </div>
+</div>
+
+<div *ngIf="data['type'] === 'customiseOption'">
+    <div class="customise-option-container">
+        hi
+    </div>
+</div>

@@ -1,0 +1,258 @@
+<div class="need-investment">
+  <h1 class="heading">Need Analysis</h1>
+  <section class="example-section" [formGroup]="investmentForm">
+    <h4><strong>1. Your Goal for Investment?</strong></h4>
+    <table>
+      <tr *ngFor="let goal of investmentGoals; let i = index">
+        <td>
+          <p>
+            <input type="checkbox" #checkbox (click)="checkList(i)" [checked]="goal.checked" />{{
+              goal.description
+            }}
+          </p>
+          <p>
+            <textarea
+              *ngIf="goal.checked && goal.id == 'Q_11_9'"
+              matInput
+              formControlName="descrp"
+              placeholder="Please enter description..."
+            ></textarea>
+            <mat-error
+              *ngIf="
+                goal.id == 'Q_11_9' &&
+                goal.checked &&
+                investmentForm.get('descrp')?.hasError('required')
+              "
+              >Please enter description</mat-error
+            >
+            <mat-error
+              *ngIf="goal.id == 'Q_11_9' && investmentForm.get('descrp')?.hasError('pattern')"
+              >Please enter valid description</mat-error
+            >
+          </p>
+        </td>
+        <td *ngIf="goal.checked">
+          <p>
+            ₹
+
+            <input placeholder="" formControlName="{{ goal.id }}" max="999" maxlength="3" />
+            Lakhs
+          </p>
+          <p>
+            <mat-error *ngIf="investmentForm.get(goal.id)?.hasError('max')"
+              >Maximum allowed amount <strong>999 lakhs</strong></mat-error
+            >
+          </p>
+          <p>
+            <mat-error *ngIf="investmentForm.get(goal.id)?.hasError('pattern')"
+              >Enter only Valid Numbers
+            </mat-error>
+          </p>
+          <p>
+            <mat-error *ngIf="investmentForm.get(goal.id)?.hasError('required')"
+              >Value is Required
+            </mat-error>
+          </p>
+        </td>
+      </tr>
+
+      <tr [formGroup]="optionInvestmentForm">
+        <td>
+          <strong><label> Total Sum Insured Value </label></strong>
+        </td>
+        <td>
+          ₹
+          <input
+            type="number"
+            placeholder=""
+            formControlName="Q_11_10"
+            [value]="totalInvestment"
+            readonly
+          />
+          Lakhs
+        </td>
+      </tr>
+    </table>
+    <div></div>
+    <div></div>
+  </section>
+
+  <section class="example-section-2" [formGroup]="optionInvestmentForm">
+    <h4><strong>2. Kindly select any one option (from 'a' and 'b' below).</strong></h4>
+    <mat-radio-group aria-label="Select an option" formControlName="secondQuestion">
+      <mat-radio-button value="1" id="opt1" aria-disabled="true"
+        >2. a) When would you be requiring to use your sum insured value (in years)?
+        <input
+          *ngIf="optionInvestmentForm.get('secondQuestion')?.value == 1"
+          type="text"
+          min="1"
+          placeholder=""
+          maxlength="4"
+          formControlName="Q_12_A"
+          [readonly]="readonlyA"
+        />years</mat-radio-button
+      >
+
+      <button (click)="calculate(1)" [disabled]="disableCalculate1()" mat-button color="primary">
+        Calculate
+      </button>
+
+      <mat-error *ngIf="optionInvestmentForm.get('Q_12_A')?.hasError('max')"
+        >Years Should be less than 100</mat-error
+      >
+      <mat-error *ngIf="optionInvestmentForm.get('Q_12_A')?.hasError('pattern')"
+        >Enter a Valid Number</mat-error
+      >
+      <mat-error
+        *ngIf="
+          optionInvestmentForm.get('Q_12_A')?.hasError('required') &&
+          optionInvestmentForm.get('Q_12_A').touched
+        "
+        >Value is Required</mat-error
+      >
+
+      <table
+        class="second-table border"
+        *ngIf="optionInvestmentForm.get('secondQuestion')?.value == 1"
+      >
+        <tr class="border">
+          <td class="border">Indicative Rate of Return (RoR)</td>
+          <td class="border">4%</td>
+          <td class="border">6%</td>
+          <td>
+            <input
+              type="text"
+              placeholder=""
+              formControlName="crRate"
+              step="0.01"
+              max="7"
+              min="1"
+              maxlength="4"
+            />
+            (Any other preferred RoR -max 7%)
+            <!-- <mat-error *ngIf="optionInvestmentForm.get('crRate')?.hasError('max')"
+              >maxmium pee <strong>7 lakhs</strong></mat-error
+            > -->
+          </td>
+        </tr>
+
+        <tr class="border">
+          <td class="border">Annual premium to achieve sum insured value</td>
+          <td class="border" *ngIf="!needAnalysis">
+            <input type="number" placeholder="" readonly />
+          </td>
+          <td class="border" *ngIf="!needAnalysis">
+            <input type="number" placeholder="" readonly />
+          </td>
+
+          <td class="border" *ngIf="needAnalysis">₹{{ needAnalysis[0]?.premiumAmount }}</td>
+          <td class="border" *ngIf="needAnalysis">₹{{ needAnalysis[1]?.premiumAmount }}</td>
+          <td class="border" *ngIf="needAnalysis">₹{{ needAnalysis[2]?.premiumAmount }}</td>
+
+          <!-- <mat-error *ngIf="optionInvestmentForm.get('crRate')?.hasError('max')"
+            >maxmium Ror %<strong>7 </strong></mat-error
+          > -->
+        </tr>
+        <mat-error *ngIf="optionInvestmentForm.get('crRate')?.hasError('min')"
+          >Minimum Ror <strong>1 %</strong></mat-error
+        >
+        <mat-error *ngIf="optionInvestmentForm.get('crRate')?.hasError('max')"
+          >Maximum Ror <strong>7 %</strong></mat-error
+        >
+        <mat-error *ngIf="optionInvestmentForm.get('crRate')?.hasError('pattern')"
+          >Enter a Valid Number</mat-error
+        >
+      </table>
+      <div>
+        <hr />
+        OR
+        <hr />
+      </div>
+      <mat-radio-button value="2" id="opt2"
+        >2. b) What is the monthly amount you wish to invest (in INR)? ₹
+        <input
+          *ngIf="optionInvestmentForm.get('secondQuestion')?.value == 2"
+          type="text"
+          min="1"
+          placeholder=""
+          formControlName="Q_12_B"
+          [readonly]="readonlyB"
+      /></mat-radio-button>
+      <mat-error *ngIf="optionInvestmentForm.get('Q_12_B')?.hasError('max')"
+        >Maximum allowed amount is <strong>99 lakhs</strong></mat-error
+      >
+      <mat-error *ngIf="optionInvestmentForm.get('Q_12_B')?.hasError('pattern')"
+        >Enter a Valid Number</mat-error
+      >
+      <mat-error
+        *ngIf="
+          optionInvestmentForm.get('Q_12_B')?.hasError('required') &&
+          optionInvestmentForm.get('Q_12_B').touched
+        "
+        >Value is Required</mat-error
+      >
+      <button (click)="calculate(2)" [disabled]="disableCalculate2()" mat-button color="primary">
+        Calculate
+      </button>
+
+      <table
+        class="border second-table"
+        *ngIf="optionInvestmentForm.get('secondQuestion')?.value == 2"
+      >
+        <tr class="border">
+          <td class="border">Indicative Rate of Return (RoR)</td>
+          <td class="border">4%</td>
+          <td class="border">6%</td>
+          <td class="border">
+            <input
+              type="text"
+              class="border-input"
+              placeholder=""
+              formControlName="yrRate"
+              max="7"
+              min="1"
+              maxlength="4"
+            />
+            (Any other preferred RoR -max 7%)
+          </td>
+        </tr>
+        <tr class="border">
+          <td class="border">The number of years to achieve sum insured value.</td>
+          <td class="border" *ngIf="!needAnalysis">
+            <input type="number" placeholder="" readonly />
+          </td>
+          <td class="border" *ngIf="!needAnalysis">
+            <input type="number" placeholder="" readonly />
+          </td>
+          <td class="border" *ngIf="!needAnalysis">
+            <input type="number" placeholder="" readonly />
+          </td>
+
+          <td class="border" *ngIf="needAnalysis">{{ needAnalysis[0]?.tenure }} years</td>
+          <td class="border" *ngIf="needAnalysis">{{ needAnalysis[1]?.tenure }} years</td>
+          <td class="border" *ngIf="needAnalysis">{{ needAnalysis[2]?.tenure }} years</td>
+        </tr>
+        <mat-error *ngIf="optionInvestmentForm.get('yrRate')?.hasError('min')"
+          >Minimum Ror <strong>1 %</strong></mat-error
+        >
+        <mat-error *ngIf="optionInvestmentForm.get('yrRate')?.hasError('max')"
+          >Maximum Ror %<strong>7 </strong></mat-error
+        >
+        <mat-error *ngIf="optionInvestmentForm.get('yrRate')?.hasError('pattern')"
+          >Enter a Valid Number</mat-error
+        >
+      </table>
+      <div class="margin-top-20">
+        <strong>Disclaimer:</strong> The amount of insurance taken by you to cover the ‘Total Sum
+        Insured Value’ above is entirely at your discretion. The above computation is only
+        indicative and the Bank does not suggest the quantum of insurance to be taken by you.
+      </div>
+    </mat-radio-group>
+  </section>
+
+  <!-- <mat-icon (click)="onReset()" *ngIf="state === 'newInvestment'">refresh</mat-icon> -->
+  <div class="txt-center">
+    <button mat-raised-button color="primary" class="reset-btn" (click)="onReset()">Reset</button>
+    <button mat-raised-button class="close-btn" mat-dialog-close>Close</button>
+  </div>
+</div>

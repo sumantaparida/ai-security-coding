@@ -1,0 +1,159 @@
+.more-details-container {
+    height: 36rem;
+    width: 50rem;
+}
+
+/* ::ng-deep .cdk-overlay-pane{
+    overflow-y: scroll !important;
+    width: 100% !important;
+} */
+
+.addonfont {
+    font-weight: 500;
+}
+
+.heading {
+    font-size: 18px;
+    padding: 5px 5px;
+}
+
+.align-center {
+    margin: auto;
+    right: 0;
+    left: 0;
+}
+
+.row-gap {
+    /* margin-bottom: 5px; */
+    padding: 5px;
+}
+
+.heading-row {
+    padding: 5px;
+    font-weight: 500;
+}
+
+.plan-name-row {
+    border-top: 1px solid;
+    /* font-size: 18px; */
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+.background {
+    background: rgb(0, 0, 0, 0.04);
+}
+
+.buy-now-btn {
+    width: 100%;
+    color: white;
+    background: #03dac5;
+    font-size: 18px;
+}
+
+.link-to-document {
+    text-decoration: underline;
+    color: #b00020;
+}
+
+.padding-15 {
+    padding-left: 15px;
+}
+
+.padding-left {
+    padding-left: 10px !important;
+}
+
+.need-help-text {
+    color: #0070c9;
+    font-weight: 500;
+    font-size: 14px;
+    /* text-align: right; */
+}
+
+.need-help-description {
+    /* margin-top: 5px; */
+    padding: 5px 10px;
+    background: lavender;
+    text-align: justify;
+}
+
+.add-remove-policy {
+    color: #b00020 !important;
+    cursor: pointer;
+}
+
+.buy-btn-row {
+    margin: 6rem 0;
+}
+
+.arrow {
+    cursor: pointer;
+}
+
+.padding-10 {
+    padding: 5px 5px;
+}
+
+a {
+    cursor: pointer;
+    color: #0070c9;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+a:hover {
+    /* border: 1px solid #673ab7; */
+    text-decoration: underline;
+}
+
+.close-icon {
+    background: #B00020;
+    color: white;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.add-remove-icon {
+    color: #b00020;
+}
+
+.need-help-description:last-child {
+    margin-bottom: 20px;
+}
+
+.third_party_label label {
+    text-transform: capitalize;
+}
+
+/* --media query -- */
+
+@media (max-width: 768px) {
+    ::ng-deep .mat-dialog-container {
+        padding: 10px 25px;
+    }
+    .buy-btn-row {
+        margin: 1rem 0;
+    }
+    ::ng-deep .cdk-overlay-pane {
+        max-width: 90vw !important;
+        overflow-y: scroll;
+    }
+    .more-details-container {
+        height: inherit;
+        width: inherit;
+    }
+    .material-icons.close-icon {
+        position: absolute;
+        right: 5px;
+        top: 0px;
+    }
+    .more-details-container {
+        position: relative;
+    }
+}

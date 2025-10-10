@@ -1,0 +1,115 @@
+<app-data-display
+  *ngIf="showSideNav"
+  [isCustomer]="isCustomer"
+  [form]="needAnalysisForm"
+></app-data-display>
+
+<span class="material-icons close-icon" (click)="exitNeedAnalysis()"> close </span>
+
+<!-- <div fxHide.lg="true" fxHide.md="true">
+  hi hi hin
+</div> -->
+
+<div class="gender-selection">
+  <!-- <div class="sm-screen nav-book">
+    <div (click)="onBackTransition()" class="icon-left"></div>
+   
+    <div (click)="stateTransition()" class="icon-right"></div>
+  </div> -->
+
+  <app-gender [state]="state" [form]="needAnalysisForm"></app-gender>
+  <app-age [state]="state" [form]="needAnalysisForm"></app-age>
+  <app-marital-status [state]="state" [form]="needAnalysisForm"></app-marital-status>
+  <app-kids [state]="state" [form]="needAnalysisForm"></app-kids>
+  <app-occupation [state]="state" [form]="needAnalysisForm"></app-occupation>
+  <app-social-life [state]="state" [form]="needAnalysisForm"></app-social-life>
+  <app-risk-type
+    [state]="state"
+    [form]="needAnalysisForm"
+    (stateChange)="onStateChange($event)"
+  ></app-risk-type>
+  <app-new-investment-plan
+    [state]="state"
+    [form]="needAnalysisForm"
+    (stateChange)="onStateChange($event)"
+  ></app-new-investment-plan>
+  <app-house-type [state]="state" [form]="needAnalysisForm"></app-house-type>
+  <app-valuables [state]="state" [form]="needAnalysisForm"></app-valuables>
+  <app-annual-income [state]="state" [form]="needAnalysisForm"></app-annual-income>
+  <app-savings [state]="state" [form]="needAnalysisForm"></app-savings>
+
+  <!-- <app-data-display></app-data-display> -->
+
+  <!-- <app-need-loan [state]="state" [form]="needAnalysisForm"></app-need-loan> -->
+
+  <!-- side bar display and edit -->
+  <!-- <div class="fieldUpdate d-sm-none d-md-block d-none d-sm-block">
+    <div class="row fieldRow">
+      <div class=" col-lg-6 col-md-6 padding15"> {{needAnalysisForm.get('genderValue')?.value}}</div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <span class="icon-style ">
+          <i *ngIf="!needAnalysisForm.get('genderValue').valid"  class="fa fa-question" aria-hidden="true"></i>          
+          <i *ngIf="needAnalysisForm.get('genderValue').valid" class="fa fa-user-circle" aria-hidden="true"></i>
+        </span>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15">{{needAnalysisForm.get('ageValue')?.value}}</div>
+      <div class=" col-lg-6 col-md-6 padding15">
+          <span class="icon-style">
+              <i *ngIf="!needAnalysisForm.get('ageValue').valid" class="fa fa-question" aria-hidden="true"></i>          
+              <i *ngIf="needAnalysisForm.get('ageValue').valid" class="fa fa-birthday-cake" aria-hidden="true"></i>
+            </span>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15">{{needAnalysisForm.get('maritalStatusValue')?.value}}</div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <i class="fa fa-mars-double" aria-hidden="true"></i>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15">{{needAnalysisForm.get('occupationValue')?.value}}</div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <i class="fa fa-briefcase" aria-hidden="true"></i>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15">{{needAnalysisForm.get('socialLifeValue')?.value}}</div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <i class="fa fa-desktop" aria-hidden="true"></i>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15"> {{needAnalysisForm.get('riskTypeValue')?.value}}</div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <i class="fa fa-line-chart" aria-hidden="true"></i>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15">{{needAnalysisForm.get('houseTypeValue')?.value}}</div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <i class="fa fa-home" aria-hidden="true"></i>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15">{{needAnalysisForm.get('valuablesValue')?.value}}</div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <i class="fa fa-building-o" aria-hidden="true"></i>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15">{{needAnalysisForm.get('annualIncomValue')?.value}} </div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <i class="fa fa-1x fa-inr" aria-hidden="true"></i>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15">{{needAnalysisForm.get('savingsValue')?.value}} </div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <i class="fa  fa-1x fa-money" aria-hidden="true"></i>
+      </div>
+      <div class=" col-lg-6 col-md-6 padding15">{{needAnalysisForm.get('loanValue')?.value}} </div>
+      <div class=" col-lg-6 col-md-6 padding15">
+        <i class="fa fa-suitcase" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <div class="animation-container" *ngIf="state!='gender'">
+  <img class="gif-image" src="../../../assets/images/{{gifImage}}.gif">
+  </div> -->
+</div>
+<div class="nxt-div">
+  <button
+    *ngIf="nxtBtn()"
+    mat-raised-button
+    (click)="stateTransition()"
+    [disabled]="!showOrHideNextBtn()"
+    class="next-btn nextIndex"
+  >
+    Next
+  </button>
+</div>

@@ -1,0 +1,151 @@
+<div class="confirmation-page">
+  <div class="logo">
+    <img [src]="confirmation?.logoUrl" />
+  </div>
+  <div
+    *ngIf="confirmation?.status === 'Error' || confirmation?.responseCode === '400'"
+    class="confirmation-info"
+  >
+    <h2 *ngIf="confirmation?.message">{{ confirmation?.message }}</h2>
+    <h2 *ngIf="confirmation?.responseMessage">
+      {{ confirmation?.responseMessage }}
+    </h2>
+    <table class="confirmation-table">
+      <tr *ngIf="confirmation?.policyNo">
+        <td class="bold-text">Policy No:</td>
+        <td>{{ confirmation?.policyNo }}</td>
+      </tr>
+      <tr>
+        <td class="bold-text">Premium Paid:</td>
+        <td>{{ confirmation?.premiumPaid }}</td>
+      </tr>
+      <tr>
+        <td class="bold-text">Payment Reference No:</td>
+        <td>{{ confirmation?.paymentReferenceNo }}</td>
+      </tr>
+      <tr>
+        <td class="bold-text">Application No:</td>
+        <td>{{ confirmation?.appNo }}</td>
+      </tr>
+      <tr>
+        <td class="bold-text">Coi No:</td>
+        <td>{{ confirmation?.coiNo }}</td>
+      </tr>
+      <tr>
+        <td class="bold-text">Message:</td>
+        <td>{{ confirmation?.message }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div
+    *ngIf="
+      confirmation?.status === 'Success' ||
+      confirmation?.responseMessage === 'Policy Issuance Submission sucessful' ||
+      confirmation?.responseCode === '0'
+    "
+    class="confirmation-info"
+  >
+    <h2>{{successMessage}}</h2>
+    <!-- <table class="confirmation-table">
+      <tr>
+        <td class="bold-text">Policy No:</td>
+        <td>{{ confirmation?.policyNo }}</td>
+      </tr>
+      <tr>
+        <td class="bold-text">Premium Paid:</td>
+        <td>{{ confirmation?.premiumPaid }}</td>
+      </tr>
+
+      <tr>
+        <td class="bold-text">Payment Reference No:</td>
+        <td>{{ confirmation?.paymentReferenceNo }}</td>
+      </tr>
+      <tr>
+        <td class="bold-text">Application No:</td>
+        <td>{{ confirmation?.appNo }}</td>
+      </tr>
+      <tr>
+        <td class="bold-text">Coi No:</td>
+        <td>{{ confirmation?.coiNo }}</td>
+      </tr>
+      <tr *ngIf="insurerId === 134">
+        <td colspan="2" class="btn-center">
+          <button
+            style="margin-left: -4px"
+            (click)="downloadProposalForm(confirmation?.appNo, 'COI')"
+            class="policy-btn"
+            mat-button
+          >
+            <mat-icon> cloud_download </mat-icon
+            ><span class="margin-5"> Certificate of Insurance </span>
+          </button>
+          <button
+            (click)="downloadProposalForm(confirmation?.appNo, 'Proposal')"
+            class="policy-btn"
+            mat-button
+          >
+            <mat-icon> cloud_download </mat-icon
+            ><span class="margin-5"> Download Proposal Form </span>
+          </button>
+        </td>
+      </tr>
+    </table> -->
+    <div class="border-style">
+      <app-application-details [element]="this.data"></app-application-details>
+    </div>
+    <div class="btn-div">
+      <button
+        *ngIf="data?.productId === '122N116V01'"
+        mat-raised-button
+        class="submit-btn"
+        (click)="downloadProposalForm(confirmation?.appNo, 'COI')"
+      >
+        COI
+      </button>
+      <button
+        *ngIf="!restrictDownloadPdf"
+        mat-raised-button
+        class="submit-btn"
+        (click)="base64ToPdfNew(confirmation?.appNo)"
+      >
+        Download PDF
+      </button>
+      <button
+        *ngIf="allowPolicyPdf"
+        mat-raised-button
+        class="submit-btn"
+        (click)="downloadURLDoc(data?.applicationData.policyDocumentUrl)"
+      >
+        Policy PDF
+      </button>
+      <button
+      *ngIf="allowPolicyPDFConvert"
+      mat-raised-button
+      class="submit-btn"
+      (click)="base64ToPdf(data?.applicationData.policyBase64)"
+    >
+      Policy PDF
+    </button>
+    </div>
+  </div>
+  <div
+    *ngIf="confirmation?.status !== 'Success' && confirmation?.status !== 'Error'"
+    class="confirmation-info"
+  >
+    <table class="confirmation-table">
+      <h2>
+        {{ confirmation?.message }}
+      </h2>
+      <!-- <tr>
+        <td colspan="2" class="btn-center">
+          <button [routerLink]="['/policyvault']" class="policy-btn" mat-button>
+            Go To Policy Vault
+          </button>
+        </td>
+      </tr> -->
+    </table>
+    <!-- <h2>There was an error processing your policy. If your
+            payment has been deducted it will be reversed within 7 business days.</h2> -->
+  </div>
+</div>

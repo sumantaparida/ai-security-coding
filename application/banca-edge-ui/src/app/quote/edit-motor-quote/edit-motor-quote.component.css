@@ -1,0 +1,31 @@
+/*::ng-deep .cdk-overlay-container {
+    position: fixed;
+    z-index: 1000;
+    pointer-events: none;
+    top: 12%;
+    left: 31%;
+    height: 78%;
+    width: 68%;
+}*/
+
+.finish-editing-heading {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
+}
+
+.update-btn {
+    background: #03dac5;
+    color: white;
+    width: 100%;
+}
+
+.cancel-btn {
+    background: #b00020;
+    color: white;
+    width: 100%;
+}

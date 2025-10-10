@@ -1,0 +1,378 @@
+mat-card {
+  border: 1px solid #b0b0b0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.selected {
+  box-shadow: 0 0 0 2px #673ab7 !important;
+}
+
+.error-message {
+  color: red;
+}
+
+.account-type-radio-box {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #566266;
+  padding: 8px 5px 8px 5px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 2px;
+  /* box-shadow: 0 2px 0 0 #c6cacc; */
+  display: inline-flex;
+  width: 41%;
+  box-shadow: 0 0 0 1px #cac2d5;
+}
+
+.account-type-radio-box mat-radio-button:checked {
+  border-color: #673ab7;
+}
+
+.green-color{
+  font-weight: bold;
+  color: green;
+}
+.contact-radio-box {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #566266;
+  padding: 8px 10px 8px 10px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 2px;
+  /* box-shadow: 0 2px 0 0 #c6cacc; */
+  display: inline-flex;
+  width: 41%;
+  box-shadow: 0 0 0 1px #cac2d5;
+}
+
+.contact-radio-box mat-radio-button:checked {
+  border-color: #673ab7;
+}
+
+.nominee {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.mat-stepper-horizontal {
+  margin-top: 9px;
+}
+
+.mat-form-field {
+  margin-top: 0px;
+}
+
+#genderradio11 {
+  padding-bottom: 1.34375em;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.margin-verticle-20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.red-icon {
+  color: white;
+}
+
+/* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
+
+.red-icon svg {
+  fill: white;
+}
+
+.icon-rounded {
+  padding: 5px;
+  border: 1px solid darkred;
+  border-radius: 20px;
+  background-color: darkred;
+  cursor: pointer;
+}
+
+.terms-link {
+  color: #673ab7;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.headding {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.spinner-height {
+  height: 50px;
+  width: 100%;
+}
+
+.spinner-style {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 2;
+}
+
+.myapp-no-padding-dialog ::ng-deep .mat-dialog-content {
+  overflow: scroll;
+}
+
+/* #stepper{
+    margin-right: 10px;
+    flex: none;
+    width: auto;
+  } */
+
+.mat-stepper-label-position-bottom .mat-horizontal-stepper-header .mat-step-icon {
+  margin-right: 5px;
+  flex: initial;
+}
+
+.margin-left {
+  margin-left: 5px;
+}
+
+#radioon {
+  top: 43px;
+  left: 0px;
+}
+
+label {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.font-size-sum-insured {
+  font-size: 16px !important;
+}
+
+.text-styling {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.marron-text {
+  color: maroon;
+}
+
+
+#blinking-button {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  padding: 8px 35px;
+border: 0px solid #6C8003;
+  background-color: #8EDDBE;
+  color: white;
+  animation: blink 1s linear infinite;
+  height: 45px;
+  }
+@keyframes blink {
+0%, 100% {background-color:#03dac5;}
+50% {background-color: #e4fef3;}
+}
+
+.next-btn {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background-color: #03dac5;
+}
+
+.next-btn:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgb(0, 0, 0, 0.26);
+}
+
+.cancel-btn {
+  /* position: relative; */
+  padding: 6px 38px;
+  font-size: 15px;
+  margin: 5px 10px;
+  background-color: #b00020 !important;
+  color: white;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.txt-center{
+  text-align: center;
+}
+
+.submit-error {
+  color: #b00020;
+  font-weight: bold;
+}
+
+.mat-card {
+  box-shadow: none !important;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.man-field {
+  font-size: 19px;
+  color: red;
+}
+
+.need-help-critical-div {
+  margin-top: 10px;
+}
+
+.heading-row {
+  padding: 20px 1px;
+  background: #673ab7;
+}
+
+#Card {
+  padding: 1%;
+  margin: 2% 0 0;
+  background-color: #f9f9f9;
+  /* border-bottom: 2px solid #c00; */
+  border-top: 0 solid #e7e7e9;
+}
+
+.heading-text {
+  font-size: 30px;
+  color: white;
+  font-weight: 500;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.word-wrap{
+  word-wrap: break-word;
+}
+
+.application-error-display {
+  height: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.medical-form-dialog {
+  height: 200px;
+  width: 200px;
+}
+.font-big{
+  font-size: 16px;
+    font-weight: 500;
+}
+
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+::ng-deep .mat-dialog-content {
+  overflow: hidden;
+}
+
+.margin-top-30 {
+  margin-top: 30px;
+}
+.margin-top-20 {
+  margin-top: 20px;
+}
+.margin-bottom-30 {
+  margin-bottom: 30px;
+}
+
+.width-6rem{
+width: 6rem;
+}
+
+.color-white{
+  color: white;
+}
+/* media query  */
+
+@media only screen and (max-width: 779px) {
+  .align-center {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .text-styling {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .font-size-sum-insured {
+    font-size: 12px !important;
+  }
+
+  .account-type-radio-box {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: #566266;
+    padding: 8px 5px 8px 5px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+    /* box-shadow: 0 2px 0 0 #c6cacc; */
+    display: inline-flex;
+    width: 55%;
+    box-shadow: 0 0 0 1px #cac2d5;
+    margin-bottom: 10px;
+  }
+  .cancel-btn{
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .align-center {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .text-styling {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .font-size-sum-insured {
+    font-size: 12px !important;
+  }
+
+  .account-type-radio-box {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: #566266;
+    padding: 8px 5px 8px 5px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+    /* box-shadow: 0 2px 0 0 #c6cacc; */
+    display: inline-flex;
+    width: 55%;
+    box-shadow: 0 0 0 1px #cac2d5;
+    margin-bottom: 10px;
+  }
+
+
+}

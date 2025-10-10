@@ -1,0 +1,284 @@
+mat-card {
+  border: 1px solid #b0b0b0;
+}
+
+.nominee {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.mat-stepper-horizontal {
+  margin-top: 9px;
+}
+
+.mat-form-field {
+  margin-top: 0px;
+}
+
+#genderradio11 {
+  padding-bottom: 1.34375em;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.margin-verticle-20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.terms_Cond{
+  color:blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.red-icon {
+  color: white;
+}
+
+/* Note: If you're using an SVG icon, you should make the class target the `<svg>` element */
+
+.red-icon svg {
+  fill: white;
+}
+
+.checkBox {
+  padding-right: 2px;
+}
+.icon-rounded {
+  padding: 5px;
+  border: 1px solid darkred;
+  border-radius: 20px;
+  background-color: darkred;
+  cursor: pointer;
+}
+
+.terms-link {
+  color: #673ab7;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.headding {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.spinner-height {
+  height: 50px;
+  width: 100%;
+}
+
+.spinner-style {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 2;
+}
+
+.myapp-no-padding-dialog ::ng-deep .mat-dialog-content {
+  overflow: scroll;
+}
+
+/* #stepper{
+      margin-right: 10px;
+      flex: none;
+      width: auto;
+    } */
+
+.mat-stepper-label-position-bottom .mat-horizontal-stepper-header .mat-step-icon {
+  margin-right: 5px;
+  flex: initial;
+}
+
+.margin-left {
+  margin-left: 5px;
+}
+
+#radioon {
+  top: 43px;
+  left: 0px;
+}
+
+label {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.font-size-sum-insured {
+  font-size: 16px !important;
+}
+
+.text-styling {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.marron-text {
+  color: maroon;
+}
+
+.next-btn {
+  padding: 15px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 5px 10px;
+  outline: none;
+  color: #fff;
+  background-color: #03dac5;
+  border: none;
+  outline: none;
+}
+
+.next-btn:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgb(0, 0, 0, 0.26);
+}
+
+.cancel-btn {
+  padding: 15px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 5px 10px;
+  outline: none;
+  color: #fff;
+  background-color: #b00020 !important;
+  color: white;
+  border: none;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.submit-error {
+  color: #b00020;
+  font-weight: bold;
+}
+
+.mat-card {
+  box-shadow: none !important;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.man-field {
+  font-size: 14px;
+  color: red;
+}
+.mat-column-Comments {
+  width: 80%;
+  border-right: 1px solid black;
+  padding-right: 24px;
+  padding-left: 1%;
+  text-align: left;
+}
+
+.mat-column-SlNo {
+  width: 5%;
+  border-right: 1px solid black;
+  padding-right: 24px;
+  text-align: center;
+}
+
+/* ::ng-deep table th.mat-header-cell {
+    background-color: white !important;
+    border-left: none;
+    color: black;
+  } */
+
+table {
+  width: 100%;
+}
+
+.margin-top-bottom-40 {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.margin-top-bottom-20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.need-help-critical-div {
+  margin-top: 10px;
+}
+
+.heading-row {
+  padding: 20px 1px;
+  background: #673ab7;
+}
+
+#Card {
+  padding: 1%;
+  margin: 2% 0 0;
+  background-color: #f9f9f9;
+  /* border-bottom: 2px solid #c00; */
+  border-top: 0 solid #e7e7e9;
+}
+
+.heading-text {
+  font-size: 30px;
+  color: white;
+  font-weight: 500;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.application-error-display {
+  height: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.medical-form-dialog {
+  height: 200px;
+  width: 200px;
+}
+
+::ng-deep .mat-dialog-content {
+  overflow: hidden;
+}
+
+/* media query  */
+
+@media only screen and (max-width: 600px) {
+  .align-center {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .text-styling {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .font-size-sum-insured {
+    font-size: 12px !important;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .align-center {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .text-styling {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .font-size-sum-insured {
+    font-size: 12px !important;
+  }
+}

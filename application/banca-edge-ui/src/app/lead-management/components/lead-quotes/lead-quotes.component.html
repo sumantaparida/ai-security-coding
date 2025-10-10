@@ -1,0 +1,91 @@
+<div class="main-container-quotes">
+  <div class="flex-container-quotes" *ngIf="media.isActive('md') || media.isActive('lg')">
+    <div style="flex-basis: 20%">
+      <span class="material-icons style-icon-policy"> book </span>
+      <span class="font-size-20">Lead Quotes</span>
+    </div>
+
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+      <div fxFlex="50" class="child-one">
+        <span class="material-icons style-icon-policy"> book </span
+        ><span class="font-size-20">{{ 'LEAD_QUOTE' | translate }}</span>
+      </div>
+    </div>
+  </ng-container>
+  <!-- <mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+    </mat-progress-spinner> -->
+  <!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box">
+        <p style="color: white"> Loading... </p>
+    </ngx-spinner> -->
+
+  <!-- <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner> -->
+  <form [formGroup]="quickQuoteForm">
+    <div flex fxLayout="row wrap" fxLayoutGap="5px" class="container-plans">
+      <div
+        fxFlex="25"
+        class=""
+        *ngFor="let product of insuranceProductsCopy"
+        fxFlex="0 1 calc(16% - 0.5%)"
+        fxFlex.lt-md="0 1 calc(31% - 0.5%)"
+        fxFlex.lt-sm="45%"
+      >
+        <img
+          class="plan-img"
+          src="{{ product.img }}"
+          value="product.value"
+          formContrlName="policyName"
+          (click)="openSelectInsurer(product)"
+        />
+        <p>
+          <span *ngIf="product.name === 'Protection'"
+            >{{ 'component.PROTECTION' | translate }}
+          </span>
+          <span *ngIf="product.name === 'Child Education'"
+            >{{ 'component.CHILD_EDUCATION' | translate }}
+          </span>
+          <span *ngIf="product.name === 'Critical Illness'"
+            >{{ 'component.CRITICAL_ILLNESS' | translate }}
+          </span>
+          <span *ngIf="product.name === 'Cyber Theft'"
+            >{{ 'component.CYBER_THEFT' | translate }}
+          </span>
+          <span *ngIf="product.value === 'health'"
+            >{{ 'component.HEALTH_INSURANCE' | translate }}
+          </span>
+          <span *ngIf="product.value === 'home'"
+            >{{ 'component.HOME_INSURANCE' | translate }}
+          </span>
+          <span *ngIf="product.name === 'Regular Income'"
+            >{{ 'component.REGULAR_INCOME' | translate }}
+          </span>
+          <span *ngIf="product.name === 'Saving Traditional'"
+            >{{ 'component.SAVING_TRADITIONAL' | translate }}
+          </span>
+          <span *ngIf="product.name === 'Saving Unit Linked'"
+            >{{ 'component.SAVING_UNIT_LINKED' | translate }}
+          </span>
+          <span *ngIf="product.value === 'car'"
+            >{{ 'component.MOTOR_INSURANCE' | translate }}
+          </span>
+          <span *ngIf="product.name === 'Two Wheeler'"
+            >{{ 'component.TWO_WHEELER' | translate }}
+          </span>
+          <span *ngIf="product.name === 'Fire Insurance' && product.value === 'sme'"
+            >Fire Insurance
+          </span>
+          <span *ngIf="product.value === 'pa'">{{ 'component.PA' | translate }} </span>
+          <span *ngIf="product.value === 'travel'">{{ 'component.TRAVEL' | translate }} </span>
+          <span *ngIf="product.name === 'Shop Keeper' && product.value === 'sme'"
+            >Shop Keeper
+          </span>
+        </p>
+      </div>
+    </div>
+  </form>
+</div>

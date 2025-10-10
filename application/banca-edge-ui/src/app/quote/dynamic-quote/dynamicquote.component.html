@@ -1,0 +1,92 @@
+<div class="mainContainer">
+    <h1 class="headings">{{screen.LobTitle}}</h1>
+    <div class="help" (click)="onHelp()">
+        {{showHelp ? 'Hide help?' : 'Need help' }}
+    </div>
+    <div *ngIf="showHelp" class="explanation">
+        <div class="helpImage">
+            <img src="{{screen.helpImg}}" alt="LOB">
+        </div>
+        <div class="expText">
+            {{screen.helpMessage}}
+        </div>
+    </div>
+        <div class="formContainer" *ngIf="dynamicForm">
+            <form [formGroup]="dynamicForm" (ngSubmit)="onQuoteSubmit()">
+            <ng-container *ngFor="let section of screen.sections">
+            <mat-card class="formCard" *ngIf="section.isSectionVisible">
+                <Label class="Card_Label">{{section.sectionName}}</Label>
+                <ng-container *ngFor="let form of section?.formData">
+                            <ng-container [ngSwitch]="form.controlType">
+                                <ng-container  *ngIf="form.isFormVisible">
+                                    <ng-template [ngSwitchCase]="'text'">
+                                        <div class="indvField">
+                                        <div class="question">{{form.question}}<span *ngIf="form.validators?.required" style="color:red">*</span></div>
+                                        <div class="fields">
+                                            <app-bnca-input-text [label]="form.label" [control]="dynamicForm.get(form?.controlName)" (clickEvent)="onInputValue($event,form,section,true)"></app-bnca-input-text>
+                                        </div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'select'"  >
+                                        <div class="indvField">
+                                        <div class="question">{{form.question}}<span *ngIf="form.validators?.required" style="color:red">*</span></div>
+                                        <div class="fields">
+                                            <app-bnca-input-select [select]="true" [label]="form.label" [options]="form.options" [control]="dynamicForm.get(form?.controlName)" (focusEvent)="onFocus(form)" (clickEvent)="onInputValue($event,form,section,true)"></app-bnca-input-select>
+                                        </div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'searchableDropdown'"  >
+                                        <div class="indvField">
+                                        <div class="question">{{form.question}}<span *ngIf="form.validators?.required" style="color:red">*</span></div>
+                                        <div class="fields">
+                                            <app-bnca-input-select [searchableDropdown]="true" [label]="form.label" (input)="handleSearchableDropDownInput($event,form)"  (focusEvent)="onFocus(form)" [options]="form.filteredOptions" [control]="dynamicForm.get(form?.controlName)" (clickEvent)="onInputValue($event,form,section,true)"></app-bnca-input-select>
+                                        </div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'searchableDropdownFromAPI'"  >
+                                        <div class="indvField">
+                                        <div class="question">{{form.question}}<span *ngIf="form.validators?.required" style="color:red">*</span></div>
+                                        <div class="fields">
+                                            <app-bnca-input-select [searchableDropdownFromAPI]="true" [label]="form.label" (input)="handleSearchableDropDownInput($event,form,true)" (focusEvent)="onFocus(form)" [options]="form.options" [control]="dynamicForm.get(form?.controlName)" (clickEvent)="onInputValue($event,form,section,true)"></app-bnca-input-select>
+                                        </div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'radio'">
+                                        <div class="indvField">
+                                        <div class="question">{{form.question}}<span *ngIf="form.validators?.required" style="color:red">*</span></div>
+                                        <div class="fields">
+                                        <app-bnca-input-radio [label]="form.label" [name]="form?.controlName" [options]="form.options" [control]="dynamicForm.get(form?.controlName)" (clickEvent)="onInputValue($event,form,section,true)"></app-bnca-input-radio>
+                                        </div>
+                                        </div>  
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'date'">
+                                        <div class="indvField">
+                                        <div class="question">{{form.question}}<span *ngIf="form.validators?.required" style="color:red">*</span></div>
+                                        <div class="fieldsDate">
+                                            <app-bnca-input-date [label]="form.label"  [min]="form.min" [max]="form.max" [control]="dynamicForm.get(form?.controlName)" (clickEvent)="onInputValue($event,form,section,true)"></app-bnca-input-date>
+                                        </div>
+                                        </div>  
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'fetch'" >
+                                        <div class="indvField">
+                                        <div class="question">{{form.question}}<span *ngIf="form.validators?.required" style="color:red">*</span></div>
+                                        <div class="fields">
+                                        <app-bnca-input-text [label]="form.label" [fetch]="form.fetchButtonName" [control]="dynamicForm.get(form?.controlName)" (clickEvent)="onInputValue($event,form,section,true)"></app-bnca-input-text>
+                                        </div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'hidden'" >
+                                       <div></div>
+                                    </ng-template>
+                                </ng-container>
+                              </ng-container>  
+                </ng-container>
+            </mat-card>
+                </ng-container>
+        </form>
+        </div>
+  <button [disabled]="!dynamicForm.valid" (click)="onQuoteSubmit()">Submit Quote</button>
+   
+</div>
+
+<!-- <iframe src="https://mis-uat.bancaedge.com/dashboard/" style="width:100%;height:700px" title="W3Schools Free Online Web Tutorials"></iframe> -->

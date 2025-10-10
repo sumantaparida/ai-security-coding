@@ -1,0 +1,61 @@
+.age {
+  /* top: 15%; */
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
+  color: black;
+  font-weight: 500;
+}
+
+input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid black;
+  width: 3rem;
+  text-align: center;
+}
+
+.error-msg {
+  font-size: 14px;
+}
+
+mat-slider {
+  width: 300px;
+}
+
+/* media query */
+
+/* mobile */
+
+@media only screen and (max-width: 600px) {
+  mat-slider {
+    margin: 20px 0;
+  }
+  .age {
+    /* top:10%; */
+    font-size: 25px;
+  }
+}
+
+/* Desktop */
+
+@media only screen and (min-width: 768px) {
+  .sm-screen {
+    display: none;
+  }
+  .lg-screen {
+    display: block;
+  }
+}
+
+/* tablets */
+
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+  .lg-screen {
+    display: none;
+  }
+  .sm-screen {
+    display: block;
+  }
+}

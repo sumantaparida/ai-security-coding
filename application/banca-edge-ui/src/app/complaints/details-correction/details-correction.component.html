@@ -1,0 +1,18 @@
+<div *ngIf="state==='detailsCorrection'" class="details-correction">
+  <div class="description">
+    Are these Details Correct?
+
+
+
+    <div class="correction-option">
+      <div class="option-yes" (click)="onCorrectionSelected('yes')"
+        [ngClass]="{'selected': form.get('detailsCorrection').value === 'yes' }">
+        <span>Yes</span>
+      </div>
+      <div class="option-no" (click)="onCorrectionSelected('no')"
+        [ngClass]="{'selected': form.get('detailsCorrection').value === 'no' }">
+        <span>No</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+.upload-document {
+    text-align: center;
+}
+
+.description {
+    position: relative;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.correction-option {
+    margin-top: 25px;
+    display: inline-block;
+    left: 50%
+}
+
+.option-yes {
+    /* width:50%; */
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    float: left;
+}
+
+.option-no {
+    /* width:50%; */
+    margin-bottom: 20px;
+    margin-top: 5px;
+    margin-left: 10px;
+    float: left;
+}
+
+.upload-Option {
+    font-size: 20px;
+    margin-top: 6rem;
+}
+
+.color-green {
+    background-color: #64dd17;
+}
+
+mat-progress-spinner {
+    position: absolute;
+    left: 40%;
+    top: 185px;
+}
+
+.width-7 {
+    width: 7rem;
+}

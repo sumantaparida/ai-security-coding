@@ -1,0 +1,64 @@
+<ng-container *ngIf="!errorFetchingDoc">
+
+  <div *ngIf="riskProfileStatus === 'Rejected'" class="center">
+    <p>
+      {{remarks}}
+    </p>
+  
+    <button mat-raised-button class="submit-btn width-8" mat-dialog-close >
+      Ok
+    </button>
+  </div>
+<div *ngIf="!isUpload && riskProfileStatus !== 'Rejected'">
+  <h1 class="heading">Document List</h1>
+  <div class="list-doc" *ngFor="let file of docList; let i = index">
+    <span class="lable"> {{ i + 1 }}. Document Name:</span
+    ><span class="margin-right">{{ file.documentName }}</span>
+    <div>
+      <button mat-raised-button class="submit-btn margin-right" (click)="base64ToPdf(file)">
+        Download
+      </button>
+    </div>
+  </div>
+  <div class="center" *ngIf="isAdmin">
+    <table *ngIf="riskProfileStatus === 'Pending'">
+      <tr>
+    <mat-form-field class="example-full-width" [formGroup] = "docForm">
+      <mat-label>Remarks</mat-label>
+      <textarea matInput formControlName="remarks" placeholder="Enter the Remarks"></textarea>
+      
+    </mat-form-field>
+    <span class="error-msg" *ngIf="!docForm.valid">Remarks field is mandatory to Reject</span>
+  </tr>
+  </table >
+  <ng-container *ngIf="riskProfileStatus === 'Pending'">
+    <button mat-raised-button class="margin-right green width-8" (click)="updateStatus('Approved')" >
+      Accept
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="margin-right width-8"
+      (click)="updateStatus('Rejected')"
+      [disabled]="disableReject()"
+    >
+      Reject
+    </button>
+  </ng-container>
+  </div>
+</div>
+</ng-container>
+
+<div *ngIf="errorFetchingDoc" class="error-msg"> Unable to fetch Documents</div>
+
+<div *ngIf="isUpload" class="center">
+  <h1 class="heading">Upload Documents</h1>
+  <div class="list-doc">
+    <input type="file" id="file" multiple (change)="getFileDetails($event)" />
+  </div>
+  <button mat-raised-button color="warn" class="margin-right width-8" (click)="upload()" [disabled]="disableUpload()">
+    Upload
+  </button>
+<div *ngIf="uploadFailure" class="error-msg"> Error uploading document.</div>
+  
+</div>

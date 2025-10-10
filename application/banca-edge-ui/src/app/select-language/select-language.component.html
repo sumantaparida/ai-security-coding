@@ -1,0 +1,19 @@
+<!-- <select #langSelect (change)="translate.use(langSelect.value)">
+    <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+        [attr.selected]="lang === translate.currentLang ? '' : null">
+        <span *ngIf="lang==='en'">English</span>
+        <span *ngIf="lang==='marati'">मराठी</span>
+        <span *ngIf="lang==='kannada'">ಕನ್ನಡ</span>
+        <span *ngIf="lang==='hindi'">हिन्दी</span>
+    </option>
+</select> -->
+
+<button mat-button [matMenuTriggerFor]="belowMenu"><span>
+        <mat-icon class="margin-right">language</mat-icon>
+    </span>{{displayLang}} <mat-icon>expand_more</mat-icon></button>
+<mat-menu #belowMenu="matMenu" yPosition="below">
+    <button mat-menu-item (click)="selectLang('en')">English</button>
+    <button mat-menu-item (click)="selectLang('marati')">मराठी</button>
+    <button mat-menu-item (click)="selectLang('kannada')">ಕನ್ನಡ</button>
+    <button mat-menu-item (click)="selectLang('hindi')">हिन्दी</button>
+</mat-menu>

@@ -1,0 +1,141 @@
+.heading_container {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    align-items: center;
+    padding:10px;
+    flex-wrap: wrap;
+}
+
+
+
+.search-div button {
+    background: #009b68;
+    color: white;
+
+}
+
+
+
+.table-margin{
+    margin:10px;
+}
+
+.example-table-container {
+    position: relative;
+    max-height: 600px;
+    overflow: auto;
+    }
+
+p{
+   font-weight: 500;
+   font-size: 16px;
+}
+
+.info-hover{
+    position: relative;
+    cursor: pointer;
+   
+}
+
+.info{
+    display: none;
+}
+
+
+.info-hover:hover + .info{
+    overflow: visible;
+    position: absolute;
+    background: white;
+    text-align: justify;
+    padding: 5px 15px;
+    min-width: 200px;
+    margin: 10px;
+    border: 1px solid #1e334beb;
+    box-shadow: 0px 0px 1px 0px rgba(128, 128, 128, 0.37);
+    display: block;
+    z-index: 2;
+}
+
+
+table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+
+  .detail_container{
+    display: flex;
+    gap: 100px;
+    justify-content: start;
+    text-align: justify;
+    align-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .mid-align-posp{
+    height: 70vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .mid-align{
+    background-color: #3f7b67;
+    border-radius: 5px;
+    padding: 50px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+    width: 100%;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+
+  @media screen and (max-width:600px) {
+        .detail_container{
+            gap: 40px;
+        }
+  }

@@ -1,0 +1,259 @@
+<!-- <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="display-edit-section"> -->
+<!-- --Mian Division--  -->
+<form [formGroup]="editQuoteForm">
+    <div fxFlex="100" class="edit-quote-col">
+        <!-- -- Division inside 1st col --  -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+            <div fxFlex="100" class="heading">
+                <label class="label-heading" *ngIf="quoteInput?.productType !== 'PA'">HEALTH INSURANCE</label>
+                <label class="label-heading" *ngIf="quoteInput?.productType == 'PA'">PERSONAL ACCIDENT</label>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="5px" class="rows-edit-col">
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+            <div fxHide.sm="true" fxHide.xs="true"><label class="edit-heading-label">Edit Your Quote</label></div>
+            <div fxHide.lg="true" fxHide.md="true" class="edit-heading-label"><a (click)="onEditMobile()"
+                    class="edit-heading-label">
+                    <mat-icon>create</mat-icon> Edit your quote
+                </a></div>
+        </div>
+        <div fxHide.sm="true" fxHide.xs="true">
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxHide.sm="true" fxHide.xs="true" fxLayout.xs="column" fxLayout.sm="column"
+                fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <label class="edit-quote-label" *ngIf="quoteInput?.productType !== 'PA'">Your Sum Insured</label>
+                <label class="edit-quote-label" *ngIf="quoteInput?.productType == 'PA'">Annual Income</label>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col"
+                *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="100">
+                    <a (click)="toggleShow('sumInsured')">{{needHideSumInsured}}</a>
+                    <div *ngIf="isShownSumInsured" class="help-description">
+                        <p>
+                            This is the amount that you are covered for and the potentially maximum amount that can
+                            be
+                            claimed by you.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                <input #sa type="text" formControlName="inputOne" (keyup)="onChangeQuoteInput()"
+                    value="{{ incomeOrSa }}" readonly=true>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxHide.sm="true" fxHide.xs="true" fxLayout.sm="column"
+                fxLayoutGap="10px" class="rows-edit-col ">
+                <div fxFlex="100" class="edit-anchor"> <a (click)="editQuote()">Edit</a></div>
+            </div>
+
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                <label class="edit-quote-label">Your Policy Cover will last for</label>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col "
+                *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="100">
+                    <a (click)="toggleShow('coverTenure')">{{needHideCoverTenure}} </a>
+                    <div *ngIf="isShownCoverTenure" class="help-description">
+                        <p>
+                            This is the duration of your Cover. Policies can be renewed provided renewal premiums
+                            are
+                            paid by you before the expiry of the current policy.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <input #tenure formControlName="inputTwo" type="text" value="{{finalQuote?.quoteInput?.tenure}}"
+                    (keyup)="onChangeQuoteInput()" readonly=true><label>Year(s)</label>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxHide.sm="true" fxHide.xs="true" fxLayout.sm="column"
+                fxLayoutGap="10px" class="rows-edit-col " *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="100" class="edit-anchor"> <a (click)="editQuote()">Edit</a></div>
+            </div>
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <!-- --Display Answer-- -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <div fxFlex="100" class="answer-to-question-heading"><label> Your Answer to Questions</label></div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px" class="rows-edit-col">
+                <div fxFlex="60" class="question-label"><label> Policy Type</label></div>
+                <div fxFlex="40" class="answer-to-question">
+                    <label *ngIf="quoteInput?.productType !== 'PA'">{{policyType}}</label>
+                    <label *ngIf="quoteInput?.productType == 'PA'">Personal Accident</label>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px" class="rows-edit-col" *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="60" class="question-label"><label> New Policy or Enhance Existing Cover</label>
+                </div>
+                <div fxFlex="40" class="answer-to-question"><label>{{policyKind}}</label></div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px" class="rows-edit-col" *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="60" class="question-label"><label> Existing Cover</label></div>
+                <div fxFlex="40" class="answer-to-question" *ngIf="quoteInput?.deductible!==0">
+                    {{quoteInput?.deductible | currency:'INR':'symbol':'1.0-0'}}<label>
+                    </label></div>
+                <div fxFlex="40" class="answer-to-question" *ngIf="quoteInput?.deductible===0">NA<label>
+                    </label></div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px" class="rows-edit-col">
+                <div fxFlex="60" class="question-label"><label> Pincode</label></div>
+                <div fxFlex="40" class="answer-to-question"><label> {{quoteInput?.pincode}}</label></div>
+            </div>
+            <div fxLayout="row" *ngFor="let member of membersArr" fxLayoutGap="5px" class="rows-edit-col">
+                <div fxFlex="40" class="answer-realtion">{{member.relation}}</div>
+                <div fxFlex="30" class="answer-to-question"><label> {{member.dob}}</label></div>
+                <div fxFlex="30" class="answer-to-question">
+                    <label *ngIf="quoteInput?.productType !== 'PA'"> {{member.smoking}}</label>
+                    <label *ngIf="quoteInput?.productType == 'PA'"> <span *ngIf="member.gender == 'F'">Female</span>
+                        <span *ngIf="member.gender == 'M'">Male</span></label>
+                </div>
+            </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                class="rows-edit-col back-nav-health">
+                <div fxFlex="100" class=""> <a (click)="routeToQuestion()">
+                        < Back to questions</a>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+        </div>
+
+        <!-- --Just for now Mobile view -- -->
+        <div fxHide.lg="true" fxHide.md="true" *ngIf="isEditMobile">
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxHide.sm="true" fxHide.xs="true" fxLayout.xs="column" fxLayout.sm="column"
+                fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <label class="edit-quote-label" *ngIf="quoteInput?.productType !== 'PA'">Your Sum Insured</label>
+                <label class="edit-quote-label" *ngIf="quoteInput?.productType == 'PA'">Annual Income</label>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col"
+                *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="100">
+                    <a (click)="toggleShow('sumInsured')">{{needHideSumInsured}}</a>
+                    <div *ngIf="isShownSumInsured" class="help-description">
+                        <p>
+                            This is the amount that you are covered for and the potentially maximum amount that can
+                            be
+                            claimed by you.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                <input #saMob type="text" formControlName="inputOne" (keyup)="onChangeQuoteInput()"
+                    value="{{incomeOrSa }}" readonly=true>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                <div fxFlex="100" class="edit-anchor"> <a (click)="editMobileQuote()">Edit</a></div>
+            </div>
+
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                <label class="edit-quote-label">Your Policy Cover will last for</label>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col "
+                *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="100">
+                    <a (click)="toggleShow('coverTenure')">{{needHideCoverTenure}} </a>
+                    <div *ngIf="isShownCoverTenure" class="help-description">
+                        <p>
+                            This is the duration of your Cover. Policies can be renewed provided renewal premiums
+                            are
+                            paid by you before the expiry of the current policy.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <input #tenureMob formControlName="inputTwo" type="text" value="{{finalQuote?.quoteInput?.tenure}}"
+                    (keyup)="onChangeQuoteInput()" readonly=true><label>Year(s)</label>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col"
+                *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="100" class="edit-anchor"> <a (click)="editMobileQuote()">Edit</a></div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <button mat-raised-button class="generate-quote-btn" [disabled]="!isGq"
+                    (click)="generateNewQuote()">Generate Quote</button>
+            </div>
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <!-- --Display Answer-- -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <div fxFlex="100" class="answer-to-question-heading"><label> Your Answer to Questions</label></div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px" class="rows-edit-col">
+                <div fxFlex="60" class="answer-to-question"><label> Policy Type</label></div>
+                <div fxFlex="40" class="answer-to-question">
+                    <label *ngIf="quoteInput?.productType !== 'PA'">{{policyType}}</label>
+                    <label *ngIf="quoteInput?.productType == 'PA'">Personal Accident</label>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px" class="rows-edit-col" *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="60" class="answer-to-question"><label> New Policy or Enhance Existing Cover</label>
+                </div>
+                <div fxFlex="40" class="answer-to-question"><label>{{policyKind}}</label></div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px" class="rows-edit-col" *ngIf="quoteInput?.productType !== 'PA'">
+                <div fxFlex="60" class="answer-to-question"><label> Existing Cover</label></div>
+                <div *ngIf="quoteInput?.deductible != 0" fxFlex="40" class="answer-to-question">
+                    {{quoteInput?.deductible | currency:'INR':'symbol':'1.0-0' }} <label>
+                    </label>
+                </div>
+                <div *ngIf="quoteInput?.deductible == 0" fxFlex="40" class="answer-to-question">NA<label>
+                    </label>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px" class="rows-edit-col">
+                <div fxFlex="60" class="answer-to-question"><label> Pincode</label></div>
+                <div fxFlex="40" class="answer-to-question"><label> {{quoteInput?.pincode}}</label></div>
+            </div>
+            <div fxLayout="row" *ngFor="let member of membersArr" fxLayoutGap="5px" class="rows-edit-col">
+                <div fxFlex="40" class="answer-to-question"><label>{{member.relation}}</label></div>
+                <div fxFlex="30" class="answer-to-question"><label> {{member.dob}}</label></div>
+                <div fxFlex="30" class="answer-to-question">
+                    <label *ngIf="quoteInput?.productType !== 'PA'"> {{member.smoking}}</label>
+                    <label *ngIf="quoteInput?.productType == 'PA'"> <span *ngIf="member.gender == 'F'">Female</span>
+                        <span *ngIf="member.gender == 'M'">Male</span></label>
+                </div>
+            </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                class="rows-edit-col back-nav-health">
+                <div fxFlex="100" class=""> <a (click)="routeToQuestion()">
+                        < Back to questions</a>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+        </div>
+
+    </div>
+</form>
+<!-- </div> -->

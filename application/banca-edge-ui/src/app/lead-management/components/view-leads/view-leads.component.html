@@ -1,0 +1,340 @@
+<div class="main-container">
+  <div *ngIf="media.isActive('md') || media.isActive('lg')" class="flex-container">
+    <div class="flex-20">
+      <!-- <span class="material-icons style-icon-policy">
+                request_page
+            </span> -->
+      <img
+        class="material-icons style-icon-policy"
+        src="../../assets/images/request_page-24px.svg"
+      />
+      <span class="font-size-20">View Leads</span>
+    </div>
+    <div>
+      <!-- <button
+        mat-raised-button
+        color="primary"
+        class="total-complaints-btn"
+        matBadgeOverlap="true"
+        matBadgeColor="warn"
+        matBadge="{{ customerArr?.length }}"
+      >
+        {{ "component.REGISTERED" | translate }}
+      </button> -->
+    </div>
+    <div>
+      <!-- <button
+        mat-raised-button
+        color="primary"
+        class="open-complaints-btn"
+        matBadgeOverlap="true"
+        matBadgeColor="warn"
+        matBadge="{{ openServiceRequest }}"
+      >
+        {{ "component.OPEN" | translate }}
+      </button> -->
+    </div>
+    <div>
+      <!-- <button
+        mat-raised-button
+        color="primary"
+        class="closed-complaints-btn"
+        matBadgeOverlap="true"
+        matBadgeColor="warn"
+        matBadge="{{ closedServiceRequest }}"
+      >
+        {{ "component.CLOSED" | translate }}
+      </button> -->
+    </div>
+
+    <div>
+      <!-- <button
+        mat-raised-button
+        class="wrap-color-btn"
+        (click)="onCreateNewComplaint()"
+      >
+        + {{ "component.CREATE_NEW" | translate }}
+      </button> -->
+    </div>
+    <div class="transform flex-20">
+      <form class="example-form" [formGroup]="searchForm">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{ 'component.SEARCH' | translate }}</mat-label>
+          <input
+            matInput
+            (keyup)="onSearchFieldChange($event.target.value)"
+            formControlName="searchField"
+          />
+          <mat-icon matSuffix color="primary">search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <!-- --mobile-  -->
+  <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+      <div fxFlex="70" class="child-one">
+        <!-- <span class="material-icons style-icon-policy">
+                    request_page
+                </span> -->
+        <img
+          class="material-icons style-icon-policy"
+          src="../../assets/images/request_page-24px.svg"
+        />
+        <span class="font-size-20">{{ 'View Leads' | translate }}</span>
+      </div>
+      <div fxFlex="30" class="child-two">
+        <button mat-icon-button (click)="onCreateNewComplaint()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="15px" class="parent">
+      <div fxFlex="30" class="first-child">
+        <!-- <button
+          mat-raised-button
+          color="primary"
+          class="registered-mobile-btn"
+          matBadgeOverlap="true"
+          matBadgeColor="warn"
+          matBadge="{{ customerArr?.length }}"
+        >
+          {{ "component.REGISTERED" | translate }}
+        </button> -->
+      </div>
+      <div fxFlex="30" class="">
+        <!-- <button
+          mat-raised-button
+          color="primary"
+          class="open-service-mobile-btn"
+          matBadgeOverlap="true"
+          matBadgeColor="warn"
+          matBadge="{{ openServiceRequest }}"
+        >
+          {{ "component.OPEN" | translate }}
+        </button> -->
+      </div>
+      <div fxFlex="30" class="">
+        <!-- <button
+          mat-raised-button
+          color="primary"
+          class="closed-service-mobile-btn"
+          matBadgeOverlap="true"
+          matBadgeColor="warn"
+          matBadge="{{ closedServiceRequest }}"
+        >
+          {{ "component.CLOSED" | translate }}
+        </button> -->
+      </div>
+    </div>
+
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent-search">
+      <div fxFlex="100" class="mob-search">
+        <form class="example-form" [formGroup]="searchForm">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>{{ 'component.SEARCH' | translate }}</mat-label>
+            <input
+              matInput
+              (keyup)="onSearchFieldChange($event.target.value)"
+              formControlName="searchField"
+            />
+            <mat-icon matSuffix color="primary">search</mat-icon>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <!-- <mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+    </mat-progress-spinner> -->
+  <div class="container-table">
+    <table mat-table [dataSource]="dataSourceCopy" multiTemplateDataRows class="mat-elevation-z8">
+      <ng-container matColumnDef="{{ column }}" *ngFor="let column of columnsToDisplay">
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="column === ' '">
+            <img src="../../assets/images/pending-24px.svg" />
+          </ng-container>
+          <ng-container *ngIf="column === 'Customer Name'"
+            >{{ element.customer.firstName }} {{ element.customer.lastName }}
+          </ng-container>
+          <ng-container *ngIf="column === 'Insurer Name'">{{ element?.insurerName }} </ng-container>
+          <ng-container *ngIf="column === 'Date Created'">{{ element?.createdDate }} </ng-container>
+          <ng-container *ngIf="column === 'Status'">{{ element?.status }} </ng-container>
+          <ng-container *ngIf="column === 'Days Open'">{{ element?.daysOpen }} </ng-container>
+          <ng-container *ngIf="column === 'LOB'">{{ element?.lob }} </ng-container>
+          <ng-container *ngIf="column === 'Product Type'">{{ element?.productType }} </ng-container>
+          <ng-container>
+            <span class="padding-left" *ngIf="column === 'Actions'">
+              <button
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                aria-label="Example icon-button with a menu"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="onRecommendClick(element?.loanAccountNo)">
+                  <img
+                    src="../../assets/icons/notification_important-24px.svg"
+                    class="material-icons"
+                  />
+                  <span>Recommended Insurance</span>
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="
+                    navigateTo(
+                      element?.lob,
+                      element?.productType,
+                      element?.leadId,
+                      element?.customer?.customerId
+                    )
+                  "
+                >
+                  <img
+                    src="../../assets/icons/notification_important-24px.svg"
+                    class="material-icons"
+                  />
+                  <span>Create Quote</span>
+                </button>
+                <button
+                  *ngIf="element?.insurerId === 512"
+                  mat-menu-item
+                  (click)="naviateToOffline(element?.customer?.customerId)"
+                >
+                  <img
+                    src="../../assets/icons/notification_important-24px.svg"
+                    class="material-icons"
+                  />
+                  <span>Create Offline Policy</span>
+                </button>
+
+                <button
+                  [disabled]="element.status !== 'Quoted'"
+                  mat-menu-item
+                  (click)="openDailog(element)"
+                >
+                  <img
+                    src="../../assets/icons/notification_important-24px.svg"
+                    class="material-icons"
+                  />
+                  <span>Update Lead Status</span>
+                </button>
+              </mat-menu>
+              <!-- sep 25 -change Action view -->
+            </span>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+          <div
+            class="example-element-detail"
+            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+          >
+            <div
+              flex
+              fxLayout="row"
+              fxLayout.xs="column"
+              fxLayout.sm="column"
+              fxLayoutGap="50px"
+              class="margin-bottom"
+            >
+              <strong>Policy Details</strong>
+              <div flex="15px">
+                <label class="font-color">Created By: </label>
+                <div>
+                  {{ element?.createdBy }}
+                </div>
+              </div>
+              <div flex="15px">
+                <label class="font-color">Created Date: </label>
+                <div>
+                  <span>{{ element?.createdDate }}</span>
+                </div>
+              </div>
+              <div flex="15px">
+                <label class="font-color"> Assigned To: </label>
+                <div>
+                  <span>{{ element?.rmId }}</span>
+                </div>
+              </div>
+              <div flex="15px">
+                <label class="font-color"> Last Updated On: </label>
+                <div>
+                  <span>{{ element?.lastUpdatedDate }}</span>
+                </div>
+              </div>
+              <div flex="15px">
+                <label class="font-color">Customer Mobile: </label>
+                <div>
+                  {{ element?.customer?.mobileNo }}
+                </div>
+              </div>
+              <div flex="15px">
+                <label class="font-color">Customer Email: </label>
+                <div>
+                  {{ element?.customer?.contactList | getEmail }}
+                </div>
+              </div>
+              <div flex="15px">
+                <label class="font-color">Branch Code: </label>
+                <div>
+                  {{ element?.branchCode }}
+                </div>
+              </div>
+              <div flex="15px">
+                <label class="font-color">Loan Account Number: </label>
+                <div>
+                  {{ element?.loanAccountNo }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="example-element-detail"
+            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+          >
+            <div
+              flex
+              fxLayout="row"
+              fxLayout.xs="column"
+              fxLayout.sm="column"
+              fxLayoutGap="500px"
+              *ngIf="element.comments"
+            >
+              <div flex="25px" class="margin-btm">
+                <label class="font-color"> Comments : </label>
+                <div>
+                  {{ element?.comments }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: columnsToDisplay"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+
+    <mat-paginator
+      [length]="dataSource?.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      (page)="onPageChange($event)"
+      aria-label="Select page"
+      #paginator
+    >
+    </mat-paginator>
+  </div>
+</div>

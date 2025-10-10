@@ -1,0 +1,67 @@
+<ng-container *ngIf="screen === 'kyc'">
+    <h2 class="heading">Know Your Customer</h2>
+    <p class="subHeading">To Complete the purchase, we need the following customer details</p>
+    <div class="article">
+        <p class="articlePara">Effective Jan 1,2023 submission of KYC documents of proposer is mandatory for all customer as per IRDAI guidelines</p>
+    </div>
+    <br>
+    <form [formGroup]="kycForm" (ngSubmit)="onSubmit()">
+        <div class="infoMain">
+            <div class="policyInfo">
+                <h4>Proposer</h4>
+                <mat-radio-group class="radio" aria-label="Select an option" formControlName="customerType">
+                    <mat-radio-button class="radioOption" value="I">Individual</mat-radio-button>
+                    <mat-radio-button class="radioOption" value="C">Company</mat-radio-button>
+                  </mat-radio-group>
+            </div>
+            <div class="dateInfo">
+                <h4 style="margin:0px">Date of Birth(as per PAN card)</h4>
+                <mat-form-field>
+                    <mat-label>Choose a date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="dob">
+                    <mat-datepicker-toggle matSuffix [for]="picker" [max]="maxDate"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+            </div>
+        </div>
+        <div class="panContainer"> 
+            <h4 class="panHeading">PAN Number</h4>
+                <input type="text" placeholder="Enter Pan Number" class="panInput" formControlName="idNum">
+                <div *ngIf="kycForm.get('idNum').touched && kycForm.get('idNum').hasError('required')" class="full-width">
+                    <span class="man-field">PAN Number is required.</span>
+                  </div>
+                  <div *ngIf="kycForm.get('idNum').touched && kycForm.get('idNum').hasError('pattern')" class="full-width">
+                    <span class="man-field">PAN Number is not valid.</span>
+                  </div>
+        </div>
+        <div class="submit">
+            <button type="submit" [disabled]="!kycForm.valid" mat-raised-button color="primary">Submit</button>
+        </div>
+    </form>
+</ng-container>
+<ng-container *ngIf="screen === 'success'">
+    <h2>Please confirm the customer details to continue </h2>
+    <div class="customerInfo">
+        <ng-container *ngFor="let eachData of resDetails.customerKycDetails,let i = index">
+            <div *ngIf="i % 2 == 0" class="dataContainer even">
+                <div class="dataLabel">{{eachData.label}}</div>
+                <div class="dataValue">{{eachData.value}}</div>
+            </div>
+            <div *ngIf="i % 2 != 0" class="dataContainer">
+                <div class="dataLabel">{{eachData.label}}</div>
+                <div class="dataValue">{{eachData.value}}</div>
+            </div>
+        </ng-container>
+    </div>
+    <p class="dataLabel">*if address is outdated, you can add a correspondence address in the proposal form ahead.</p>
+    <div class="submit">
+        <button type="button" (click)="onConfirm()" mat-raised-button color="primary">Confirm</button>
+    </div>
+</ng-container>
+<ng-container *ngIf="screen === 'failure'">
+    <h2>Couldn't fetch your details from CKYC database</h2>
+    <p>{{resDetails}}</p>
+    <div class="submit">
+        <button type="button" (click)="onReturn()" mat-raised-button color="warn">Return</button>
+    </div>
+</ng-container>

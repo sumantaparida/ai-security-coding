@@ -1,0 +1,78 @@
+<div *ngIf="state ==='policy'" class="policy-number">
+  <mat-progress-spinner class="loading-spinner" [diameter]="50" mode="indeterminate" *ngIf="isLoader">
+  </mat-progress-spinner>
+  <form [formGroup]="form">
+    <div class="description">
+
+
+      <span>
+
+        <form class="example-form" [formGroup]="form">
+          <mat-form-field class="example-full-width">
+            <mat-label>Policy Number</mat-label>
+
+            <input matInput [readonly]="makeReadOnly(appNo)" formControlName="policyNumber" (keyup)="onKeyUp()"
+              placeholder="Ex. CCN134567">
+            <mat-error
+              *ngIf="form.get('policyNumber').hasError('email') && !form.get('policyNumber').hasError('required')">
+              Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="form.get('policyNumber').hasError('required')">
+              Policy number is required
+            </mat-error>
+            <mat-error *ngIf="form.get('policyNumber').errors?.invalidPolicyNumber">
+              {{form.get('policyNumber').errors?.errorDetails}}
+            </mat-error>
+          </mat-form-field>
+        </form>
+      </span>
+    </div>
+
+    <mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+    </mat-progress-spinner>
+
+  </form>
+</div>
+<div *ngIf="policyDetails" class="application-details">
+  <div *ngIf="state === 'detailsCorrection'">
+    <table class="table table-sm text-size">
+      <tr>
+        <td>Application Number</td>
+        <td>{{policyDetails.applicationNo}} </td>
+      </tr>
+      <tr>
+        <td>Insurer Name</td>
+        <td>{{policyDetails.insurerName}} </td>
+      </tr>
+      <tr>
+        <td>Product Name</td>
+        <td>{{policyDetails.productName}}</td>
+      </tr>
+      <tr>
+        <td>Product Type</td>
+        <td>{{policyDetails.productType}}</td>
+      </tr>
+      <tr>
+        <td>Policy Start Date</td>
+        <td>{{policyDetails.policyStartDate}}</td>
+      </tr>
+      <tr>
+        <td>Policy End Date</td>
+        <td>{{policyDetails.policyEndDate}}</td>
+      </tr>
+    </table>
+
+
+    <div class="font-size-17">Are these details correct?
+      <div class="correction-option">
+
+        <div class="option-yes">
+          <button mat-raised-button class="width-5" (click)="onCorrectionSelected('yes')">Accept</button>
+        </div>
+        <div class="option-no">
+          <button mat-raised-button class="width-5" (click)="onCorrectionSelected('no')">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

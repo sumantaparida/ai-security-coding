@@ -1,0 +1,45 @@
+<div class="select_container">
+  <ng-container  *ngIf="select">
+    <div class="customSelect" id="{{label}}" [class.focused]="focused" tabindex="0" (focus)="showMenu($event)"  (blur)="emitBlurEvent($event)">
+      <div [class.valid]="enteredVal" [class.disabled]="disabled" [class.highlight]="highlight" class="selectbox" >{{value}}<img src="../../../assets/icons/dropdown arrow.png" alt="dropdownarraw"></div>
+      <label  [class.enteredVal]="enteredVal" class="custom-placeholder">{{label}}</label>
+      <div class="menuContainer" [class.above]="menuPosition==='above'" *ngIf="menuActive">
+        <div  *ngFor="let option of options">
+          <div (click)="emitClickEvent($event,option)" class="option_item">{{option.value}}</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container  *ngIf="searchableDropdownFromAPI">
+    <div class="customSelect" id="{{label}}" [class.focused]="focused" tabindex="0" >
+        <div class="seachableDropdown">
+          <input [class.valid]="enteredVal" [class.disabled]="disabled" (focus)="showMenu($event)" (input)="emitInputEvent($event)"  (blur)="emitBlurEvent($event)" [class.highlight]="highlight" class="selectbox" [value]="value" [formControl]="control">
+          <img src="../../../assets/icons/dropdown arrow.png" alt="dropdownarraw">
+        </div>
+      <label  [class.enteredVal]="enteredVal" class="custom-placeholder">{{label}}</label>
+      <div class="menuContainer" [class.above]="menuPosition==='above'" *ngIf="menuActive">
+        <div  *ngFor="let option of options">
+          <div (click)="emitClickEvent($event,option)" class="option_item">{{option.value}}</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container  *ngIf="searchableDropdown">
+    <div class="customSelect" id="{{label}}" [class.focused]="focused" tabindex="0" >
+        <div class="seachableDropdown">
+          <input [class.valid]="enteredVal" [class.disabled]="disabled" (focus)="showMenu($event)" (input)="emitInputEvent($event)"  (blur)="emitBlurEvent($event)" [class.highlight]="highlight" class="selectbox" [value]="value" [formControl]="control">
+          <img src="../../../assets/icons/dropdown arrow.png" alt="dropdownarraw">
+        </div>
+      <label  [class.enteredVal]="enteredVal" class="custom-placeholder">{{label}}</label>
+      <div class="menuContainer" [class.above]="menuPosition==='above'" *ngIf="menuActive">
+        <div  *ngFor="let option of options">
+          <div (click)="emitClickEvent($event,option)" class="option_item">{{option.value}}</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <app-bnca-input-error *ngIf="control?.touched && control?.errors" [label]="label" [errors]="control?.touched ? control?.errors : ''"></app-bnca-input-error>
+</div>
+
+
+  

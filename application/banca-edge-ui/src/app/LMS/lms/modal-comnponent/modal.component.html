@@ -1,0 +1,23 @@
+<div mat-dialog-content class="error-msg" *ngIf="!isCreateLead">
+  <p>{{ data.message }}</p>
+</div>
+<div class="details" *ngIf="!isCreateLead">
+  <p *ngIf="data.rmName">RM Name : {{ data.rmName }}</p>
+  <p *ngIf="data.rmMobile">RM Mobile : {{ data.rmMobile }}</p>
+  <p *ngIf="data.rmEmail">RM Email ID : {{ data.rmEmail }}</p>
+</div>
+<div mat-dialog-content class="error-msg" *ngIf="isCreateLead">
+  <!-- <p>Application Status : {{ data.appStatus }} .</p> -->
+  <p *ngIf="appArr !== null && appArr.length > 0">
+    Application Number :
+    <span *ngFor="let appNum of appArr">
+      {{ appNum }} <span *ngIf="appArr.length > 1">,</span></span
+    >
+  </p>
+  <p *ngIf="appArr === null || appArr.length < 1">
+    {{ appStatus }}
+  </p>
+</div>
+<div class="actions-style" mat-dialog-actions>
+  <button mat-button class="ok-btn" (click)="onOkClicked()" cdkFocusInitial>Ok</button>
+</div>

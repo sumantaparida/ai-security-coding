@@ -1,0 +1,63 @@
+.add-btn {
+  padding: 6px 6px;
+  font-size: 15px;
+  border-radius: 50%;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background-color: #03dac5;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn {
+  padding: 6px 6px;
+  font-size: 15px;
+  border-radius: 50%;
+  margin: 5px 10px;
+  outline: none;
+  background-color: #b00020 !important;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.error {
+  color: red;
+  margin-top: 2px;
+}
+
+.recalculate-btn {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background-color: #03dac5;
+  float: right;
+  border: none;
+}
+.generate-btn {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background-color: #03dac5;
+  border: none;
+}
+
+.man-field {
+  font-size: 16px;
+  color: red;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

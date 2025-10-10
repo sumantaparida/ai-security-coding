@@ -1,0 +1,143 @@
+.maritalStatus {
+    align-content: center;
+    font-size: 24px;
+    width: 100%;
+    text-align: center;
+    color: black;
+    font-weight: 500;
+    /* --for ie--  */
+    margin-top: 8%;
+}
+
+/* .maritalStatusDesc{
+    margin-top:-8%;
+} */
+
+.flex-container-gender {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-container-gender>div {
+    width: 150px;
+    margin: 10px;
+    text-align: center;
+    /* font-size: 20px; */
+}
+
+p {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.item {
+    width: 200px;
+    text-align: center;
+    display: block;
+    background-color: transparent;
+    /* border: 1px solid transparent; */
+    margin-right: 10px;
+    margin-bottom: 1px;
+    float: left;
+}
+
+.error-msg {
+    font-size: 14px;
+}
+
+.maritalStatus-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 5px solid transparent;
+    cursor: pointer;
+    margin-left: 0%;
+    margin-right: 2%;
+    margin-top: 0;
+}
+
+.maritalStatus-img:hover {
+    /* background:#03DAC5; */
+    border: 5px solid mediumpurple;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 0px 10px 5px #03DAC5;
+    -moz-box-shadow: 0px 0px 10px 5px #03DAC5;
+    box-shadow: 0px 0px 10px 5px #03DAC5;
+}
+
+.selected {
+    /* background:lightgreen; */
+    border: 5px solid mediumpurple;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 0px 10px 5px lightgreen;
+    -moz-box-shadow: 0px 0px 10px 5px lightgreen;
+    box-shadow: 0px 0px 10px 5px lightgreen;
+}
+
+.single-txt {
+    margin-right: 7%;
+    font-size: 20px;
+    color: whitesmoke;
+    font-weight: bolder;
+}
+
+.married-txt {
+    margin-left: 0;
+    font-size: 20px;
+    color: whitesmoke;
+    font-weight: bolder
+}
+
+/* media - query */
+
+/* mobile */
+
+@media only screen and (max-width: 600px) {
+    .lg-screen {
+        display: block;
+    }
+    /* .sm-screen{
+        display: block;
+        margin-top:-20%;
+    } */
+    .maritalStatus {
+        font-size: 25px;
+    }
+    .single-txt {
+        font-size: 25px;
+        margin-right: 7%;
+    }
+    .married-txt {
+        font-size: 25px;
+    }
+    .maritalStatus-img {
+        margin-top: 7%;
+    }
+}
+
+/* Desktop */
+
+@media only screen and (min-width: 768px) {
+    .sm-screen {
+        display: none;
+    }
+    .lg-screen {
+        display: block;
+    }
+}
+
+/* tablets */
+
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+    .lg-screen {
+        display: none;
+    }
+    .sm-screen {
+        display: block;
+        margin-top: -20%;
+    }
+}

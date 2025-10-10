@@ -1,0 +1,39 @@
+<div class="big">
+  <!-- <form [formGroup]="form">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Upload File</mat-label>
+      <input
+        type="file"
+        matInput
+        [formControl]="selectedFile"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. pat@example.com"
+      />
+      <mat-hint>Upload CSV file</mat-hint>
+      <mat-error *ngIf="!form.valid"> Please select the file </mat-error>
+    </mat-form-field>
+  </form> -->
+  <h2>Update Lead Status</h2>
+  <div class="note"><label>Add file (only csv file type allowed)</label></div>
+
+  <input (change)="selectFile($event)" type="file" />
+
+  <input hidden #fileInput (change)="onFileSelected($event)" type="file" />
+  <span [ngClass]="{'file-name':selectedFile != undefined }">{{selectedFile?.name}}</span>
+</div>
+<div class="height-20"></div>
+<div>
+  <button
+    type="button"
+    mat-raised-button
+    class="next-btn"
+    [disabled]="!checkInput"
+    (click)="uploadData()"
+  >
+    Upload
+  </button>
+  <button type="button" mat-raised-button class="btn-color" (click)="getTemplate()">
+    Get Template
+  </button>
+  <mat-error style="text-align: center">{{errorMessage}}</mat-error>
+</div>

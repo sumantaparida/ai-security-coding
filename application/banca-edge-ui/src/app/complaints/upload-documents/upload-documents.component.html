@@ -1,0 +1,42 @@
+<div *ngIf="state === 'uploadDocument'" class="upload-document">
+  <form [formGroup]="form">
+    <div class="description">Do you want to Upload Documents?</div>
+    <div class="correction-option">
+      <div class="option-yes">
+        <button
+          mat-raised-button
+          (click)="onUpload('yes')"
+          class="width-7"
+          [ngClass]="{ selected: form.get('uploadDocument').value === 'yes' }"
+        >
+          Yes
+        </button>
+      </div>
+      <div class="option-no">
+        <button
+          mat-raised-button
+          (click)="onUpload('no')"
+          class="width-7"
+          [ngClass]="{ selected: form.get('uploadDocument').value === 'no' }"
+        >
+          No
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="upload" class="upload-Option">
+      <input type="file" #Image accept="image*/" (change)="handleUpload($event)" />
+      <button
+        type="submit"
+        mat-raised-button
+        class="color-teal"
+        (click)="onSubmit()"
+        color="primary"
+      >
+        Upload
+      </button>
+    </div>
+    <mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+    </mat-progress-spinner>
+  </form>
+</div>

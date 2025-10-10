@@ -1,0 +1,15 @@
+  <div class="custom-radio"  >
+    <div  class="radioOption"  *ngFor="let option of options" [class.selected]="isSelected(option.id)">
+      <input type="radio"  [checked]="isSelected(option.id)" [class.disabled]="disabled"
+      value="option.value"
+      (click)="emitClickEvent(option.id)"
+      (change)="emitChangeEvent($event,option.id)"
+      (focus)="emitFocusEvent($event)"
+      (blur)="emitBlurEvent($event)"
+      (input)="emitInputEvent($event)"
+      >
+      <span class="checkmark"></span>
+      <label>{{ option.value }}</label>
+    </div>
+  </div>  
+

@@ -1,0 +1,33 @@
+.full-width {
+    width: 100%;
+}
+
+.man-field {
+    font-size: 14px;
+    color: red;
+}
+
+.vehicle-screen-radio-box {
+    background-color: rgba(0, 0, 0, .04);
+    color: #566266;
+    padding: 8px 10px 8px 10px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+    /* box-shadow: 0 2px 0 0 #c6cacc; */
+    display: inline-flex;
+    width: 41%;
+    box-shadow: 0 0 0 1px #cac2d5;
+}
+
+.display-flex {
+    display: flex;
+}
+
+.margin-left {
+    margin-left: 5px;
+}
+
+.margin-bottom-30 {
+    margin-bottom: 30px;
+}

@@ -1,0 +1,271 @@
+.heading {
+    color: white;
+    background: #673ab7;
+    padding: 10px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+/* .display-edit-section ::ng-deep .cdk-overlay-container {
+    position: fixed;
+    z-index: 1000;
+    pointer-events: none;
+    top: 12%;
+    left: 31%;
+    height: 78%;
+    width: 68%;
+} */
+
+.popupBackdropClass {
+    position: fixed;
+    z-index: 1000;
+    pointer-events: none;
+    top: 12%;
+    left: 31% !important;
+    height: 78%;
+    width: 68% !important;
+    background: yellow;
+}
+
+.heading-row {
+    background: #673ab7;
+}
+
+.generate-quote-btn {
+    background: #03dac5;
+    color: white;
+    margin: auto;
+    font-size: 16px;
+    width: 10rem;
+}
+
+.label-heading {
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.background-color {
+    background: rgba(0, 0, 0, .04);
+}
+
+.edit-quote-label {
+    font-weight: 500;
+    color: black;
+}
+
+.edit-heading-label {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.margin-30 {
+    margin-bottom: 30px;
+}
+
+.rows-edit-col {
+    padding: 5px;
+    max-width: 90%;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.rows-plan-col {
+    padding: 5px;
+}
+
+.edit-quote-col input {
+    width: 100%;
+    height: 30px;
+    border: none;
+    background: rgba(0, 0, 0, .04);
+}
+
+.quote-fields {
+    background: rgba(0, 0, 0, .04);
+    height: 3rem;
+}
+
+a {
+    cursor: pointer;
+    color: #0070c9;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.help-description {
+    margin-top: 10px;
+    /* height: 58px; */
+    padding: 20px;
+    /* width: 295px; */
+    background: lavender;
+}
+
+.buy-now-btn {
+    background: #03dac5;
+    color: white;
+    font-size: 18px;
+}
+
+.btn-div {
+    /* text-align: end; */
+    text-align: right;
+}
+
+.edit-anchor {
+    text-align: end;
+}
+
+.edit-anchor a {
+    color: #b00020 !important;
+}
+
+.back-nav-health {
+    margin-top: 20px;
+}
+
+.back-nav-health a {
+    text-decoration: underline;
+}
+
+.more-details-link {
+    text-decoration: underline;
+    padding-right: 24px;
+}
+
+/* --Mobile view ---  */
+
+.company-logo-div {
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.bold {
+    font-weight: 500;
+}
+
+.rows-edit-col-mobile {
+    padding: 5px;
+    max-width: 90%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-bottom: 15px;
+}
+
+.btn-div-mob {
+    text-align: center;
+}
+
+p {
+    text-align: justify;
+}
+
+.more-details-container {
+    height: 36rem;
+    width: 50rem;
+}
+
+/* ::ng-deep .cdk-overlay-pane{
+    overflow-y: scroll !important;
+    width: 100% !important;
+} */
+
+.heading {
+    font-size: 18px;
+    padding: 10px;
+}
+
+.align-center {
+    margin: auto;
+    right: 0;
+    left: 0;
+}
+
+.row-gap {
+    /* margin-bottom: 5px; */
+    padding: 5px;
+}
+
+.heading-row {
+    padding: 5px;
+    font-weight: 500;
+}
+
+.plan-name-row {
+    border-top: 1px solid;
+    /* font-size: 18px; */
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+.background {
+    background: rgb(0, 0, 0, 0.04);
+}
+
+.padding-15 {
+    padding-left: 15px;
+}
+
+.padding-left {
+    padding-left: 10px !important;
+}
+
+.padding-10 {
+    padding: 5px 5px;
+}
+
+.heading_aue_ans {
+    font-size: 18px;
+    text-align: center;
+}
+
+.dec_value input {
+    font-size: 14px;
+}
+
+.mat-slider-horizontal {
+    width: 100%;
+}
+
+::ng-deep .mat-accent .mat-slider-track-fill, ::ng-deep .mat-accent .mat-slider-thumb, ::ng-deep .mat-accent .mat-slider-thumb-label {
+    background-color: #673ab7 !important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-pointer {
+    width: 20px!important;
+    height: 20px!important;
+    top: -8px!important;
+    background-color: #673ab7!important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-selection {
+    background: #673ab7 !important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-pointer:after {
+    width: 7px!important;
+    height: 7px!important;
+    top: 7px!important;
+    left: 7px!important;
+}
+
+.premiumdropdown {
+    width: 100%;
+}
+
+.highlight{
+    border:2px solid #673ab7 !important;
+}

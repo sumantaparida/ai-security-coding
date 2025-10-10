@@ -1,0 +1,193 @@
+<div class="fieldUpdate d-sm-none d-md-block d-none d-sm-block" fxHide.sm="true">
+  <div class="fieldRow">
+    <div class="col-lg-6 col-md-6 padding15">
+      <span *ngIf="!displayInfo?.gender">Gender</span>
+      <span *ngIf="displayInfo?.gender">{{ displayInfo?.gender }}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 padding15">
+      <span
+        [ngClass]="{
+          'icon-style': displayInfo?.gender,
+          'question-mark-icon': !displayInfo?.gender
+        }"
+      >
+        <mat-icon color="warn" *ngIf="!displayInfo?.gender">help_outline</mat-icon>
+        <!-- <i *ngIf="!displayInfo?.gender"  aria-hidden="true"></i> -->
+        <mat-icon *ngIf="displayInfo?.gender">person</mat-icon>
+        <!-- <i *ngIf="displayInfo?.gender" class="fa fa-user-circle" aria-hidden="true"></i> -->
+      </span>
+    </div>
+    <div class="col-lg-6 col-md-6 padding15">
+      <span *ngIf="!form?.value?.ageValue">Age</span>
+      <span *ngIf="form?.value?.ageValue"> {{ displayInfo?.age }} years old</span>
+    </div>
+    <div class="col-lg-6 col-md-6 padding15">
+      <span
+        [ngClass]="{
+          'icon-style': form?.value?.ageValue,
+          'question-mark-icon': !form?.value?.ageValue
+        }"
+      >
+        <!-- <i *ngIf="!displayInfo?.age" class="fa fa-question" aria-hidden="true"></i> -->
+        <mat-icon color="warn" *ngIf="!displayInfo?.age">help_outline</mat-icon>
+        <mat-icon *ngIf="form?.value?.ageValue">cake</mat-icon>
+        <!-- <i *ngIf="displayInfo?.age" class="fa fa-birthday-cake" aria-hidden="true"></i> -->
+      </span>
+    </div>
+    <div class="col-lg-6 col-md-6 padding15">
+      <span *ngIf="!form?.value?.maritalStatusValue">Marital Status</span>
+      <span *ngIf="form?.value?.maritalStatusValue">{{ displayInfo?.maritalStatus }}</span>
+    </div>
+    <div class="col-lg-6 col-md-6 padding15">
+      <span
+        [ngClass]="{
+          'icon-style': form?.value?.maritalStatusValue,
+          'question-mark-icon': !form?.value.maritalStatusValue
+        }"
+      >
+        <!-- <i *ngIf="!displayInfo?.maritalStatus" class="fa fa-question" aria-hidden="true"></i> -->
+        <mat-icon color="warn" *ngIf="!form?.value?.maritalStatusValue">help_outline</mat-icon>
+        <mat-icon *ngIf="form?.value?.maritalStatusValue">wc</mat-icon>
+        <!-- <i *ngIf="displayInfo?.maritalStatus" class="fa fa-mars-double" aria-hidden="true"></i> -->
+      </span>
+    </div>
+    <div *ngIf="form?.value?.maritalStatusValue === 'Married'" class="col-lg-6 col-md-6 padding15">
+      <span *ngIf="!form?.value?.kids">Kids</span>
+      <span *ngIf="form?.value?.kids">{{ displayInfo?.kids }} Kid(s)</span>
+    </div>
+    <div *ngIf="form?.value?.maritalStatusValue === 'Married'" class="col-lg-6 col-md-6 padding15">
+      <span
+        [ngClass]="{
+          'icon-style': form?.value?.hasOwnProperty('kids'),
+          'question-mark-icon': !form?.value?.hasOwnProperty('kids')
+        }"
+      >
+        <!-- <i *ngIf="!form?.value?.kids" class="fa fa-question" aria-hidden="true"></i> -->
+        <mat-icon *ngIf="form?.value?.hasOwnProperty('kids') && form?.value?.kids === 0"
+          >child_friendly</mat-icon
+        >
+        <mat-icon color="warn" *ngIf="!form?.value?.hasOwnProperty('kids')">help_outline</mat-icon>
+        <mat-icon *ngIf="form?.value?.kids">child_friendly</mat-icon>
+        <!-- <i *ngIf="displayInfo?.kids" class="fa fa-smile-o" aria-hidden="true"></i> -->
+      </span>
+    </div>
+    <!-- occuaption  -->
+    <!-- <div class=" col-lg-6 col-md-6 padding15">
+      <span *ngIf="!displayInfo?.occupation">Occupation</span>
+      <span *ngIf="displayInfo?.occupation">{{displayInfo?.occupation}}</span>
+
+    </div> -->
+    <!-- <div class=" col-lg-6 col-md-6 padding15">
+      <span (click)="onImageClick('occupation')"
+        [ngClass]="{'icon-style': displayInfo?.occupation,'question-mark-icon': !displayInfo?.occupation}">
+        <mat-icon color="warn" *ngIf="!displayInfo?.occupation">help_outline</mat-icon>
+        <mat-icon *ngIf="displayInfo?.occupation">business_center</mat-icon>
+      </span>
+    </div> -->
+
+    <div class="col-lg-6 col-md-6 padding15">
+      <span *ngIf="!form?.value?.riskTypeValue">Risk</span>
+      <span *ngIf="form?.value?.riskTypeValue === 4"> Risk Profile - Risk Averse</span>
+      <span *ngIf="form?.value?.riskTypeValue === 5"> Risk Profile - Conservative</span>
+      <span *ngIf="form?.value?.riskTypeValue === 6"> Risk Profile - Moderately Conservative</span>
+      <span *ngIf="form?.value?.riskTypeValue === 7"> Risk Profile - Moderately Aggressive</span>
+      <span *ngIf="form?.value?.riskTypeValue === 8"> Risk Profile - Aggressive</span>
+    </div>
+
+    <div class="col-lg-6 col-md-6 padding15">
+      <span
+        [ngClass]="{
+          'icon-style': form?.value?.riskTypeValue,
+          'question-mark-icon': !form?.value?.riskTypeValue
+        }"
+      >
+        <mat-icon color="warn" *ngIf="!form?.value?.riskTypeValue">help_outline</mat-icon>
+        <mat-icon *ngIf="form?.value?.riskTypeValue">insert_chart_outlined</mat-icon>
+      </span>
+    </div>
+    <!-- house  -->
+    <!-- <div class=" col-lg-6 col-md-6 padding15">
+      <span *ngIf="!displayInfo?.houseType">House</span>
+      <span *ngIf="displayInfo?.houseType">{{displayInfo?.houseType}}</span>
+    </div>
+    
+    <div class=" col-lg-6 col-md-6 padding15">
+      <span (click)="onImageClick('houseType')"
+        [ngClass]="{'icon-style': displayInfo?.houseType,'question-mark-icon': !displayInfo?.houseType}">
+        <mat-icon color="warn" *ngIf="!displayInfo?.houseType">help_outline</mat-icon>
+        <mat-icon *ngIf="displayInfo?.houseType">home</mat-icon>
+      </span>
+    </div> -->
+
+    <!-- posseesion  -->
+
+    <!-- <div class=" col-lg-6 col-md-6 padding15">
+      <span *ngIf="!displayInfo?.valuables">Possession</span>
+      <span *ngIf="displayInfo?.valuables">{{displayInfo?.valuables}}</span>
+
+    </div>
+    <div class=" col-lg-6 col-md-6 padding15">
+      <span (click)="onImageClick('valuables')"
+        [ngClass]="{'icon-style': displayInfo?.valuables,'question-mark-icon': !displayInfo?.valuables}">
+        <mat-icon color="warn" *ngIf="!displayInfo?.valuables">help_outline</mat-icon>
+        <mat-icon *ngIf="displayInfo?.valuables">directions_car</mat-icon>
+      </span>
+    </div> -->
+
+    <div class="col-lg-6 col-md-6 padding15">
+      <span *ngIf="!form?.value?.annualIncomValue">Annual Income</span>
+      <span *ngIf="form?.value?.annualIncomValue <= 9999999"
+        >Rs.{{ form?.value?.annualIncomValue / 100000 }} Lakhs Earnings per annum</span
+      >
+      <span *ngIf="form?.value?.annualIncomValue > 9999999"
+        >More than Rs.1 crore Earnings per annum</span
+      >
+    </div>
+    <div class="col-lg-6 col-md-6 padding15">
+      <span
+        [ngClass]="{
+          'icon-style': form?.value?.annualIncomValue,
+          'question-mark-icon': !form?.value?.annualIncomValue
+        }"
+      >
+        <!-- <i *ngIf="!displayInfo?.annualIncome" class="fa fa-question" aria-hidden="true"></i> -->
+        <mat-icon color="warn" *ngIf="!form.value?.annualIncomValue">help_outline</mat-icon>
+        <mat-icon *ngIf="form?.value.annualIncomValue">monetization_on</mat-icon>
+        <!-- <i *ngIf="displayInfo?.annualIncome" class="fa fa-inr" aria-hidden="true"></i> -->
+      </span>
+    </div>
+    <!-- savings  -->
+    <!-- <div class=" col-lg-6 col-md-6 padding15">
+      <span *ngIf="!displayInfo?.savings">Savings</span>
+      <span *ngIf="displayInfo?.savings<100000"> Rs.{{displayInfo?.savings/1000}} Thousand savings per annum</span>
+      <span *ngIf="displayInfo?.savings>99999 && displayInfo?.savings<1000000"> Rs.{{displayInfo?.savings/100000}} Lakhs
+        savings per annum</span>
+      <span *ngIf="displayInfo?.savings>=1000000">More than Rs.10 Lakhs savings per annum</span>
+    </div>
+    <div class=" col-lg-6 col-md-6 padding15">
+      <span (click)="onImageClick('savings')"
+        [ngClass]="{'icon-style': displayInfo?.savings,'question-mark-icon': !displayInfo?.savings}">
+        <mat-icon color="warn" *ngIf="!displayInfo?.savings">help_outline</mat-icon>
+        <mat-icon *ngIf="displayInfo?.savings">account_balance</mat-icon>
+      </span>
+    </div> -->
+
+    <div class="col-lg-6 col-md-6 padding15">
+      <span>Summary</span>
+    </div>
+    <div class="col-lg-6 col-md-6 padding15">
+      <span
+        [ngClass]="{
+          'icon-style': userDataService?.isUserDataValid(),
+          'question-mark-icon': !userDataService?.isUserDataValid()
+        }"
+        *ngIf="form.valid"
+      >
+        <!-- <i *ngIf="!userDataService?.isUserDataValid()" class="fa fa-question" aria-hidden="true"></i> -->
+        <mat-icon color="warn" *ngIf="!userDataService?.isUserDataValid()">help_outline</mat-icon>
+        <mat-icon *ngIf="userDataService?.isUserDataValid()">library_books</mat-icon>
+        <!-- <i *ngIf="userDataService?.isUserDataValid()" class="fa fa-book" aria-hidden="true"></i> -->
+      </span>
+    </div>
+  </div>
+</div>

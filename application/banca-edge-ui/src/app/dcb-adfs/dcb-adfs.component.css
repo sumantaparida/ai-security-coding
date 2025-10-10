@@ -1,0 +1,24 @@
+.example-card {
+
+  max-width: 400px;
+  height: 150px;
+  text-align: center;
+  top: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  }
+
+  .btn-one{
+    background-color: #03dac5;
+  }
+
+  .btn-two{
+    background-color:white;
+    color: black;
+  }
+  .dcb-login{
+    text-align: center;
+  }

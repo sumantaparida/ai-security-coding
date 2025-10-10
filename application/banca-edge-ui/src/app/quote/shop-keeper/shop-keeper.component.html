@@ -1,0 +1,1552 @@
+<div class="health-details-container">
+  <form [formGroup]="shopKeeperForm">
+    <!-- Header -->
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="80" class="health-details-header">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="heading-row"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+        >
+          <div class="heading-text">
+            <span>Shop Keeper</span>
+            <!-- <span>Health Insurance</span> -->
+          </div>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+          class="need-help-critical-div"
+        >
+          <!-- <div fxFlex="70">
+          <a>Need Help </a>
+        </div> -->
+        </div>
+
+        <ng-container *ngIf="">
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            class="help-description"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+          >
+            <!-- Policy Description column  -->
+
+            <div fxFlex="30" class="policy-description">
+              <img
+                class="health-details-img"
+                src="../../../assets/images/Health_Hospi_ICON.svg"
+                alt="Critical Illness"
+              />
+            </div>
+
+            <div fxFlex="60">
+              <p>
+                {{ 'quote.HI_DEFINITION' | translate }}
+              </p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="health-details-form">
+        <!-- Type of Shop -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Type of Shop</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field appearance="fill" class="width-textInput">
+              <mat-label>Select the Type</mat-label>
+              <mat-select formControlName="typeOfShop" (selectionChange)="onShopChange($event)">
+                <mat-option>
+                  <ngx-mat-select-search
+                    placeholderLabel="Search"
+                    noEntriesFoundLabel="Not Found"
+                    formControlName="searchCtrl"
+                  >
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option
+                  *ngFor="
+                    let option of shopTypeMaster
+                      | searchDropDown: shopKeeperForm.get('searchCtrl').value:'value'
+                  "
+                  name="option"
+                  [value]="option?.id"
+                >
+                  {{ option.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- Pin Code -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Pin Code</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Enter the Pin Code</mat-label>
+              <input type="number" matInput formControlName="pincode" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'pincode', label: 'Pincode' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+        <!-- Building -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure the Building </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="building"
+              (change)="onRadioChange($event, 'building')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Aread of Build-->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('building')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Area of Building</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Enter the Area of the Building</mat-label>
+              <div (click)="recalFedValue()">
+                <input type="number" matInput formControlName="areaOfBuilding" />
+              </div>
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'areaOfBuilding', label: 'Area' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+        <!-- Building Cost-->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('building')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Cost of Construction</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Enter the Cost</mat-label>
+              <div (click)="recalFedValue()">
+                <input type="number" matInput formControlName="costOfConstruct" />
+              </div>
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'costOfConstruct', label: 'Cost' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+        <!-- Building Type-->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('building')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Type of Building</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field appearance="fill" class="width-textInput">
+              <mat-label>Type of Shop</mat-label>
+              <mat-select formControlName="buildingType">
+                <mat-option *ngFor="let building of buildingType" [value]="building?.value">
+                  {{ building.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'buildingType', label: 'Type' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Other -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure Other Contents </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="other"
+              (change)="onRadioChange($event, 'other')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N" disabled>No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- OtherIf Yes -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="shopKeeperForm.getRawValue().other === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Value of Contents </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <div (click)="recalFedValue()">
+                <input matInput type="number" formControlName="otherContent" />
+              </div>
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'otherContent', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+        <!-- OtherIf Yes Description -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="shopKeeperForm.getRawValue().other === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Add Description </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="text" formControlName="contentDesc" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'contentDesc', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+        <!-- Burglary -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Burglary</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="burglary"
+              (change)="onRadioChange($event, 'burglary')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <!-- Burglary if No -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('burglary')?.value === 'N'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> First loss percent</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field appearance="fill" class="width-textInput">
+              <mat-label>Select the Percentage</mat-label>
+              <mat-select formControlName="lossPercent">
+                <mat-option *ngFor="let burg of burgLoss" [value]="burg?.value">
+                  {{ burg.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- 	Electrical  -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure Electrical and Mechanical Appliances </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="isElectrical"
+              (change)="onRadioChange($event, 'electrical')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- IF YES	Air Cond  -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('isElectrical')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Air Conditioner </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input type="number" matInput formControlName="ac" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="shopkeeperErrorTemplate; context: { control: 'ac', label: 'AC' }"
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- 	IF YES Portable Generator  -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('isElectrical')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Portable Generator Set upto 250 KVA </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input type="number" matInput formControlName="portableGen" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'portableGen', label: 'Portable' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- IF YES	Electrical Eqp  -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('isElectrical')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Electrical Equipments other than AC & DG Set </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input type="number" matInput formControlName="electricalEQP" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: {
+                  control: 'electricalEQP',
+                  label: 'Electrical Equipments'
+                }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Electronic other than Lap -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure Electronic Appliances (Other than Laptop) </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="electronicAppliance"
+              (change)="onRadioChange($event, 'electronicApp')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Electronic other than Lap IF YES -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('electronicAppliance')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Value of Contents </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="electronicApplianceValue" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'electronicApplianceValue', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Money -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure Money </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="money"
+              (change)="onRadioChange($event, 'money')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- IF Money Yes Transit-->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('money')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Cash in Transit </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="moneyinTrans" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'moneyinTrans', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- IF Money Yes Safe -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('money')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Cash in Safe </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="moneyinSafe" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'moneyinSafe', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- IF Money Yes Counter -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('money')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Cash in Counter </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="moneyinCounter" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'moneyinCounter', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Plate Glass -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure Plate Glass </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="plateGlass"
+              (change)="onRadioChange($event, 'plateGlass')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <!-- If plate glass YES -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('plateGlass')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Value of Contents </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="plateGlassContent" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'plateGlassContent', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Neon Sign -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure Neon Sign </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="neonSign"
+              (change)="onRadioChange($event, 'neonSign')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Neon Sign If Yes -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('neonSign')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Value of Contents </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="neonSignContent" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'neonSignContent', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Pedal Cycle -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure Pedal Cycle </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="pedalCycle"
+              (change)="onRadioChange($event, 'pedal')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Pedal Cycle If Yes -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('pedalCycle')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Value of Contents </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="pedalCycleContent" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'pedalCycleContent', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Baggage -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure Baggage </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="baggage"
+              (change)="onRadioChange($event, 'baggage')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Baggage If Yes -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('baggage')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Value of Contents </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="baggageContent" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'baggageContent', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Portable Computer -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to Insure Portable Computer </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="portComp"
+              (change)="onRadioChange($event, 'portComp')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Portable Computer If Yes -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('portComp')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Value of Contents </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="portCompContent" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'portCompContent', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- PA -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Personal Accident </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="pa"
+              (change)="onRadioChange($event, 'pa')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div> -->
+        <!-- OtherIf PA Yes -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('pa')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Number of Employees </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field
+              class="example-full-width"
+              appearance="fill"
+              class="width-textInput"
+            >
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="paNumofEmp" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'paNumofEmp', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div> -->
+
+        <!-- Sum of Each -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('pa')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Sum insured for each employee </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="paSumofEach" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'paSumofEach', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Workmen’s Compensation -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Workmen’s Compensation </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="workerComp"
+              (change)="onRadioChange($event, 'workerComp')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div> -->
+        <!-- No of Emp -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('workerComp')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Number of employees </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="workerCompNoEmp" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'workerCompNoEmp', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div> -->
+        <!-- Avg Sal -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('workerComp')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Average Salary of an employee </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="workerCompAvgSal" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'workerCompAvgSal', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div> -->
+
+        <!-- Public Liability  -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Public Liability</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="pl"
+              (change)="onRadioChange($event, 'pl')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Public Liability If Yes -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('pl')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Total Sum Insured</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="plSum" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'plSum', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Fidelity -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Fidelity </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="fedility"
+              (change)="onRadioChange($event, 'fidelity')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Fidelity If Yes, Num of EMp -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('fedility')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Number of employees</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="fedilityNoEmp" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'fedilityNoEmp', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+        <!-- Fidelity If Yes, Sum Insured -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('fedility')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Sum Insured per Employee</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="fedilitySum" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'fedilitySum', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+        <!-- Rent -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Rent for Alternate Accommodation </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group aria-label="Select an option" formControlName="rent">
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div> -->
+
+        <!-- Business Flop -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Business Interruption (FLOP)</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="BusFlop"
+              (change)="onRadioChange($event, 'busFlop')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div> -->
+        <!-- Business Flop IF Yes -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('BusFlop')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Number of Months </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field appearance="fill" class="width-textInput">
+              <mat-label>Select the Months</mat-label>
+              <mat-select formControlName="BusFlopNoMonths">
+                <mat-option *ngFor="let months of businessFl0pMonths" [value]="months?.value">
+                  {{ months.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div> -->
+
+        <!-- Omision to Ensure -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Omission to Insure </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group aria-label="Select an option" formControlName="omitiontoEnsure">
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div> -->
+        <!-- Personal Accident -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Personal Accident (Accidental death/PTD/PPD(Owner))</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="personalAccident"
+              (change)="onRadioChange($event, 'personalAccident')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Personal Accident - YES -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('personalAccident')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Sum Insured</label>
+          </div>
+
+          <!-- <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="pa" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'pa', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div> -->
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field appearance="fill" class="width-textInput">
+              <mat-label>Select the Accidental cover for owner</mat-label>
+              <mat-select formControlName="pa">
+                <mat-option *ngFor="let sum of paSumInsured" [value]="sum?.value">
+                  {{ sum?.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'pa', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Discount  -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>
+              Discount / Loading (for loading put the figure in negative, for eg. -10)
+            </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              formControlName="discount"
+              (change)="onRadioChange($event, 'discount')"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Percentage-->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="this.shopKeeperForm.get('discount')?.value === 'Y'"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Percentage </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field class="example-full-width" appearance="fill" class="width-textInput">
+              <mat-label>Value</mat-label>
+              <input matInput type="number" formControlName="discountValue" />
+            </mat-form-field>
+            <ng-container
+              *ngTemplateOutlet="
+                shopkeeperErrorTemplate;
+                context: { control: 'discountValue', label: 'Value' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Escalation -->
+        <!-- <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label> Escalation Clause</label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group
+              aria-label="Select an option"
+              (change)="onRadioChange($event, 'escalation')"
+              formControlName="escalation"
+            >
+              <div class="gender-radio-box">
+                <mat-radio-button value="Y">Yes</mat-radio-button>
+              </div>
+              <div class="gender-radio-box">
+                <mat-radio-button value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div> -->
+
+        <!-- END -->
+      </div>
+    </div>
+  </form>
+  <button
+    mat-raised-button
+    class="generate-quote-btn"
+    [disabled]="!shopKeeperForm.valid"
+    (click)="generateQuote()"
+  >
+    Generate Quote
+  </button>
+</div>
+<ng-template #shopkeeperErrorTemplate let-control="control" let-label="label">
+  <div
+    *ngIf="shopKeeperForm.get(control).touched && shopKeeperForm.get(control).hasError('required')"
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is required.</span>
+  </div>
+  <div
+    *ngIf="shopKeeperForm.get(control).touched && shopKeeperForm.get(control).hasError('min')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should not be less than
+      {{ shopKeeperForm.get(control).errors.min.min }}
+    </span>
+  </div>
+  <div
+    *ngIf="shopKeeperForm.get(control).touched && shopKeeperForm.get(control).hasError('max')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a max
+      {{ shopKeeperForm.get(control).errors.max.max }}
+    </span>
+  </div>
+  <div
+    *ngIf="shopKeeperForm.get(control).touched && shopKeeperForm.get(control).hasError('minlength')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be min
+      {{ shopKeeperForm.get(control).errors.minlength.requiredLength }}
+    </span>
+  </div>
+  <div
+    *ngIf="shopKeeperForm.get(control).touched && shopKeeperForm.get(control).hasError('maxlength')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be max
+      {{ shopKeeperForm.get(control).errors.maxlength.requiredLength }}
+    </span>
+  </div>
+  <div
+    *ngIf="shopKeeperForm.get(control).touched && shopKeeperForm.get(control).hasError('pattern')"
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is not valid </span>
+  </div>
+</ng-template>

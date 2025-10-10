@@ -1,0 +1,119 @@
+.service-request-against {
+    text-align: center;
+}
+
+/* .description{
+    position: relative;
+    left: 15%;
+    margin-bottom: 10%;
+    margin-top:10%;
+    font-size: 25px;
+    width: 100%;
+    color:#0d47a1;
+    font-weight: bolder;
+} */
+
+.example-dropdown {
+    width: 20rem;
+}
+
+/* .text-box-div{
+    position: absolute;
+    top:100px;
+} */
+
+mat-select {
+    height: 1px;
+}
+
+.example-form {
+    min-width: 12rem;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.claim-icon {
+    width: 100%;
+    /* position: absolute;
+      top:0%;
+      right:0%; */
+}
+
+.upload-Option {
+    font-size: 20px;
+    margin-top: 6rem;
+}
+
+.document-option {
+    font-size: 16px;
+    text-align: left;
+    margin-bottom: 25px;
+    clear: both;
+}
+
+.upload-button {
+    float: right;
+    margin-right: 5px;
+}
+
+.documents {
+    height: 120px;
+    overflow-y: scroll;
+}
+
+textarea {
+    font-size: 14px;
+    height: 80px;
+}
+
+textarea::placeholder {
+    font-size: 16px !important;
+}
+
+.error {
+    font-size: 14px;
+    color: #b00020;
+}
+
+.claim-icon {
+    font-size: 16px;
+    margin-bottom: 15px;
+    margin-top: -15px;
+    text-align: left;
+}
+
+.claim-icon a {
+    text-decoration: none;
+    color: #673ab7;
+}
+
+mat-progress-spinner {
+    position: absolute;
+    left: 40%;
+    top: 185px;
+}
+
+mat-file-upload {
+    margin-bottom: 2px;
+}
+
+.text-dec-none {
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .description {
+        left: -16%;
+        font-size: 20px;
+    }
+    .text-box {
+        font-size: 20px;
+        width: 300px;
+        height: 200px;
+        margin-left: 30px;
+    }
+}

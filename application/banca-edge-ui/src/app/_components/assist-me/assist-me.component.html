@@ -1,0 +1,97 @@
+<div id="assistMeParent"></div>
+<div class="assist-me" id="assistMe">
+  <!-- <h4>ASSIST ME</h4> -->
+  <img alt="Assist Me" src="assets/assist_me/images/assist-me.png" />
+</div>
+
+<div class="addon-actions">
+  <button type="button" (click)="openAssist(1)" class="btn btn-default addon-icon" data-toggle="tooltip"
+    data-placement="auto" title="Phone" id="phoneIcon">
+    <i class="fa fa-phone" aria-hidden="true"></i>
+  </button>
+
+  <button type="button" (click)="openAssist(2)" class="btn btn-default addon-icon" data-toggle="tooltip"
+    data-placement="auto" title="Email" id="atIcon">
+    <i class="fa fa-at" aria-hidden="true"></i>
+  </button>
+
+  <button type="button" (click)="openWidget()" class="btn btn-default addon-icon" data-toggle="tooltip"
+    data-placement="auto" title="Chat" id="chatIcon">
+    <i id="open_fc_widget" style="cursor:pointer;" class="fa fa-comment-alt" aria-hidden="true"></i>
+  </button>
+
+  <!-- <button type="button" class="btn btn-default addon-icon" data-toggle="tooltip" data-placement="right"
+            title="Talk to Expert" id="videoIcon">
+            <i class="fa fa-video-camera" aria-hidden="true"></i>
+        </button> -->
+
+  <!-- <a href=""><button type="button" class="btn btn-default addon-icon" data-toggle="tooltip" data-placement="auto"
+      title="FAQ" id="faqIcon">
+      <i class="fa fa-question" aria-hidden="true"></i>
+    </button></a> -->
+
+  <!-- <button type="button" class="btn btn-default addon-icon" data-toggle="tooltip" data-placement="auto"
+            title="Locator" id="locationIcon">
+            <i class="fa fa-map-marker" aria-hidden="true"></i>
+        </button> -->
+
+</div>
+<div class="assist-box" id="assist_box" *ngIf="assistBox">
+  <div class="call-assist" id="callAssist" *ngIf="callAssist">
+    <div class="assist-head">
+      <h4>Call assistance</h4>
+    </div>
+    <div class="assist-icons">
+      <i class="fa fa-times-circle close-div" aria-hidden="true" (click)="closeAssist()"></i>
+    </div>
+    <div class="assist-table">
+      <div class="assist-middle">
+        <p>Hello!</p>
+        <p>Talk to our Customer Experience Manager and get your queries solved in real time.</p>
+        <p class="call-us">Call us on:<br>
+          <a href="tel:02261915757">+91 22 6191 5757</a>
+        </p>
+        <p>Have a nice day!</p>
+        <!--<button type="button" class="btn btn-default info-btn">Connect now</button>-->
+      </div>
+    </div>
+  </div>
+
+  <div class="email-assist" id="emailAssist" *ngIf="emailAssist">
+    <div class="assist-head">
+      <h4>Email assistance</h4>
+    </div>
+    <div class="assist-icons">
+      <i class="fa fa-times-circle close-div" aria-hidden="true" (click)="closeAssist()"></i>
+    </div>
+    <div class="assist-table">
+      <div class="assist-middle">
+        <form [formGroup]="form" enctype="multipart/form-data" name="assistMeEmail" id="assistMeEmail">
+          <div class="col-md-12 col-lg-12">
+            <mat-form-field appearance="fill">
+              <mat-label class="bordered-cell">Your Email ID<span class="man-field">*</span>
+              </mat-label>
+              <input matInput class="form-control minimal" formControlName="email">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label class="bordered-cell">Subject<span class="man-field">*</span>
+              </mat-label>
+              <input matInput class="form-control minimal" formControlName="subject">
+            </mat-form-field>
+            <!-- <input type="file" formControlName="file" #Image accept="image*/">
+            <br /><br /> -->
+            <mat-form-field appearance="fill">
+              <mat-label class="bordered-cell">Message<span class="man-field">*</span>
+              </mat-label>
+              <textarea matInput class="form-control minimal text-msg" formControlName="message" rows="3"></textarea>
+            </mat-form-field>
+            <div class="form-group" style="margin-bottom:5px;">
+              <button (click)="onSubmit()" mat-raised-button [disabled]="checkInput()" class="info-btn">Send</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

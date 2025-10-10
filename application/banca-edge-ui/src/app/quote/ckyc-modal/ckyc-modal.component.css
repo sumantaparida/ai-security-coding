@@ -1,0 +1,17 @@
+.main-div{
+    width: 350px;
+    text-align: center;
+}
+
+.margin-10{
+    margin: 10px;
+    text-align: center;
+}
+
+
+.proceed-btn {
+    background: #03dac5;
+    color: white;
+    font-size: 18px;
+    
+  }

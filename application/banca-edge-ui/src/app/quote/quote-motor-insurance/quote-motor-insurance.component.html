@@ -1,0 +1,41 @@
+<div class="quote-health-container">
+    <!-- -- Main Row --  -->
+
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+        <!-- --Mian Division--  -->
+        <div fxFlex="30" class="edit-quote-col" *ngIf='isLoading == false'>
+            <!-- -- Division inside 1st col --  -->
+            <app-display-edit-motor-quote [finalQuote]="finalQuote"></app-display-edit-motor-quote>
+
+        </div>
+        <!--   <div *ngIf='showloader'>
+            <mat-progress-spinner [diameter]="50" mode="indeterminate">
+            </mat-progress-spinner>
+        </div>-->
+
+        <!-- --Plan quote details-- desktop -->
+        <div fxFlex="70" class="plan-quote-col">
+            <!--  <div *ngIf='showloader == false'>-->
+
+            <div *ngIf='isLoading == false'>
+                <app-display-result-motor-quote [finalQuote]="finalQuote"></app-display-result-motor-quote>
+            </div>
+            <!--   <mat-progress-spinner class="mat_spinner_align" [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-spinner> -->
+
+        </div>
+    </div>
+</div>
+
+<div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" *ngIf='isLoading == false'>
+    <div fxFlex="30" class="edit-quote-col">
+    </div>
+
+    <div fxFlex="70" class="plan-quote-col">
+        <div class="disclaimer_text">The information and details of insurance product solutions displayed are purely for
+            illustrative purposes only. For more details on risk factors,
+            terms and conditions, please read the sales brochure of the respective Insurer carefully before concluding a
+            sale.
+        </div>
+    </div>
+</div>

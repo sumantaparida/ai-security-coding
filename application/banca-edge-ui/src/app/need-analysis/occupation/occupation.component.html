@@ -1,0 +1,113 @@
+<div *ngIf="state==='occupation'" class="occupation">
+  <div class="occupationDescription">
+    <label> Details about your occupation</label>
+  </div>
+  <div id="index-gallery" class="flex-container-occupation lg-screen">
+    <div class="item">
+      <img class="occupationImages" [ngClass]="{'selected': form.get('occupationValue').value === 1 }"
+        (click)="onOccupationSelected('employee')" src="../../../assets/images/{{image1}}.svg">
+      <!-- <img class="occupationImages" *ngIf="form.get('genderValue').value === 'M'" [ngClass]="{'selected': form.get('occupationValue').value === 1 }"
+        (click)="onOccupationSelected('employee')" src="../../../assets/images/Man - Employee.svg"> -->
+      <p>Employee</p>
+    </div>
+    <div class="item">
+      <img class="occupationImages" [ngClass]="{'selected': form.get('occupationValue').value === 2 }"
+        (click)="onOccupationSelected('employer')" src="../../../assets/images/{{image2}}.svg">
+      <!-- <img class="occupationImages" *ngIf="form.get('genderValue').value === 'M'"
+       [ngClass]="{'selected': form.get('occupationValue').value === 2 }"
+          (click)="onOccupationSelected('employer')" src="../../../assets/images/Man - Employer.svg"> -->
+      <p>Employer</p>
+    </div>
+    <div class="item">
+      <img class="occupationImages" [ngClass]="{'selected': form.get('occupationValue').value === 3 }"
+        (click)="onOccupationSelected('proprietor')" src="../../../assets/images/{{image3}}.svg">
+      <!-- <img class="occupationImages" *ngIf="form.get('genderValue').value === 'M'" [ngClass]="{'selected': form.get('occupationValue').value === 3 }"
+          (click)="onOccupationSelected('proprietor')" src="../../../assets/images/Man - Proprietor.svg"> -->
+      <p>Proprietor</p>
+    </div>
+    <div class="item">
+      <img class="occupationImages" [ngClass]="{'selected': form.get('occupationValue').value === 4}"
+        (click)="onOccupationSelected('consultant')" src="../../../assets/images/{{image4}}.svg">
+      <!-- <img class="occupationImages" *ngIf="form.get('genderValue').value === 'M'" [ngClass]="{'selected': form.get('occupationValue').value === 4}"
+          (click)="onOccupationSelected('consultant')" src="../../../assets/images/Man - consultant.svg"> -->
+      <p>Consultant</p>
+    </div>
+    <div class="item">
+      <img class="occupationImages" [ngClass]="{'selected': form.get('occupationValue').value === 5 }"
+        (click)="onOccupationSelected('professional')" src="../../../assets/images/{{image5}}.svg">
+      <!-- <img class="occupationImages" *ngIf="form.get('genderValue').value === 'M'" [ngClass]="{'selected': form.get('occupationValue').value === 5 }"
+          (click)="onOccupationSelected('professional')" src="../../../assets/images/Man - Professional.svg"> -->
+      <p>Professional</p>
+    </div>
+  </div>
+
+
+  <div class="row sm-screen">
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+
+      <div fxFlex="100" class="child-one">
+        <button class="emp-option" mat-raised-button (click)="onOccupationSelected('employee')"
+          [ngClass]="{'selected': form.get('occupationValue').value === 'Employee' }">Employee</button>
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+
+      <div fxFlex="100" class="child-one">
+        <button class="emp-option" mat-raised-button (click)="onOccupationSelected('employer')"
+          [ngClass]="{'selected': form.get('occupationValue').value === 'Employer' }">Employer</button>
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+
+      <div fxFlex="100" class="child-one">
+        <button class="emp-option" mat-raised-button (click)="onOccupationSelected('proprietor')"
+          [ngClass]="{'selected': form.get('occupationValue').value === 'Proprietor' }">Proprietor</button>
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+
+      <div fxFlex="100" class="child-one">
+        <button class="emp-option" mat-raised-button (click)="onOccupationSelected('consultant')"
+          [ngClass]="{'selected': form.get('occupationValue').value === 'Consultant' }">Consultant</button>
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+
+      <div fxFlex="100" class="child-one">
+        <button class="emp-option" mat-raised-button (click)="onOccupationSelected('professional')"
+          [ngClass]="{'selected': form.get('occupationValue').value === 'Professional' }">Professional</button>
+      </div>
+    </div>
+
+
+
+
+
+
+    <!-- <div class="col border occupationOption" (click)="onOccupationSelected('employee')"
+        [ngClass]="{'selected': form.get('occupationValue').value === 'Employee' }">
+        <button mat-raised-button>Employee</button>
+      </div>
+    <div class="col border occupationOption" (click)="onOccupationSelected('employer')"
+      [ngClass]="{'selected': form.get('occupationValue').value === 'Employer' }">
+      <button mat-raised-button>Employer</button>
+    </div>
+    <div class="col border occupationOption" (click)="onOccupationSelected('proprietor')"
+      [ngClass]="{'selected': form.get('occupationValue').value === 'Proprietor' }">
+      <button mat-raised-button>Proprietor</button>
+    </div>
+    <div class="col border occupationOption" (click)="onOccupationSelected('consultant')"
+      [ngClass]="{'selected': form.get('occupationValue').value === 'Consultant' }">
+      <button mat-raised-button>Consultant</button>
+    </div>
+    <div class="col border occupationOption" (click)="onOccupationSelected('professional')"
+      [ngClass]="{'selected': form.get('occupationValue').value === 'Professional' }">
+      <button mat-raised-button>Professional</button>
+    </div> -->
+  </div>
+
+
+  <mat-error class="error-msg"
+    *ngIf="form.get('occupationValue').dirty && form.get('occupationValue').hasError('required')">Please select your
+    Occupation</mat-error>
+</div>

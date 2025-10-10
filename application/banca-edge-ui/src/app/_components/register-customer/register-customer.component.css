@@ -1,0 +1,59 @@
+.registration-form {
+    box-shadow: 0px 0px 5px #ccc;
+    margin: auto;
+    margin-top: 1rem;
+}
+
+.margin-center {
+    margin: auto;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.heading-label {
+    font-size: 20px;
+    color: white;
+    text-align: center;
+}
+
+.heading {
+    text-align: center;
+    padding: 10px;
+    background: midnightblue;
+}
+
+.heading-row {
+    /* margin-top: 1rem; */
+    margin-bottom: 1rem;
+}
+
+.register-btn {
+    background-color: #03dac5;
+    color: white;
+    font-size: 18px;
+    width: 50%;
+}
+
+.first-name {
+    margin-top: 1rem;
+}
+
+.btn-row {
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.loading-spinner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.width-80 {
+    width: 80%
+}

@@ -1,0 +1,50 @@
+<div mat-dialog-content>
+  <div class="consent-form" *ngIf="data?.insurerCode !== 151">
+    <p class="terms-headding">Declaration & Authorization*:</p>
+    <p></p>
+    <p>
+      I/We hereby declare, on my behalf and on behalf of all persons proposed to be insured, that
+      the above statements, answers and/ or particulars given by me are true and complete in all
+      respects to the best of my knowledge and that I/We am/are authorised to propose on behalf of
+      these other persons.
+    </p>
+
+    <p>
+      I understand that the information provided by me will form the basis of the insurance policy,
+      is subject to the Board approved underwriting policy of the insurance company and that the
+      policy will come into force only after full receipt of the premium chargeable.
+    </p>
+
+    <p>
+      I/We further declare that I/We will notify in writing any change occurring in the occupation
+      or general health of the life to be insured/proposer after the proposal has been submitted but
+      before communication of the risk acceptance by the company.
+    </p>
+
+    <p>
+      I/We declare and consent to the company seeking medical information from any doctor or from a
+      hospital who at any time has attended on the life to be insured/proposer or from any past or
+      present employer concerning anything which affects the physical or mental health of the life
+      to be assured/proposer and seeking information from any insurance company to which an
+      application for insurance on the life to be assured/proposer has been made for the purpose of
+      underwriting the proposal and/or claim settlement.
+    </p>
+
+    <p>
+      I/We authorize the company to share information pertaining to my proposal including the
+      medical records for the sole purpose of proposal underwriting and/or claims settlement and
+      with any Government and/or Regulatory authority.
+    </p>
+
+    <p class="terms-headding">Declaration:</p>
+    <p>
+      I hereby confirm that I have disclosed all facts related to my health/medical history and that
+      of all proposed to be insured. I understand that any misrepresentation or failure to disclose
+      all facts will result in claim rejection and / or policy cancellation.
+    </p>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button class="agree-btn" (click)="onAgreeClicked()">I Agree</button>
+  <button mat-button class="cancel-btn" (click)="onCancelClicked()" cdkFocusInitial>Cancel</button>
+</div>

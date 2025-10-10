@@ -1,0 +1,61 @@
+<div *ngIf="state==='maritalStatus'" class="maritalStatus">
+  <div class="maritalStatusDesc">
+    <label>I am</label>
+    <div id="index-gallery" class="flex-container-gender">
+      <div class="item">
+        <img *ngIf="form.get('genderValue').value === 'M'" class="maritalStatus-img"
+          [ngClass]="{'selected': form.get('maritalStatusValue').value === 'Single' }"
+          (click)="onMaritalStatusSelected('single')" src="../../../assets/images/Man - Single.svg" alt="singleimage">
+        <img *ngIf="form.get('genderValue').value === 'F'" class="maritalStatus-img"
+          [ngClass]="{'selected': form.get('maritalStatusValue').value === 'Single' }"
+          (click)="onMaritalStatusSelected('single')" src="../../../assets/images/Woman - Single.svg" alt="singleimage">
+        <p>Single</p>
+      </div>
+
+      <div class="item">
+        <img class="maritalStatus-img" (click)="onMaritalStatusSelected('married')"
+          [ngClass]="{'selected': form.get('maritalStatusValue').value === 'Married' }"
+          src="../../../assets/images/Married - 1.svg" alt="marriedimage">
+        <p>Married</p>
+      </div>
+    </div>
+    <!-- <div>
+      <img *ngIf="form.get('genderValue').value === 'M'" class="maritalStatus-img"
+        [ngClass]="{'selected': form.get('maritalStatusValue').value === 'Single' }"
+        (click)="onMaritalStatusSelected('single')" src="../../assets/images/Single - man.jpg" alt="singleimage">
+      <img *ngIf="form.get('genderValue').value === 'F'" class="maritalStatus-img"
+        [ngClass]="{'selected': form.get('maritalStatusValue').value === 'Single' }"
+        (click)="onMaritalStatusSelected('single')" src="../../assets/images/Single - Lady.jpg" alt="singleimage">
+      <img class="maritalStatus-img" (click)="onMaritalStatusSelected('married')"
+        [ngClass]="{'selected': form.get('maritalStatusValue').value === 'Married' }"
+        src="../../assets/images/Married.jpg" alt="marriedimage">
+    </div>
+    <div>
+      <span class="single-txt">Single</span>
+      <span class="married-txt">Married</span>
+    </div> -->
+  </div>
+
+  <!-- sm-screen -->
+  <!-- <div class="maritalStatusDesc sm-screen">
+    I am
+    <div>
+      <img *ngIf="form.get('genderValue').value === 'M'" class="maritalStatus-img"
+        [ngClass]="{'selected': form.get('maritalStatusValue').value === 'Single' }"
+        (click)="onMaritalStatusSelected('single')" src="../../../assets/images/Man - Single.svg" alt="singleimage">
+      <img *ngIf="form.get('genderValue').value === 'F'" class="maritalStatus-img"
+        [ngClass]="{'selected': form.get('maritalStatusValue').value === 'Single' }"
+        (click)="onMaritalStatusSelected('single')" src="../../../assets/images/Woman - Single.svg" alt="singleimage">
+      <img class="maritalStatus-img" (click)="onMaritalStatusSelected('married')"
+        [ngClass]="{'selected': form.get('maritalStatusValue').value === 'Married' }"
+        src="../../assets/images/married-option.png" alt="marriedimage">
+    </div>
+    <div>
+      <span class="single-txt">Single</span>
+      <span class="married-txt">Married</span>
+    </div>
+  </div> -->
+  <mat-error class="error-msg" *ngIf="form.get('maritalStatusValue').dirty && !form.get('maritalStatusValue').valid">
+    Please
+    select a Marital status</mat-error>
+</div>

@@ -1,0 +1,592 @@
+<form [formGroup]="genralFormGroup">
+  <ng-container *ngFor="let section of sections">
+    <p *ngIf="
+        section
+          | displaySection
+            : sections
+            : (section?.dependsOnControl !== ''
+                ? genralFormGroup?.get(section?.dependsOnControl)?.value
+                : undefined)
+            : genralFormGroup
+      ">
+      {{ section?.sectionName }}
+    </p>
+    <mat-card *ngIf="
+        section
+          | displaySection
+            : sections
+            : (section?.dependsOnControl !== ''
+                ? genralFormGroup?.get(section?.dependsOnControl)?.value
+                : undefined)
+            : genralFormGroup
+      " class="margin-bottom-30">
+      <mat-card-content *ngIf="!section.medicalSection">
+        <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+          <ng-template ngFor let-input [ngForOf]="section?.formData">
+            <ng-container [ngSwitch]="input.controlType">
+              <ng-template [ngSwitchCase]="'text'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span></mat-label>
+                    <input (change)="
+                        onDataChanged(input?.controlName, input?.key, input?.valueType, $event)
+                      " (keyup)="
+                        onKeyUp(input?.controlName, input?.key, input?.valueType, input, $event, input?.isCap)
+                      " matInput placeholder="{{ input?.placeholder }}" formControlName="{{ input?.controlName }}{{
+                        input?.key === '' ? '' : '-' + input?.key
+                      }}" />
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    ">
+                  </ng-container>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'text-area'" *ngIf="
+                section.formData
+                  | displayFormField
+                    : (input?.isFieldDependentOnOtherControl
+                        ? input?.dependentFieldControlName
+                        : undefined)
+                    : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                    : genralFormGroup
+                    : (input?.isFieldDependentOnOtherControl &&
+                      genralFormGroup.get(input?.dependentFieldControlName)
+                        ? genralFormGroup.get(input?.dependentFieldControlName).value
+                        : undefined)
+                    : applicationData
+              ">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span></mat-label>
+                    <textarea matInput (change)="
+                  onDataChanged(input?.controlName, input?.key, input?.valueType, $event)
+                " (keyup)="
+                  onKeyUp(input?.controlName, input?.key, input?.valueType, input, $event, input?.isCap)
+                " matInput placeholder="{{ input?.placeholder }}" formControlName="{{ input?.controlName }}{{
+                  input?.key === '' ? '' : '-' + input?.key
+                }}"></textarea>
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                    proposerErrorTemplate;
+                    context: {
+                      control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                      label: input?.label
+                    }
+                  ">
+                  </ng-container>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'text-area-disabled'" *ngIf="
+              section.formData
+                | displayFormField
+                  : (input?.isFieldDependentOnOtherControl
+                      ? input?.dependentFieldControlName
+                      : undefined)
+                  : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                  : genralFormGroup
+                  : (input?.isFieldDependentOnOtherControl &&
+                    genralFormGroup.get(input?.dependentFieldControlName)
+                      ? genralFormGroup.get(input?.dependentFieldControlName).value
+                      : undefined)
+                  : applicationData
+            ">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span></mat-label>
+                    <textarea [readonly]="true" matInput (change)="
+                onDataChanged(input?.controlName, input?.key, input?.valueType, $event)
+              " (keyup)="
+                onKeyUp(input?.controlName, input?.key, input?.valueType, input, $event, input?.isCap)
+              " matInput placeholder="{{ input?.placeholder }}" formControlName="{{ input?.controlName }}{{
+                input?.key === '' ? '' : '-' + input?.key
+              }}"></textarea>
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                  proposerErrorTemplate;
+                  context: {
+                    control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                    label: input?.label
+                  }
+                ">
+                  </ng-container>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'text-disabled'" *ngIf="
+                section.formData
+                  | displayFormField
+                    : (input?.isFieldDependentOnOtherControl
+                        ? input?.dependentFieldControlName
+                        : undefined)
+                    : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                    : genralFormGroup
+                    : (input?.isFieldDependentOnOtherControl &&
+                      genralFormGroup.get(input?.dependentFieldControlName)
+                        ? genralFormGroup.get(input?.dependentFieldControlName).value
+                        : undefined)
+                    : applicationData
+              ">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span></mat-label>
+                    <input [readonly]="true" (change)="
+                      onDataChanged(input?.controlName, input?.key, input?.valueType, $event)
+                    " (keyup)="
+                      onKeyUp(input?.controlName, input?.key, input?.valueType, input, $event, input?.isCap)
+                    " matInput placeholder="{{ input?.placeholder }}" formControlName="{{ input?.controlName }}{{
+                      input?.key === '' ? '' : '-' + input?.key
+                    }}" />
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                    proposerErrorTemplate;
+                    context: {
+                      control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                      label: input?.label
+                    }
+                  ">
+                  </ng-container>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'proposal-number'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span></mat-label>
+                    <div class="proposal-input">
+                      <input (keyup)="
+                      onKeyUp(input?.controlName, input?.key, input?.valueType, input, $event, input?.isCap)
+                    " matInput placeholder="{{ input?.placeholder }}" formControlName="{{ input?.controlName }}{{
+                      input?.key === '' ? '' : '-' + input?.key
+                    }}" />
+                      <button class="proposal-get-button" [disabled]="!isEditable || customerToken"
+                        (click)="getPremiumFromProposalNumber(input?.controlName, input?.key, input?.valueType,$event, input)">Fetch</button>
+                    </div>
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    ">
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <!-- handling select & radio type inputs -->
+
+              <ng-template [ngSwitchCase]="'select'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div fxFlex="32" [class]="input.addClass">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span>
+                    </mat-label>
+                    <mat-select (selectionChange)="
+                        onSelectionChanged(input?.controlName, input?.key, input?.valueType, $event)
+                      " formControlName="{{ input?.controlName }}{{
+                        input?.key === '' ? '' : '-' + input?.key
+                      }}">
+                      <mat-option matTooltip="option.value" *ngFor="let option of input?.options" [value]="option.id">
+                        {{ option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    ">
+                  </ng-container>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'select-key-value'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div fxFlex="32" [class]="input.addClass">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span>
+                    </mat-label>
+                    <mat-select (selectionChange)="onSelectionKeyValueChanged(input, $event)" formControlName="{{ input?.controlName }}{{
+                        input?.key === '' ? '' : '-' + input?.key
+                      }}">
+                      <mat-option matTooltip="option.value" *ngFor="let option of input?.options" [value]="option.id">
+                        {{ option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    ">
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'select-sp'">
+                <div fxFlex="32" [class]="input.addClass">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span>
+                    </mat-label>
+                    <mat-select (selectionChange)="onSpChange(input?.options, $event)" formControlName="{{ input?.controlName }}{{
+                        input?.key === '' ? '' : '-' + input?.key
+                      }}">
+                      <mat-option matTooltip="option.value" *ngFor="let option of input?.options" [value]="option.id">
+                        {{ option.id + ' ' + option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    ">
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'seachableDropdown'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span></mat-label>
+                    <mat-select (selectionChange)="
+                        onSelectionChanged(input?.controlName, input?.key, input?.valueType, $event)
+                      " formControlName="{{ input?.controlName }}{{
+                        input?.key === '' ? '' : '-' + input?.key
+                      }}">
+                      <mat-option>
+                        <ngx-mat-select-search placeholderLabel="Search" noEntriesFoundLabel="Not Found"
+                          formControlName="searchCtrl">
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="
+                          let option of input?.options
+                            | searchDropDown: genralFormGroup.get('searchCtrl').value:'value'
+                        " [value]="option.id">
+                        {{ option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    ">
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'date'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" color="accent" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span></mat-label>
+                    <input (dateChange)="
+                        onDateChanged(input?.controlName, input?.key, input?.valueType, $event)
+                      " readonly matInput [max]="
+                        input.maxDate
+                          | getDate: applicationData
+                          | addOrSubExtraDate: input?.addOrSubExtraMaxDate
+                      " [min]="
+                        input.minDate
+                          | getDate: applicationData
+                          | addOrSubExtraDate: input?.addOrSubExtraMinDate
+                      " [matDatepicker]="picker" formControlName="{{ input?.controlName }}{{
+                        input?.key === '' ? '' : '-' + input?.key
+                      }}" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker color="primary"></mat-datepicker>
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    ">
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'number'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span></mat-label>
+                    <input (change)="
+                        onNumberChanged(input?.controlName, input?.key, input?.valueType, $event)
+                      " matInput placeholder="{{ input?.placeholder }}" type="number" formControlName="{{ input?.controlName }}{{
+                        input?.key === '' ? '' : '-' + input?.key
+                      }}" />
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    ">
+                  </ng-container>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'number-disabled'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field">*</span></mat-label>
+                    <input (change)="
+                        onNumberChanged(input?.controlName, input?.key, input?.valueType, $event)
+                      " matInput placeholder="{{ input?.placeholder }}" type="number" readonly="true" formControlName="{{ input?.controlName }}{{
+                        input?.key === '' ? '' : '-' + input?.key
+                      }}" />
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    ">
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'checkbox'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div fxFlex="100">
+                  <mat-checkbox [color]="'primary'" formControlName="{{ input?.controlName }}{{
+                      input?.key === '' ? '' : '-' + input?.key
+                    }}" (change)="onCheckboxChange($event, input.controlName)"></mat-checkbox>
+                  <span class="checkBox">{{ input?.label }}</span>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'radio'" *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName + (input?.key !== '' ? '-' + input?.key : '')
+                      : genralFormGroup
+                      : (input?.isFieldDependentOnOtherControl &&
+                        genralFormGroup.get(input?.dependentFieldControlName)
+                          ? genralFormGroup.get(input?.dependentFieldControlName).value
+                          : undefined)
+                      : applicationData
+                ">
+                <div class="margin-top-5" fxFlex="32">
+                  <label>{{ input?.label }}</label>
+                  <mat-radio-group (change)="
+                      onRadioChange(input?.controlName, input?.key, input?.valueType, $event)
+                    " class="display-flex" aria-label="Select an option" formControlName="{{ input?.controlName }}{{
+                      input?.key === '' ? '' : '-' + input?.key
+                    }}">
+                    <ng-container *ngFor="let form of input?.options; let first = first">
+                      <div class="loan-details-screen-radio-box" [ngClass]="{ 'margin-left': !first }">
+                        <mat-radio-button color="primary" [value]="form?.id">{{ form?.value }}
+                        </mat-radio-button>
+                      </div>
+                    </ng-container>
+                  </mat-radio-group>
+                </div>
+              </ng-template>
+            </ng-container>
+          </ng-template>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</form>
+
+<ng-template #proposerErrorTemplate let-control="control" let-label="label">
+  <div *ngIf="
+      (genralFormGroup.get(control).touched && genralFormGroup.get(control).hasError('required')) ||
+      (genralFormGroup.get(control).value !== '' &&
+        genralFormGroup.get(control).hasError('required'))
+    " class="full-width margin-top-10">
+    <span class="man-field">{{ label }} is required.</span>
+  </div>
+  <div *ngIf="
+      (genralFormGroup.get(control).touched && genralFormGroup.get(control).hasError('email')) ||
+      (genralFormGroup.get(control).value !== '' && genralFormGroup.get(control).hasError('email'))
+    " class="full-width margin-top-10">
+    <span class="man-field">Email is not valid</span>
+  </div>
+  <div *ngIf="
+      (genralFormGroup.get(control).touched &&
+        genralFormGroup.get(control).hasError('minlength')) ||
+      (genralFormGroup.get(control).value !== '' &&
+        genralFormGroup.get(control).hasError('minlength'))
+    " class="full-width">
+    <span class="man-field">{{ label }} should be a minimum of
+      {{ genralFormGroup.get(control).errors.minlength.requiredLength }}
+      characters.</span>
+  </div>
+  <div *ngIf="
+      (genralFormGroup.get(control).touched &&
+        genralFormGroup.get(control).hasError('maxlength')) ||
+      (genralFormGroup.get(control).value !== '' &&
+        genralFormGroup.get(control).hasError('maxlength'))
+    " class="full-width">
+    <span class="man-field">{{ label }} should be a maximum of
+      {{ genralFormGroup.get(control).errors.maxlength.requiredLength }}
+      characters.</span>
+  </div>
+  <div *ngIf="
+      (genralFormGroup.get(control).touched && genralFormGroup.get(control).hasError('max')) ||
+      (genralFormGroup.get(control).value !== '' && genralFormGroup.get(control).hasError('max'))
+    " class="full-width">
+    <span class="man-field">{{ label }} should be at max
+      {{ genralFormGroup.get(control).errors.max.max }}
+    </span>
+  </div>
+  <div *ngIf="
+      (genralFormGroup.get(control).touched && genralFormGroup.get(control).hasError('min')) ||
+      (genralFormGroup.get(control).value !== '' && genralFormGroup.get(control).hasError('min'))
+    " class="full-width">
+    <span class="man-field">{{ label }} should be at least
+      {{ genralFormGroup.get(control).errors.min.min }}
+    </span>
+  </div>
+  <div *ngIf="
+      (genralFormGroup.get(control).touched && genralFormGroup.get(control).hasError('pattern')) ||
+      (genralFormGroup.get(control).value !== '' &&
+        genralFormGroup.get(control).hasError('pattern'))
+    " class="full-width">
+    <span class="man-field">{{ label }} is not valid </span>
+  </div>
+</ng-template>

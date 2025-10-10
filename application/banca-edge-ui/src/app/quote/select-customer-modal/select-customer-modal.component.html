@@ -1,0 +1,19 @@
+<div class="add-customer-container">
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+        class="add-customerpopup rows-edit-col">
+        <div fxFlex="100" class="finish-editing-heading"><label>Please select/add Customer to proceed further</label>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+        <!-- <div fxFlex="100"><label>Please add Customer to proceed further</label></div> -->
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="margin-bottom">
+        <div fxFlex="100"></div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+        <div fxFlex="50"><button mat-raised-button (click)="addCustomer()" class="update-btn">Add</button>
+        </div>
+        <div fxFlex="50"><button mat-raised-button mat-dialog-close class="cancel-btn">Cancel</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="70" class="block-conatiner">
+        <form [formGroup]="">
+            <div flex fxLayout="row" fxLayout.xs="" fxLayout.sm="" fxLayoutGap="10px" class="margin-bottom-row">
+                <div fxFlex="100" class="center-label">
+                    <label class="label-question">Tell us the DOB of your family members</label>
+                </div>
+            </div>
+            <ng-container *ngFor="let member of membersDisplay">
+                <div flex fxLayout="row" fxLayout.xs="" fxLayout.sm="" fxLayoutGap="1px" class="margin-bottom-10">
+                    <div fxFlex="20" class="img-div">
+                        <div class="img-box">
+                            <img src="{{member.img}}" alt="Self">
+
+                        </div>
+                    </div>
+                    <div fxFlex="20" class="img-div">
+                        <div class="img-box">
+                            {{member.name}}
+                        </div>
+                    </div>
+                    <div fxFlex="57" class="img-div dob-cal">
+                        <div class="">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Choose a date</mat-label>
+                                <input matInput [matDatepicker]="picker">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <div flex fxLayout="row" fxLayout.xs="" fxLayout.sm="" fxLayoutGap="10px" class="next-btn-row ">
+
+                <div fxFlex="100" class="center-label">
+                    <button mat-raised-button matStepperNext class="next-btn">Next</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="home-complaint">
+  <app-policy-number
+    [state]="state"
+    [form]="complaintForm"
+    [policyDetails]="policyDetails"
+    (yesOrNoClicked)="setState($event)"
+    [isLoading]="isLoading"
+  ></app-policy-number>
+  <app-customer-mail-id [state]="state" [form]="complaintForm"></app-customer-mail-id>
+  <app-complaint-against [state]="state" [form]="complaintForm"></app-complaint-against>
+  <app-complaint-mode [state]="state" [form]="complaintForm"></app-complaint-mode>
+  <app-complaint-nature [state]="state" [form]="complaintForm"></app-complaint-nature>
+  <app-upload-documents
+    (uploadSuccess)="getPath($event)"
+    [state]="state"
+    [form]="complaintForm"
+    [isLoading]="isLoading"
+  ></app-upload-documents>
+
+  <div class="next-cancel-div">
+    <button
+      mat-raised-button
+      [disabled]="!showOrHideNextBtn()"
+      (click)="stateTransition()"
+      class="next-btn"
+    >
+      Next
+    </button>
+    <button mat-raised-button color="warn" class="cancel-btn" (click)="cancelComplaintCreation()">
+      Cancel
+    </button>
+  </div>
+</div>

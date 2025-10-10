@@ -1,0 +1,265 @@
+<div class="uw-screen">
+  <div class="headding">
+    <mat-icon mat-list-icon color="primary">library_books</mat-icon>Underwriting Decision
+  </div>
+  <div class="label-heading">
+    <span><strong>Primary Insurer</strong></span>
+  </div>
+  <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+    <div fxFlex="13" class="">
+      <label>First Name</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Last Name</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Dob</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Gender</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Mobile</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Email</label>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+    <div fxFlex="13" class="">
+      <span>{{ applicationDetails?.applicationData?.primaryInsured?.firstName }}</span>
+    </div>
+    <div fxFlex="13" class="">
+      <span>{{ applicationDetails?.applicationData?.primaryInsured?.lastName }}</span>
+    </div>
+    <div fxFlex="13" class="wd-break">
+      <span>{{ applicationDetails?.applicationData?.primaryInsured?.dob }}</span>
+    </div>
+    <div fxFlex="13" class="wd-break">
+      <span>{{
+        applicationDetails?.applicationData?.primaryInsured?.gender === 'M' ? 'Male' : 'Female'
+      }}</span>
+    </div>
+    <div fxFlex="13" class="wd-break">
+      <span>{{ applicationDetails?.applicationData?.primaryInsured?.mobile }}</span>
+    </div>
+    <div fxFlex="13" class="wd-break">
+      <span>{{ applicationDetails?.applicationData?.primaryInsured?.email }}</span>
+    </div>
+  </div>
+
+  <ng-container *ngIf="applicationDetails?.applicationData?.loanDetails?.coBorrower === 'Y'">
+    <div class="label-heading">
+      <span><strong>Secondary Insurer</strong></span>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+      <div fxFlex="13" class="">
+        <label>First Name</label>
+      </div>
+      <div fxFlex="13" class="">
+        <label>Last Name</label>
+      </div>
+      <div fxFlex="13" class="">
+        <label>Dob</label>
+      </div>
+      <div fxFlex="13" class="">
+        <label>Gender</label>
+      </div>
+      <div fxFlex="13" class="">
+        <label>Mobile</label>
+      </div>
+      <div fxFlex="13" class="">
+        <label>Email</label>
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+      <div fxFlex="13" class="">
+        <span>{{ applicationDetails?.applicationData?.secondaryInsured?.firstName }}</span>
+      </div>
+      <div fxFlex="13" class="">
+        <span>{{ applicationDetails?.applicationData?.secondaryInsured?.lastName }}</span>
+      </div>
+      <div fxFlex="13" class="wd-break">
+        <span>{{ applicationDetails?.applicationData?.secondaryInsured?.dob }}</span>
+      </div>
+      <div fxFlex="13" class="wd-break">
+        <span>{{
+          applicationDetails?.applicationData?.secondaryInsured?.gender === 'M' ? 'Male' : 'Female'
+        }}</span>
+      </div>
+      <div fxFlex="13" class="wd-break">
+        <span>{{ applicationDetails?.applicationData?.secondaryInsured?.mobile }}</span>
+      </div>
+      <div fxFlex="13" class="wd-break">
+        <span>{{ applicationDetails?.applicationData?.secondaryInsured?.email }}</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="label-heading">
+    <span><strong>Policy Data</strong></span>
+  </div>
+  <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+    <div fxFlex="13" class="">
+      <label>Policy Start Date</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Policy End Date</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Insurer APP No</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Line of Business</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Sum Assured</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Product Type</label>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+    <div fxFlex="13" class="">
+      <span>{{ applicationDetails?.applicationData?.policyStartDate }}</span>
+    </div>
+    <div fxFlex="13" class="">
+      <span>{{ applicationDetails?.applicationData?.policyEndDate }}</span>
+    </div>
+    <div fxFlex="13" class="wd-break">
+      <span>{{ applicationDetails?.applicationData?.insurerApplicationNo }}</span>
+    </div>
+    <div fxFlex="13" class="wd-break">
+      <span>{{ applicationDetails?.lob }}</span>
+    </div>
+    <div fxFlex="13" class="wd-break">
+      <span>{{
+        applicationDetails?.applicationData?.sumInsured | currency: 'INR':'symbol':'1.0-0'
+      }}</span>
+    </div>
+    <div fxFlex="13" class="wd-break">
+      <span>{{ applicationDetails?.productType }}</span>
+    </div>
+  </div>
+
+  <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+    <div fxFlex="13" class="">
+      <label>Product Name</label>
+    </div>
+    <div fxFlex="13" class="">
+      <label>Premium Amount</label>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+    <div fxFlex="13" class="">
+      <span>{{ applicationDetails?.productName }}</span>
+    </div>
+    <div fxFlex="13" class="">
+      <span>{{ applicationDetails?.premiumAmount | currency: 'INR':'symbol':'1.0-0' }}</span>
+    </div>
+  </div>
+
+  <!-- ---Medical requriemnt 13 June 2022 ----  -->
+  <!-- <div class="medica-requirement-block">
+    <div class="label-heading">
+      <span><strong>Medical Requirement Details</strong></span>
+    </div>
+
+    later comment till **
+    <ng-container *ngIf="showMedicalDetails">
+      <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details" *ngFor="let medicalTest of addedMedicalTestArr">
+        <div fxFlex="20" class="">
+          {{ applicationDetails?.applicationData?.primaryInsured?.firstName }}
+          {{ applicationDetails?.applicationData?.primaryInsured?.lastName }}
+        </div>
+        <div fxFlex="25" class="">
+         
+        </div>
+
+        <div fxFlex="20" class=""></div>
+        <div fxFlex="35" class=""></div>
+      </div>
+      **
+    </ng-container>
+    <ng-container *ngIf="showMedicalDetails">
+      <table id="medical-cases">
+        <tr>
+          <th>Insured</th>
+          <th>Medical Test</th>
+          <th>Description</th>
+          <th>Status</th>
+        </tr>
+        <tr *ngFor="let medicalTest of addedMedicalTestArr">
+          <td>
+            {{ applicationDetails?.applicationData?.primaryInsured?.firstName }}
+            {{ applicationDetails?.applicationData?.primaryInsured?.lastName }}
+          </td>
+          <td>{{ medicalTest?.medicalTest }}</td>
+          <td>{{ medicalTest?.description }}</td>
+          <td>{{ medicalTest?.status }}</td>
+        </tr>
+      </table>
+    </ng-container>
+
+    <div flex fxLayout="row" fxLayoutGap="5px">
+      <button mat-flat-button class="add-test" (click)="addMedicalTest()">Add Details</button>
+    </div>
+  </div> -->
+
+  <div class="label-heading">
+    <span><strong>Underwriting Decision</strong></span>
+  </div>
+  <form [formGroup]="uwDecisionForm">
+    <div flex fxLayout="row" fxLayoutGap="25px" class="mobile-view-details">
+      <div fxFlex="20" class="">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>UW Decision </mat-label>
+          <mat-select formControlName="uwDecision">
+            <mat-option *ngFor="let decision of uwDecisionMaster" [value]="decision?.id">
+              {{ decision?.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="20" class="" *ngIf="uwDecisionForm.get('uwDecision').value === '3'">
+        <mat-form-field class="example-full-width" appearance="fill" class="full-width">
+          <mat-label>Additional Premium</mat-label>
+          <input matInput type="number" formControlName="additionalPremium" />
+        </mat-form-field>
+      </div>
+    </div>
+    <br />
+    <div class="comment-class">
+      <mat-form-field appearance="fill" class="comment-class">
+        <mat-label>Comment</mat-label>
+        <textarea class="height" matInput rows="5" formControlName="comment"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="btn-div">
+      <!-- <button mat-raised-button class="medical-btn">Medical Requirement</button> -->
+      <button mat-raised-button class="add-note" (click)="openDailog()">Add Note</button>
+      <button
+        mat-raised-button
+        class="submit-btn"
+        (click)="saveDecission()"
+        [disabled]="!uwDecisionForm.valid"
+      >
+        Save
+      </button>
+      <button mat-raised-button class="cancel-btn">Cancel</button>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div>
+        <mat-list>
+          <div mat-subheader>Notes :</div>
+          <mat-list-item *ngFor="let folder of applicationNotes">
+            <mat-icon mat-list-icon>note</mat-icon>
+            <div mat-line>{{ folder.comment }}</div>
+            <div mat-line>{{ folder.createdDate | date }}</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </div>
+  </form>
+</div>

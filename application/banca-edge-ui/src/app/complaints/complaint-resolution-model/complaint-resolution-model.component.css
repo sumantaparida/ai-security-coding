@@ -1,0 +1,58 @@
+.complaint-resolution {
+  height: 17rem;
+  width: 20rem;
+  overflow: hidden;
+  text-align: center;
+}
+
+.resoluiton-desc {
+  font-size: 20px;
+  color: black;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
+.save-exit-button {
+  margin-top: 25px;
+  margin-left: 25px;
+  margin-right: 0px;
+  width: 75px;
+  /* height: 30px; */
+  border-radius: 15%;
+  text-align: center;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+textarea {
+  height: 120px;
+}
+
+.mat-dialog-actions {
+  padding: 0;
+  min-height: 0;
+}
+
+.exit-btn {
+  background: #B00020;
+  color: white;
+}
+
+.save-btn {
+  background: #03DAC5;
+  color: white;
+}
+
+@media only screen and (max-width: 600px) {
+  .complaint-resolution {
+    width: 15rem;
+  }
+}

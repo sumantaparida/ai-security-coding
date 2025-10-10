@@ -1,0 +1,118 @@
+.need-investment{
+    overflow: scroll;
+}
+
+::ng-deep .mat-dialog-content {
+    overflow: hidden;
+  }
+.example-section {
+    margin-top: 25px;
+    max-width: 70%;
+    margin: auto;
+  }
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+  .example-section input{
+    outline: 0;
+    border-width: 0 0 2px;
+  }
+
+  .example-section-2 {
+    margin-top: 25px;
+    max-width: 70%;
+    margin: auto;
+  }
+
+  .example-section-2 input{
+    outline: 0;
+    border-width: 0 0 2px;
+  }
+ .border{
+    border: 1px solid black;
+
+ }
+ .heading{
+    text-align: center;
+    font-weight: 500;
+    color: mediumpurple;
+    text-decoration: underline;
+ }
+
+
+  table td,tr,td,th{
+    text-align: left;
+
+  }
+
+ .or-tr{
+    text-align: center;
+ }
+
+ /* .input-class{
+    outline: 0;
+    border-width: 0 0 2px;
+ } */
+
+ .second-table table{
+    width: 100%;
+ }
+
+ textarea{
+    outline: 0;
+    border-width: 0 0 2px;
+ }
+.next-btn {
+    /* position: absolute; */
+    background-color: #03dac5;
+    color: white;
+    /* bottom: 5%; */
+    /* border-radius: 94px; */
+    padding: 6px 45px;
+    font-size: 20px;
+    left: 46%;
+    margin-bottom: 20px;
+  }
+  .close-btn{
+    background-color: #B00020;
+    color: white;
+    margin: 5px;
+
+    
+  }
+  .txt-center{
+    text-align: center;
+  }
+
+  .reset-btn{
+    margin: 5px;
+    color: white;
+  }
+
+  .margin-top-20{
+margin: 25px 0;
+  }
+
+
+  @media only screen and (max-width: 700px){
+    .example-section{
+      max-width: 99%;
+      /* overflow-x: scroll; */
+
+    }
+    .example-section-2 {
+      /* margin-top: 25px; */
+      max-width: 99%;
+      overflow-x: scroll;
+
+      /* margin: auto; */
+    }
+  }
+
+ 

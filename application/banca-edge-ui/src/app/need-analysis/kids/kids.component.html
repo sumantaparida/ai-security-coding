@@ -1,0 +1,63 @@
+<div *ngIf="state === 'kids'" class="kids">
+  <form [formGroup]="form">
+    <div>
+      I have
+      <span>
+        <input type="tel" formControlName="kidsNumValue" (keyup)="numOfKids()" />
+      </span>
+      Kids
+    </div>
+    <div *ngIf="numberOfKids >= 1 && numberOfKids <= 4">
+      He/She is
+      <span *ngIf="numberOfKids >= 1 && numberOfKids <= 4">
+        <input type="tel" formControlName="firstKidAge" (keyup)="numOfKids()" />
+      </span>
+      <span *ngIf="numberOfKids >= 2 && numberOfKids <= 4">
+        and
+        <input type="tel" formControlName="secondKidAge" (keyup)="numOfKids()" />
+      </span>
+      <span *ngIf="numberOfKids >= 3 && numberOfKids <= 4">
+        and
+        <input type="tel" formControlName="thirdKidAge" (keyup)="numOfKids()" />
+      </span>
+      <span *ngIf="numberOfKids === 4">
+        and
+        <input type="tel" formControlName="fourthKidAge" (keyup)="numOfKids()" />
+      </span>
+      years old.
+    </div>
+  </form>
+  <mat-error
+    *ngIf="!form.get('kidsNumValue').valid && !form.get('kidsNumValue').hasError('pattern')"
+    class="error-msg"
+    >Please enter the number of kids<br />
+    Enter 0, if no kids.
+  </mat-error>
+  <mat-error *ngIf="form.get('kidsNumValue').hasError('pattern')" class="error-msg"
+    >Please entera valid Integer from 1 to 4<br />
+  </mat-error>
+  <mat-error
+    *ngIf="
+      form.get('fourthKidAge')?.hasError('pattern') || form.get('fourthKidAge')?.hasError('max')
+    "
+    class="error-msg"
+    >Please entera valid age (maximum age limit 25 )<br />
+  </mat-error>
+  <mat-error
+    *ngIf="form.get('thirdKidAge')?.hasError('pattern') || form.get('thirdKidAge')?.hasError('max')"
+    class="error-msg"
+    >Please entera valid age (maximum age limit 25 )<br />
+  </mat-error>
+  <mat-error
+    *ngIf="
+      form.get('secondKidAge')?.hasError('pattern') || form.get('secondKidAge')?.hasError('max')
+    "
+    class="error-msg"
+    >Please entera valid age (maximum age limit 25 )<br />
+  </mat-error>
+  <mat-error
+    *ngIf="form.get('firstKidAge')?.hasError('pattern') || form.get('firstKidAge')?.hasError('max')"
+    class="error-msg"
+    >Please entera valid age (maximum age limit 25 )<br />
+  </mat-error>
+</div>

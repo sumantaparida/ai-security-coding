@@ -1,0 +1,129 @@
+.policy-number {
+    text-align: center;
+    width: 100%;
+}
+
+.description {
+    position: relative;
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.text-size {
+    font-size: 17px;
+    position: relative;
+}
+
+.table td {
+    padding: 6px;
+}
+
+.example-form {
+    width: 300px;
+}
+
+i {
+    color: #1390d0;
+}
+
+.error-msg-complaints {
+    color: tomato;
+}
+
+input {
+    width: 200px;
+}
+
+/* details correction */
+
+.correction-option {
+    width: 100%;
+    position: absolute;
+    margin-top: 15px;
+    right: 8%;
+}
+
+.font-size-17 {
+    font-size: 17px;
+    position: relative;
+    left: 18%;
+    font-weight: 500;
+}
+
+.option-yes {
+    /* width:50%; */
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    float: left;
+}
+
+.option-no {
+    /* width:50%; */
+    margin-bottom: 20px;
+    margin-top: 5px;
+    margin-left: 10px;
+    float: left;
+}
+
+.width-5 {
+    width: 7rem;
+}
+
+.application-details {
+    margin-top: 1rem;
+}
+
+mat-progress-spinner {
+    position: absolute;
+    left: 40%;
+    top: 185px;
+}
+
+.error {
+    font-size: 14px;
+    color: #b00020 !important;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.bg-red {
+    background-color: #b00020;
+}
+
+.bg-primary {
+    background-color: #03dac5;
+    color: white;
+}
+
+.width-100 {
+    width: 100%;
+    font-size: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+    .description {
+        left: -16%;
+        font-size: 20px;
+    }
+    input {
+        font-size: 20px;
+        width: 12rem;
+    }
+}
+
+@media (max-width: 619px) {
+    .example-form {
+        width: 200px;
+    }
+}

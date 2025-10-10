@@ -1,0 +1,19 @@
+.actions-style {
+    text-align: center;
+}
+
+.ok-btn {
+    padding: 6px 45px;
+    font-size: 15px;
+    border-radius: 5%;
+    margin: 5px 10px;
+    outline: none;
+    color: white;
+    border: 0px;
+    background-color: #03dac5
+}
+
+.error-msg {
+    color: #b00020;
+    text-align: center;
+}

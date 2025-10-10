@@ -1,0 +1,111 @@
+<div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="70" class="block-conatiner">
+        <form [formGroup]="memberSelectionForm">
+            <div flex fxLayout="row" fxLayout.xs="" fxLayout.sm="" fxLayoutGap="10px" class="margin-bottom-row">
+                <div fxFlex="100" class="center-label">
+                    <label class="label-question">Select your Gender</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" fxLayout.xs="" fxLayout.sm="" fxLayoutGap="10px" class="margin-bottom-row gender">
+                <div fxFlex="100" class="center-label">
+                    <section>
+                        <mat-button-toggle-group class="toggle-btn" formControlName="gender"
+                            (change)="onValChange($event.value)" aria-label="Font Style">
+                            <mat-button-toggle value="male">Male</mat-button-toggle>
+                            <mat-button-toggle value="female">Female</mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </section>
+                </div>
+            </div>
+            <div flex fxLayout="row" fxLayout.xs="" fxLayout.sm="" fxLayoutGap="10px" class="margin-bottom-row">
+                <div fxFlex="100" class="center-label">
+                    <label class="label-question">Select member you want to insure</label>
+                </div>
+            </div>
+
+
+            <div fxLayout="row" class="margin-bottom-row" fxLayoutGap="">
+                <div fxFlex="32" class="img-div">
+                    <div class="img-box" (click)="onSelect('self')"
+                        [ngClass]="{'selected': memberSelectedArr.indexOf('self') > -1 }">
+                        <img src="{{selfImg}}" alt="Self">
+                        <div class="container">
+                            <p>You</p>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="32" class="img-div">
+                    <div class="img-box" (click)="onSelect('spouse')"
+                        [ngClass]="{'selected': memberSelectedArr.indexOf('spouse') > -1 }">
+                        <img src="{{spouseImg}}" alt="Self">
+                        <div class="container">
+                            <p>Spouse</p>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="32" class="img-div">
+                    <div class="img-box" (click)="onSelect('mother')"
+                        [ngClass]="{'selected': memberSelectedArr.indexOf('mother') > -1 }">
+                        <img src="../../../../assets/quote-images/mother.svg" alt="Self">
+                        <div class="container">
+                            <p>Mother</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="">
+                <div fxFlex="32" class="img-div">
+                    <div class="img-box" [ngClass]="{'selected': memberSelectedArr.indexOf('father') > -1 }"
+                        (click)="onSelect('father')">
+                        <img src="../../../../assets/quote-images/father.svg" alt="Self">
+                        <div class="container">
+                            <p>Father</p>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="32" class="img-div">
+                    <div class="img-box" (click)="onSelect('daughter')"
+                        [ngClass]="{'selected': memberSelectedArr.indexOf('daughter') > -1 }">
+                        <img src="../../../../assets/quote-images/girl.svg" alt="Self">
+                        <div class="container">
+                            <p>Daughter</p>
+                        </div>
+                        <div *ngIf="memberSelectedArr.indexOf('daughter') > -1" class="add-container">
+                            <p>
+                                <span class="sub-btn"> - </span>
+                                <!-- <img src="../../../../assets/quote-images/minimize_black_24dp.svg"> -->
+                                1
+                                <span class="add-btn"> + </span>
+                                <!-- <img src="../../../../assets/quote-images/add_black_24dp.svg"> -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="32" class="img-div">
+                    <div class="img-box" (click)="onSelect('son')"
+                        [ngClass]="{'selected': memberSelectedArr.indexOf('son') > -1 }">
+                        <img src="../../../../assets/quote-images/boy.svg" alt="Self">
+                        <div class="container">
+                            <p>Son</p>
+                        </div>
+                        <div *ngIf="memberSelectedArr.indexOf('son') > -1" class="add-container">
+                            <p>
+                                <span class="sub-btn"> - </span>
+                                <!-- <img src="../../../../assets/quote-images/minimize_black_24dp.svg"> -->
+                                1
+                                <span class="add-btn"> + </span>
+                                <!-- <img src="../../../../assets/quote-images/add_black_24dp.svg"> -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" class="next-btn-row">
+                <div fxFlex="100" class="center-label">
+                    <button mat-raised-button matStepperNext class="next-btn" (click)="onNext()">Next</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,161 @@
+.heading {
+    color: white;
+    background: #673ab7;
+    padding: 10px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.heading-row {
+    background: #673ab7;
+}
+
+.label-heading {
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.background-color {
+    background: rgba(0, 0, 0, .04);
+}
+
+.edit-quote-label {
+    font-weight: 500;
+    color: black;
+}
+
+.edit-heading-label {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.margin-30 {
+    margin-bottom: 30px;
+}
+
+.rows-edit-col {
+    padding: 5px;
+    max-width: 90%;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.rows-plan-col {
+    padding: 5px;
+}
+
+.edit-quote-col input {
+    width: 100%;
+    height: 30px;
+    border: none;
+    background: rgba(0, 0, 0, .04);
+}
+
+.quote-fields {
+    background: rgba(0, 0, 0, .04);
+    height: 3rem;
+}
+
+a {
+    cursor: pointer;
+    color: #0070c9;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.help-description {
+    margin-top: 10px;
+    /* height: 58px; */
+    padding: 20px;
+    /* width: 295px; */
+    background: lavender;
+}
+
+.buy-now-btn {
+    background: #03dac5;
+    color: white;
+    font-size: 18px;
+}
+
+.btn-div {
+    text-align: end;
+}
+
+.edit-anchor {
+    text-align: end;
+}
+
+.edit-anchor a {
+    color: #b00020 !important;
+}
+
+.back-nav-health {
+    margin-top: 20px;
+}
+
+.back-nav-health a {
+    text-decoration: underline;
+}
+
+.more-details-link {
+    text-decoration: underline;
+    padding-right: 24px;
+}
+
+.disclaimer_text {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+/* --Mobile view ---  */
+
+.company-logo-div {
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.bold {
+    font-weight: 500;
+}
+
+.rows-edit-col-mobile {
+    padding: 5px;
+    max-width: 90%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-bottom: 15px;
+}
+
+.btn-div-mob {
+    text-align: center;
+}
+
+p {
+    text-align: justify;
+}
+
+.mat_spinner_align {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+@media(max-width:767px) {
+    .disclaimer_text {
+        padding: 15px;
+    }
+}

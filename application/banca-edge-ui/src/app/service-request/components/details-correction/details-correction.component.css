@@ -1,0 +1,42 @@
+.details-correction {
+    text-align: center
+}
+
+.description {
+    position: relative;
+    left: 50%;
+    margin-bottom: 10%;
+    margin-top: 10%;
+    font-size: 25px;
+    color: white;
+    font-weight: bolder;
+}
+
+.selected {
+    background: transparent;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(246, 248, 226, 0.911);
+    -moz-box-shadow: 0px 0px 30px 0px rgba(220, 236, 71, 0.932);
+    box-shadow: 0px 0px 30px 0px rgba(217, 224, 184, 0.67);
+}
+
+.correction-option {
+    width: 100%;
+    margin-left: 10px;
+}
+
+.option-yes {
+    width: 50%;
+    margin: 0;
+    float: left;
+    background: tomato;
+}
+
+.option-no {
+    width: 50%;
+    margin: 0;
+    float: left;
+    background: green;
+}

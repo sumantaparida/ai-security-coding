@@ -1,0 +1,40 @@
+<!-- <mat-toolbar class="footer-primary" color="primary"> -->
+<!-- <div class="width-100" fxLayout="row" fxLayoutGap="5px"> -->
+<!-- <small class="user-name">{{firstName}} {{lastName}}</small> -->
+
+<div class="parent row" *ngIf="org === 'CSB'">
+  <!-- <span>All Rights Reserved (C) BancaEdge v.{{ appVersion }}</span> -->
+  <div class="column">
+    <p>CSB Bank Limited</p>
+    <p class="margin-0">CSB Bank Ltd., Head Office, CSB Bhavan, P.O Box No.502,</p>
+    <p class="margin-0">St.Mary’s College Road,Thrissur–680020,</p>
+    <p>Kerala, India</p>
+    <p class="margin-0">Tel: 0487-6619291 / 259 / 9072601533, Toll Free No.1800 266 9090</p>
+    <p class="margin-0">Email id : insurance@csb.co.in</p>
+  </div>
+
+  <div class="column">
+    <p>For any complaints : insurance@csb.co.in</p>
+    <p class="margin-0">Principal Officer: Mr. Tony Paul C, AGM – Insurance & TPP,</p>
+    <p class="margin-0">Email id: ctonypaul@csb.co.in</p>
+    <p class="margin-0">Tel: 9041002367</p>
+  </div>
+
+  <div class="column">
+    <p>CoR No. CA0015 valid from 1st April 2022 to 31st March 2025</p>
+    <a class="anchor-policy" (click)="openCsbPrivatePolicy()">Private Policy</a>
+  </div>
+
+  <!-- </div> -->
+
+  <!--<app-select-language></app-select-language>-->
+  <!-- </mat-toolbar> -->
+</div>
+
+<mat-toolbar
+  class="footer-primary"
+  [ngClass]="{ 'theme-red': org === 'SIB', 'theme-blue': org !== 'SIB' }"
+  *ngIf="org !== 'CSB'"
+>
+  <small>All Rights Reserved (C) BancaEdge v.{{ appVersion }}</small>
+</mat-toolbar>

@@ -1,0 +1,149 @@
+<div class="button-top">
+  <div fxFlex="41">
+    <button class="action-btn bg-color" [routerLink]="['policyvault']" mat-raised-button type="button">
+      <mat-icon>kitchen</mat-icon>
+      <span class="menu-label-route">Policy Vault</span>
+    </button>
+  </div>
+
+  <div fxFlex="41">
+    <button (click)="onRecommendClick()" class="action-btn bg-color" mat-raised-button type="button">
+      <mat-icon>book</mat-icon>
+      <span class="menu-label-route">Recommended Insurance</span>
+    </button>
+  </div>
+  <!-- <div fxFlex="41">
+    <button (click)="onEdit()" class="action-btn bg-color" mat-raised-button type="button">
+      <mat-icon>create</mat-icon>
+      <span class="menu-label-route">Edit Loan</span>
+    </button>
+  </div> -->
+  <div fxFlex="41">
+    <button class="action-btn bg-color" mat-raised-button type="button" (click)="onCreateLead()">
+      <mat-icon>launch</mat-icon>
+      <span class="menu-label-route">Create Lead</span>
+    </button>
+  </div>
+</div>
+<hr class="separator" />
+<div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+  <div fxFlex="100">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="">
+      <div fxFlex="70">
+        <strong>Customer Information</strong>
+      </div>
+      <div fxFlex="70" class="text-right">
+        <button (click)="onEdit()" class="action-btn-edit bg-color" mat-raised-button type="button">
+          <mat-icon class="edit-icon">edit</mat-icon>
+          <span class="menu-label-route">{{ 'component.EDIT' | translate }}</span>
+        </button>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div fxFlex="30" class="label-info">
+        <label *ngIf="applicationDetails?.type === 'account'">Loan Account Number: {{ applicationDetails?.loanAccountNo
+          }}</label>
+        <label *ngIf="applicationDetails?.type === 'application'">Loan Application Number:</label>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div fxFlex="30" class="label-info">
+        <label>Type of Loan : {{ currentLoanType?.value }}</label>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div fxFlex="30" class="label-info">
+        <label *ngIf="applicationDetails?.orgCode === 'BOM'">Loan Amount : {{ applicationDetails?.loanAmount }} </label>
+        <label *ngIf="applicationDetails?.orgCode !== 'BOM'">Loan Amount : {{ applicationDetails?.outstandingAmount }}
+        </label>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div fxFlex="30" class="label-info">
+        <label *ngIf="applicationDetails?.orgCode !== 'CSB'">
+          Loan Period : {{ applicationDetails?.loanTerm }} Years
+        </label>
+        <label *ngIf="applicationDetails?.orgCode === 'CSB'">
+          Loan Period : {{ applicationDetails?.loanTerm }} Months
+        </label>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5"
+      *ngIf="applicationDetails?.moratoriumPeriod !== 0">
+      <div fxFlex="30" class="label-info">
+        <label> Moratorium Period : {{ applicationDetails?.moratoriumPeriod }} months </label>
+      </div>
+    </div>
+    <ng-container> </ng-container>
+  </div>
+</div>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px"></div>
+<div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+  <div fxFlex="50">
+    <div *ngIf="applicationDetails?.borrower?.isIndividual === true" flex fxLayout="column" fxLayout.xs="column"
+      fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70"><b>Borrower Details</b></div>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px"></div>
+      <div fxFlex="70" class="label-info">
+        First Name: {{ applicationDetails?.borrower?.firstName | maskName: isInsurer }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Middle Name: {{ applicationDetails?.borrower?.middleName | maskName: isInsurer }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Last Name: {{ applicationDetails?.borrower?.lastName | maskName: isInsurer }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Dob: {{ applicationDetails?.borrower?.dob | maskDob: isInsurer }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Gender:
+        {{ applicationDetails?.borrower?.gender === 'M' ? 'Male' : 'Female' }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Mobile No.: {{ applicationDetails?.borrower?.mobileNo | maskPhone: 2:isInsurer }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Email: {{ applicationDetails?.borrower?.contactList | getEmail | maskEmail: isInsurer }}
+      </div>
+    </div>
+    <div *ngIf="applicationDetails?.borrower?.isIndividual === false" flex fxLayout="column" fxLayout.xs="column"
+      fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70"><b>Borrower Details</b></div>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px"></div>
+      <div fxFlex="70" class="label-info">
+        Organization Name: {{ applicationDetails?.borrower?.orgName | maskName: isInsurer }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Mobile No.: {{ applicationDetails?.borrower?.mobileNo | maskPhone: 2:isInsurer }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Email: {{ applicationDetails?.borrower?.contactList | getEmail | maskEmail: isInsurer }}
+      </div>
+    </div>
+  </div>
+  <div fxFlex="50">
+    <div flex fxLayout="column" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+      *ngIf="this.applicationDetails?.hasCoBorrower === 'Y'">
+      <div fxFlex="70"><b>Co-Borrower Details</b></div>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px"></div>
+      <div fxFlex="70" class="label-info">
+        First Name: {{ applicationDetails?.coBorrower?.firstName | maskName: isInsurer }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Last Name: {{ applicationDetails?.coBorrower?.lastName | maskName: isInsurer }}
+      </div>
+      <div fxFlex="70" class="label-info">Dob: {{ applicationDetails?.coBorrower?.dob }}</div>
+      <div fxFlex="70" class="label-info">
+        Gender:
+        {{ applicationDetails?.coBorrower?.gender === 'M' ? 'Male' : 'Female' }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Mobile No.: {{ applicationDetails?.coBorrower?.mobileNo }}
+      </div>
+      <div fxFlex="70" class="label-info">
+        Email: {{ applicationDetails?.coBorrower?.contactList | getEmail | maskEmail: isInsurer }}
+      </div>
+    </div>
+  </div>
+</div>

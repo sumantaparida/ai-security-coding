@@ -1,0 +1,15 @@
+<div mat-dialog-content class="error-msg">
+  <p>
+    Proposal Sent to Insurer RM with Lead ID/Application No: {{ data.appNo }}
+  </p>
+</div>
+<div class="details">
+  <p *ngIf="data.rmName">RM Name : {{ data.rmName }}</p>
+  <p *ngIf="data.rmMobile">RM Mobile : {{ data.rmMobile }}</p>
+  <p *ngIf="data.rmEmail">RM Email ID : {{ data.rmEmail }}</p>
+</div>
+<div class="actions-style" mat-dialog-actions>
+  <button mat-button class="ok-btn" (click)="onOkClicked()" cdkFocusInitial>
+    Ok
+  </button>
+</div>

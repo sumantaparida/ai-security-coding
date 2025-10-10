@@ -1,0 +1,551 @@
+<form [formGroup]="addLoanDetailsForm">
+  <div
+    fxLayout="row wrap"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="25px"
+    class="heading-row"
+    class="mat-card"
+  >
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Loan Section</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content fxLayoutGap="30px" fxLayout="row wrap">
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Branch Code</mat-label>
+            <mat-select formControlName="branchCode">
+              <mat-option *ngFor="let branch of allowedBranches" [value]="branch?.branchCode">
+                {{ branch?.branchName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'branchCode', label: 'Loan Branch Code' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Loan Account No</mat-label>
+            <input matInput formControlName="loanAccouontNo" type="text" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'loanAccouontNo', label: 'Loan Account No' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Type of Loan</mat-label>
+            <mat-select formControlName="loanType">
+              <mat-option *ngFor="let loan of loanTypeMaster" [value]="loan?.id">
+                {{ loan?.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'loanType', label: 'Type of Loan' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Loan Amount</mat-label>
+            <input matInput formControlName="totalLoanAmount" type="number" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'totalLoanAmount', label: 'Loan Amount' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Loan Start Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="startDate"
+              formControlName="loanStartDate"
+              [min]="minDate"
+            />
+            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+            <mat-datepicker #startDate></mat-datepicker>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'loanStartDate', label: 'Loan Start Date' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Loan End date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="endDate"
+              formControlName="loanEndDate"
+              [min]="loanEndMinDate"
+              [max]="loanEndMaxDate"
+            />
+            <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+            <mat-datepicker #endDate></mat-datepicker>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'loanEndDate', label: 'Loan End date' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100" *ngIf="addLoanDetailsForm.get('loanType').value === '4'">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Moratorium Period (In months)</mat-label>
+            <mat-select formControlName="moratoriumPeriod">
+              <mat-option *ngFor="let period of moratoriumPeriod" [value]="period?.id">
+                {{ period?.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: {
+                control: 'moratoriumPeriod',
+                label: 'Moratorium Period'
+              }
+            "
+          >
+          </ng-container>
+        </div>
+        <!-- <div
+          fxFlex="30"
+          fxFlex.xs="100"
+          fxLayout.sm="column"
+          fxLayout.xs="column"
+          *ngIf="
+            addLoanDetailsForm.get('loanType').value === '5' ||
+            addLoanDetailsForm.get('loanType').value === '2'
+          "
+        >
+          <label>Has Co-Borrower?</label>
+          <div fxFlex.xs="100">
+            <mat-radio-group
+              aria-label="Select an option"
+              class="display-flex"
+              formControlName="hasCoBorrower"
+            >
+              <div fxFlex.xs="100" class="has-coborrower-radio-box">
+                <mat-radio-button value="Y" color="primary">Yes</mat-radio-button>
+              </div>
+              <div fxFlex.xs="100" class="has-coborrower-radio-box margin-left">
+                <mat-radio-button color="primary" value="N">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+            <ng-container
+              *ngTemplateOutlet="
+                addLoanErrorTemplate;
+                context: { control: 'hasCoBorrower', label: 'Has Co-Borrower' }
+              "
+            >
+            </ng-container>
+          </div>
+        </div>
+        <div
+          fxFlex="30"
+          fxFlex.xs="100"
+          *ngIf="
+            addLoanDetailsForm.get('hasCoBorrower') &&
+            addLoanDetailsForm.get('hasCoBorrower').value === 'Y'
+          "
+          class="percent-change"
+        >
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Percentage of Loan with Primary Borrow</mat-label>
+            <input matInput formControlName="primaryBorrowerShare" type="number" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: {
+                control: 'primaryBorrowerShare',
+                label: 'Percentage of Loan with Primary Borrow'
+              }
+            "
+          >
+          </ng-container>
+        </div> -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="25px"
+    class="heading-row"
+    class="mat-card"
+  >
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title
+          ><span> Borrower Section</span>
+          <span class="select-customer" (click)="openCustomerDailog('borrower')">
+            Select Customer</span
+          ></mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content fxLayoutGap="30px" fxLayout="row wrap">
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Title </mat-label>
+            <mat-select formControlName="primaryBorrowerTitle">
+              <mat-option [value]="title?.id" *ngFor="let title of tilteMaster">{{
+                title?.value
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'primaryBorrowerTitle', label: 'Title' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="primaryBorrowerFirstName" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: {
+                control: 'primaryBorrowerFirstName',
+                label: 'First Name'
+              }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="primaryBorrowerLastName" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: {
+                control: 'primaryBorrowerLastName',
+                label: 'Last Name'
+              }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Gender </mat-label>
+            <mat-select formControlName="primaryBorrowerGender">
+              <mat-option value="M">Male</mat-option>
+              <mat-option value="F">Female</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'primaryBorrowerGender', label: 'Gender' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Date of Birth</mat-label>
+            <input
+              matInput
+              [matDatepicker]="dateOfBirth"
+              formControlName="primaryBorrowerDob"
+              [max]="minAgeRequired"
+              [min]="seventyYears"
+            />
+            <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
+            <mat-datepicker #dateOfBirth></mat-datepicker>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'primaryBorrowerDob', label: 'Date of Birth' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Mobile</mat-label>
+            <input matInput formControlName="primaryBorrowerMobile" Type="number" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'primaryBorrowerMobile', label: 'Mobile' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100" class="add-margin-right-30">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="primaryBorrowerEmail" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'primaryBorrowerEmail', label: 'Email' }
+            "
+          >
+          </ng-container>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- <div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="25px"
+    class="heading-row"
+    class="mat-card"
+    *ngIf="
+      addLoanDetailsForm.get('hasCoBorrower') &&
+      addLoanDetailsForm.get('hasCoBorrower').value === 'Y'
+    "
+  >
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title
+          >Co-Borrower Section
+          <span class="select-customer" (click)="openCustomerDailog('co-borrower')">
+            Select Customer</span
+          ></mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content fxLayoutGap="30px" fxLayout="row wrap">
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Title </mat-label>
+            <mat-select formControlName="coBorrowerTitle">
+              <mat-option value="Mr">Mr</mat-option>
+              <mat-option value="Miss">Miss</mat-option>
+              <mat-option value="Miss">Mrs</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'coBorrowerTitle', label: 'Title' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="coBorrowerFirstName" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'coBorrowerFirstName', label: 'First Name' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="coBorrowerLastName" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'coBorrowerLastName', label: 'Last Name' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Gender </mat-label>
+            <mat-select formControlName="coBorrowerGender">
+              <mat-option value="M">Male</mat-option>
+              <mat-option value="F">Female</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'coBorrowerGender', label: 'Gender' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Date of Birth</mat-label>
+            <input
+              matInput
+              [matDatepicker]="coDateOfBirth"
+              formControlName="coBorrowerDob"
+              [max]="minAgeRequired"
+              [min]="seventyYears"
+            />
+            <mat-datepicker-toggle matSuffix [for]="coDateOfBirth"></mat-datepicker-toggle>
+            <mat-datepicker #coDateOfBirth></mat-datepicker>
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'coBorrowerDob', label: 'Dob' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Mobile</mat-label>
+            <input matInput formControlName="coBorrowerMobile" Type="number" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'coBorrowerMobile', label: 'Mobile' }
+            "
+          >
+          </ng-container>
+        </div>
+        <div fxFlex="30" fxFlex.xs="100" class="add-margin-right-30">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="coBorrowerEmail" />
+          </mat-form-field>
+          <ng-container
+            *ngTemplateOutlet="
+              addLoanErrorTemplate;
+              context: { control: 'coBorrowerEmail', label: 'Email' }
+            "
+          >
+          </ng-container>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div> -->
+</form>
+
+<div class="btn-div">
+  <button
+    mat-raised-button
+    class="submit-btn"
+    (click)="onSubmit()"
+    [disabled]="!addLoanDetailsForm.valid"
+  >
+    Add
+  </button>
+  <button mat-raised-button class="cancel-btn" (click)="onCancel()">Cancel</button>
+</div>
+
+<ng-template #addLoanErrorTemplate let-control="control" let-label="label">
+  <div
+    *ngIf="
+      addLoanDetailsForm.get(control).touched &&
+      addLoanDetailsForm.get(control).hasError('required')
+    "
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is required.</span>
+  </div>
+  <div
+    *ngIf="
+      addLoanDetailsForm.get(control).touched &&
+      addLoanDetailsForm.get(control).hasError('minlength')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a minimum of
+      {{ addLoanDetailsForm.get(control).errors.minlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="
+      addLoanDetailsForm.get(control).touched &&
+      addLoanDetailsForm.get(control).hasError('maxlength')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a maximum of
+      {{ addLoanDetailsForm.get(control).errors.maxlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="
+      addLoanDetailsForm.get(control).touched && addLoanDetailsForm.get(control).hasError('max')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at max
+      {{ addLoanDetailsForm.get(control).errors.max.max }}
+    </span>
+  </div>
+  <div
+    *ngIf="
+      addLoanDetailsForm.get(control).touched && addLoanDetailsForm.get(control).hasError('min')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at least
+      {{ addLoanDetailsForm.get(control).errors.min.min }}
+    </span>
+  </div>
+  <div
+    *ngIf="
+      addLoanDetailsForm.get(control).touched && addLoanDetailsForm.get(control).hasError('pattern')
+    "
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is not valid </span>
+  </div>
+  <div
+    *ngIf="
+      addLoanDetailsForm.get(control).touched && addLoanDetailsForm.get(control).hasError('email')
+    "
+    class="full-width"
+  >
+    <span class="man-field">Please enter a valid email </span>
+  </div>
+</ng-template>

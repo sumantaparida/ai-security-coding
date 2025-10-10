@@ -1,0 +1,100 @@
+<div class="quote-health-container">
+  <!-- -- Main Row --  -->
+
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+    <!-- --Mian Division--  -->
+    <div fxFlex="30" class="edit-quote-col">
+      <!-- -- Division inside 1st col --  -->
+      <app-quote-edit
+        [finalQuote]="finalQuote"
+        [isDoneEditing]="isDoneEditing"
+        (isEditTrue)="onEditClicked($event)"
+        (changeInQuoteInput)="onChangeInInput($event)"
+        (updateResults)="updateResults()"
+      ></app-quote-edit>
+    </div>
+
+    <!-- --Plan quote details-- desktop -->
+    <div fxFlex="70" class="plan-quote-col" *ngIf="!isErrorDiv">
+      <app-quote-display [finalQuote]="finalQuote"></app-quote-display>
+      <!-- <mat-progress-spinner class="spinner" [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-spinner> -->
+    </div>
+    <div fxFlex="70" *ngIf="isErrorDiv">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        class="error-background"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+      >
+        <div fxFlex="75">
+          <mat-error>{{ errorDetail }}</mat-error>
+        </div>
+      </div>
+    </div>
+    <div id="myModal" class="modal" *ngIf="isEditTrue">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="edit-quote-container">
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+            class="rows-edit-col"
+          >
+            <div fxFlex="100" class="finish-editing-heading"><label>Finished Editing?</label></div>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+            class="rows-edit-col"
+          >
+            <div fxFlex="100"><label>To view your new results, select Update Results</label></div>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+            class="margin-bottom"
+          >
+            <div fxFlex="100"></div>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+            class="rows-edit-col"
+          >
+            <div fxFlex="50">
+              <button mat-raised-button class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+            </div>
+            <div fxFlex="50">
+              <button mat-raised-button class="update-btn" (click)="updateResults()">
+                Update Results
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+  <div fxFlex="30" class="edit-quote-col"></div>
+
+  <div fxFlex="70" class="plan-quote-col">
+    <div class="disclaimer_text">
+      The information and details of insurance product solutions displayed are purely for
+      illustrative purposes only. For more details on risk factors, terms and conditions, please
+      read the sales brochure of the respective Insurer carefully before concluding a sale.
+    </div>
+  </div>
+</div>

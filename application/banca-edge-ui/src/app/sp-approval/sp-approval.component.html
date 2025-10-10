@@ -1,0 +1,1274 @@
+<div class="main-container">
+    <div *ngIf="media.isActive('md') || media.isActive('lg')" class="flex-container">
+
+        <div style="flex-basis:80%"><span class="material-icons style-icon-policy">
+                <img src="../../assets/logos/task_alt-24px.svg">
+            </span> <span class="font-size-20">{{'component.SP_APPROVAL'| translate }}</span>
+        </div>
+
+        <!-- <div>
+            <button mat-raised-button color="primary" class="inforce-btn" matBadgeOverlap="true"
+                matBadge="{{inforceStatusCount}}">
+                {{'component.IN-FORCE' | translate}}
+            </button>
+        </div>
+        <div>
+            <button mat-raised-button color="primary" class="pending-btn" matBadgeOverlap="true"
+                matBadge="{{pendingStatusCount}}" matBadgeColor="accent">
+                {{'component.PENDING' | translate}}
+            </button>
+        </div>
+        <div>
+            <button mat-raised-button color="primary" class="inactive-btn" matBadgeOverlap="true"
+                matBadge="{{inactiveStatusCount}}" matBadgeColor="warn">
+                {{'component.INACTIVE' | translate}}
+            </button>
+        </div>
+        <div>
+            <button mat-raised-button color="primary" class="pending-btn" matBadgeOverlap="true"
+                matBadge="{{initiatedStatusCount}}" matBadgeColor="accent">
+                {{'component.OTHERS' | translate}}
+            </button>
+        </div> -->
+        <div></div>
+        <div style="flex-basis:20%" class="transform">
+
+            <form class="example-form" [formGroup]="searchForm">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>{{'component.SEARCH' | translate}}</mat-label>
+                    <input matInput (keyup)="onSearchFieldChange()" formControlName="searchField">
+                    <mat-icon matSuffix color="primary">search</mat-icon>
+                </mat-form-field>
+            </form>
+        </div>
+
+    </div>
+    <!-- --mobile-  -->
+    <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+        <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+
+            <div fxFlex="50" class="child-one">
+                <span class="material-icons style-icon-policy">
+                    kitchen
+                </span><span class="font-size-20">{{'component.SP_APPROVAL'| translate }}</span>
+            </div>
+        </div>
+        <!-- <div flex fxLayout="row" fxLayoutGap="10px" class="parent">
+            <div fxFlex="22" class="first-child">
+                <button mat-raised-button color="primary" class="inforce-mobile-btn" matBadgeOverlap="true"
+                    matBadge="{{inforceStatusCount}}">
+                    {{'component.IN-FORCE' | translate}}
+                </button>
+            </div>
+            <div fxFlex="22" class="">
+                <button mat-raised-button color="primary" class="pending-mobile-btn" matBadgeOverlap="true"
+                    matBadge="{{pendingStatusCount}}" matBadgeColor="accent">
+                    {{'component.PENDING' | translate}}
+                </button>
+            </div>
+            <div fxFlex="22" class="">
+                <button mat-raised-button color="primary" class="inactive-mobile-btn" matBadgeOverlap="true"
+                    matBadge="{{inactiveStatusCount}}" matBadgeColor="warn">
+                    {{'component.INACTIVE' | translate}}
+                </button>
+            </div>
+            <div fxFlex="22" class="">
+                <button mat-raised-button color="primary" class="pending-mobile-btn" matBadgeOverlap="true"
+                    matBadge="{{initiatedStatusCount}}" matBadgeColor="accent">
+                    {{'component.OTHERS' | translate}}
+                </button>
+            </div>
+        </div> -->
+
+        <div flex fxLayout="row" fxLayoutGap="5px" class="parent-search">
+            <div fxFlex="100" class="mob-search">
+                <form class="example-form" [formGroup]="searchForm">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>{{'component.SEARCH' | translate}}</mat-label>
+                        <input matInput (keyup)="onSearchFieldChange()" formControlName="searchField">
+                        <mat-icon matSuffix color="primary">search</mat-icon>
+                    </mat-form-field>
+                </form>
+            </div>
+        </div>
+
+    </ng-container>
+
+
+    <div class="overflow-table">
+        <table mat-table class="mat-elevation-z8" [dataSource]="policyApplicationArrCopy" matSort
+            (matSortChange)="sortData($event, false)" multiTemplateDataRows>
+            <!---- table headers--  -->
+
+            <!-- <ng-container *ngIf="media.isActive('sm') || media.isActive('md') || media.isActive('lg')"> -->
+            <div matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+
+                <th class="center" [ngClass]="{
+                    'theme-table-red': currentUser?.organizationCode === 'SIB',
+                    'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+                  }" mat-header-cell *matHeaderCellDef mat-sort-header="{{column}}" color="primary">
+                    <span *ngIf="column==='Insurer Name'">{{'component.INSURER_NAME' | translate}}</span>
+                    <span *ngIf="column==='Product Name'">{{'component.PRODUCT_NAME' | translate}}</span>
+                    <span *ngIf="column==='Policy Number'">{{'component.POLICY_NUMBER' | translate}}</span>
+                    <span *ngIf="column==='Customer Name'">{{'component.CUSTOMER_NAME' | translate}}</span>
+                    <span *ngIf="column==='Status'">{{'component.STATUS' | translate}}</span>
+                    <span *ngIf="column==='Premium'">{{'component.PREMIUM' | translate}}</span>
+                    <span *ngIf="column==='Actions'">{{'component.ACTIONS' | translate}}</span>
+
+                </th>
+
+                <td mat-cell *matCellDef="let element">
+
+                    <span class="padding-left" *ngIf="column===' ' && element?.status==='Pending'">
+                        <img src="../../assets/images/pending-24px.svg">
+                        <!-- <i class="material-icons icon-style-yellow">pending</i> -->
+
+                    </span>
+                    <span class="padding-left" *ngIf="column===' ' && element?.status==='INFORCE'">
+                        <i class="material-icons icon-style-green">done_all</i>
+                    </span>
+                    <span class="padding-left" *ngIf="column===' ' && element?.status==='INACTIVE'">
+                        <i class="material-icons icon-style-red">cancel</i>
+                    </span>
+                    <span class="padding-left"
+                        *ngIf="column===' ' && element?.status!=='Pending' && element?.status!=='INFORCE' && element?.status!=='INACTIVE'">
+                        <img src="../../assets/images/pending-24px.svg">
+                        <!-- <i class="material-icons icon-style-yellow">pending</i> -->
+                    </span>
+                    <span class="padding-left" *ngIf="column==='Insurer Name'">{{element['insurerName']}}</span>
+                    <span class="padding-left" *ngIf="column==='Product Name'">{{element['productName']}}</span>
+                    <span class="padding-left" *ngIf="column==='Policy Number'">
+                        <a *ngIf="element?.policyNo" [routerLink]="['/', 'proposal', element?.productId, element?.id]"
+                            class="proposal_link">
+                            {{element?.policyNo}} </a>
+                        <a *ngIf="!element?.policyNo && element?.lob 
+                        !== 'Life'" [routerLink]="['/', 'proposal', element?.productId, element?.id]"
+                            class="proposal_link">
+                            {{element['applicationNo']}} </a>
+                        <a *ngIf="!element?.policyNo && element?.lob 
+                        === 'Life'" [routerLink]="element?.applicationUrl" class="proposal_link">
+                            {{element['applicationNo']}} </a>
+                    </span>
+                    <span class="padding-left" *ngIf="column==='Customer Name'">{{element?.customerName}}</span>
+                    <span class="padding-left text-uppercase" *ngIf="column==='Status'">{{element['status']}}</span>
+                    <span class="padding-left" *ngIf="column==='Premium'">{{element['premiumAmount'] |
+                        currency:'INR'}}</span>
+
+                    <span class="padding-left" *ngIf="column==='Actions'">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="onApprovePolicy(element?.applicationNo)">
+                                <img src="../../assets/icons/notification_important-24px.svg" class="material-icons">
+                                <span>Accept</span>
+                            </button>
+
+                            <button mat-menu-item (click)="onRejectPolicy(element?.applicationNo)">
+                                <mat-icon> cancel </mat-icon>
+                                <span>Reject</span>
+                            </button>
+
+                            <!-- <button mat-menu-item
+                                *ngIf="element['status'] === 'COLLECTION' && currentUser?.roles?.indexOf('BRANCH.PAYMENT.INITIATE') > -1"
+                                (click)="onInitiatePayment(element?.applicationNo)">
+                                <mat-icon> payment </mat-icon>
+                                <span>Initiate Payment</span>
+                            </button> -->
+                        </mat-menu>
+                        <!-- sep 25 -change Action view -->
+                    </span>
+                </td>
+
+            </div>
+
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columnsToDisplay -->
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                    <div class="example-element-detail"
+                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                        <div fxHide.xs="true" fxHide.sm="true">
+                            <!-- --here starts-- -->
+                            <!-- --customer-- -->
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <strong>{{'component.CUSTOMER' | translate}}</strong>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.NAME' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.MOBILE' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.EMAIL' | translate}}:
+                                    </label>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span> {{element?.customerName}} </span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.applicationData?.proposerMobile}}</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.applicationData?.proposerEmail}}</span>
+
+                                </div>
+                            </div>
+                            <!-- --Agency Data --  -->
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                                class="margin-top-10 grid-item-inside">
+                                <div fxFlex="16" classs="">
+                                    <strong>{{'component.AGENCY_DATA' | translate}}</strong>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.SP_CODE' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.SP_NAME' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.INSURER_RM_NAME' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.INSURER_RM_MOBILE' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.INSURER_RM_EMAIL' | translate}}:
+                                    </label>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span> {{element?.approvingSp}} </span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.spName}}</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.applicationData?.insurerRmName}}</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.applicationData?.insurerRmContact}}</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.applicationData?.insurerRmEmail}}</span>
+                                </div>
+                            </div>
+                            <!-- --risk data-- -->
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                                class="margin-top-10">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <strong>{{'component.POLICY_DATA' | translate}}</strong>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.POLICY_START_DATE' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.POLICY_END_DATE' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.NEXT_PREMIUM_DATE' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.LINE_OF_BUSINESS' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label *ngIf="element?.lob==='Motor'">Insured Declared Value:</label>
+                                    <label *ngIf="element?.lob!=='Motor'">{{'component.SUM_ASSURED' |
+                                        translate}}:</label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.PRODUCT_TYPE' | translate}}:
+                                    </label>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span> {{element?.policyStartDate}} </span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.policyEndDate}}</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.policyEndDate}}</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.lob}}</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span *ngIf="element?.lob==='Motor'">{{element?.applicationData?.vehicleInfo?.idv
+                                        |
+                                        currency:'INR':'symbol':'1.0-0'}}</span>
+                                    <span
+                                        *ngIf="element?.lob!=='Motor' && element?.lob!=='Life'">{{element?.applicationData?.sumInsured
+                                        |
+                                        currency:'INR':'symbol':'1.0-0'}}</span>
+                                    <span *ngIf="element?.lob==='Life'">
+                                        {{element?.applicationData?.sumInsured |
+                                        currency:'INR':'symbol':'1.0-0' }} </span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.productType}}</span>
+                                </div>
+                            </div>
+                            <!-- --premium details --  -->
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                                class="margin-bottom-10">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.BASE_PREMIUM' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.GST' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.PAYMENT_FREQUENCY' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.POLICY_TERM' | translate}}:
+                                    </label>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <label>{{'component.PAYMENT_TERM' | translate}}:
+                                    </label>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.basePremium | currency:'INR':'symbol':'1.0-0'}}</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.gst | currency:'INR':'symbol':'1.0-0'}}</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span *ngIf="element?.mode==0">Single</span>
+                                    <span *ngIf="element?.mode==1">Annual</span>
+                                    <span *ngIf="element?.mode==2">Half Yearly</span>
+                                    <span *ngIf="element?.mode==4">Quarterly</span>
+                                    <span *ngIf="element?.mode==12">Monthly</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span>{{element?.pt}} Year(s)</span>
+                                </div>
+                                <div fxFlex="16" class="grid-item-inside">
+                                    <span *ngIf="element?.ppt==0">Single</span>
+                                    <span *ngIf="element?.ppt!=0">{{element?.ppt}} Year(s)</span>
+                                </div>
+                            </div>
+
+                            <!-- --LIFE POLICY -- -->
+                            <ng-container *ngIf="element?.lob==='Life'">
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.INSURED_NAME' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.DOB' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.RELATIONSHIP' | translate}}:
+                                        </label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span> {{element?.applicationData?.insureds?.firstName}}
+                                            {{element?.applicationData?.insureds?.lastName}} </span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.insureds?.dob}}</span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span *ngIf="element?.applicationData?.insureds?.gender === 'M'">
+                                            Male</span>
+                                        <span *ngIf="element?.applicationData?.insureds?.gender === 'F'">
+                                            Female</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <!-- --health--  -->
+                            <ng-container *ngIf="element?.lob==='Health'">
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.INSURED_NAME' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.DOB' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.GENDER' | translate}}:
+                                        </label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <ng-container *ngFor="let insuredPerson of element?.healthInsuranceDetails">
+                                        <div fxFlex="16" class="grid-item-inside">
+                                            <span> {{insuredPerson?.firstName}}
+                                                {{insuredPerson?.lastName}} </span>
+                                        </div>
+                                        <div fxFlex="16" class="grid-item-inside">
+                                            <span>{{insuredPerson?.dob}}</span>
+                                        </div>
+                                        <div fxFlex="16" class="grid-item-inside">
+                                            <span>{{insuredPerson?.relationValue}}
+                                            </span>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+
+                            <!-- --Motor--  -->
+                            <ng-container *ngIf="element?.lob==='Motor'">
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.REGISTRATION_NO' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.REGISTRATION_DATE' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.NCB' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.MAKE/MODEL' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.ENGINE_NO' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.CHASSIS_NO' | translate}}:
+                                        </label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.vehicleRegno}}</span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.vehicleRegistrationDate}}
+                                        </span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.prevInsurance?.prevNCB}}</span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.modelName}}</span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.engineNo}}</span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.chassisNo}}</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <!-- --Payment Data--  -->
+
+                            <ng-container
+                                *ngIf="element['applicationData'] && element['applicationData']['paymentInfo']">
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                                    class="margin-top-10">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <strong>{{'component.PAYMENT_DATA' | translate}}</strong>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.PREMIUM_PAID' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.PAYMENT_DATE' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.MODE' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.INSTRUMENT_NUMBER' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.BANK_NAME' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.BRANCH' | translate}}:
+                                        </label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.paymentInfo?.amountCollected |
+                                            currency:'INR':'symbol':'1.0-0'}}</span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.paymentInfo?.instrumentDate}} </span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span> {{element?.applicationData?.paymentInfo?.paymentType}}</span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.paymentInfo?.instrumentNo}}</span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.paymentInfo?.bankName}}</span>
+                                    </div>
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.paymentInfo?.BranchName}}</span>
+                                    </div>
+                                </div>
+                                <!-- --IFSC --  -->
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <label>{{'component.IFSC_CODE' | translate}}:
+                                        </label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                                    <div fxFlex="16" class="grid-item-inside">
+                                        <span>{{element?.applicationData?.paymentInfo?.ifscCode}}</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <!-- --here end-- -->
+
+                            <!--<div *ngIf="media.isActive('lg') || media.isActive('md') || media.isActive('sm')"
+                            class="grid-container">-->
+                            <!--  <div class="grid-item">
+                                <div class="grid-container-risk">
+                                    <div class="grid-item-inside margin-bottom-10">
+                                        <strong>{{'component.CUSTOMER' | translate}}</strong>
+                                    </div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label>{{'component.NAME' | translate}}: </label>
+                                    </div>
+                                    <div class="grid-item-inside"><label>{{'component.MOBILE' | translate}}: </label>
+                                    </div>
+                                    <div class="grid-item-inside"><label>{{'component.EMAIL' | translate}}:</label>
+                                    </div>
+
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+
+                                    <div class="grid-item-inside"><span> {{element?.customerName}} </span></div>
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.proposerMobile}}</span>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.proposerEmail}}</span>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- Agency Data -->
+                            <!-- <div class="grid-item">
+                                <div class="grid-container-risk">
+                                    <div class="grid-item-inside margin-bottom-10">
+                                        <strong>{{'component.AGENCY_DATA' | translate}}</strong>
+                                    </div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                               
+                                    <div class="grid-item-inside"><label>{{'component.SP_CODE' | translate}}: </label>
+                                    </div>
+                                    <div class="grid-item-inside"><label>{{'component.SP_NAME' | translate}}: </label>
+                                    </div>
+                                    <div class="grid-item-inside"><label>{{'component.INSURER_RM_NAME' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div class="grid-item-inside"><label>{{'component.INSURER_RM_MOBILE' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div class="grid-item-inside"><label>{{'component.INSURER_RM_EMAIL' |
+                                            translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><span>{{element?.approvingSp}} </span></div>
+                                    <div class="grid-item-inside"><span>{{element?.spName}} </span></div>
+
+                                    <div class="grid-item-inside"><span> {{element?.applicationData?.insurerRmName}}
+                                        </span></div>
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.insurerRmContact}}</span>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.insurerRmEmail}}</span>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- Risk data  -->
+                            <!--<div class="grid-item">-->
+                            <!--<div class="grid-container-risk">-->
+                            <!--  <div class="grid-item-inside margin-bottom-10">
+                                        <strong>{{'component.POLICY_DATA' | translate}}</strong>
+                                    </div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside">
+                                        <label>{{'component.POLICY_START_DATE' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <label>{{'component.POLICY_END_DATE' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <label>{{'component.NEXT_PREMIUM_DATE' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <label>{{'component.LINE_OF_BUSINESS' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <label *ngIf="element?.lob==='Motor'">Insured Declared Value:</label>
+                                        <label *ngIf="element?.lob!=='Motor'">{{'component.SUM_ASSURED' |
+                                            translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <label>{{'component.PRODUCT_TYPE' | translate}}:</label>
+                                    </div> -->
+
+                            <!-- Values -->
+                            <!-- <div class="grid-item-inside">
+                                        <span>{{element?.policyStartDate}}</span>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.policyEndDate}}</span>
+                                    </div>
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.policyEndDate}}</span>
+                                    </div>
+
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.lob}}</span>
+                                    </div>
+
+                                    <div class="grid-item-inside">
+                                        <span *ngIf="element?.lob==='Motor'">{{element?.applicationData?.vehicleInfo?.idv
+                                            |
+                                            currency:'INR':'symbol':'1.0-0'}}</span>
+                                        <span *ngIf="element?.lob!=='Motor' && element?.lob!=='Life'">{{element?.applicationData?.sumInsured
+                                            |
+                                            currency:'INR':'symbol':'1.0-0'}}</span>
+                                        <span *ngIf="element?.lob==='Life'">
+                                            {{element?.applicationData?.sumInsured |
+                                            currency:'INR':'symbol':'1.0-0' }} </span>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.productType}}</span>
+                                    </div>
+
+
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.BASE_PREMIUM' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.GST' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.PAYMENT_FREQUENCY' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.POLICY_TERM' | translate}}: </label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.PAYMENT_TERM' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10"><label> </label></div>
+                                 
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.basePremium | currency:'INR':'symbol':'1.0-0'}}</span>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.gst | currency:'INR':'symbol':'1.0-0'}}</span>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <span *ngIf="element?.mode==0">Single</span>
+                                        <span *ngIf="element?.mode==1">Annual</span>
+                                        <span *ngIf="element?.mode==2">Half Yearly</span>
+                                        <span *ngIf="element?.mode==4">Quarterly</span>
+                                        <span *ngIf="element?.mode==12">Monthly</span>
+                                    </div>
+                                    <div class="grid-item-inside"><span>{{element?.pt}} Year(s)</span></div>
+                                    <div class="grid-item-inside"><span *ngIf="element?.ppt==0">Single</span>
+                                        <span *ngIf="element?.ppt!=0">{{element?.ppt}} Year(s)</span>
+                                    </div> -->
+
+                            <!--</div>-->
+
+                            <!-- life policy-->
+
+                            <!-- <div class="grid-container-risk" *ngIf="element?.lob==='Life'">
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.INSURED_NAME' | translate}}: </label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10"><label>{{'component.DOB' | translate}}:
+                                        </label></div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.GENDER' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10"><label></label></div>
+                                    <div class="grid-item-inside margin-top-10"><label></label></div>
+                                    <div class="grid-item-inside margin-top-10"><span> </span></div>
+
+
+                                    <div class="grid-item-inside"><span>
+                                            {{element?.applicationData?.insureds[0]?.insuredFirstName}}
+                                            {{element?.applicationData?.insureds[0]?.insuredLastName}}
+                                        </span></div>
+
+
+                                    <div class="grid-item-inside"><span>
+                                            {{element?.applicationData?.insureds[0]?.dob}}</span></div>
+
+
+                                    <div class="grid-item-inside">
+                                        <span *ngIf="element?.applicationData?.insureds[0]?.insuredGender==='M'">
+                                            Male</span>
+                                        <span *ngIf="element?.applicationData?.insureds[0]?.insuredGender==='F'">
+                                            Female</span>
+                                    </div>
+                                  
+
+                                </div> -->
+
+                            <!-- Health Policy -->
+                            <!--<div class="grid-container-risk" *ngIf="element?.lob==='Health'">-->
+
+                            <!--  <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.INSURED_NAME' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10"><label>{{'component.DOB' | translate}}:
+                                        </label></div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.RELATIONSHIP' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10"><span> </span></div>
+                                    <div class="grid-item-inside margin-top-10"><span> </span></div>
+                                    <div class="grid-item-inside margin-top-10"><span> </span></div>-->
+
+                            <!-- Values  -->
+                            <!--   <ng-container *ngFor="let insuredPerson of element?.healthInsuranceDetails">
+                                        <div class="grid-item-inside">
+                                            <span>
+                                                {{insuredPerson?.firstName}}
+                                                {{insuredPerson?.lastName}}
+                                            </span>
+                                        </div>
+                                        <div class="grid-item-inside"><span> </span>{{insuredPerson?.dob}} </div>
+
+                                        <div class="grid-item-inside">
+                                            <span>{{insuredPerson?.relationValue}}
+                                            </span>
+                                        </div>
+                                        <div class="grid-item-inside margin-top-10"><span> </span></div>
+                                        <div class="grid-item-inside margin-top-10"><span> </span></div>
+                                        <div class="grid-item-inside margin-top-10"><span> </span></div>
+
+                                    </ng-container>-->
+
+
+
+                            <!-- Motor policy -->
+                            <!--</div>-->
+                            <!-- <div class="grid-container-risk" *ngIf="element?.lob==='Motor'">-->
+
+                            <!-- <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.REGISTRATION_NO' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.REGISTRATION_DATE' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.NCB' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.MAKE/MODEL' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.ENGINE_NO' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.CHASSIS_NO' | translate}}:
+                                        </label>
+                                    </div> -->
+
+                            <!-- Values  -->
+                            <!--<div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.vehicleRegno}}</span>
+                                    </div>
+
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.vehicleRegistrationDate}} </span>
+                                    </div>
+
+                                    <div class="grid-item-inside">
+                                        <span></span>{{element?.applicationData?.prevInsurance?.prevNCB}}
+                                    </div>
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.modelName}}</span>
+                                    </div>
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.engineNo}}</span>
+                                    </div>
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.vehicleInfo?.chassisNo}}</span>
+                                    </div> -->
+                            <!-- </div> -->
+
+                            <!--</div>-->
+
+                            <!-- Payment Data  -->
+                            <!--<div class="grid-item"
+                                *ngIf="element['applicationData'] && element['applicationData']['paymentInfo']">
+                                <div class="grid-container-risk">
+                                    <div class="grid-item-inside margin-bottom-10">
+                                        <strong>{{'component.PAYMENT_DATA' | translate}}</strong>
+                                    </div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+                                    <div class="grid-item-inside"><label> </label></div>
+
+                                    <div class="grid-item-inside"><label>{{'component.PREMIUM_PAID' | translate}}:
+                                        </label></div>
+                                    <div class="grid-item-inside">
+                                        <label>{{'component.PAYMENT_DATE' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <label>{{'component.MODE' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside">
+                                        <label>{{'component.INSTRUMENT_NUMBER' | translate}}:</label>
+                                    </div>
+                                    <div class="grid-item-inside"><label>{{'component.BANK_NAME' | translate}}:
+                                        </label></div>
+                                    <div class="grid-item-inside"><label>{{'component.BRANCH' | translate}}:
+                                        </label></div>
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.paymentInfo?.amountCollected |
+                                            currency:'INR':'symbol':'1.0-0'}}</span>
+                                    </div>
+
+                                    <div class="grid-item-inside">
+                                        <span>{{element?.applicationData?.paymentInfo?.instrumentDate}} </span>
+                                    </div>
+
+                                    <div class="grid-item-inside"><span>
+                                            {{element?.applicationData?.paymentInfo?.paymentType}}</span></div>
+
+
+                                    <div class="grid-item-inside"><span>
+                                            {{element?.applicationData?.paymentInfo?.instrumentNo}}</span></div>
+
+
+                                    <div class="grid-item-inside"><span>
+                                            {{element?.applicationData?.paymentInfo?.bankName}}</span></div>
+
+
+                                    <div class="grid-item-inside"><span>
+                                            {{element?.applicationData?.paymentInfo?.BranchName}}</span></div>
+                                   
+                                    <div class="grid-item-inside margin-top-10">
+                                        <label>{{'component.IFSC_CODE' | translate}}:
+                                        </label>
+                                    </div>
+                                    <div class="grid-item-inside margin-top-10"><label> </label></div>
+                                    <div class="grid-item-inside margin-top-10"><label> </label></div>
+                                    <div class="grid-item-inside margin-top-10"><label> </label></div>
+                                    <div class="grid-item-inside margin-top-10"><label> </label></div>
+                                    <div class="grid-item-inside margin-top-10"><label> </label></div>
+
+                                    <div class="grid-item-inside"><span>
+                                            {{element?.applicationData?.paymentInfo?.ifscCode}}</span></div>
+                                </div>
+                            </div> -->
+                            <!--</div>-->
+                        </div>
+                        <!-- --mobile view details-- -->
+                        <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+                            <!-- --Customer--  -->
+                            <div class="label-heading">
+                                <span><strong>{{'component.CUSTOMER' | translate}}</strong></span>
+                            </div>
+                            <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.NAME' | translate}}</label>
+                                </div>
+
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.MOBILE' | translate}}</label>
+                                </div>
+
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.EMAIL' | translate}}</label>
+                                </div>
+
+                            </div>
+                            <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.customerName}}</span>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.applicationData?.proposerMobile}}</span>
+                                </div>
+
+                                <div fxFlex="30" class="wd-break">
+                                    <span>{{element?.applicationData?.proposerEmail}}</span>
+                                </div>
+                            </div>
+                            <!-- --Policy Data--  -->
+
+                            <div class="label-heading">
+                                <span><strong>{{'component.POLICY_DATA' | translate}}</strong></span>
+                            </div>
+                            <div flex fxLayout="row" fxLayoutGap="5px" class="">
+
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.POLICY_START_DATE' | translate}}: </label>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.POLICY_END_DATE' | translate}}: </label>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.NEXT_PREMIUM_DATE' | translate}}: </label>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayoutGap="5px" class="">
+
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.applicationData?.policyStartDate}}</span>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.applicationData?.policyEndDate}}</span>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.applicationData?.policy?.nextPremiumDate}}</span>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.LINE_OF_BUSINESS' | translate}}:</label>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <label *ngIf="element?.lob==='Motor'">Insured Declared Value :</label>
+                                    <label *ngIf="element?.lob!=='Motor'">{{'component.SUM_ASSURED' |
+                                        translate}}:</label>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.PRODUCT_TYPE' | translate}}:</label>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayoutGap="5px" class="">
+
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.lob}}</span>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <span *ngIf="element?.lob==='Motor'">{{element?.applicationData?.vehicleInfo?.idv |
+                                        currency:'INR':'symbol':'1.0-0'}}</span>
+                                    <span *ngIf="element?.lob!=='Motor'">{{element?.applicationData?.sumInsured |
+                                        currency:'INR':'symbol':'1.0-0'}}</span>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.productType}}</span>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.BASE_PREMIUM' | translate}}:</label>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.GST' | translate}}:</label>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.PAYMENT_FREQUENCY' | translate}}:</label>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.basePremium}}</span>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.gst}}</span>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <span *ngIf="element?.mode==0">Single</span>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.POLICY_TERM' | translate}}:</label>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <label>{{'component.PAYMENT_TERM' | translate}}:</label>
+                                </div>
+                            </div>
+                            <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                                <div fxFlex="30" class="">
+                                    <span>{{element?.pt}}</span>
+                                </div>
+                                <div fxFlex="30" class="">
+                                    <span *ngIf="element?.ppt!=0">{{element?.ppt}}</span>
+                                    <span *ngIf="element?.ppt==0">Single</span>
+                                </div>
+                            </div>
+                            <!-- --Life policy--  -->
+                            <ng-container *ngIf="element?.lob==='Life'">
+
+                                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.INSURED_NAME' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.DOB' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.GENDER' | translate}}:</label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.insured?.firstName}}
+                                            {{element?.applicationData?.insured?.lastName}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.additionalData?.insuredDob}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.insured?.gender}}</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <!-- --Health policy--  -->
+                            <ng-container *ngIf="element?.lob==='Health'">
+
+                                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.INSURED_NAME' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.DOB' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.RELATIONSHIP' | translate}}:</label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayoutGap="5px"
+                                    *ngFor="let insuredPerson of element?.healthInsuranceDetails">
+                                    <div fxFlex="30" class="">
+                                        <span>{{insuredPerson?.firstName}}
+                                            {{insuredPerson?.lastName}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{insuredPerson?.dob}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{insuredPerson?.relationValue}}</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <!-- --motor--  -->
+                            <ng-container *ngIf="element?.lob==='Motor'">
+                                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.REGISTRATION_NO' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.REGISTRATION_DATE' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.NCB' | translate}}:</label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.vehicleInfo?.vehicleRegno}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.vehicleInfo?.vehicleRegistrationDate}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.prevInsurance?.prevNCB}}</span>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.MAKE/MODEL' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.ENGINE_NO' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.CHASSIS_NO' | translate}}:</label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.vehicleInfo?.yom}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.vehicleInfo?.engineNo}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.vehicleInfo?.chassisNo}}</span>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <!-- --Payment Data--  -->
+                            <ng-container
+                                *ngIf="element['applicationData'] && element['applicationData']['paymentInfo']">
+                                <div class="label-heading">
+                                    <span><strong>{{'component.PAYMENT_DATA' | translate}}</strong></span>
+                                </div>
+                                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.PREMIUM_PAID' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.PAYMENT_DATE' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.MODE' | translate}}:</label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.paymentInfo?.amountCollected |
+                                            currency:'INR':'symbol':'1.0-0'}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.paymentInfo?.instrumentDate}} </span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.paymentInfo?.paymentType}}</span>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.INSTRUMENT_NUMBER' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.BANK_NAME' | translate}}:</label>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.BRANCH' | translate}}:</label>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.paymentInfo?.instrumentNo}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.paymentInfo?.bankName}}</span>
+                                    </div>
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.paymentInfo?.BranchName}}</span>
+                                    </div>
+                                </div>
+                                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+
+                                    <div fxFlex="30" class="">
+                                        <label>{{'component.IFSC_CODE' | translate}}:</label>
+                                    </div>
+
+                                </div>
+                                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+
+                                    <div fxFlex="30" class="">
+                                        <span>{{element?.applicationData?.paymentInfo?.ifscCode}}</span>
+                                    </div>
+
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+        </table>
+        <mat-paginator [length]="policyApplicationSearchCopy?.length" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+</div>

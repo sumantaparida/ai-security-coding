@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 17 16" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);">
+    <g fill="#626262" fill-rule="evenodd">
+        <path style="fill:#3f51b5" d="M9.995 4.917h1.992V0H1l8.026 2.666v12.251L1.321 13l-.215.829l8.89 2.153v-3.085l1.99.018V9.042h-1.99V4.917z" />
+        <path style="fill:#3f51b5" d="M15.904 7l-2.87-2.932v1.987H11v1.916h2.034v2.062L15.904 7z" />
+        <path style="fill:#3f51b5" d="M7 8h.958v.916H7z" />
+    </g>
+    <rect x="0" y="0" width="24" height="24" fill="rgba(0, 0, 0, 0)" color="#673ab7" />
+</svg>

@@ -1,0 +1,197 @@
+<div class="main-container">
+  <div
+    class="flex-container"
+    *ngIf="media.isActive('md') || media.isActive('lg')"
+  >
+    <div style="flex-basis: 20%">
+      <span class="material-icons style-icon-policy"> sync </span>
+      <span class="font-size-20">{{
+        "component.MY_ACTIVITIES" | translate
+      }}</span>
+    </div>
+
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div style="flex-basis: 20%" class="transform">
+      <form class="example-form" [formGroup]="searchForm">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{ "component.SEARCH" | translate }}</mat-label>
+          <input
+            matInput
+            (keyup)="onSearchFieldChange()"
+            formControlName="searchField"
+          />
+          <mat-icon matSuffix color="primary">search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <!-- --mobile--  -->
+  <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+      <div fxFlex="70" class="child-one">
+        <span class="material-icons style-icon-policy"> sync </span
+        ><span class="font-size-20">{{
+          "component.MY_ACTIVITIES" | translate
+        }}</span>
+      </div>
+    </div>
+
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent-search">
+      <div fxFlex="100" class="mob-search">
+        <form class="example-form" [formGroup]="searchForm">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Search</mat-label>
+            <input
+              matInput
+              (keyup)="onSearchFieldChange()"
+              formControlName="searchField"
+            />
+            <mat-icon matSuffix color="primary">search</mat-icon>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- <mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+    </mat-progress-spinner> -->
+  <div class="container-table">
+    <table
+      mat-table
+      class="mat-elevation-z8"
+      [dataSource]="policyApplicationArrCopy"
+      matSort
+      (matSortChange)="sortData($event, false)"
+      multiTemplateDataRows
+    >
+      <ng-container
+        matColumnDef="{{ column }}"
+        *ngFor="let column of displayedColumns"
+      >
+        <th
+          class="center"
+          [ngClass]="{ 'width-small': column === ' ' }"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header="{{ column }}"
+          color="primary"
+        >
+          <span *ngIf="column === 'Creation Date'"
+            >{{ "component.CREATION_DATE" | translate }}
+          </span>
+          <span *ngIf="column === 'Activity Type'"
+            >{{ "component.ACTIVITY_TYPE" | translate }}
+          </span>
+          <span *ngIf="column === 'Customer Name'"
+            >{{ "component.CUSTOMER_NAME" | translate }}
+          </span>
+          <span *ngIf="column === 'Activity Description'"
+            >{{ "component.ACTIVITY_DESCRIPTION" | translate }}
+          </span>
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          <span
+            class="padding-left"
+            *ngIf="column === ' ' && element?.activityType === 'Need Analysis'"
+          >
+            <i class="material-icons icon-style-blue">av_timer</i>
+          </span>
+          <span
+            class="padding-left"
+            *ngIf="
+              column === ' ' && element?.activityType === 'Customer Creation'
+            "
+          >
+            <i class="material-icons icon-style-blue">person_add</i>
+          </span>
+          <span class="padding-left" *ngIf="column === 'Creation Date'">{{
+            element["createdDate"] | datex: "DD-MM-yyyy"
+          }}</span>
+          <span
+            class="padding-left activity_type"
+            *ngIf="column === 'Activity Type'"
+            >{{ element["activityType"] }}
+            <br />
+            <div
+              fxHide.lg="true"
+              fxHide.md="true"
+              class="onmobileLink activitylink"
+            >
+              <ng-container
+                *ngIf="
+                  element['activityLink'] && element['activityLink'] !== '';
+                  then isActive;
+                  else notActive
+                "
+              >
+              </ng-container>
+              <ng-template #isActive>
+                <a
+                  class="proposal_link"
+                  (click)="activityLink(element?.activityLink)"
+                >
+                  {{ element["activityDesc"] }}</a
+                >
+              </ng-template>
+              <ng-template #notActive>
+                {{ element["activityDesc"] }}
+              </ng-template>
+            </div>
+          </span>
+          <span
+            class="padding-left customer_name"
+            *ngIf="column === 'Customer Name'"
+            >{{ element["customerName"] }}
+            <br />
+            <div
+              fxHide.lg="true"
+              fxHide.md="true"
+              class="onmobileLink activitydes"
+            >
+              Activity Description
+            </div>
+          </span>
+          <span class="padding-left" *ngIf="column === 'Activity Description'">
+            <ng-container
+              *ngIf="
+                element['activityLink'] && element['activityLink'] !== '';
+                then isActive;
+                else notActive
+              "
+            >
+            </ng-container>
+            <ng-template #isActive>
+              <a
+                class="proposal_link"
+                (click)="activityLink(element?.activityLink)"
+              >
+                {{ element["activityDesc"] }}</a
+              >
+            </ng-template>
+            <ng-template #notActive>
+              {{ element["activityDesc"] }}
+            </ng-template>
+          </span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: displayedColumns"
+        class="example-element-row"
+      ></tr>
+    </table>
+    <mat-paginator
+      [length]="policyApplicationSearchCopy?.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+  </div>
+</div>

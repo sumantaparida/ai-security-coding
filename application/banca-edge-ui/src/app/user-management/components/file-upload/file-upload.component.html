@@ -1,0 +1,238 @@
+<div class="main-container-quotes">
+  <div class="flex-container-quotes" *ngIf="media.isActive('md') || media.isActive('lg')">
+    <div style="flex-basis: 20%">
+      <span class="material-icons style-icon-policy"> file_upload </span
+      ><span class="font-size-20">Bulk Upload</span>
+    </div>
+
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+      <div fxFlex="50" class="child-one">
+        <span class="material-icons style-icon-policy"> file_upload </span
+        ><span class="font-size-20">Bulk Upload</span>
+      </div>
+    </div>
+  </ng-container>
+  <form [formGroup]="quickQuoteForm">
+    <div class="container-plans">
+      <!-- <div class="row required-field">
+            <mat-form-field appearance="fill">
+              <mat-label class="cus-form-label"
+                >Intermediary Name<span class="man-field">*</span></mat-label
+              >
+              <mat-select
+                formControlName="bank"
+                value="option.id"
+                (selectionChange)="onSelectionChanged($event, 'org')"
+              >
+                <mat-option *ngFor="let option of allowedOrg" value="{{ option.id }}">{{
+                  option.value
+                }}</mat-option>
+              </mat-select> </mat-form-field
+            >&nbsp;&nbsp;
+            <mat-form-field appearance="fill">
+              <mat-label class="cus-form-label">Product Name<span class="man-field">*</span></mat-label>
+              <mat-select
+                formControlName="product"
+                value="option.orgCode"
+                (selectionChange)="onSelectionChanged($event, 'product')"
+              >
+                <mat-option *ngFor="let option of allowedProd" value="{{ option.documentName }}">{{
+                  option.documentName
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+      <div class="row required-field">
+        <mat-form-field appearance="fill">
+          <mat-label class="cus-form-label"
+            >Select Document Type<span class="man-field">*</span></mat-label
+          >
+          <mat-select
+            formControlName="docType"
+            (selectionChange)="onSelectionChanged($event, 'org')"
+          >
+            <mat-option *ngFor="let option of allowedLob" value="{{ option.value }}">{{
+              option.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row required-field mar-20">
+        <label></label>
+        <input (change)="selectFile($event)" type="file" formControlName="file" />
+      </div>
+      <!-- , application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel  accept=".csv" -->
+      <div class="row required-field mar-20">
+        <button
+          mat-raised-button
+          type="button"
+          (click)="uploadData()"
+          class="btn"
+          [disabled]="!checkInput"
+        >
+          Upload Batch
+        </button>
+        <button
+          mat-raised-button
+          type="button"
+          (click)="getTemplate()"
+          class="btn"
+          id="a1"
+          [disabled]="!documentType"
+        >
+          Get Template
+        </button>
+        <button
+          *ngIf="enableDownload"
+          mat-raised-button
+          type="button"
+          (click)="downloadErrorReport()"
+          class="btn"
+          id="a1"
+        >
+          Download Error Report
+        </button>
+        <!-- <button
+                mat-raised-button
+                type="button"
+                (click)="downloadErrorData()"
+                class="btn"
+                [disabled]="!checkError"
+              >
+                Error Upload Data
+              </button> -->
+      </div>
+      <br />
+      <br />
+      <div class="mar-20">
+        <span class="note-heading">Note:</span>
+        <ul style="list-style-type: decimal" class="note">
+          <li>All the dates should be in format of (YYYY-MM-DD). eg.(2022-12-17).</li>
+          <li>RM Code and LG Code are the username of RM and LG</li>
+          <!-- <li>For gender columns kindly use gender as M, F, T (MALE, FEMALE, TRANSGENDER).</li> -->
+          <li>If the column does not contain any data leave the columns blank not as null.</li>
+          <li>
+            Please select the following fields from the dropdown : Insurer Name, LOB, Product ID,
+            Product Name, Payment Frequency, Payment Type, Online Payment Method, and Policy Status.
+          </li>
+
+          <li>
+            Please select the following fields from the dropdown: Salutation, Gender, and Marital
+            Status of the Proposer and Insured, as well as Relationship with the Proposer.
+          </li>
+
+          <!-- <li>
+                  ["] Double quotes should not be added in any of the data of the
+                  excel sheet.
+                </li> -->
+          <li>
+            Kindly keep the column name as per the excel. Do not change any sequence or name of the
+            columns.
+          </li>
+          <!-- <li>Payment date should not be greater than the current date.</li> -->
+          <li>
+            Maximum no. of Record data allowed in a single excel file is 1000 records and The
+            uploaded file will be processed later
+          </li>
+          <!-- <li>
+              Help File before upload Data. Click on this
+              <a target="_blank"
+                href="https://s3.amazonaws.com/lastdecimal.brokeredge.data/brochure/KBL-Suruksha-Bulk-Upload-Masters.xlsx">link</a>.
+            </li> -->
+          <!-- <li>Address Line1 and Address Line 2 are mandatory fields.</li>
+            <li>
+              In case of Nominee is minor, then NAME AND ADDRESS OF GUARDIAN, IF NOMINEE MINOR is
+              mandatory.
+            </li> -->
+        </ul>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="table-margin mat-elevation-z8" *ngIf="reconciliationReportList.length > 0">
+  <div class="example-table-container">
+    <table
+      mat-table
+      [dataSource]="reconciliationReportList"
+      class="example-table"
+      matSort
+      matSortActive="created"
+      matSortDisableClear
+      matSortDirection="desc"
+    >
+      <!--"Start Date -->
+
+      <div matColumnDef="{{ column }}" *ngFor="let column of displayedColumns">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'theme-table-red': orgCode === 'SIB',
+            'theme-table-purple': orgCode !== 'SIB'
+          }"
+          color="primary"
+        >
+          <span *ngIf="column === 'Username'">USERNAME</span>
+          <span *ngIf="column === 'Report_Type'">Report Type</span>
+
+          <span *ngIf="column === 'Start Date'">REQUESTED ON</span>
+
+          <span *ngIf="column === 'Status'">STATUS</span>
+
+          <span *ngIf="column === 'Action'">ACTION</span>
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          <span class="padding-left" *ngIf="column === 'Start Date'">{{
+            element?.startDate | date: 'd/M/y'
+          }}</span>
+
+          <span class="padding-left" *ngIf="column === 'Username'">{{ element?.userName }}</span>
+          <span class="padding-left" *ngIf="column === 'Report_Type'">{{
+            element?.reportType
+          }}</span>
+          <span class="padding-left" *ngIf="column === 'Status' && element?.status === 2"
+            >Completed</span
+          >
+          <span class="padding-left" *ngIf="column === 'Status' && element?.status === 1"
+            >Processing<mat-icon (click)="getBulkList()" style="cursor: pointer"
+              >refresh</mat-icon
+            ></span
+          >
+          <span class="padding-left" *ngIf="column === 'Status' && element?.status === 3"
+            >Failed</span
+          >
+          <span class="padding-left" *ngIf="column === 'Report Type'">{{
+            element?.reportType
+          }}</span>
+          <span class="padding-left" *ngIf="column === 'Action'">
+            <button
+              mat-flat-button
+              class="download-btn"
+              *ngIf="element.status === 2"
+              (click)="downloadFile(element.fileData, element?.reportType)"
+            >
+              Download <span class="material-icons"> file_download</span>
+            </button>
+          </span>
+        </td>
+      </div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    [length]="resultsLength"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+</div>

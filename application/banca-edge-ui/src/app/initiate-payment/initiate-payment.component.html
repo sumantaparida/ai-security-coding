@@ -1,0 +1,508 @@
+<form *ngIf="paymentForm" [formGroup]="paymentForm">
+  <ng-container *ngIf="dynamic">
+    <ng-template ngFor let-section [ngForOf]="metaData.sections">
+      <mat-card class="margin-bottom-30">
+        <mat-card-content>
+          <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+            <ng-template ngFor let-input [ngForOf]="section.formData">
+              <ng-container [ngSwitch]="input.controlType">
+                <!-- radio inputs -->
+                <ng-template
+                  [ngSwitchCase]="'radio'"
+                  *ngIf="
+                  input | displayInputField
+                      :input?.isDependent
+                          ? input?.isDependent
+                          : undefined
+                      :input?.controlName
+                      :paymentForm.get(input?.parentControlName) ? paymentForm.get(input?.parentControlName).value : undefined
+                        :paymentForm
+                        :applicationDetails
+                        :accountDetails
+                "
+                >
+                  <div class="margin-top-5" fxFlex="32">
+                    <label>{{ input.label }}</label>
+                    <mat-radio-group
+                      class="display-flex"
+                      aria-label="Select an option"
+                      formControlName="{{ input.controlName }}"
+                    >
+                      <ng-container *ngFor="let payment of input.options; let first = first">
+                        <div class="account-type-radio-box" [ngClass]="{ 'margin-left': !first }">
+                          <mat-radio-button
+                            (change)="onRadioChange(input,$event)"
+                            color="primary"
+                            value="{{ payment?.id }}"
+                          >
+                            {{ payment?.value }}
+                          </mat-radio-button>
+                        </div>
+                      </ng-container>
+                    </mat-radio-group>
+                  </div>
+                </ng-template>
+
+                <!-- select inputs -->
+                <ng-template
+                  [ngSwitchCase]="'select'"
+                  *ngIf="
+                  input | displayInputField
+                      :input?.isDependent
+                          ? input?.isDependent
+                          : undefined
+                      :input?.controlName
+                      :paymentForm.get(input?.parentControlName) ? paymentForm.get(input?.parentControlName).value : undefined
+                        :paymentForm
+                        :applicationDetails
+                        :accountDetails
+                "
+                >
+                  <div fxFlex="32">
+                    <mat-form-field class="full-width" appearance="fill">
+                      <mat-label>{{ input.label }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span> </mat-label>
+                      <mat-select formControlName="{{ input.controlName }}" (selectionChange)="selectionChange(input)">
+                        <mat-option
+                          *ngFor="let option of input.options"
+                          [value]="option?.accountNo"
+                        >
+                          {{ option?.accountNo }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      ErrorTemplate;
+                      context: {
+                        control: input?.controlName,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                  </div>
+                </ng-template>
+
+                <!-- text inputs -->
+                <ng-template
+                  [ngSwitchCase]="'text'"
+                  *ngIf="
+                  input | displayInputField
+                      :input?.isDependent
+                          ? input?.isDependent
+                          : undefined
+                      :input?.controlName
+                      :paymentForm.get(input?.parentControlName) ? paymentForm.get(input?.parentControlName).value : undefined
+                        :paymentForm
+                        :applicationDetails
+                        :accountDetails
+                "
+                >
+                  <div fxFlex="32">
+                    <mat-form-field class="full-width" appearance="fill">
+                      <mat-label>{{ input.label }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span> </mat-label>
+                     <ng-container><input matInput type="text" formControlName="{{ input.controlName }}" (keyup)="forceUppercaseConditionally(input.controlName,input.isCap,$event)"
+                       />
+                    </ng-container> 
+                    </mat-form-field>
+                    <ng-container
+                    *ngTemplateOutlet="
+                      ErrorTemplate;
+                      context: {
+                        control: input?.controlName,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                  </div>
+                </ng-template>
+
+                <!-- number input -->
+                <ng-template
+                  [ngSwitchCase]="'number'"
+                  *ngIf="
+                  input | displayInputField
+                      :input?.isDependent
+                          ? input?.isDependent
+                          : undefined
+                      :input?.controlName
+                      :paymentForm.get(input?.parentControlName) ? paymentForm.get(input?.parentControlName).value : undefined
+                        :paymentForm
+                        :applicationDetails
+                        :accountDetails
+                "
+                >
+                  <div fxFlex="32">
+                    <mat-form-field class="full-width" appearance="fill">
+                      <mat-label>{{ input.label }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span></mat-label>
+                      <input matInput type="number" formControlName="{{ input.controlName }}" />
+                    </mat-form-field>
+                    <ng-container
+                    *ngTemplateOutlet="
+                      ErrorTemplate;
+                      context: {
+                        control: input?.controlName,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                  </div>
+                </ng-template>
+
+                <!-- date input -->
+                <ng-template
+                  [ngSwitchCase]="'date'"
+                  *ngIf="
+                  input | displayInputField
+                      :input?.isDependent
+                          ? input?.isDependent
+                          : undefined
+                      :input?.controlName
+                      :paymentForm.get(input?.parentControlName) ? paymentForm.get(input?.parentControlName).value : undefined
+                        :paymentForm
+                        :applicationDetails
+                        :accountDetails
+                "
+                >
+                  <div fxFlex="32">
+                    <mat-form-field class="full-width" color="accent" appearance="fill">
+                      <mat-label>{{input.label}}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span> </mat-label>
+                      <input
+                        readonly
+                        [min]="threeMonthsBack"
+                        [max]="todaysDate"
+                        matInput
+                        [matDatepicker]="picker"
+                        formControlName="{{ input.controlName }}"
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker color="primary"></mat-datepicker>
+                    </mat-form-field>
+                    <ng-container
+                    *ngTemplateOutlet="
+                      ErrorTemplate;
+                      context: {
+                        control: input?.controlName,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                  </div>
+                </ng-template>
+              </ng-container>
+            </ng-template>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+  </ng-container>
+
+  <mat-card *ngIf="!dynamic" class="margin-bottom-30">
+    <mat-card-content>
+      <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+        <div class="margin-top-5" fxFlex="32">
+          <label>Payment Type</label>
+          <mat-radio-group
+            class="display-flex"
+            aria-label="Select an option"
+            formControlName="paymentType"
+          >
+            <ng-container *ngFor="let payment of paymentTypes; let first = first">
+              <div class="account-type-radio-box" [ngClass]="{ 'margin-left': !first }">
+                <mat-radio-button
+                  (change)="onPaymentMethodChange($event)"
+                  [disabled]="
+                    (accountDetails === undefined ||
+                      accountDetails === null ||
+                      (accountDetails !== undefined && accountDetails.length === 0)) &&
+                    payment.id === 'DBT'
+                  "
+                  color="primary"
+                  value="{{ payment?.id }}"
+                >
+                  {{ payment?.value }}
+                </mat-radio-button>
+              </div>
+            </ng-container>
+          </mat-radio-group>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="!dynamic" class="margin-bottom-30">
+    <mat-card-content>
+      <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+        <div fxFlex="32" *ngIf="paymentForm.get('paymentType').value === 'DBT' && !isSib">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Account Number<span class="man-field">*</span> </mat-label>
+            <mat-select formControlName="accountNumber">
+              <mat-option *ngFor="let account of accountDetails" [value]="account?.accountNo">
+                {{ account?.accountNo }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <span
+            class="error-message"
+            *ngIf="
+              paymentForm.get('accountNumber').touched &&
+              paymentForm.get('accountNumber').hasError('required')
+            "
+            >This field is required</span
+          >
+        </div>
+        <div fxFlex="32" *ngIf="paymentForm.get('paymentType').value === 'DBT' && isSib">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Account Number<span class="man-field">*</span></mat-label>
+            <input matInput formControlName="accountNumber" />
+          </mat-form-field>
+          <span
+            class="error-message"
+            *ngIf="
+              paymentForm.get('accountNumber').touched &&
+              paymentForm.get('accountNumber').hasError('required')
+            "
+            >This field is required</span
+          >
+          <span
+            class="error-message"
+            *ngIf="
+              (paymentForm.get('accountNumber').touched &&
+                paymentForm.get('accountNumber').hasError('pattern')) ||
+              paymentForm.get('accountNumber').hasError('minlength') ||
+              paymentForm.get('accountNumber').hasError('maxlength')
+            "
+            >Enter a valid Account Number</span
+          >
+        </div>
+        <div fxFlex="32" *ngIf="paymentForm.get('paymentType').value !== 'DBT'">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label
+              *ngIf="
+                paymentForm.get('paymentType').value === 'CHQ'
+              "
+              >Cheque Number<span class="man-field">*</span></mat-label
+            >
+            <mat-label *ngIf="paymentForm.get('paymentType').value === 'DD'"
+              >DD Number<span class="man-field">*</span></mat-label
+            >
+            <input
+              matInput
+              placeholder="Last 6 digits of the Cheque No."
+              formControlName="chequeOrDDNo"
+            />
+          </mat-form-field>
+          <span
+            class="error-message"
+            *ngIf="
+              paymentForm.get('chequeOrDDNo').touched &&
+              paymentForm.get('chequeOrDDNo').hasError('required')
+            "
+            >This field is required</span
+          >
+          <span
+            class="error-message"
+            *ngIf="
+              paymentForm.get('chequeOrDDNo').touched &&
+              paymentForm.get('chequeOrDDNo').hasError('pattern')
+            "
+            >Please enter a valid Cheque No.</span
+          >
+        </div>
+        <div fxFlex="32" *ngIf="paymentForm.get('paymentType').value !== 'DBT'">
+          <mat-form-field class="full-width" color="accent" appearance="fill">
+            <mat-label
+              *ngIf="
+                paymentForm.get('paymentType').value === 'CHQ'
+              "
+              >Cheque Date<span class="man-field">*</span>
+            </mat-label>
+            <mat-label *ngIf="paymentForm.get('paymentType').value === 'DD'"
+              >DD Date<span class="man-field">*</span>
+            </mat-label>
+            <input
+              readonly
+              [min]="threeMonthsBack"
+              [max]="todaysDate"
+              matInput
+              [matDatepicker]="picker"
+              formControlName="chkOrDDDate"
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker color="primary"></mat-datepicker>
+          </mat-form-field>
+          <span
+            class="error-message"
+            *ngIf="
+              paymentForm.get('chkOrDDDate').touched &&
+              paymentForm.get('chkOrDDDate').hasError('required')
+            "
+            >This field is required</span
+          >
+        </div>
+        <div
+          fxFlex="32"
+          *ngIf="
+            paymentForm.get('paymentType').value !== 'DBT'
+          "
+        >
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>IFSC Code<span class="man-field">*</span></mat-label>
+            <input matInput formControlName="ifscCode" />
+          </mat-form-field>
+          <span
+            class="error-message"
+            *ngIf="
+              paymentForm.get('ifscCode').touched &&
+              paymentForm.get('ifscCode').hasError('required')
+            "
+            >This field is required</span
+          >
+          <span
+            class="error-message"
+            *ngIf="
+              paymentForm.get('ifscCode').touched && paymentForm.get('ifscCode').hasError('pattern')
+            "
+            >Please enter a valid IFSC Code</span
+          >
+        </div>
+        <div
+          fxFlex="32"
+          *ngIf="
+            paymentForm.get('paymentType').value !== 'DBT'
+          "
+        >
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>MICR Code<span class="man-field">*</span></mat-label>
+            <input matInput formControlName="micrCode" />
+          </mat-form-field>
+          <span
+            class="error-message"
+            *ngIf="
+              paymentForm.get('micrCode').touched &&
+              paymentForm.get('micrCode').hasError('required')
+            "
+            >This field is required</span
+          >
+          <span
+            class="error-message"
+            *ngIf="
+              paymentForm.get('micrCode').touched && paymentForm.get('micrCode').hasError('pattern')
+            "
+            >Please enter a valid MICR Code</span
+          >
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Premium Payable<span class="man-field">*</span></mat-label>
+            <input matInput readonly formControlName="premiumPayable" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Insurer Name<span class="man-field">*</span></mat-label>
+            <input matInput readonly formControlName="insurerName" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Customer Name<span class="man-field">*</span></mat-label>
+            <input matInput readonly formControlName="customerName" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Date of Payment<span class="man-field">*</span></mat-label>
+            <input matInput readonly formControlName="dateOfPayment" />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="padding-left-180">
+    <mat-checkbox [color]="'primary'"
+      >I confirm that the customer has authorized auto debit of his/her premium from his bank
+      account.</mat-checkbox>
+    <mat-checkbox formControlName="confirmationConsent" [color]="'primary'"
+      >I confirm that the customer has signed the debit authorization form to allow deduction of
+      premium for this policy</mat-checkbox>
+  </div>
+  <div class="submit-btn-placement">
+    <button *ngIf="!dynamic"
+      [disabled]="!paymentForm.valid || paymentForm.get('confirmationConsent').value === false"
+      mat-btn
+      class="submit-btn"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+    <button *ngIf="dynamic"
+    [disabled]="!paymentForm.valid || paymentForm.get('confirmationConsent').value === false"
+    mat-btn
+    class="submit-btn"
+    (click)="onDynamicSubmit(this.applicationDetails.orgCode)"
+  >
+    Submit
+  </button>
+  </div>
+</form>
+
+<ng-template #ErrorTemplate let-control="control" let-label="label">
+  <div
+    *ngIf="paymentForm.get(control).touched && paymentForm.get(control).hasError('required')"
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is required.</span>
+  </div>
+  <div
+    *ngIf="paymentForm.get(control).touched && paymentForm.get(control).hasError('minlength')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a minimum of
+      {{ paymentForm.get(control).errors.minlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="paymentForm.get(control).touched && paymentForm.get(control).hasError('maxlength')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a maximum of
+      {{ paymentForm.get(control).errors.maxlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="paymentForm.get(control).touched && paymentForm.get(control).hasError('max')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at max
+      {{ paymentForm.get(control).errors.max.max }}
+    </span>
+  </div>
+  <div
+    *ngIf="paymentForm.get(control).touched && paymentForm.get(control).hasError('min')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at least
+      {{ paymentForm.get(control).errors.min.min }}
+    </span>
+  </div>
+  <div
+    *ngIf="paymentForm.get(control).touched && paymentForm.get(control).hasError('pattern')"
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is not valid </span>
+  </div>
+</ng-template>

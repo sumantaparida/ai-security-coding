@@ -1,0 +1,120 @@
+<form [formGroup]="primaryMemberForm">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="">
+
+        <div fxFlex="50" class="center-label">
+            <label>Add a member</label>
+        </div>
+        <div fxFlex="50">
+            <mat-form-field appearance="fill">
+                <mat-select formControlName="primaryMember">
+                    <mat-option *ngFor="let option of primaryMemberList" [value]="option.id" [disabled]="disabled">
+                        {{option.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom" *ngIf="isDependentList">
+        <div fxFlex="50" class="center-label" *ngIf="filterDependent?.length > 0">
+            <label> Insured Name </label>
+        </div>
+        <div fxFlex="50" *ngIf="filterDependent?.length > 0">
+            <mat-form-field appearance="fill">
+
+                <mat-select formControlName="customerDependentList">
+                    <mat-option *ngFor="let dependentlist of filterDependent" name="dependentlist"
+                        [value]="dependentlist" [attr.data-dob]="dependentlist.dob">
+                        {{dependentlist.firstName}} {{dependentlist.lastName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+        <div fxFlex="50" class="center-label">
+            <label>What is the Date of Birth of this person?</label>
+        </div>
+        <div fxFlex="47">
+            <mat-form-field appearance="fill">
+                <mat-label>Choose a Date of Birth</mat-label>
+                <input readonly [disabled]="disableDob()" (dateInput)="dateInputEvent($event)" [max]="today" matInput
+                    [matDatepicker]="picker1" formControlName="dob">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <!-- <mat-error *ngIf="isAgeErro">
+                <p class="font-14">Minimum age should be 18 for selected primary member</p>
+            </mat-error> -->
+        </div>
+    </div>
+    <!-- <mat-error *ngIf="isAgeErro">
+        <p class="font-14">Minimum age should be 18 for selected primary member</p>
+    </mat-error> -->
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+        <div fxFlex="50" class="center-label">
+
+        </div>
+        <div fxFlex="50">
+            <mat-error *ngIf="isAgeErro">
+                <p class="font-14">Minimum age should be 18 for selected member</p>
+            </mat-error>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom" *ngIf="showSmoker">
+        <div fxFlex="50" class="center-label">
+            <label>Is this person a Smoker?</label>
+        </div>
+        <div fxFlex="50" class="radio-option">
+            <mat-radio-group aria-label="Select an option" formControlName="smoker">
+                <div class="gender-radio-box" [ngClass]="{'selected': primaryMemberForm.get('smoker').value === 'S' }">
+                    <mat-radio-button value="S">Yes</mat-radio-button>
+                </div>
+                <div class="gender-radio-box margin-left"
+                    [ngClass]="{'selected': primaryMemberForm.get('smoker').value === 'NS' }">
+                    <mat-radio-button value="NS">No</mat-radio-button>
+                </div>
+            </mat-radio-group>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom" *ngIf="isPersonalAccident">
+        <div fxFlex="50" class="center-label">
+            <label>Occupation</label>
+        </div>
+        <div fxFlex="50">
+            <mat-form-field appearance="fill">
+                <mat-select formControlName="occupation">
+                    <mat-option *ngFor="let option of occupationOption" [value]="option.occupationCode">
+                        {{option.occupationDesc}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom" *ngIf="isPersonalAccident">
+        <div fxFlex="50" class="center-label">
+            <label>Marital Status</label>
+        </div>
+        <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="maritalStatus">
+                <div class="gender-radio-box"
+                    [ngClass]="{'selected': primaryMemberForm.get('maritalStatus').value === 'S' }">
+                    <mat-radio-button value="S">Single</mat-radio-button>
+                </div>
+                <div class="gender-radio-box margin-left"
+                    [ngClass]="{'selected': primaryMemberForm.get('maritalStatus').value === 'M' }">
+                    <mat-radio-button value="M">Married</mat-radio-button>
+                </div>
+            </mat-radio-group>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom add-cancle">
+        <div fxFlex="50" class="add-btn">
+            <button mat-raised-button class="generate-quote-btn" [disabled]="!disableButton()"
+                (click)="addInsurerFunc()">Add</button>
+        </div>
+        <div fxFlex="50" class="cancel-btn-div">
+            <button mat-raised-button class="cancel-btn" (click)="closeDialog()">Cancel</button>
+        </div>
+    </div>
+</form>

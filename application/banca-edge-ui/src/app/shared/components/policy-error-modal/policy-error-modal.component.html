@@ -1,0 +1,15 @@
+<div mat-dialog-content class="error-msg">
+  <div [innerHtml]="data"></div>
+  <a *ngIf="link" target="_blank" [href]="link">KYC Link</a>
+</div>
+<div class="actions-style" mat-dialog-actions>
+  <button mat-button class="ok-btn" *ngIf="!isTrue" (click)="onOkClicked()" cdkFocusInitial>
+    Ok
+  </button>
+  <button mat-button class="ok-btn" *ngIf="isTrue" (click)="onOkClicked('Online')" cdkFocusInitial>
+    Online
+  </button>
+  <button mat-button class="ok-btn" *ngIf="isTrue" (click)="onOkClicked('Cancel')" cdkFocusInitial>
+    Cancel
+  </button>
+</div>

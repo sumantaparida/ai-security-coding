@@ -1,0 +1,50 @@
+<!-- <div class="quotes-conatiner"> -->
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px" class="quote-layout">
+    <div fxFlex="17" class="">
+
+    </div>
+    <div fxFlex="48" class="">
+        <div class="selection-block">
+            <mat-icon matStepperPrevious *ngIf="!firstFormGroup" class="back-arrow">arrow_back
+            </mat-icon>
+
+            <mat-horizontal-stepper class="stepper" labelPosition="bottom" #stepper>
+
+                <mat-step [stepControl]="firstFormGroup">
+                    <form [formGroup]="firstFormGroup">
+                        <ng-template matStepLabel>Members</ng-template>
+                        <app-quote-member-selection></app-quote-member-selection>
+
+                    </form>
+                </mat-step>
+                <mat-step [stepControl]="secondFormGroup">
+                    <form [formGroup]="secondFormGroup">
+                        <ng-template matStepLabel>Details</ng-template>
+
+                        <app-quote-member-details></app-quote-member-details>
+
+
+                        <!-- <button mat-button matStepperPrevious>Back</button>
+                            <button mat-button matStepperNext>Next</button> -->
+
+                    </form>
+                </mat-step>
+                <mat-step [stepControl]="thirdFormGroup">
+                    <form [formGroup]="secondFormGroup">
+                        <ng-template matStepLabel>Genearte Quote</ng-template>
+                        <app-quote-member-address></app-quote-member-address>
+                        <!-- <div>
+                            <button mat-button matStepperPrevious>Back</button>
+                            <button mat-button (click)="stepper.reset()">Reset</button>
+                        </div> -->
+                    </form>
+                </mat-step>
+            </mat-horizontal-stepper>
+
+        </div>
+    </div>
+    <div fxFlex="35" class="description-col">
+        <app-quote-description-video></app-quote-description-video>
+    </div>
+</div>
+<!-- </div> -->

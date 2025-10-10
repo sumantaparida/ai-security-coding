@@ -1,0 +1,43 @@
+<div *ngIf="state==='annualIncome'" class="annualIncome">
+  <form [formGroup]="form">
+    <div class="grid-container">
+      <div>
+        <label>In a year, I earn Rs.</label>
+      </div>
+      <div>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Annual-Income</mat-label>
+          <span matPrefix>₹ &nbsp;</span>
+          <input type="tel" matInput #annualIncome placeholder="" formControlName="annualIncomValue">
+          <!-- <mat-icon matSuffix>dollar</mat-icon> -->
+        </mat-form-field>
+
+        <!-- <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Annual Income</mat-label>
+          <input matInput #annualIncome placeholder="" formControlName="annualIncomValue">
+        </mat-form-field> -->
+
+        <div class="sumassu_val">{{ annualIncome.value | numberToWord }}</div>
+
+        <div *ngIf="formError.annualIncomValue.touched && formError.annualIncomValue.invalid" class="alert error-msg">
+          <mat-error *ngIf="formError.annualIncomValue.errors.required" class="">Income is required.</mat-error>
+          <mat-error *ngIf="formError.annualIncomValue.errors.pattern">Enter only number.</mat-error>
+          <mat-error *ngIf="formError.annualIncomValue.errors.min">Please enter minimum value 100000.
+          </mat-error>
+        </div>
+        <!-- <span>
+          <mat-slider (input)="onKeyUp($event)" formControlName="annualIncomValue" thumbLabel
+            [displayWith]="formatLabel" [tickInterval]="getSliderTickInterval()" min="100000" max="10110000" required>
+          </mat-slider>
+        </span> -->
+      </div>
+    </div>
+    <!-- mobile view -->
+
+  </form>
+  <!-- <mat-error *ngIf="form.get('annualIncomValue').hasError('min') || form.get('annualIncomValue').hasError('max')"
+    class="error-msg"> Annual-Income should be between 100000 to 100000000</mat-error>
+  <mat-error *ngIf="form.get('annualIncomValue').dirty && form.get('annualIncomValue').hasError('required')"
+    class="error-msg">Please specify the Annual-Income</mat-error> -->
+</div>

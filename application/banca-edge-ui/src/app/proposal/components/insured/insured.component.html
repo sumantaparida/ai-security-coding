@@ -1,0 +1,281 @@
+<form [formGroup]="insuredProposerForm">
+  <ng-container *ngFor="let insurer of insuredDetails; let i = index; let last = last">
+    <h2 *ngIf="relationshipDropdown">
+      {{ relationshipDropdown | relationshipFilter: insurer.proposerRel }}
+    </h2>
+    <ng-container *ngFor="let section of sections">
+      <mat-card
+        *ngIf="
+          section
+            | displaySection
+              : sections
+              : (section?.dependsOnControl !== ''
+                  ? insuredProposerForm.get(section?.dependsOnControl).value
+                  : undefined)
+              : insuredProposerForm
+        "
+        class="margin-bottom-30"
+      >
+        <mat-card-content>
+          <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+            <ng-template ngFor let-input [ngForOf]="section?.formData">
+              <ng-container [ngSwitch]="input.controlType">
+                <ng-template [ngSwitchCase]="'text'">
+                  <div fxFlex="32">
+                    <mat-form-field class="full-width" appearance="fill">
+                      <mat-label
+                        >{{ input?.label
+                        }}<span *ngIf="input?.validators?.required" class="man-field"
+                          >*</span
+                        ></mat-label
+                      >
+                      <input
+                        (change)="onDataChanged(input?.controlName, input?.valueType, i, $event)"
+                        matInput
+                        placeholder="{{ input?.placeholder }}"
+                        formControlName="{{ input?.controlName }}{{ i }}"
+                      />
+                    </mat-form-field>
+                    <ng-container
+                      *ngTemplateOutlet="
+                        insuredErrorTemplate;
+                        context: { control: input?.controlName + i, label: input?.label }
+                      "
+                    >
+                    </ng-container>
+                  </div>
+                </ng-template>
+
+                <!-- handling select & radio type inputs -->
+
+                <ng-template [ngSwitchCase]="'select'">
+                  <div fxFlex="32">
+                    <mat-form-field class="full-width" appearance="fill">
+                      <mat-label class="cus-form-label"
+                        >{{ input?.label
+                        }}<span *ngIf="input?.validators?.required" class="man-field">*</span>
+                      </mat-label>
+                      <mat-select
+                        (selectionChange)="
+                          onSelectionChanged(input?.controlName, input?.valueType, i, $event)
+                        "
+                        formControlName="{{ input?.controlName }}{{ i }}"
+                      >
+                        <mat-option *ngFor="let option of input?.options" [value]="option.id">
+                          {{ option.value }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <ng-container
+                      *ngTemplateOutlet="
+                        insuredErrorTemplate;
+                        context: { control: input?.controlName + i, label: input?.label }
+                      "
+                    >
+                    </ng-container>
+                  </div>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'seachableDropdown'">
+                  <div fxFlex="32">
+                    <mat-form-field class="full-width" appearance="fill">
+                      <mat-label class="cus-form-label"
+                        >{{ input?.label
+                        }}<span *ngIf="input?.validators?.required" class="man-field">*</span>
+                      </mat-label>
+                      <mat-select
+                        (selectionChange)="
+                          onSelectionChanged(input?.controlName, input?.valueType, i, $event)
+                        "
+                        formControlName="{{ input?.controlName }}{{ i }}"
+                      >
+                        <mat-option>
+                          <ngx-mat-select-search
+                            placeholderLabel="Search"
+                            noEntriesFoundLabel="Not Found"
+                            formControlName="searchCtrl{{ i }}"
+                          >
+                          </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                          *ngFor="
+                            let option of input?.options
+                              | searchDropDown
+                                : insuredProposerForm.get('searchCtrl' + i).value
+                                : 'value'
+                          "
+                          [value]="option.id"
+                        >
+                          {{ option.value }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <ng-container
+                      *ngTemplateOutlet="
+                        insuredErrorTemplate;
+                        context: { control: input?.controlName + i, label: input?.label }
+                      "
+                    >
+                    </ng-container>
+                  </div>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'date'">
+                  <div fxFlex="32">
+                    <mat-form-field class="full-width" color="accent" appearance="fill">
+                      <mat-label
+                        >{{ input?.label
+                        }}<span *ngIf="input?.validators?.required" class="man-field"
+                          >*</span
+                        ></mat-label
+                      >
+                      <input
+                        readonly
+                        [max]="input.maxDate | getDate: null"
+                        [min]="input.minDate | getDate: null"
+                        (dateChange)="
+                          onDateChanged(input?.controlName, input?.valueType, i, $event)
+                        "
+                        matInput
+                        [matDatepicker]="picker"
+                        formControlName="{{ input?.controlName }}{{ i }}"
+                      />
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker color="primary"></mat-datepicker>
+                    </mat-form-field>
+                    <ng-container
+                      *ngTemplateOutlet="
+                        insuredErrorTemplate;
+                        context: { control: input?.controlName + i, label: input?.label }
+                      "
+                    >
+                    </ng-container>
+                  </div>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'number'">
+                  <div fxFlex="32">
+                    <mat-form-field class="full-width" appearance="fill">
+                      <mat-label
+                        >{{ input?.label
+                        }}<span *ngIf="input?.validators?.required" class="man-field"
+                          >*</span
+                        ></mat-label
+                      >
+                      <input
+                        (change)="onDataChanged(input?.controlName, input?.valueType, i, $event)"
+                        matInput
+                        placeholder="{{ input?.placeholder }}"
+                        type="number"
+                        formControlName="{{ input?.controlName }}{{ i }}"
+                      />
+                    </mat-form-field>
+                    <ng-container
+                      *ngTemplateOutlet="
+                        insuredErrorTemplate;
+                        context: { control: input?.controlName + i, label: input?.label }
+                      "
+                    >
+                    </ng-container>
+                  </div>
+                </ng-template>
+
+                <ng-template [ngSwitchCase]="'radio'">
+                  <div class="margin-top-5" fxFlex="32">
+                    <label>{{ input?.label }}</label>
+                    <mat-radio-group
+                      class="display-flex"
+                      aria-label="Select an option"
+                      formControlName="{{ input?.controlName }}{{ i }}"
+                    >
+                      <ng-container *ngFor="let form of input?.options; let first = first">
+                        <div
+                          fxFlex.xs="100"
+                          class="smoker-radio-box"
+                          [ngClass]="{ 'margin-left': !first }"
+                        >
+                          <mat-radio-button color="primary" value="{{ form?.id }}">
+                            {{ form?.value }}
+                          </mat-radio-button>
+                        </div>
+                      </ng-container>
+                    </mat-radio-group>
+                  </div>
+                </ng-template>
+              </ng-container>
+            </ng-template>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </ng-container>
+</form>
+
+<ng-template #insuredErrorTemplate let-control="control" let-label="label">
+  <div
+    *ngIf="
+      insuredProposerForm.get(control).touched &&
+      insuredProposerForm.get(control).hasError('required')
+    "
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is required.</span>
+  </div>
+  <div
+    *ngIf="
+      insuredProposerForm.get(control).touched &&
+      insuredProposerForm.get(control).hasError('minlength')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a minimum of
+      {{ insuredProposerForm.get(control).errors.minlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="
+      insuredProposerForm.get(control).touched &&
+      insuredProposerForm.get(control).hasError('maxlength')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a maximum of
+      {{ insuredProposerForm.get(control).errors.maxlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="
+      insuredProposerForm.get(control).touched && insuredProposerForm.get(control).hasError('max')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at max
+      {{ insuredProposerForm.get(control).errors.max.max }}
+    </span>
+  </div>
+  <div
+    *ngIf="
+      insuredProposerForm.get(control).touched && insuredProposerForm.get(control).hasError('min')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at least
+      {{ insuredProposerForm.get(control).errors.min.min }}
+    </span>
+  </div>
+  <div
+    *ngIf="
+      insuredProposerForm.get(control).touched &&
+      insuredProposerForm.get(control).hasError('pattern')
+    "
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is not valid </span>
+  </div>
+</ng-template>

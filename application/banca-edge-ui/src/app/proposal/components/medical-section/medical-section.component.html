@@ -1,0 +1,183 @@
+<form [formGroup]="policyQuestionsForm">
+  <ng-container
+    class="margin-top-20"
+    *ngIf="section | displayInsuredMedicalSection: insurers:answers:policyQuestionsForm:screenName"
+  >
+    <mat-card-header>
+      <mat-card-title>
+        {{ section.sectionName }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngFor="let policy of section.formData">
+        <div class="margin-top-12" flex fxLayout="row wrap">
+          <label>{{ policy?.questionText }}</label>
+        </div>
+        <div class="margin-top-5" flex fxLayout="row wrap" fxLayout.xs="column">
+          <mat-radio-group
+            (change)="onRadioChange($event, policy, policy.questionId)"
+            class="display-flex height-40 margin-right-20"
+            aria-label="Select an option"
+            formControlName="{{ policy?.code }}-member-{{ memberId }}"
+          >
+            <div fxFlex.xs="100" class="policy-question-radio-box">
+              <mat-radio-button color="primary" value="Y">Yes</mat-radio-button>
+            </div>
+            <div fxFlex.xs="100" class="policy-question-radio-box margin-left">
+              <mat-radio-button color="primary" value="N">No</mat-radio-button>
+            </div>
+          </mat-radio-group>
+          <ng-container
+            class="margin-left-20"
+            *ngIf="
+              answers
+                | displayInsuredNegativeAnswerFollowUpSection
+                  : policy
+                  : policyQuestionsForm
+                  : policyQuestionsForm.get(policy?.code + '-member-' + memberId)?.value
+                  : insurers
+                  : screenName
+                  : isEditable
+            "
+          >
+            <ng-container
+              *ngFor="
+                let memberAnswer of answers
+                  | getInsuredMembers: policy:section:insurers:policyQuestionsForm:screenName
+              "
+            >
+              <div fxFlex="3" [hidden]="true">
+                <mat-checkbox
+                  [color]="'primary'"
+                  (change)="onCheckboxChange($event, memberAnswer, policy)"
+                  formControlName="member-{{ memberAnswer?.memberId }}-question-{{
+                    policy?.questionId
+                  }}"
+                ></mat-checkbox>
+              </div>
+              <div fxFlex="32" [hidden]="true">
+                <mat-form-field class="full-width" appearance="fill">
+                  <mat-label>Insured Name</mat-label>
+                  <input
+                    [value]="insurers | getInsuredName: memberAnswer?.memberId"
+                    matInput
+                    readonly
+                  />
+                </mat-form-field>
+              </div>
+              <div class="width-30" *ngIf="policy?.questionType !== 'YESNOFORM' && policy?.questionType !== 'YESNOPOPUP' ">
+                <mat-form-field class="full-width" appearance="fill">
+                  <mat-label>Description</mat-label>
+                  <input
+                    formControlName="member-{{ memberAnswer?.memberId }}-question-{{
+                      policy?.questionId
+                    }}-desc"
+                    [value]="insurers | getInsuredName: memberAnswer?.memberId"
+                    matInput
+                    (keyup)="addDescription($event, memberAnswer)"
+                  />
+                </mat-form-field>
+              </div>
+              <ng-container
+              *ngIf="policy?.questionType === 'YESNOFORM'">
+                <div
+                fxFlex="50"
+                class="details-link"
+                *ngIf="
+                  insurers
+                    | showInsuredEditLink
+                      : policy
+                      : policyQuestionsForm
+                      : 'edit'
+                      : policyQuestionsForm.get(
+                          'member-' + memberAnswer?.memberId + '-question-' + policy?.questionId
+                        ).value
+                      : screenName
+                "
+              >
+                <span
+                  class="success-green"
+                  *ngIf="
+                    policyQuestionsForm.get(
+                      'member-' +
+                        memberAnswer?.memberId +
+                        '-question-' +
+                        policy?.questionId +
+                        '-allFilled'
+                    ).value === true
+                  "
+                  (click)="openNegativeFollowUpForm(memberAnswer?.memberId, policy)"
+                  >Edit Details</span
+                >
+                <span
+                  class="error-red"
+                  *ngIf="
+                    policyQuestionsForm.get(
+                      'member-' +
+                        memberAnswer?.memberId +
+                        '-question-' +
+                        policy?.questionId +
+                        '-allFilled'
+                    ).value === false
+                  "
+                  (click)="openNegativeFollowUpForm(memberAnswer?.memberId, policy)"
+                  >Fill Details</span
+                >
+              </div>
+              </ng-container>
+            <ng-container
+            *ngIf="policy?.questionType === 'YESNOPOPUP'"
+            >
+              <div
+                fxFlex="50"
+                class="details-link"
+                *ngIf="
+                  insurers
+                    | showInsuredEditLink
+                      : policy
+                      : policyQuestionsForm
+                      : 'edit'
+                      : policyQuestionsForm.get(
+                          'member-' + memberAnswer?.memberId + '-question-' + policy?.questionId
+                        ).value
+                      : screenName
+                "
+              >
+                <span
+                  class="success-green"
+                  *ngIf="
+                    policyQuestionsForm.get(
+                      'member-' +
+                        memberAnswer?.memberId +
+                        '-question-' +
+                        policy?.questionId +
+                        '-allFilled'
+                    ).value === true
+                  "
+                  (click)="openNegativeFollowUpPopup(memberAnswer?.memberId, policy)"
+                  >Edit Details</span
+                >
+                <span
+                  class="error-red"
+                  *ngIf="
+                    policyQuestionsForm.get(
+                      'member-' +
+                        memberAnswer?.memberId +
+                        '-question-' +
+                        policy?.questionId +
+                        '-allFilled'
+                    ).value === false
+                  "
+                  (click)="openNegativeFollowUpPopup(memberAnswer?.memberId, policy)"
+                  >Fill Details</span
+                >
+              </div>
+            </ng-container>
+              
+            </ng-container>
+          </ng-container>
+        </div>
+      </ng-container>
+    </mat-card-content>
+  </ng-container>
+</form>

@@ -1,0 +1,32 @@
+<div *ngIf="state==='customerMail'" class="customer-mailId">
+  <!-- <form [formGroup]="form"> -->
+  <div class="description">
+
+
+    <form class="example-form" [formGroup]="form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Email</mat-label>
+
+        <input matInput formControlName="customerMailId" (keyup)="onKeyUp()" placeholder="Ex. pat@example.com">
+        <mat-error
+          *ngIf="form.get('customerMailId').hasError('email') && !form.get('customerMailId').hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="form.get('customerMailId').hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </form>
+
+    <!-- <div>Enter Customer's Current Mail ID<br> 
+      <i class="fas fa-envelope-open-text"></i>
+      <span>
+        <input type="text" (keyup)="onKeyUp()" formControlName="customerMailId" required>
+        
+      </span> 
+     </div>  -->
+    <!-- <div *ngIf="form.get('customerMailId').dirty && !form.get('customerMailId').valid" class="error-msg">Please enter the Valid email Id</div> -->
+
+  </div>
+  <!-- </form> -->
+</div>

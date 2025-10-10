@@ -1,0 +1,744 @@
+<div class="annuity-container">
+  <form [formGroup]="annuityForm" (ngSubmit)="submitLifeQuote()">
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="critical-illness-header">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="heading-row"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+        >
+          <div class="heading-text">
+            <span>{{ 'quote.LIFE_ANNUITY' | translate }}</span>
+          </div>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+          class="need-help-critical-div"
+        >
+          <div fxFlex="70">
+            <a (click)="toggleShow('policyDescription')">{{ needHideCritical }} </a>
+          </div>
+        </div>
+
+        <ng-container *ngIf="isShownPolicyDescription">
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            class="help-description"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+          >
+            <!-- Policy Description column  -->
+
+            <div fxFlex="30" class="policy-description">
+              <img
+                class="annuity-img"
+                src="../../../assets/images/Savings Traditional_ICON.svg"
+                alt="Life Annuity"
+              />
+            </div>
+
+            <div fxFlex="60">
+              <p>
+                Life Annuity Back encourages the habit of savings over the long term while also
+                providing an upfront capital amount (a corpus) for your family even if you may no
+                longer be around. While all long-term savings plans are managed conservatively, you
+                can choose between guaranteed or non-guaranteed returns based on your preferences.
+                For non-guaranteed plans, declared bonuses become guaranteed.
+              </p>
+            </div>
+          </div>
+        </ng-container>
+        <!-- <mat-progress-spinner class="loading-spinner" [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+                  </mat-progress-spinner>-->
+
+        <div #noQuoteGenerated>
+          <ng-container *ngIf="errorDataFound">
+            <div
+              fxLayout="row"
+              fxLayout.xs="column"
+              class="help-description error_data"
+              fxLayout.sm="column"
+              fxLayoutGap="10px"
+            >
+              <div fxFlex="90" id="httperrorresponse">
+                <p>
+                  {{ errorDetail }}
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="annuity-form">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Are the Proposer and the Insured the same person?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group
+              aria-label="Select an option"
+              (change)="proInsured()"
+              formControlName="proInsured"
+            >
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: annuityForm.get('proInsured').value === 'yes'
+                }"
+              >
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: annuityForm.get('proInsured').value === 'no'
+                }"
+              >
+                <mat-radio-button value="no">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="proinsuredCover"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>What is the Date of Birth of the Proposer?</label>
+          </div>
+
+          <div fxFlex="50">
+            <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+              <mat-label>Select a Date of Birth</mat-label>
+
+              <input
+                placeholder="YYYY-MM-DD"
+                readonly
+                (dateInput)="inputEvent($event, 'praposerDateOfBirth')"
+                matInput
+                [matDatepicker]="picker"
+                [max]="eighteenYearsProposer"
+                type="text"
+                formControlName="praposerDateOfBirth"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- --help text Start--  -->
+        <!-- --help text Start--  -->
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="proinsuredCover">
+          <div fxFlex="40">
+            <a (click)="toggleShow('samePerson')" class="">{{ needHideSamePerson }}</a>
+            <div *ngIf="isShownsamePerson" class="help-description">
+              <p class="help-text">The Proposer has to be above 18 years of age.</p>
+            </div>
+          </div>
+        </div>
+        <!-- --help text End--  -->
+        <!-- --help text End--  -->
+
+        <!-- --help Text--- End -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="proinsuredCover"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>What is the Gender of the Proposer?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="proposerGender">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: annuityForm.get('proposerGender').value === 'M'
+                }"
+              >
+                <mat-radio-button value="M">{{ 'component.MALE' | translate }}</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: annuityForm.get('proposerGender').value === 'F'
+                }"
+              >
+                <mat-radio-button value="F">{{ 'component.FEMALE' | translate }}</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="proinsuredCover"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>What is the Relationship of the Proposer to the Insured?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <mat-select
+                formControlName="proposalRelation"
+                (selectionChange)="proposalChange()"
+                #dependentRelation
+              >
+                <mat-option>
+                  <ngx-mat-select-search
+                    placeholderLabel="Search"
+                    noEntriesFoundLabel="Not Found"
+                    formControlName="searchCtrl"
+                  >
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option
+                  *ngFor="
+                    let option of proposerRelList
+                      | searchDropDown: annuityForm.get('searchCtrl').value:'value'
+                  "
+                  name="option"
+                  [value]="option.id"
+                >
+                  {{ option.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="proinsuredCover">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('proGen')" class="">{{ needHideRelationship }}</a>
+            </div>
+            <div *ngIf="isShownpraposerGen" class="help-description">
+              <p class="help-text">
+                The Proposer is the person who buys the policy and is liable to pay the premium. The
+                Insured is the person whose life is covered by the Policy.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isDependentList"
+        >
+          <div fxFlex="50" class="center-label" *ngIf="filterDependent?.length > 0">
+            <label> Insure Dependents </label>
+          </div>
+          <div fxFlex="50" *ngIf="filterDependent?.length > 0">
+            <mat-form-field appearance="fill">
+              <mat-select formControlName="customerDependentList">
+                <mat-option
+                  *ngFor="let dependentlist of filterDependent"
+                  name="dependentlist"
+                  [value]="dependentlist"
+                  [attr.data-dob]="dependentlist.dob"
+                >
+                  {{ dependentlist.firstName }} {{ dependentlist.lastName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label" *ngIf="proinsuredCover">
+            <label>What is the Date of Birth of the Insured?</label>
+          </div>
+          <div fxFlex="50" class="center-label" *ngIf="proinsuredCover == false && isProInsured">
+            <label>What is the Date of Birth of the Insured?</label>
+          </div>
+          <div fxFlex="50" *ngIf="proinsuredCover == false && isProInsured">
+            <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+              <mat-label>Select a Date of Birth</mat-label>
+
+              <input
+                placeholder="YYYY-MM-DD"
+                readonly
+                (dateInput)="inputEvent($event, 'dateOfBirth')"
+                matInput
+                [matDatepicker]="picker"
+                [max]="eighteenYearsInsure"
+                type="text"
+                formControlName="dateOfBirth"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxFlex="50" *ngIf="proinsuredCover">
+            <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+              <mat-label>Select a Date of Birth</mat-label>
+
+              <input
+                placeholder="YYYY-MM-DD"
+                readonly
+                (dateInput)="inputEvent($event, 'dateOfBirthOnwords')"
+                matInput
+                [matDatepicker]="picker"
+                [min]="greaterThanHundred"
+                [max]="thirtyDayOnwords"
+                type="text"
+                formControlName="dateOfBirthOnwords"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-error *ngIf="isAgeErro">Minimum age should be 18 for selected member </mat-error>
+          </div>
+        </div>
+        <!-- --help text Start--  -->
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="proinsuredCover">
+          <div fxFlex="40">
+            <a (click)="toggleShow('policyFor')" class="">{{ needHidePolicyFor }}</a>
+            <div *ngIf="isShownPolicyFor" class="help-description">
+              <p class="help-text">
+                Age will determine the Premium that one pays. The younger the person is, the lower
+                the Premium. It is never too late to buy Insurance though.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- --help text End--  -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="need-hide-row"
+          *ngIf="proinsuredCover == false && isProInsured"
+        >
+          <div fxFlex="40">
+            <a (click)="toggleShow('policyFor')" class="">{{ needHidePolicyFor }}</a>
+            <div *ngIf="isShownPolicyFor" class="help-description">
+              <p class="help-text">
+                Age will determine the Premium that one pays. The younger the person is, the lower
+                the Premium. It is never too late to buy Insurance though.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- --help Text--- End -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>What is the Gender of the Insured?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="gender">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: annuityForm.get('gender').value === 'M'
+                }"
+              >
+                <mat-radio-button value="M">{{ 'component.MALE' | translate }}</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: annuityForm.get('gender').value === 'F'
+                }"
+              >
+                <mat-radio-button value="F">{{ 'component.FEMALE' | translate }}</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('identify')" class="">{{ needHideidentity }}</a>
+            </div>
+            <div *ngIf="isShownIdentityFor" class="help-description">
+              <p class="help-text">
+                There are significant differences between males and females in their accident risk,
+                health based risks and mortality risks. Insurers may price differently.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>How Much would you like to Invest?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <!-- <mat-label>Pincode</mat-label> -->
+              <input
+                matInput
+                #sumassuredval
+                placeholder="1,000,000"
+                formControlName="investrate"
+                (blur)="processMyValue()"
+              />
+
+              <!-- <mat-error *ngIf="hasError('Premium', 'required')">Premium is required</mat-error> -->
+              <!-- formControlName="Premium" id="Premium" -->
+            </mat-form-field>
+            <div class="sumassu_val">
+              {{ sumassuredval.value | convertToWord }}
+            </div>
+            <div
+              *ngIf="formError.investrate.touched && formError.investrate.invalid"
+              class="alert error_msg"
+            >
+              <div *ngIf="formError.investrate.errors.required">Number is required.</div>
+              <div *ngIf="formError.investrate.errors.pattern">Enter only number.</div>
+              <div *ngIf="formError.investrate.errors.min">
+                Enter in multiples of thousand from 2 Lac to 5 crores.
+              </div>
+              <div *ngIf="formError.investrate.errors.max">
+                Enter in multiples of thousand from 2 Lac to 5 crores.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('coverage')" class="">{{ needHideCoverage }}</a>
+            </div>
+            <div *ngIf="isShownCoverage" class="help-description">
+              <p class="help-text">
+                The amount invested is called the Premium. One should consider an amount that can
+                consistently be put aside to prevent the policy from lapsing.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- --help Text--- End -->
+
+        <!-- --immediate n deferred --  -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>When do you want Payment to Start</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="startPayment">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: annuityForm.get('startPayment').value === 'immediate'
+                }"
+              >
+                <mat-radio-button value="immediate"> Immediate </mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: annuityForm.get('startPayment').value === 'deferred'
+                }"
+              >
+                <mat-radio-button value="deferred">Deferred</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isDeferredAnnuity"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Annuity Deferment Period:</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <mat-select formControlName="annuityPeriod">
+                <mat-option *ngFor="let annuPeriod of annutityPeriod" [value]="annuPeriod.value">
+                  {{ annuPeriod.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Payment Mode: </label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="premiumPay">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: annuityForm.get('premiumPay').value == '0'
+                }"
+              >
+                <mat-radio-button value="0">Single</mat-radio-button>
+              </div>
+              <!-- <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: annuityForm.get('premiumPay').value == '2'
+                }"
+              >
+                <mat-radio-button value="2">{{
+                  'component.HALF_YEARLY' | translate
+                }}</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-bottom"
+                [ngClass]="{
+                  selected: annuityForm.get('premiumPay').value == '4'
+                }"
+              >
+                <mat-radio-button value="4">{{
+                  'component.QUARTERLY' | translate
+                }}</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: annuityForm.get('premiumPay').value == '12'
+                }"
+              >
+                <mat-radio-button value="12">{{
+                  'component.MONTHLY' | translate
+                }}</mat-radio-button>
+              </div> -->
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <!-- --help Text--- start -->
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('Premium')" class="">{{ needHidePincode }}</a>
+            </div>
+            <div *ngIf="isShownPremium" class="help-description">
+              <p class="help-text">
+                Generally, the lesser the frequency, the more the benefits. Thus, for e.g. insurers,
+                for some plans, may offer a discount, if one chooses to pay annually. If you opt for
+                Single Premium, you will pay just one Premium at the commencement of your policy.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- --help Text--- End -->
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label> Are you an NRI</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="nri">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: annuityForm.get('nri').value === 'Y'
+                }"
+              >
+                <mat-radio-button [value]="'Y'">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: annuityForm.get('nri').value === 'N'
+                }"
+              >
+                <mat-radio-button [value]="'N'">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to add your Secondary Annuitant?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group
+              aria-label="Select an option"
+              (change)="isJointLife()"
+              formControlName="spouse"
+            >
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: annuityForm.get('spouse').value === true
+                }"
+              >
+                <mat-radio-button [value]="true">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: annuityForm.get('spouse').value === false
+                }"
+              >
+                <mat-radio-button [value]="false">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isJointlife"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>What is the Relationship of the Secondary Annuitant to the Insured?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <mat-select
+                formControlName="secondaryAnnutiRelation"
+                (selectionChange)="setGender($event)"
+              >
+                <mat-option>
+                  <ngx-mat-select-search
+                    placeholderLabel="Search"
+                    noEntriesFoundLabel="Not Found"
+                    formControlName="searchCtrl"
+                  >
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option
+                  *ngFor="
+                    let option of proposerRelList
+                      | searchDropDown: annuityForm.get('searchCtrl').value:'value'
+                  "
+                  name="option"
+                  [value]="option.id"
+                >
+                  {{ option.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('Spouse')" class="">{{ needHideSpouse }}</a>
+            </div>
+            <div *ngIf="isShownSpouseFor" class="help-description">
+              <p class="help-text">
+                Secondary Annuitant can be added under a provision called "joint life". Different
+                plans provide for different benefits for an added Secondary Annuitant. Please read
+                the sales brochure carefully before taking a decision.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isJointlife"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>What is the Date of Birth of your Secondary Annuitant</label>
+          </div>
+
+          <div fxFlex="50">
+            <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+              <mat-label>Select a Date of Birth</mat-label>
+              <input
+                placeholder="YYYY-MM-DD"
+                readonly
+                (dateInput)="inputEvent($event, 'dateofbirthspouse')"
+                matInput
+                [matDatepicker]="picker1"
+                [max]="eighteenYearsSpouse"
+                [min]="eightyFiveYears"
+                type="text"
+                formControlName="dateofbirthspouse"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="isJointlife">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('dobSpouse')" class="">{{ needHideDOBSpouse }}</a>
+            </div>
+            <div *ngIf="isShownDOBSpouseFor" class="help-description">
+              <p class="help-text">
+                Age will determine the Premium that one pays. The younger the Secondary Annuitant
+                is, the lower the combined Premium.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isJointlife"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Gender of Secondary Annuitant</label>
+          </div>
+
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="spouseGender">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: annuityForm.get('spouseGender').value === 'M'
+                }"
+              >
+                <mat-radio-button value="M">{{ 'component.MALE' | translate }}</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: annuityForm.get('spouseGender').value === 'F'
+                }"
+              >
+                <mat-radio-button value="F">{{ 'component.FEMALE' | translate }}</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <br />
+        <button mat-raised-button class="generate-quote-btn" [disabled]="!annuityForm.valid">
+          Generate Quote
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

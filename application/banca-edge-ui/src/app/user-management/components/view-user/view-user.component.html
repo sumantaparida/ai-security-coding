@@ -1,0 +1,222 @@
+<div class="user-list">
+  <div class="heading">
+    <span class="material-icons style-icon-policy"> person </span>
+    <span class="font-size-20">User Management</span>
+  </div>
+  <div class="add-user">
+    <button class="btn" routerLink="/user-management/view-master">View Master</button>
+    <button class="btn" (click)="onAddUser()">Add User</button>
+    <button class="btn" *ngIf="currentUser?.organizationCode == 'CSB'" (click)="updateLeadStatus()">
+      Update Lead Status
+    </button>
+  </div>
+
+  <div class="add-user">
+    <form class="example-form" [formGroup]="searchForm">
+      <mat-form-field appearance="outline" class="pending-btn">
+        <mat-label>Filter by Branches</mat-label>
+        <mat-select formControlName="filterByBranch">
+          <mat-option value="">Select</mat-option>
+          <mat-option *ngFor="let branch of branchesForFilter" [value]="branch.id">
+            {{ branch.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Search By UserName</mat-label>
+        <input matInput (keyup)="onKeyUp($event.target.value)" formControlName="searchField" />
+        <mat-icon matSuffix color="primary">search</mat-icon>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="user-list-table">
+    <table mat-table [dataSource]="policyApplicationDetailsArr" class="mat-elevation-z8">
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="User Name">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+        >
+          User Name
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.userName }}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="First Name">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+        >
+          First Name
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="Last Number">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+        >
+          Last Name
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="Branch Code">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+        >
+          Branch Code
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.branchCode }}</td>
+      </ng-container>
+      <!-- Urg -->
+      <ng-container matColumnDef="User Type">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+        >
+          User Type
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element?.insurerUser">Insurer User</span>
+          <span *ngIf="!element?.insurerUser">Branch User</span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="User Roles">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+        >
+          User Role
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element?.isInsurerUser === true && element?.isAdmin === true">Admin</span>
+          <span *ngIf="element?.isInsurerUser === false && element?.isSP === true">SP</span>
+          <span
+            *ngIf="
+              element?.isInsurerUser === false &&
+              element?.isAdmin === true &&
+              element?.isSP === false
+            "
+            >Admin</span
+          >
+          <!-- <span *ngIf="element?.isInsurerUser === false && element?.isUamUser === true  && element?.isSP === false">UAM User</span> -->
+        </td>
+      </ng-container>
+
+      <!-- Enable -->
+      <!-- <ng-container matColumnDef="Actions">
+              <th > Actions </th>
+              <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+            </ng-container> -->
+
+      <ng-container matColumnDef="Actions">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+        >
+          Action
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon matSuffix class="cursor" (click)="navigateTo(element?.userName)">edit</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Enable -->
+      <!-- <ng-container matColumnDef="Enable">
+          <th mat-header-cell *matHeaderCellDef [ngClass]="{
+              'theme-table-red': currentUser?.organizationCode === 'SIB',
+              'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+            }"> Enable </th>
+          <td mat-cell *matCellDef="let element"> Enabled </td>
+        </ng-container> -->
+
+      <ng-container matColumnDef="Enable">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+        >
+          Enable / Disable
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container>
+            <span
+              class="enable-disable"
+              (click)="enableDisableUser('disable', element?.userName)"
+              *ngIf="element?.enabled"
+              >DISABLE</span
+            >
+            <span
+              class="enable-disable"
+              (click)="enableDisableUser('enable', element?.userName)"
+              *ngIf="!element?.enabled"
+              >ENABLE</span
+            >
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    </table>
+    <mat-paginator
+      [length]="totalRecords"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+  </div>
+  <!-- <mat-paginator
+      [length]="totalRecords?.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChange($event)"
+      aria-label="Select page"
+    >
+    </mat-paginator> -->
+</div>
+
+<!--  -->

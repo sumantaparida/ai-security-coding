@@ -1,0 +1,266 @@
+<!--mobile tabs-->
+<div class="custmise-options" *ngIf="customiseOptions && quoteOptionFormValid">
+ <app-policy-options (closeTab)="closeTab($event)" (updateQuote)="onUpdateQuote($event)"  [policyOptions]="policyOptions" [mobileView]=true [quoteOptionForm]="quoteOptionForm" ></app-policy-options>
+</div>
+<!--mobile View-->
+<div class="frame-root" *ngIf="!customiseOptions && quoteOptionFormValid">
+    <div class="modify-details-wrapper" (click)="returnToQuote()">
+      <div class="modify-details">Modify Details</div>
+    </div>
+    <div  (click)="mbCustomise()" class="customise-wrapper">
+      <div class="customise">Customise</div>
+    </div>
+    
+  </div>
+  <div class="procutmb">
+    <p style="margin:'20px 0px 0px 0px';font-weight:'400';font-size: '14px';">{{productList.length}} Plans found for Quote:</p>
+    <hr>
+    <div *ngIf="productList.length === 0 && !customiseOptions && quoteOptionFormValid" >
+     <p>No Product found for the quote. Please try changing quote values for the same.</p> 
+     <div  class="modify-button">
+      <button (click)="returnToQuote()">Modify</button>
+    </div>
+    </div>
+  </div>
+ 
+<ng-container *ngIf="!customiseOptions && quoteOptionFormValid">
+  <ng-container *ngFor="let product of productList,index as i">
+    <div class="frame-top">
+      <div class="frame-container">
+        <div class="rectangle-parent">
+          <img class="frame-child" alt="" src="{{product.insurerImageUrl}}" />
+          
+          <div class="div2">₹{{product.quoteResponse.totalPremium}}</div>
+         
+        </div>
+        <div class="vector-group">
+          <!-- <img class="vector-icon2" alt="" src="./public/vector2.svg" /> -->
+  
+          <div class="cover-amountidv-wrapper">
+            <div class="cover-amountidv">Cover Amount(IDV)</div>
+           
+            <div class="div1">₹{{product.quoteResponse.sumAssured}}</div>
+          </div>
+          <div class="buynow">
+            <button (click)="onBuyNow(product)">Buy Now</button>
+          </div>
+          <!-- <div class="vector-parent">
+            <img class="vector-icon1" alt="" src="./public/vector1.svg" /> 
+            
+          </div> -->
+          <div class="mdiarrow-down-drop" >
+            <!-- <img class="vector-icon3" alt="" src="./assets/icons/dropdown arrow.png" /> -->
+            Premium Breakup:<div (click)="openBreakUp(product,i)"style="cursor: pointer;font-weight: bold; text-decoration:underline">Details</div> 
+          </div>
+          <!-- <div class="frame-div">
+             <div class="frame-parent1">
+              <div class="quote-feature">
+                <div class="feature-desc">Lowest Price</div>
+              </div>
+              <div class="quote-feature">
+                <div class="feature-desc">No Cheque</div>
+              </div>
+              <div class="quote-feature">
+                <div class="feature-desc">Make shift</div>
+              </div>
+              <div class="quote-feature">
+                <div class="feature-desc">Lowest Price</div>
+              </div>
+            </div> 
+          
+          </div> -->
+        </div>
+      </div>
+     
+    </div>
+  
+    <app-show-quote-details-mb [selectedIndex]="selectedIndex" [index]="i" (closeDetails)="resetIndex()"></app-show-quote-details-mb>
+  
+  
+  </ng-container>
+</ng-container>
+
+
+<!--Desktop View-->
+<div *ngIf="!customiseOptions && quoteOptionFormValid" class="main-container">
+  <div class="policy-details-container">
+ <app-policy-options    (updateQuote)="onUpdateQuote($event)" [policyOptions]="policyOptions" [quoteOptionForm]="quoteOptionForm"></app-policy-options>
+  </div>
+  <!-- <div  class="policy-details">
+    <h2>Policy Details</h2>
+    <div class="addons-listing">
+      <div class="indv-addons">
+        <h3>Policy Type</h3>
+        <div (click)="onRadioChange($event)" class="addons-options">
+          <div class="indv-radio">
+            <input type="radio" name="policyType" value="Comprehensive" controlName="policyType">
+            <label>Comprehensive</label>
+          </div>
+          <div class="indv-radio">
+            <input type="radio" name="policyType" value="Liability" controlName="policyType">
+            <label>Liability</label>
+          </div>
+          <div class="indv-radio">
+            <input type="radio" name="policyType" value="Choose my own" controlName="policyType">
+            <label>Choose my own</label>
+          </div>
+        </div>
+      </div>
+      <div class="indv-addons">
+        <h3>Value of your accessories</h3>
+        <div class="addons-options">
+          <div class="indv-inputs">
+            <label>Electrical Accessories</label>
+            <div class="value_input">
+              <div class="border-right">₹</div>
+              <input type="text" value="" placeholder="0">
+            </div>
+          </div>
+          <div class="indv-inputs">
+            <label>Non Electrical Accessories</label>
+            <div class="value_input">
+              <div class="border-right">₹</div>
+              <input type="text" value="" placeholder="0">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="indv-addons">
+        <h3>Add Ons</h3>
+        <div class="addOns-box-options">
+          <ng-container *ngFor="let addOn of addOns,index as i ">
+            <div *ngIf="!addOn.select"class="indv-addOn" [ngClass]="{'highlighted':addOn.highlighted}" (click)="highlight(addOn)">
+              {{addOn.label}} <span *ngIf="addOn.highlighted">X</span>
+            </div>
+            <div *ngIf="addOn.select"class="indv-addOn-select" [ngClass]="{'highlighted':addOn.highlighted}" (click)="dropdown(addOn)">
+              <span>{{addOn.value}} </span><span>v</span>
+              <div *ngIf="addOn.optionClick" class="option_container">
+                <ng-container *ngFor="let option of addOn.options">
+                  <div class="option" (click)="optionSelect(addOn,option)">{{option.value}}</div>
+                </ng-container>
+               
+              </div> 
+            </div>
+          </ng-container>
+          
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="policy-listing">
+    <div class="policy-overview" [ngClass]="{'simple-view':!overView}">
+      <div class="detail-heading"  [ngClass]="{'simple-view':!overView}">
+        <label *ngIf="overView">{{screenMetaData.policyListing.policyHeading}}</label>
+        <p *ngIf="!overView">{{screenMetaData.policyListing.policyHeading}}</p>
+        <div class="view-overview" (click)="overViewAction()">
+          <span *ngIf="overView">X</span>
+          <span *ngIf="!overView">See More v</span>
+      </div>
+     
+    </div>
+     <div class="simple-overview" *ngIf="!overView">
+
+        <p>
+          <ng-container *ngFor="let sample of screenMetaData.policyListing.policyOverViewSample">
+            {{quoteInput[sample]}}
+          </ng-container>
+          ...
+        </p>
+      </div>
+      <div *ngIf="overView" class="detail-listing">
+      <ng-container *ngFor="let policyDetails of screenMetaData.policyListing.policyOverViewList">
+        <div class="detail-container">
+      <ng-container *ngFor="let detail of policyDetails.detailColumns">
+
+          <div class="single-detail-container">
+            <label>{{detail.detailHeading}}</label>
+            <p>{{quoteInput[detail.detailValue] ? quoteInput[detail.detailValue] : 'NA'}}</p>
+          </div>
+      </ng-container>
+        </div>
+      </ng-container>
+      </div>
+      <div  *ngIf="overView" class="modify-button">
+        <button (click)="returnToQuote()">Modify</button>
+      </div>
+    <div>
+    
+    </div>
+  </div>
+  <p style="margin:'20px 0px 0px 0px';font-weight:'400';font-size: '14px';">{{productList.length}} Plans found for Quote:</p>
+  <hr>
+
+  <div *ngIf="productList.length === 0" class="noproduct">
+    <p>No Product found for the quote. Please try changing quote values for the same.</p> 
+    <div  class="modify-button">
+     <button (click)="returnToQuote()">Modify</button>
+   </div>
+   </div>
+  <ng-container *ngFor="let product of productList,index as i">
+    <div class="product-container" >
+      <div class="logo-heading">
+        <img class="image-child" alt="" src="{{product.insurerImageUrl}}" />
+        <!-- <div class="breaker"></div> -->
+        <div class="amount-details">
+          <p>₹{{product.quoteResponse.totalPremium}}</p>
+          <div style="cursor: pointer;font-weight: bold;" (click)="openBreakUp(product,i)">Details</div>
+        </div>
+        <div class="buynow">
+          <button (click)="onBuyNow(product)">Buy Now</button>
+        </div>
+      </div>
+      <hr>
+      <div class="product-description">
+        <div class="product-details-container">
+          <div class="cover-details">
+            <label>Cover Amount(IDV)</label>
+            <p>₹{{product.quoteResponse.sumAssured}}</p>
+          </div>
+          <div class="discounts-details">
+            <label>Discounts</label>
+            <ng-container *ngFor="let productDiscount of product.quoteResponse.discounts">
+                <div class="list"> 
+                  <div class="bullet"></div>{{productDiscount}}
+                </div>
+              </ng-container>
+          </div>
+        </div>
+        <div class="add0n-access">
+          <div class="addOns">
+            <label>Add Ons:</label>
+            <ng-container *ngFor="let addOns of product.quoteResponse.supportedAddons">
+              <p>{{addOns}}</p>
+            </ng-container>
+          </div>
+          <div class="accessories">
+            <label>Accessories:</label>
+            <ng-container *ngFor="let accessories of product.quoteResponse.accessories">
+              <p>{{accessories}}</p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div class="product-container error-container" *ngIf="errorList.length > 0">
+   <p>{{screenMetaData.error.statement}}</p>
+   <hr style="width:100%"/>
+   <h3>{{screenMetaData.error.subStatement}}</h3>
+   <div class="errorProduct">
+    <ng-container *ngFor="let errorProduct of errorList">
+      <div class="productBox" >{{errorProduct.insurerName}}</div>
+    </ng-container>
+
+   </div>
+   <div class="same_line">
+   <div class="link" (click)="knowMore()">Know more</div>
+    <p> about insurer Specific restrictions</p>
+   </div>
+  </div>
+</div>
+</div>
+
+
+
+   
+

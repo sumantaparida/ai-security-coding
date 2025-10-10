@@ -1,0 +1,702 @@
+<!-- <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="display-edit-section"> -->
+<!-- --Mian Division--  -->
+<form [formGroup]="editQuoteForm">
+  <div fxFlex="100" class="edit-quote-col">
+    <div
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayout.sm="column"
+      fxLayoutGap="10px"
+      class="rows-edit-col"
+    ></div>
+    <div
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayout.sm="column"
+      fxLayoutGap="10px"
+      class="rows-edit-col"
+    >
+      <div fxFlex="100" class="heading">
+        <label class="label-heading">Endowment/Money Back</label>
+      </div>
+    </div>
+
+    <div
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayout.sm="column"
+      fxLayoutGap="10px"
+      class="rows-edit-col back-nav-health"
+    >
+      <div fxFlex="100" class=""><a (click)="backrouteToQuestion()"> < Back to questions</a></div>
+    </div>
+    <div
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayout.sm="column"
+      fxLayoutGap="10px"
+      class="rows-edit-col"
+    >
+      <div fxHide.sm="true" fxHide.xs="true">
+        <label class="edit-heading-label">Edit Your Quote</label>
+      </div>
+      <div fxHide.lg="true" fxHide.md="true" class="edit-heading-label">
+        <a (click)="onEditMobile()" class="edit-heading-label">
+          <mat-icon>create</mat-icon> Edit your quote
+        </a>
+      </div>
+    </div>
+    <div fxHide.sm="true" fxHide.xs="true">
+      <!-- -- Division inside 1st col --  -->
+
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <label class="edit-heading-label" *ngIf="finalQuote?.quoteInput?.startType == 'sa'"
+          >Your Sum Insured</label
+        >
+        <label class="edit-heading-label" *ngIf="finalQuote?.quoteInput?.startType == 'ap'"
+          >You can invest as Premium</label
+        >
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col dec_value"
+      >
+        <input
+          type="text"
+          *ngIf="finalQuote?.quoteInput?.startType == 'sa'"
+          #investpre
+          formControlName="inputOne"
+          value="{{ finalQuote?.quoteInput?.sa }}"
+          (keyup)="onChangeQuoteInput()"
+          readonly="true"
+          [ngClass]="{ highlight: isHighlight }"
+        />
+        <input
+          type="text"
+          *ngIf="finalQuote?.quoteInput?.startType == 'ap'"
+          #investpre
+          formControlName="inputOne"
+          value="{{ finalQuote?.quoteInput?.ap }}"
+          (keyup)="onChangeQuoteInput()"
+          readonly="true"
+          [ngClass]="{ highlight: isHighlight }"
+        />
+      </div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <div fxFlex="100" class="edit-anchor"><a (click)="editQuote()">Edit</a></div>
+      </div>
+
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <label class="edit-heading-label">Your Premiums will be paid</label>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col dec_value hightlight-select"
+      >
+        <!-- <input #paidPre formControlName="inputTwo" (keyup)="onChangeQuoteInput()" type="text" value="Annual"
+                        readonly=true>-->
+        <mat-form-field
+          appearance="fill"
+          class="premiumdropdown"
+          [ngClass]="{ highlight: isHighlight }"
+        >
+          <mat-select
+            #paidPre
+            formControlName="inputTwo"
+            (selectionChange)="onChangeQuoteInput()"
+            [disabled]="disabled"
+          >
+            <mat-option
+              *ngFor="let premiumPay of premiumPaid"
+              name="option"
+              [value]="premiumPay.id"
+            >
+              {{ premiumPay.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <div fxFlex="100" class="edit-anchor"><a (click)="editQuote()">Edit</a></div>
+      </div>
+
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+
+      <!-- -blank row--  -->
+      <ng-container *ngIf="payoutMaxValue !== 0">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+          class="rows-edit-col"
+        >
+          <label class="edit-heading-label">Payout (Years)</label>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+          class="rows-edit-col dec_value"
+        >
+          <ngx-slider
+            [(value)]="payoutMinValue"
+            [(highValue)]="payoutMaxValue"
+            [options]="payoutOptions"
+            (userChange)="payoutPeriodOnchange($event)"
+          ></ngx-slider>
+        </div>
+      </ng-container>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <label class="edit-heading-label">You will pay Premiums for (Years)</label>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col dec_value"
+      >
+        <!--<mat-slider #investpre1 [disabled]="disabled" formControlName="inputThree"
+                        (input)="onChangePayPremium($event)" tickInterval="2" thumbLabel min="0" max="20" step="1"
+                        value="{{finalQuote?.productQuote[0]?.ppt}}"></mat-slider>-->
+
+        <ngx-slider
+          [(value)]="pptMinValue"
+          [(highValue)]="pptMaxValue"
+          [options]="pptOptions"
+          (userChange)="pptOnchange($event)"
+        ></ngx-slider>
+      </div>
+      <!--  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                    <div fxFlex="100" class="edit-anchor"> <a (click)="editQuote()">Edit</a></div>
+                </div>-->
+
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <label class="edit-heading-label">Your Policy cover will last for (Years)</label>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col dec_value"
+      >
+        <!--<mat-slider #paidPre1 formControlName="inputFour" [disabled]="disabled"
+                        (input)="onChangePolicyCover($event)" tickInterval="2" thumbLabel min="0" max="20" step="1"
+                        value="{{finalQuote?.productQuote[0]?.pt}}"></mat-slider>-->
+        <ngx-slider
+          [(value)]="ptMinValue"
+          [(highValue)]="ptMaxValue"
+          [options]="ptOptions"
+          (userChange)="ptOnchange($event)"
+        ></ngx-slider>
+      </div>
+      <!-- <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                    <div fxFlex="100" class="edit-anchor"> <a (click)="editQuote()">Edit</a></div>
+                </div>-->
+
+      <!-- -blank row--  -->
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <div fxHide.sm="true" fxHide.xs="true">
+          <label class="edit-heading-label">Your Answers To Questions</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Product Type</label></div>
+        <div fxFlex="50" class="padding-10 background"><label>Endowment</label></div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Proposer DOB</label></div>
+        <div
+          fxFlex="50"
+          class="padding-10 background"
+          *ngIf="finalQuote?.quoteInput?.proposerDob !== ''"
+        >
+          <label>{{ properserdobDate }}</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Proposer Gender</label></div>
+        <div
+          fxFlex="50"
+          class="padding-10 background"
+          *ngIf="finalQuote?.quoteInput?.proposerGender !== ''"
+        >
+          <label *ngIf="finalQuote?.quoteInput?.proposerGender == 'M'">Male</label>
+          <label *ngIf="finalQuote?.quoteInput?.proposerGender == 'F'">Female</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Insured DOB</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label>{{ insurerdobDate }}</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Insured Gender</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label *ngIf="finalQuote?.quoteInput?.insuredGender == 'M'">Male</label>
+          <label *ngIf="finalQuote?.quoteInput?.insuredGender == 'F'">Female</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Proposer Relationship</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label>{{ relatioshipWithProposer }}</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Smoker</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label *ngIf="finalQuote?.quoteInput?.insuredRating == 'NS'">No</label>
+          <label *ngIf="finalQuote?.quoteInput?.insuredRating == 'S'">Yes</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Joint Life</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label *ngIf="finalQuote?.quoteInput?.isJointLife == false">No</label>
+          <label *ngIf="finalQuote?.quoteInput?.isJointLife == true">yes</label>
+        </div>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+    </div>
+
+    <div fxHide.lg="true" fxHide.md="true" *ngIf="isEditMobile">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <label class="edit-heading-label" *ngIf="finalQuote?.quoteInput?.startType == 'sa'"
+          >Your Sum Insured</label
+        >
+        <label class="edit-heading-label" *ngIf="finalQuote?.quoteInput?.startType == 'ap'"
+          >You can invest as Premium</label
+        >
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col dec_value"
+      >
+        <input
+          type="text"
+          *ngIf="finalQuote?.quoteInput?.startType == 'sa'"
+          #investpremob
+          formControlName="inputOne"
+          value="{{ finalQuote?.quoteInput?.sa }}"
+          (keyup)="onChangeQuoteInput()"
+          readonly="true"
+        />
+        <input
+          type="text"
+          *ngIf="finalQuote?.quoteInput?.startType == 'ap'"
+          #investpremob
+          formControlName="inputOne"
+          value="{{ finalQuote?.quoteInput?.ap }}"
+          (keyup)="onChangeQuoteInput()"
+          readonly="true"
+        />
+      </div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <div fxFlex="100" class="edit-anchor"><a (click)="editMobileQuote()">Edit</a></div>
+      </div>
+
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <label class="edit-heading-label">Your Premiums will be paid</label>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col dec_value"
+      >
+        <!--  <input type="text" #paidPremob formControlName="inputTwo" value="Annual"
+                        (keyup)="onChangeQuoteInput()" readonly=true>-->
+        <mat-form-field appearance="fill" class="premiumdropdown">
+          <mat-select
+            #paidPremob
+            formControlName="inputTwo"
+            (selectionChange)="onChangeQuoteInput()"
+            [disabled]="disabled"
+          >
+            <mat-option
+              *ngFor="let premiumPay of premiumPaid"
+              name="option"
+              [value]="premiumPay.id"
+            >
+              {{ premiumPay.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <div fxFlex="100" class="edit-anchor"><a (click)="editMobileQuote()">Edit</a></div>
+      </div>
+
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <label class="edit-heading-label">You will pay Premiums for (Years)</label>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col dec_value"
+      >
+        <ngx-slider
+          [(value)]="pptMinValue"
+          [(highValue)]="pptMaxValue"
+          [options]="pptOptions"
+          (userChange)="pptOnchange($event)"
+        ></ngx-slider>
+      </div>
+      <!-- <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                    <div fxFlex="100" class="edit-anchor"> <a (click)="editMobileQuote()">Edit</a></div>
+                </div>-->
+
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <label class="edit-heading-label">Your Policy cover will last for (Years)</label>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col dec_value"
+      >
+        <ngx-slider
+          [(value)]="ptMinValue"
+          [(highValue)]="ptMaxValue"
+          [options]="ptOptions"
+          (userChange)="ptOnchange($event)"
+        ></ngx-slider>
+      </div>
+      <!--<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                    <div fxFlex="100" class="edit-anchor"> <a (click)="editMobileQuote()">Edit</a></div>
+                </div>-->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <button
+          mat-raised-button
+          class="generate-quote-btn"
+          [disabled]="!isGq"
+          (click)="generateNewQuote()"
+        >
+          Generate Quote
+        </button>
+      </div>
+      <!-- -blank row--  -->
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      >
+        <div fxHide.sm="false" fxHide.xs="false">
+          <label class="edit-heading-label">Your Answers To Questions</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Product Type</label></div>
+        <div fxFlex="50" class="padding-10 background"><label>Endowment</label></div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Proposer DOB</label></div>
+        <div
+          fxFlex="50"
+          class="padding-10 background"
+          *ngIf="finalQuote?.quoteInput?.proposerDob !== ''"
+        >
+          <label>{{ properserdobDate }}</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Proposer Gender</label></div>
+        <div
+          fxFlex="50"
+          class="padding-10 background"
+          *ngIf="finalQuote?.quoteInput?.proposerGender !== ''"
+        >
+          <label *ngIf="finalQuote?.quoteInput?.proposerGender == 'M'">Male</label>
+          <label *ngIf="finalQuote?.quoteInput?.proposerGender == 'F'">Female</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Insured DOB</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label>{{ insurerdobDate }}</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Insured Gender</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label *ngIf="finalQuote?.quoteInput?.insuredGender == 'M'">Male</label>
+          <label *ngIf="finalQuote?.quoteInput?.insuredGender == 'F'">Female</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Proposer Relationship</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label *ngIf="finalQuote?.quoteInput?.insuredRel == '2'"> Husband </label>
+          <label *ngIf="finalQuote?.quoteInput?.insuredRel == '3'"> Wife </label>
+          <label *ngIf="finalQuote?.quoteInput?.insuredRel == '4'"> Parent </label>
+          <label *ngIf="finalQuote?.quoteInput?.insuredRel == '1'"> Self </label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Smoker</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label *ngIf="finalQuote?.quoteInput?.insuredRating == 'NS'">No</label>
+          <label *ngIf="finalQuote?.quoteInput?.insuredRating == 'S'">Yes</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+        <div fxFlex="50" class="padding-10 background"><label>Joint Life</label></div>
+        <div fxFlex="50" class="padding-10 background">
+          <label *ngIf="finalQuote?.quoteInput?.isJointLife == false">No</label>
+          <label *ngIf="finalQuote?.quoteInput?.isJointLife == true">yes</label>
+        </div>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col back-nav-health"
+      >
+        <div fxFlex="100" class=""><a (click)="backrouteToQuestion()"> < Back to questions</a></div>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+    </div>
+  </div>
+</form>
+<!-- </div> -->
