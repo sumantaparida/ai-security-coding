@@ -1,0 +1,150 @@
+.outer {
+    background: red;
+    margin: 10px;
+    padding: 0 7px 0 7px;
+    /* width: 400px; */
+    border-radius: 10px;
+}
+
+.innerCard1 {
+    display: block;
+    padding: 10px;
+    margin-bottom: 30px;
+    text-align: justify;
+    display: flex;
+    /* flex-direction: row; */
+    /* flex-wrap: wrap; */
+    justify-content: flex-start;
+    /* justify-content: center; */
+    /* flex-wrap: revert; */
+    flex-flow: nowrap;
+    margin-top: 30px;
+
+}
+
+.heading{
+  margin: 5px 0 0 15px;
+}
+
+.label-heading {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  /* padding-left: 5px; */
+}
+
+.font-size-20 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.style-icon-policy {
+  font-size: 30px !important;
+  transform: translate(0px, 5px);
+  color: #3f51b5;
+}
+
+.main {
+    background: rgb(65, 181, 173);
+    margin: 10px;
+    padding: 0 7px 0 7px;
+    margin-top: 50px;
+    border-radius: 10px;
+}
+
+.generate-quote-btn {
+    /* width: 10rem; */
+    padding: 5px 15px;
+    display: block;
+    background: #03dac5;
+    color: white;
+    font-size: 18px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-bottom: 25px;
+}
+
+.display-flex {
+    display: flex;
+  }
+
+.margin-top {
+    margin-top: 80px;
+}
+
+.full-width {
+    width: 236px;
+    
+}
+
+
+.add-user {
+  /* display: block; */
+  text-align: right;
+  padding: 5px 14px;
+  margin-top: 10px;
+  margin-left: 650px;
+}
+
+.btn {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background-color:#b00020;
+  border: none;
+  cursor: pointer;
+  float: left;
+}
+
+.btn-submit {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background: #03dac5;
+  border: none;
+  cursor: pointer;
+  float: left;
+}
+
+
+.btn-submit:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgb(0, 0, 0, 0.26);
+}
+
+.policy-question-radio-box {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: #566266;
+    padding: 8px 100px 8px 10px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+    /* box-shadow: 0 2px 0 0 #c6cacc; */
+    display: inline-flex;
+    width: 41%;
+    box-shadow: 0 0 0 1px #cac2d5;
+  }
+  
+
+  .margin-left {
+    margin-left: 10px;
+  }
+
+  .margin-top-12 {
+        margin-top: -20px;
+  }
+
+  .margin-top-fields {
+    margin-top: 30px;
+  }
+  
+  .margin-top-radio {
+    margin-top: 10px;
+
+  }

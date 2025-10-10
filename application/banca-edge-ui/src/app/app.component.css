@@ -1,0 +1,124 @@
+html {
+  height: 100%;
+  /* box-sizing: border-box; */
+  /* margin: 0; */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.main-container {
+  overflow: hidden;
+}
+
+.body-container {
+  min-height: 78.7vh;
+  /* position: relative; */
+}
+
+.footer {
+  margin-top: auto;
+  position: absolute;
+  width: 100%;
+}
+
+.loading-spinner {
+  height: 100%;
+  width: 100%;
+  z-index: 2000;
+}
+
+mat-progress-spinner {
+  top: 50%;
+  left: 50%;
+}
+
+/* ---count down --  */
+#countdown {
+  position: absolute;
+ top:17px;
+  height: 40px;
+  left: 22%;
+  width: 40px;
+  text-align: center;
+  z-index: 100;
+}
+
+#countdown-number {
+  color: black;
+    display: table-caption;
+    line-height: 40px;
+    position: absolute;
+    left: 5px;
+    font-size: 16px;
+    z-index: 100;
+  font-weight: 500;
+
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  transform: scale(2.5) rotateY(-180deg) rotateZ(-90deg);
+}
+
+svg circle {
+  stroke-dasharray:75px;
+  stroke-dashoffset: 0px;
+  stroke-linecap: round;
+  stroke-width: 2px;
+  stroke: #0089d1;
+  fill: #DCDCDC;
+  animation: countdown 178s linear infinite forwards;
+}
+
+.green{
+  stroke:  rgb(65, 184, 131) !important;
+}
+.orange{
+  stroke: orange !important;
+
+}
+.red{
+  stroke: red !important;
+
+}
+
+@keyframes countdown {
+  from {
+    stroke-dashoffset: 0px;
+  }
+  to {
+    stroke-dashoffset: 113px;
+  }
+}
+
+.session-msg{
+  position: absolute;
+  left: 26%;
+  top: 28px;
+  z-index: 100;
+  font-weight: 500;
+  color: white;
+
+}
+/* .footer,
+.push {
+  height: 50px;
+} */
+
+/* .footer{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  text-align: center;
+}  */
+

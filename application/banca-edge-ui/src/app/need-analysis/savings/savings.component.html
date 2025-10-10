@@ -1,0 +1,36 @@
+<div *ngIf="state==='savings'" class="savings">
+  <form [formGroup]="form">
+    <div class="grid-container">
+      <div>
+        <label>In a year, I can save Rs.</label>
+      </div>
+      <div>
+        <span>
+          <mat-slider (input)="onKeyUp($event)" formControlName="savingsValue" thumbLabel [displayWith]="formatLabel"
+            [tickInterval]="getSliderTickInterval()" min="10000" max="1110000" required></mat-slider>
+          <!-- <input [(ngModel)]="textInput" (keyup)="onKeyUp()" [ngStyle]="{'width': ((textInput?.length+ 1) * 16) + 'px'}" type="text" formControlName="annualIncomValue"> -->
+        </span>
+      </div>
+    </div>
+
+
+    <!-- <div class="lg-screen">
+            I can save Rs.
+            <span>
+
+                <mat-slider (keyup)="onKeyUp()" formControlName="savingsValue"  
+        thumbLabel [displayWith]="formatLabel"  [tickInterval]="getSliderTickInterval()" min="10000" max="10000000" required></mat-slider>
+            </span>in a year.
+        </div> -->
+    <!-- mobile view -->
+
+  </form>
+
+
+
+  <mat-error *ngIf="form.get('savingsValue').hasError('min') || form.get('savingsValue').hasError('max')"
+    class="error-msg">
+    Savings should be b/w 10000 to 10000000</mat-error>
+  <mat-error *ngIf="form.get('savingsValue').dirty && form.get('savingsValue').hasError('required')" class="error-msg">
+    Please specify your Savings</mat-error>
+</div>

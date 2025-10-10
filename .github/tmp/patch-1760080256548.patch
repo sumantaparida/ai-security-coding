@@ -1,0 +1,22 @@
+--- a/src/app/quote/travel/travel.component.ts
++++ b/src/app/quote/travel/travel.component.ts
+@@ -1,5 +1,5 @@
+ import { Component } from '@angular/core';
+-import { SomeModule } from 'some-module';
++import { SomeModule } from 'some-module';
+ 
+ @Component({
+   selector: 'app-travel',
+   templateUrl: './travel.component.html',
+   styleUrls: ['./travel.component.css']
+ })
+ export class TravelComponent {
+-  constructor() {
+-    this.loadModule();
+-  }
++
++  async loadModule() {
++    const module = await import('some-module');
++    // Use the module safely after validation
++  }
+ }

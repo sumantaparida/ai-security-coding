@@ -1,0 +1,272 @@
+<form [formGroup]="vehicleDetailsFormGroup">
+  <ng-container *ngFor="let section of sections">
+    <mat-card
+      *ngIf="
+        section
+          | displaySection
+            : sections
+            : (section?.dependsOnControl !== ''
+                ? vehicleDetailsFormGroup.get(section?.dependsOnControl).value
+                : undefined)
+            : vehicleDetailsFormGroup
+      "
+      class="margin-bottom-30"
+    >
+      <mat-card-header *ngIf="section?.sectionName !== ''">
+        <mat-card-subtitle>{{ section?.sectionName }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div
+          fxLayout="row wrap"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="15px"
+        >
+          <ng-template ngFor let-input [ngForOf]="section?.formData">
+            <ng-container [ngSwitch]="input.controlType">
+              <ng-template [ngSwitchCase]="'text'">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span
+                        *ngIf="input?.validators?.required"
+                        class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (change)="onDataChanged(input?.controlName, $event)"
+                      matInput
+                      placeholder="{{ input?.placeholder }}"
+                      formControlName="{{ input?.controlName }}"
+                    />
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      vehicleErrorTemplate;
+                      context: {
+                        control: input?.controlName,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <!-- handling select & radio type inputs -->
+
+              <ng-template [ngSwitchCase]="'select'">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label class="cus-form-label"
+                      >{{ input?.label
+                      }}<span
+                        *ngIf="input?.validators?.required"
+                        class="man-field"
+                        >*</span
+                      >
+                    </mat-label>
+                    <mat-select
+                      (selectionChange)="
+                        onSelectionChanged(input?.controlName, $event)
+                      "
+                      formControlName="{{ input?.controlName }}"
+                    >
+                      <mat-option
+                        *ngFor="let option of input?.options"
+                        [value]="option.id"
+                      >
+                        {{ option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      vehicleErrorTemplate;
+                      context: {
+                        control: input?.controlName,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'date'">
+                <div fxFlex="32">
+                  <mat-form-field
+                    class="full-width"
+                    color="accent"
+                    appearance="fill"
+                  >
+                    <mat-label
+                      >{{ input?.label
+                      }}<span
+                        *ngIf="input?.validators?.required"
+                        class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      formControlName="{{ input?.controlName }}"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker color="primary"></mat-datepicker>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      vehicleErrorTemplate;
+                      context: {
+                        control: input?.controlName,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'number'">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span
+                        *ngIf="input?.validators?.required"
+                        class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (change)="onDataChanged(input?.controlName, $event)"
+                      matInput
+                      placeholder="{{ input?.placeholder }}"
+                      type="number"
+                      formControlName="{{ input?.controlName }}"
+                    />
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      vehicleErrorTemplate;
+                      context: {
+                        control: input?.controlName,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'radio'">
+                <div class="margin-top-5" fxFlex="32">
+                  <label>{{ input?.label }}</label>
+                  <mat-radio-group
+                    (change)="onRadioChange(input?.controlName, $event)"
+                    class="display-flex"
+                    aria-label="Select an option"
+                    formControlName="{{ input?.controlName }}"
+                  >
+                    <ng-container
+                      *ngFor="let form of input?.options; let first = first"
+                    >
+                      <div
+                        class="vehicle-screen-radio-box"
+                        [ngClass]="{ 'margin-left': !first }"
+                      >
+                        <mat-radio-button
+                          color="primary"
+                          value="{{ form?.value }}"
+                          >{{ form?.id }}
+                        </mat-radio-button>
+                      </div>
+                    </ng-container>
+                  </mat-radio-group>
+                </div>
+              </ng-template>
+            </ng-container>
+          </ng-template>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</form>
+
+<ng-template #vehicleErrorTemplate let-control="control" let-label="label">
+  <div
+    *ngIf="
+      vehicleDetailsFormGroup.get(control).touched &&
+      vehicleDetailsFormGroup.get(control).hasError('required')
+    "
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is required.</span>
+  </div>
+  <div
+    *ngIf="
+      vehicleDetailsFormGroup.get(control).touched &&
+      vehicleDetailsFormGroup.get(control).hasError('minlength')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a minimum of
+      {{ vehicleDetailsFormGroup.get(control).errors.minlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="
+      vehicleDetailsFormGroup.get(control).touched &&
+      vehicleDetailsFormGroup.get(control).hasError('maxlength')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a maximum of
+      {{ vehicleDetailsFormGroup.get(control).errors.maxlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="
+      vehicleDetailsFormGroup.get(control).touched &&
+      vehicleDetailsFormGroup.get(control).hasError('max')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at max
+      {{ vehicleDetailsFormGroup.get(control).errors.max.max }}
+    </span>
+  </div>
+  <div
+    *ngIf="
+      vehicleDetailsFormGroup.get(control).touched &&
+      vehicleDetailsFormGroup.get(control).hasError('min')
+    "
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at least
+      {{ vehicleDetailsFormGroup.get(control).errors.min.min }}
+    </span>
+  </div>
+  <div
+    *ngIf="
+      vehicleDetailsFormGroup.get(control).touched &&
+      vehicleDetailsFormGroup.get(control).hasError('pattern')
+    "
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is not valid </span>
+  </div>
+</ng-template>

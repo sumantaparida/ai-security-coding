@@ -1,0 +1,31 @@
+.submit-btn {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background-color: #03dac5;
+}
+
+.cancel-btn {
+  /* position: relative; */
+  padding: 6px 38px;
+  font-size: 15px;
+  margin: 5px 10px;
+  background-color: #b00020 !important;
+  color: white;
+}
+
+.man-field {
+  font-size: 14px;
+  color: red;
+}
+
+.button-style {
+  display: contents;
+}
+
+.align-center {
+  text-align: center;
+}

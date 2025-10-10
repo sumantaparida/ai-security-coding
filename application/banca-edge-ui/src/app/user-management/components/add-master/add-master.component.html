@@ -1,0 +1,154 @@
+<!-- New -->
+<div class="heading">
+  <span class="material-icons style-icon-policy"> person </span>
+  <span *ngIf="!masterData" class="font-size-20">Add Master</span>
+  <span *ngIf="masterData" class="font-size-20">Edit Master</span>
+</div>
+<form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="masterForm">
+    <!-- For Mater -->
+    <mat-card>
+      <mat-card-content>
+        <ng-container>
+          <div flex fxLayout="row wrap" fxLayout.xs="column" class="innerCard1">
+            <div fxFlex="32">
+              <mat-form-field class="full-width" appearance="fill" class="example-full-width">
+                <mat-label>Select Master</mat-label>
+                <mat-select
+                  formControlName="mastertName"
+                  (selectionChange)="onMasterChange($event)"
+                >
+                  <mat-option *ngFor="let option of coverMaster" [value]="option.id">
+                    {{ option.value }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+  </form>
+
+  <!-- For Lov Fields -->
+  <mat-card>
+    <mat-card-content>
+      <ng-container>
+        <div flex fxLayout="row wrap" fxLayout.xs="column" class="innerCard1">
+          <div fxFlex="32" *ngFor="let control of formDataNew">
+            <div class="margin-top-fields" *ngIf="control.type === 'text'">
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>{{ control.label }}<span style="color: red">*</span></mat-label>
+                <input
+                  matInput
+                  [type]="control.type"
+                  [formControlName]="control.name"
+                /> </mat-form-field
+              ><br />
+              <span
+                class="full-width"
+                *ngIf="
+                  dynamicForm?.get(control.name).invalid && dynamicForm?.get(control.name).touched
+                "
+              >
+                <mat-label
+                  ><span style="color: red">* {{ getErrorMessage(control) }}</span></mat-label
+                >
+              </span>
+            </div>
+            <div fxFlex="32" class="margin-top-fields" *ngIf="control.type === 'select'">
+              <!-- <mat-form-field class="full-width" appearance="fill" >
+                    <mat-label>{{control.label}}</mat-label>
+                    <input type="number" matInput  [formControl]="control.name">
+
+                    <mat-select name="food">
+                        <mat-option >A</mat-option>
+                        <mat-option >B</mat-option>
+                    </mat-select>
+                  </mat-form-field> -->
+              <mat-form-field class="full-width" appearance="fill" class="example-full-width">
+                <mat-label>{{ control.label }}<span style="color: red">*</span></mat-label>
+                <mat-select [formControlName]="control.name">
+                  <mat-option *ngFor="let values of control.options" [value]="values.id">
+                    {{ values.value }}
+                  </mat-option>
+                </mat-select> </mat-form-field
+              ><br />
+              <span
+                class="full-width"
+                *ngIf="
+                  dynamicForm?.get(control.name).invalid && dynamicForm?.get(control.name).touched
+                "
+              >
+                <mat-label
+                  ><span style="color: red">* {{ getErrorMessage(control) }}</span></mat-label
+                >
+              </span>
+            </div>
+
+            <div class="margin-top-fields" *ngIf="control.type === 'date'">
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label> {{ control.label }}<span style="color: red">*</span></mat-label>
+                <input
+                  matInput
+                  readonly
+                  [matDatepicker]="picker"
+                  [max]=""
+                  placeholder="YYYY-MM-DD"
+                  [formControlName]="control.name"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker> </mat-form-field
+              ><br />
+              <span
+                class="full-width"
+                *ngIf="
+                  dynamicForm?.get(control.name).invalid && dynamicForm?.get(control.name).touched
+                "
+              >
+                <mat-label
+                  ><span style="color: red">* {{ getErrorMessage(control) }}</span></mat-label
+                >
+              </span>
+            </div>
+
+            <div class="margin-top-fields" *ngIf="control.type === 'radio'">
+              <div class="full-width" flex fxLayout="row wrap" fxLayout.xs="column">
+                <label>{{ control?.label }}<span style="color: red">*</span></label>
+                <mat-radio-group
+                  (change)="onRadioChange(control, $event)"
+                  class="display-flex"
+                  aria-label="Select an option"
+                  [formControlName]="control.name"
+                >
+                  <ng-container *ngFor="let form of control.options">
+                    <div fxFlex.xs="100" class="policy-question-radio-box">
+                      <mat-radio-button color="primary" value="{{ form?.id }}"
+                        >{{ form?.value }}
+                      </mat-radio-button>
+                    </div>
+                  </ng-container> </mat-radio-group
+                ><br />
+                <span
+                  class="full-width"
+                  *ngIf="
+                    dynamicForm.get(control.name).invalid && dynamicForm.get(control.name).touched
+                  "
+                >
+                  <mat-label
+                    ><span style="color: red">* {{ getErrorMessage(control) }}</span></mat-label
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </mat-card-content>
+    <!-- <button mat-button class="generate-quote-btn" [disabled]="!dynamicForm.valid">Submit</button> -->
+  </mat-card>
+  <div class="add-user">
+    <button mat-button class="btn" (click)="navigateTo()">Back</button>
+    <button mat-button class="btn-submit" [disabled]="!dynamicForm.valid">Submit</button>
+  </div>
+</form>

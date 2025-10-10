@@ -1,0 +1,65 @@
+<div *ngIf="state === 'gender'" class="gender-contents">
+  <div class="description">I am</div>
+  <div class="flex-container-gender">
+    <div class="item">
+      <img
+        class="gender-img"
+        (click)="onGenderSelected('male')"
+        [ngClass]="{ selected: form.get('genderValue').value === 'M' }"
+        src="../../../assets/images/Man - Single.svg"
+        alt="maleimage"
+      />
+      <p>Male</p>
+    </div>
+
+    <div class="item">
+      <img
+        class="gender-img"
+        (click)="onGenderSelected('female')"
+        [ngClass]="{ selected: form.get('genderValue').value === 'F' }"
+        src="../../../assets/images/Woman - Single.svg"
+        alt="femaleimage"
+      />
+      <p>Female</p>
+    </div>
+
+    <!-- <img class="gender-img" (click)="onGenderSelected('female')" [ngClass]="{'selected': form.get('genderValue').value === 'Female' }" src="../../assets/images/femaleGender.PNG" alt="femaleimage"> -->
+  </div>
+  <!-- <div *ngIf="form.get('genderValue').value ==='M'" class="flex-img-option">
+    <div class="img-option-item">
+      <img class="view-option-img" [ngClass]="{'selected': personAgeGroup === 'young' }"
+        (click)="onAgeGroupSelected('young')" src="../../../assets/images/Man 1.svg" alt="femaleimage">
+
+    </div>
+    <div class="img-option-item">
+      <img class="view-option-img" [ngClass]="{'selected': personAgeGroup === 'elder' }"
+        (click)="onAgeGroupSelected('elder')" src="../../../assets/images/Man 2.svg" alt="femaleimage">
+    </div>
+    <div class="img-option-item">
+      <img class="view-option-img" [ngClass]="{'selected': personAgeGroup === 'senior' }"
+        (click)="onAgeGroupSelected('senior')" src="../../../assets/images/Man 3.svg" alt="femaleimage">
+    </div>
+  </div>
+
+  <div *ngIf="form.get('genderValue').value ==='F'" class="flex-img-option">
+    <div class="img-option-item">
+      <img class="view-option-img" [ngClass]="{'selected': personAgeGroup === 'young' }"
+        (click)="onAgeGroupSelected('young')" src="../../../assets/images/Lady 1.svg" alt="femaleimage">
+
+    </div>
+    <div class="img-option-item">
+      <img class="view-option-img" [ngClass]="{'selected': personAgeGroup === 'elder' }"
+        (click)="onAgeGroupSelected('elder')" src="../../../assets/images/Lady 2.svg" alt="femaleimage">
+    </div>
+    <div class="img-option-item">
+      <img class="view-option-img" [ngClass]="{'selected': personAgeGroup === 'senior' }"
+        (click)="onAgeGroupSelected('senior')" src="../../../assets/images/lady 3.svg" alt="femaleimage">
+    </div>
+  </div> -->
+
+  <mat-error
+    *ngIf="form.get('genderValue').dirty && !form.get('genderValue').valid"
+    class="error-msg"
+    >Please select a gender
+  </mat-error>
+</div>

@@ -1,0 +1,5 @@
+--- a/business-feature.component.ts
++++ b/business-feature.component.ts
+@@ -1,1 +1,1 @@
+- const data = { key: value };
++ const data = JSON.stringify({ key: value });

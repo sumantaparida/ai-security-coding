@@ -1,0 +1,14 @@
+<div [@needLoanShowHide]="state" class="needLoan">
+     Intending to take a loan
+    <form [formGroup]="form">
+        <div class="container" (click)="onLoanSelected('yes')">
+            <input type="radio" value="Yes" formControlName="needLoanValue">Yes
+            <span class="checkmark"></span>
+        </div>
+        <div class="container" (click)="onLoanSelected('no')" >
+            <input type="radio" value="No" formControlName="needLoanValue">No
+            <span class="checkmark"></span>
+        </div>
+    </form>
+    <div *ngIf="form.get('needLoanValue').dirty && !form.get('needLoanValue').valid" class="error-msg">Please select an option</div>
+</div>

@@ -1,0 +1,31 @@
+<div fxFLex fxLayoutAlign=" center" fxLayout="column">
+  <h2 class="text-center" *ngIf="this.data.mobilenumber === ''">
+    Mobile number not registered, kindly have the same updated to process digital journey.
+  </h2>
+  <h2 class="text-center" *ngIf="this.data.dob === ''">
+    Date of Birth is not registered, kindly have the same updated to process digital journey.
+  </h2>
+  <form [formGroup]="formgp" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutAlign=" center">
+    <div fxLayout="column" fxLayoutAlign=" center">
+      <ng-container *ngIf="this.data.dob === ''">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Select your Date of Birth</mat-label>
+          <input matInput [max]="maxDate" [matDatepicker]="picker" formControlName="dob" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="formgp.get('dob').invalid">Invalid date</mat-error>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="this.data.mobilenumber === ''">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Please enter your mobile number</mat-label>
+          <input type="number" matInput formControlName="mobileNo" />
+          <mat-error *ngIf="formgp.get('mobileNo').invalid">Please enter valid number</mat-error>
+        </mat-form-field>
+      </ng-container>
+    </div>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="formgp.invalid">
+      Submit
+    </button>
+  </form>
+</div>

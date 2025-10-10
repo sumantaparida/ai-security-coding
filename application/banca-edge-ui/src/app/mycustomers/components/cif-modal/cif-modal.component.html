@@ -1,0 +1,58 @@
+<div class="add-customer-container">
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+        <div fxFlex="100" class="finish-editing-heading"><label>Please select your option</label></div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+        <!-- <div fxFlex="100"><label>Please add Customer to proceed further</label></div> -->
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="margin-bottom">
+        <div fxFlex="100"></div>
+    </div>
+    <!-- <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+        <div fxFlex="50"><button mat-raised-button (click)="callButtons()" mat-dialog-close class="cancel-btn">I don't
+                know my CIF number</button>
+        </div>
+        <div fxFlex="50"><button mat-raised-button (click)="callInput()" class="update-btn">I know my CIF
+                number</button>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="margin-bottom">
+        <div fxFlex="100"></div>
+    </div> -->
+    <div *ngIf="showInput">
+        <form [formGroup]="cif" autocomplete="off">
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <div fxFlex="100">
+                    <mat-form-field appearance="outline">
+                        <input formControlName="cifNumber" matInput placeholder="" />
+                        <mat-label>CIF Number</mat-label>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <div fxFlex="50"><button mat-raised-button [disabled]="!disableSubmit()" (click)="checkCIFNumber()"
+                        class="update-btn">Get CIF
+                        Data</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            <div fxFlex="50">
+                <button (click)="goToIndividual()" mat-raised-button type="button" class="update-btn">
+                    <span class="material-icons">
+                        account_box
+                    </span> {{ 'component.INDIVIDUAL' | translate }}
+                </button>
+            </div>
+            <div fxFlex="50">
+                <button (click)="goToBusiness()" mat-raised-button type="button" class="update-btn">
+                    <span class="material-icons">
+                        location_city
+                    </span> {{ 'component.BUSINESS' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,245 @@
+<!-- <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="display-edit-section"> -->
+<!-- --Mian Division--  -->
+<form [formGroup]="editQuoteForm">
+    <div fxFlex="100" class="edit-quote-col">
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+            <div fxFlex="100" class="heading"><label class="label-heading">MOTOR INSURANCE</label></div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="5px" class="rows-edit-col">
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+            <div fxHide.sm="true" fxHide.xs="true"><label class="edit-heading-label">Edit Your Quote</label></div>
+            <div fxHide.lg="true" fxHide.md="true" class="edit-heading-label">
+                Edit your quote
+            </div>
+        </div>
+        <div fxHide.sm="true" fxHide.xs="true">
+            <!-- -- Division inside 1st col --  -->
+
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <label class="edit-quote-label">Insured Declared Value</label>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <div fxFlex="100">
+                    <a (click)="toggleShow('sumInsured')">{{needHideSumInsured}}</a>
+                    <div *ngIf="isShownSumInsured" class="help-description">
+                        <p>
+                            Insured Declared Value or IDV, is calculated as the invoice price of your vehicle minus
+                            depreciation. The Invoice price is based on the make, model and variant of your vehicle.
+                            Depreciation is calculated as per a standard table approved by the Motor Tariff Act. The
+                            older your vehicle the higher the depreciation and therefore lower the IDV as compared
+                            to the original invoice price. IDV is the amount the insurer will pay if your vehicle is
+                            completely damaged or stolen. IDV, therefore, works as the Sum Insured and the Insurer
+                            calculates the premium based on the IDV.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                class="rows-edit-col dec_value">
+                <input type="text" value="{{finalQuote?.productQuote[0]?.sa | currency : 'INR':'symbol':'1.0-0'}}"
+                    [disabled]="true">
+
+            </div>
+            <!--  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+            <div fxFlex="100" class="edit-anchor"> <a (click)="editQuote()">Edit</a></div>
+        </div>-->
+
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                <div fxHide.sm="true" fxHide.xs="true"><label class="edit-heading-label">Your Answers To
+                        Questions</label></div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>Vehicle Type</label></div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.productType == 'PC'">
+                    <label>Private Car</label>
+                </div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.productType == 'TW'">
+                    <label>Two Wheeler</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>New policy or Renew Existing Policy</label>
+                </div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.policyType == 'RO'">
+                    <label>Renew Existing Policy</label>
+                </div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.policyType == 'NB'">
+                    <label>New Policy</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>Year of vehicle Manufacture</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{finalQuote?.quoteInput?.yom }}</label></div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>Registration Date</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{ dateOfReg }} </label></div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>RTO</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{finalQuote?.quoteInput?.rtoCode }}</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px"
+                *ngIf="finalQuote?.quoteInput?.policyType == 'RO'">
+                <div fxFlex="50" class="padding-10 background"><label>Expiry Date of Current Policy</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{policyEndDate}}</label></div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px"
+                *ngIf="finalQuote?.quoteInput?.policyType == 'RO'">
+                <div fxFlex="50" class="padding-10 background"><label>No-Claim Bonus in Current Policy</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{finalQuote?.quoteInput?.currNcb }}%</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px"
+                *ngIf="finalQuote?.quoteInput?.policyType == 'RO'">
+                <div fxFlex="50" class="padding-10 background"><label>Any Claim in the Current Year</label></div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.currClaim == 'N'">
+                    <label>No</label>
+                </div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.currClaim == 'Y'">
+                    <label>Yes</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="100" class="padding-10 background"><label>{{ finalQuote?.quoteInput?.vehicleName }}
+                    </label></div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                class="rows-edit-col back-nav-health">
+                <div fxFlex="100" class=""> <a (click)="backRouteToQuestion()">
+                        < Back to questions</a>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+
+        </div>
+        <div fxHide.lg="true" fxHide.md="true">
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <label class="edit-quote-label">Insured Declared Value</label>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+                <div fxFlex="100">
+                    <a (click)="toggleShow('sumInsured')">{{needHideSumInsured}}</a>
+                    <div *ngIf="isShownSumInsured" class="help-description">
+                        <p>
+                            Insured Declared Value or IDV, is calculated as the invoice price of your vehicle minus
+                            depreciation. The Invoice price is based on the make, model and variant of your vehicle.
+                            Depreciation is calculated as per a standard table approved by the Motor Tariff Act. The
+                            older your vehicle the higher the depreciation and therefore lower the IDV as compared
+                            to the original invoice price. IDV is the amount the insurer will pay if your vehicle is
+                            completely damaged or stolen. IDV, therefore, works as the Sum Insured and the Insurer
+                            calculates the premium based on the IDV.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                class="rows-edit-col dec_value">
+                <input type="text" value="{{finalQuote?.productQuote[0]?.sa | currency : 'INR':'symbol':'1.0-0'}}"
+                    [disabled]="true">
+
+            </div>
+            <!--  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+            <div fxFlex="100" class="edit-anchor"> <a (click)="editQuote()">Edit</a></div>
+        </div>-->
+
+            <!-- -blank row--  -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col ">
+                <div fxHide.sm="false" fxHide.xs="false"><label class="edit-heading-label">Your Answers To
+                        Questions</label></div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>Vehicle Type</label></div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.productType == 'PC'">
+                    <label>Private Car</label>
+                </div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.productType == 'TW'">
+                    <label>Two Wheeler</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>New policy or Renew Existing Policy</label>
+                </div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.policyType == 'RO'">
+                    <label>Renew Existing Policy</label>
+                </div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.policyType == 'NB'">
+                    <label>New Policy</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>Year of vehicle Manufacture</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{finalQuote?.quoteInput?.yom }}</label></div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>Registration Date</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{ dateOfReg }} </label></div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="50" class="padding-10 background"><label>RTO</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{finalQuote?.quoteInput?.rtoCode }}</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px"
+                *ngIf="finalQuote?.quoteInput?.policyType == 'RO'">
+                <div fxFlex="50" class="padding-10 background"><label>Expiry Date of Current Policy</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{policyEndDate}}</label></div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px"
+                *ngIf="finalQuote?.quoteInput?.policyType == 'RO'">
+                <div fxFlex="50" class="padding-10 background"><label>No-Claim Bonus in Current Policy</label></div>
+                <div fxFlex="50" class="padding-10 background"><label>{{finalQuote?.quoteInput?.currNcb }}%</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px"
+                *ngIf="finalQuote?.quoteInput?.policyType == 'RO'">
+                <div fxFlex="50" class="padding-10 background"><label>Any Claim in the Current Year</label></div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.currClaim == 'N'">
+                    <label>No</label>
+                </div>
+                <div fxFlex="50" class="padding-10 background" *ngIf="finalQuote?.quoteInput?.currClaim == 'Y'">
+                    <label>Yes</label>
+                </div>
+            </div>
+            <div flex fxLayout="row" class="row-gap rows-edit-col" fxLayoutGap="10px">
+                <div fxFlex="100" class="padding-10 background"><label>{{ finalQuote?.quoteInput?.vehicleName }}
+                    </label></div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                class="rows-edit-col back-nav-health">
+                <div fxFlex="100" class=""> <a (click)="backRouteToQuestion()">
+                        < Back to questions</a>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="rows-edit-col">
+            </div>
+
+
+        </div>
+    </div>
+</form>
+<!-- </div> -->

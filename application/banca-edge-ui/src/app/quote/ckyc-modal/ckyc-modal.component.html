@@ -1,0 +1,47 @@
+<div [formGroup]="ckycForm" class="main-div">
+  <div class="margin-10">
+    <label>Please select Id type for CKYC verification</label>
+  </div>
+  <div class="margin-10">
+    <mat-form-field appearance="fill">
+      <mat-select formControlName="docType" (selectionChange)="selectedType($event)">
+        <mat-option *ngFor="let type of idType" [value]="type.id" >
+          {{ type.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="margin-10" *ngIf="ckycForm.get('docType').value==='AADHAAR'">
+    <mat-form-field class="example-full-width">
+      <mat-label>Full name as per Adhaar</mat-label>
+      <input  matInput formControlName="aadhaarName" />
+    </mat-form-field>
+  </div>
+  <div class="margin-10">
+    
+    <mat-form-field class="example-full-width">
+      <mat-label>Enter Document Id</mat-label>
+      <input  matInput formControlName="docNumber" />
+    </mat-form-field>
+  </div>
+  <div class="margin-10" *ngIf="data.bankOrgCode==='BOM'">
+    <input
+      type="file"
+      id="file"
+      formControlName="fileUpload"
+      (change)="getFileDetails($event)"
+    />
+<!-- 
+    <mat-error *ngIf="fileUploadError"
+      >File size should be less than 5MB</mat-error
+    > -->
+    <!-- <ng-container *ngIf="myFiles.length > 0"> -->
+      <!-- <p class="green-color"> Files Uploaded</p>
+      <ng-container *ngFor="let file of displayFileName; let i = index">
+        <span> {{ i + 1 }}){{ file }}</span>
+      </ng-container> -->
+    <!-- </ng-container> -->
+  </div>
+  <button class="proceed-btn" mat-raised-button (click)="getCkyc()" [disabled]="!ckycForm.valid">Proceed</button>
+  <mat-error *ngIf="hasError" >Not able to fetch CKYC details please try again.</mat-error>
+</div>

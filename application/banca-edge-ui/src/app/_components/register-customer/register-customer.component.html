@@ -1,0 +1,86 @@
+<!-- <div flex fxLayout="row" fxLayout.xs="column"> -->
+<form [formGroup]="registrationForm">
+    <div fxFlex="70" class="registration-form">
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px" class="heading-row">
+            <div fxFlex="100" class="margin-center heading">
+                <label class="heading-label">Registration Form</label>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px" class="width-80 margin-center">
+            <div fxFlex="50" class="">
+                <mat-form-field class="full-width" appearance="fill">
+                    <!-- <mat-label>Pincode</mat-label> -->
+                    <input type="text" matInput minlenght="5" placeholder="First Name" mask="S*"
+                        formControlName="firstName">
+                    <mat-error *ngIf="registrationForm.get('firstName').hasError('required')">
+                        First name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="">
+                <mat-form-field class="full-width" appearance="fill">
+                    <!-- <mat-label>Pincode</mat-label> -->
+                    <input type="text" matInput placeholder="Last Name" formControlName="lastName">
+                    <mat-error *ngIf="registrationForm.get('lastName').hasError('required')">
+                        Last Name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px" class="">
+
+        </div> -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px" class="">
+            <div fxFlex="80" class="margin-center">
+                <mat-form-field class="full-width" appearance="fill">
+                    <!-- <mat-label>Pincode</mat-label> -->
+                    <input type="tel" matInput placeholder="Email" formControlName="email">
+                    <mat-error *ngIf="registrationForm.get('email').hasError('required')">
+                        Email is required
+                    </mat-error>
+                    <mat-error *ngIf="registrationForm.get('email').hasError('email')">
+                        Enter a valid Email Id
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-progress-spinner class="loading-spinner" [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+        </mat-progress-spinner>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px" class="">
+            <div fxFlex="80" class="margin-center">
+                <mat-form-field class="full-width" appearance="fill">
+                    <!-- <mat-label>Pincode</mat-label> -->
+                    <input type="tel" matInput placeholder="Mobile Number" formControlName="mobileNo">
+                    <mat-error *ngIf="registrationForm.get('mobileNo').hasError('required')">
+                        Mobile number is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px" class="">
+            <div fxFlex="80" class="margin-center">
+                <mat-form-field class="full-width" appearance="fill">
+                    <!-- <mat-label>Pincode</mat-label> -->
+                    <input type="tel" matInput placeholder="Confirm Mobile Number" formControlName="confirmMobileNo">
+                    <mat-error *ngIf="rf.confirmMobileNo.errors?.mustMatch">
+                        Mobile Number does not match
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- <div *ngIf="registrationForm.get('confirmMobileNo').hasError('M ustMatch')">Mobile Number does not match </div> -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px" class="btn-row">
+            <div fxFlex="80" class="margin-center">
+                <mat-error *ngIf="isErrorMsg">
+                    {{errorMsg}}
+                </mat-error>
+                <button mat-raised-button class="register-btn" [disabled]="disabled()"
+                    (click)="registerCustomer()">Register</button>
+                <!-- <button mat-raised-button class="">Cancel</button> -->
+            </div>
+        </div>
+
+    </div>
+</form>
+<!-- </div> -->

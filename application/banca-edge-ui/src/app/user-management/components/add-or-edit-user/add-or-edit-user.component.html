@@ -1,0 +1,338 @@
+<form *ngIf="formFields" [formGroup]="formFields">
+  <mat-card class="margin-15">
+    <mat-card-content>
+      <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+        <ng-container *ngFor="let data of formData">
+          <ng-container
+            *ngIf="
+              data
+                | displayField
+                  : formData
+                  : formFields.get(data?.dependsOnControl)?.value
+                  : formFields
+                  : userToBeEdited
+                  : formFields.get(data?.controlDependentName)?.value
+            "
+          >
+            <ng-container [ngSwitch]="data?.controlType">
+              <ng-template [ngSwitchCase]="'text'" *ngIf="formFields.get(data.controlName)">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ data?.label
+                      }}<span *ngIf="data?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <span *ngIf="data?.prefix" matPrefix>{{ data?.prefixValue }} &nbsp;</span>
+                    <input
+                      (change)="onDataChanged(data?.controlName, $event)"
+                      matInput
+                      placeholder="{{ data?.placeholder }}"
+                      formControlName="{{ data?.controlName }}"
+                    />
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: { control: data?.controlName, label: data?.label }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <!-- handling select & radio type inputs -->
+
+              <ng-template [ngSwitchCase]="'multiselect'" *ngIf="formFields.get(data.controlName)">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ data?.label }}<span class="man-field">*</span> </mat-label>
+                    <mat-select
+                      multiple
+                      (selectionChange)="onSelectionChanged(data?.controlName, $event)"
+                      formControlName="{{ data?.controlName }}"
+                    >
+                      <ng-container *ngIf="data?.controlName == 'userGroups'">
+                        <mat-option
+                          [disabled]="option.disabled"
+                          *ngFor="let option of userGroupOptionsCopy"
+                          [value]="option.value"
+                        >
+                          {{ option.value }}
+                        </mat-option>
+                      </ng-container>
+                      <ng-container *ngIf="data?.controlName != 'userGroups'">
+                        <mat-option>
+                          <ngx-mat-select-search
+                            placeholderLabel="Search"
+                            noEntriesFoundLabel="Not Found"
+                            formControlName="searchCtrl"
+                            (selectionChange)="onDropdownSelectionChange($event)"
+                          >
+                          </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                          *ngFor="
+                            let option of data?.options
+                              | searchDropDown: formFields.get('searchCtrl')?.value:'display'
+                          "
+                          [value]="option.id"
+                        >
+                          {{ option.display }}
+                        </mat-option>
+                      </ng-container>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: { control: data?.controlName, label: data?.label }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'select'" *ngIf="formFields.get(data.controlName)">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ data?.label }}<span class="man-field">*</span> </mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectionChanged(data?.controlName, $event)"
+                      formControlName="{{ data?.controlName }}"
+                    >
+                      <mat-option *ngFor="let option of data?.options" [value]="option.id">
+                        {{ option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: { control: data?.controlName, label: data?.label }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'checkbox'" *ngIf="formFields.get(data.controlName)">
+                <div fxFlex="32">
+                  <mat-checkbox
+                    (change)="onCheckboxChanged(data?.controlName, $event)"
+                    class="example-margin"
+                    formControlName="{{ data?.controlName }}"
+                    >{{ data?.label }}</mat-checkbox
+                  >
+                </div>
+              </ng-template>
+
+              <ng-template
+                [ngSwitchCase]="'seachableDropdown'"
+                *ngIf="formFields.get(data.controlName)"
+              >
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ data?.label }}<span class="man-field">*</span> </mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectionChanged(data?.controlName, $event)"
+                      formControlName="{{ data?.controlName }}"
+                    >
+                      <mat-option>
+                        <ngx-mat-select-search
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="Not Found"
+                          formControlName="searchCtrl"
+                          (selectionChange)="onDropdownSelectionChange($event)"
+                        >
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <!-- <mat-option
+                                                *ngFor="
+                                                    let option of data?.options 
+                                                "
+                                                [value]="option.id"
+                                            >
+                                                {{ option.value }}
+                                            </mat-option> -->
+                      <mat-option
+                        *ngFor="
+                          let option of branchOptions
+                            | searchDropDown: formFields.get('searchCtrl')?.value:'display'
+                        "
+                        [value]="option.id"
+                      >
+                        {{ option.display }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: { control: data?.controlName, label: data?.label }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'date'" *ngIf="formFields.get(data.controlName)">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" color="accent" appearance="fill">
+                    <mat-label
+                      >{{ data?.label
+                      }}<span *ngIf="data?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (dateChange)="onDateChanged(data?.controlName, $event)"
+                      readonly
+                      matInput
+                      [matDatepicker]="picker"
+                      formControlName="{{ data?.controlName }}"
+                      [min]="data?.minDate"
+                      [max]="data?.maxDate"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker color="primary"></mat-datepicker>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: { control: data?.controlName, label: data?.label }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'number'" *ngIf="formFields.get(data.controlName)">
+                <div fxFlex="32">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ data?.label
+                      }}<span *ngIf="data?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (change)="onDataChanged(data?.controlName, $event)"
+                      matInput
+                      placeholder="{{ data?.placeholder }}"
+                      type="number"
+                      formControlName="{{ data?.controlName }}"
+                    />
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: { control: data?.controlName, label: data?.label }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'radio'" *ngIf="formFields.get(data.controlName)">
+                <div class="margin-top-5" fxFlex="32">
+                  <label>{{ data?.label }}</label>
+                  <mat-radio-group
+                    (change)="onRadioChange(data?.controlName, $event)"
+                    class="display-flex"
+                    aria-label="Select an option"
+                    formControlName="{{ data?.controlName }}"
+                  >
+                    <ng-container *ngFor="let form of data?.options; let first = first">
+                      <div class="vehicle-screen-radio-box" [ngClass]="{ 'margin-left': !first }">
+                        <mat-radio-button color="primary" value="{{ form?.value }}"
+                          >{{ form?.id }}
+                        </mat-radio-button>
+                      </div>
+                    </ng-container>
+                  </mat-radio-group>
+                </div>
+              </ng-template>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+        <ng-template #proposerErrorTemplate let-control="control" let-label="label">
+          <div
+            *ngIf="
+              formFields.get(control)?.touched && formFields.get(control)?.hasError('required')
+            "
+            class="full-width"
+          >
+            <span class="man-field">{{ label }} is required.</span>
+          </div>
+          <div
+            *ngIf="
+              formFields.get(control)?.touched && formFields.get(control)?.hasError('minlength')
+            "
+            class="full-width"
+          >
+            <span class="man-field"
+              >{{ label }} should be a minimum of
+              {{ formFields.get(control).errors.minlength.requiredLength }}
+              characters.</span
+            >
+          </div>
+          <div
+            *ngIf="
+              formFields.get(control)?.touched && formFields.get(control)?.hasError('maxlength')
+            "
+            class="full-width"
+          >
+            <span class="man-field"
+              >{{ label }} should be a maximum of
+              {{ formFields.get(control).errors.maxlength.requiredLength }}
+              characters.</span
+            >
+          </div>
+          <div
+            *ngIf="formFields.get(control)?.touched && formFields.get(control)?.hasError('max')"
+            class="full-width"
+          >
+            <span class="man-field"
+              >{{ label }} should be at max
+              {{ formFields.get(control).errors.max.max }}
+            </span>
+          </div>
+          <div
+            *ngIf="formFields.get(control)?.touched && formFields.get(control)?.hasError('min')"
+            class="full-width"
+          >
+            <span class="man-field"
+              >{{ label }} should be at least
+              {{ formFields.get(control).errors.min.min }}
+            </span>
+          </div>
+          <div
+            *ngIf="formFields.get(control)?.touched && formFields.get(control)?.hasError('pattern')"
+            class="full-width"
+          >
+            <span class="man-field">{{ label }} is not valid </span>
+          </div>
+          <div
+            *ngIf="formFields.get(control)?.touched && formFields.get(control)?.hasError('email')"
+            class="full-width"
+          >
+            <span class="man-field">{{ label }} is not valid </span>
+          </div>
+        </ng-template>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="add-user">
+    <!-- <button  mat-button color="primary" (click)="onSubmit()">Submit</button>
+          -->
+    <button mat-button class="btn" (click)="navigateTo()">Back</button>
+
+    <button mat-button class="btn-submit" [disabled]="!formFields?.valid" (click)="onSubmit()">
+      Submit
+    </button>
+    <!-- <button mat-button class="btn-submit" (click)="onSubmit()">Submit</butto n> -->
+  </div>
+</form>

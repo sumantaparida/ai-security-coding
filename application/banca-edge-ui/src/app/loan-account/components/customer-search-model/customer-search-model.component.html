@@ -1,0 +1,16 @@
+<app-mycustomers
+  [isMyCustomerScreen]="false"
+  (customerSelected)="onCustomerSelected($event)"
+></app-mycustomers>
+<div mat-dialog-actions class="dialog-actions">
+  <button
+    class="submit-btn"
+    [disabled]="!customerSelected"
+    mat-button
+    [mat-dialog-close]="customer"
+    cdkFocusInitial
+  >
+    Select Customer
+  </button>
+  <button class="cancel-btn" mat-button [mat-dialog-close]="''">Cancel</button>
+</div>

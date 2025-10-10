@@ -1,0 +1,157 @@
+<form [formGroup]="quoteOptionForm" (ngSubmit)="onUpdate()">
+<div  class="policy-details" >
+  <div class="heading-flex">
+    <h2>Policy Details</h2>
+    <p (click)="closeOptions()" *ngIf="mobileView">X</p>
+  </div>
+    <div class="addons-listing">
+      <ng-container *ngFor="let policyOption of policyOptions">
+      <div class="indv-addons">
+        <h3>{{policyOption.heading}}</h3>
+        <ng-container [ngSwitch]="policyOption.type">
+          <ng-template [ngSwitchCase]="'Radio'"  *ngIf="policyOption.isVisible">
+            <div  class="addons-options">
+              <ng-container *ngFor="let radioOption of policyOption.options">
+                <div class="indv-radio">
+                  <input type="radio" (click)="onRadioChange($event,policyOption.controlName)" [name]="policyOption.groupName" formControlName="{{policyOption.controlName}}" [value]="radioOption.id" >
+                  <label>{{radioOption.value}}</label>
+                </div>
+              </ng-container>
+            </div>
+          </ng-template>
+
+          <ng-template [ngSwitchCase]="'input'" *ngIf="policyOption.isVisible">
+            <div class="addons-options">
+              <ng-container *ngFor="let inputForm of policyOption.inputForms">
+                <div class="indv-inputs">
+                  <label>{{inputForm.label}}</label>
+                  <div class="value_input">
+                    <div *ngIf="inputForm.iconType === 'rupee'" class="border-right">₹</div>
+                    <!-- <div *ngIf="inputForm.iconType === 'rupee'" class="border-right">₹</div> -->
+                    <input type="text" value="" placeholder="0" formControlName="{{inputForm.controlName}}">
+                  </div>
+                  <ng-container
+                  *ngTemplateOutlet="
+                    proposerErrorTemplate;
+                    context: {
+                      control: inputForm?.controlName,
+                      label: inputForm?.label
+                    }
+                  "
+                >
+                </ng-container>
+                </div>
+              </ng-container>
+            </div>
+          </ng-template>
+
+          <ng-template [ngSwitchCase]="'option-select'"  *ngIf="policyOption.isVisible">
+            <div class="addOns-box-options">
+              <ng-container *ngFor="let addOn of policyOption.addOnOptions,index as i ">
+                <div *ngIf="!addOn.select"class="indv-addOn" [ngClass]="{'highlighted':addOn.highlighted}" (click)="highlight(addOn)">
+                  {{addOn.name}} <span *ngIf="addOn.highlighted">X</span>
+                </div>
+                <div *ngIf="addOn.select"class="indv-addOn-select" [ngClass]="{'highlighted':addOn.highlighted}" (click)="dropdown(addOn)">
+                  <span>{{addOn.value}} </span><span>v</span>
+                  <div *ngIf="addOn.optionClick" class="option_container">
+                    <ng-container *ngFor="let option of addOn.options">
+                      <div class="option" (click)="optionSelect(addOn,option)">{{option.value}}</div>
+                    </ng-container>
+                  </div> 
+                </div>
+              </ng-container>
+            </div>
+          </ng-template>
+          </ng-container>
+      </div>
+    </ng-container>
+    </div>
+    <button [disabled]="!quoteOptionForm.valid" type="submit">Update</button>
+  </div>
+  </form>
+
+  <ng-template #proposerErrorTemplate let-control="control" let-label="label">
+    <div
+      *ngIf="
+        (quoteOptionForm.get(control).touched && quoteOptionForm.get(control).hasError('required')) ||
+        (quoteOptionForm.get(control).value !== '' &&
+          quoteOptionForm.get(control).hasError('required'))
+      "
+      class="full-width margin-top-10"
+    >
+      <span class="man-field">{{ label }} is required.</span>
+    </div>
+    <div
+      *ngIf="
+        (quoteOptionForm.get(control).touched && quoteOptionForm.get(control).hasError('email')) ||
+        (quoteOptionForm.get(control).value !== '' && quoteOptionForm.get(control).hasError('email'))
+      "
+      class="full-width margin-top-10"
+    >
+      <span class="man-field">Email is not valid</span>
+    </div>
+    <div
+      *ngIf="
+        (quoteOptionForm.get(control).touched &&
+          quoteOptionForm.get(control).hasError('minlength')) ||
+        (quoteOptionForm.get(control).value !== '' &&
+          quoteOptionForm.get(control).hasError('minlength'))
+      "
+      class="full-width"
+    >
+      <span class="man-field"
+        >{{ label }} should be a minimum of
+        {{ quoteOptionForm.get(control).errors.minlength.requiredLength }}
+        characters.</span
+      >
+    </div>
+    <div
+      *ngIf="
+        (quoteOptionForm.get(control).touched &&
+          quoteOptionForm.get(control).hasError('maxlength')) ||
+        (quoteOptionForm.get(control).value !== '' &&
+          quoteOptionForm.get(control).hasError('maxlength'))
+      "
+      class="full-width"
+    >
+      <span class="man-field"
+        >{{ label }} should be a maximum of
+        {{ quoteOptionForm.get(control).errors.maxlength.requiredLength }}
+        characters.</span
+      >
+    </div>
+    <div
+      *ngIf="
+        (quoteOptionForm.get(control).touched && quoteOptionForm.get(control).hasError('max')) ||
+        (quoteOptionForm.get(control).value !== '' && quoteOptionForm.get(control).hasError('max'))
+      "
+      class="full-width"
+    >
+      <span class="man-field"
+        >{{ label }} should be at max
+        {{ quoteOptionForm.get(control).errors.max.max }}
+      </span>
+    </div>
+    <div
+      *ngIf="
+        (quoteOptionForm.get(control).touched && quoteOptionForm.get(control).hasError('min')) ||
+        (quoteOptionForm.get(control).value !== '' && quoteOptionForm.get(control).hasError('min'))
+      "
+      class="full-width"
+    >
+      <span class="man-field"
+        >{{ label }} should be at least
+        {{ quoteOptionForm.get(control).errors.min.min }}
+      </span>
+    </div>
+    <div
+      *ngIf="
+        (quoteOptionForm.get(control).touched && quoteOptionForm.get(control).hasError('pattern')) ||
+        (quoteOptionForm.get(control).value !== '' &&
+          quoteOptionForm.get(control).hasError('pattern'))
+      "
+      class="full-width"
+    >
+      <span class="man-field">{{ label }} is not valid </span>
+    </div>
+  </ng-template>

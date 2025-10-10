@@ -1,0 +1,76 @@
+.quotes-conatiner {
+    display: block;
+    position: relative;
+    /* height: 100%; */
+}
+
+.quote-layout {
+    background-color: #F7F7FAF5;
+    position: relative;
+    min-height: 78.7vh;
+}
+
+.selection-block {
+    height: 90%;
+    width: 100%;
+    /* position: absolute; */
+    background-color: white;
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 5%;
+}
+
+.selection-block ::ng-deep .mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+    background-color: #11B9F0
+}
+
+.selection-block ::ng-deep .mat-horizontal-stepper-header-container {
+    width: 25rem !important;
+    margin: auto;
+}
+
+.description-col {
+    position: relative;
+}
+
+.insurance-header {
+    height: 50%;
+    background-color: white;
+    background-image: url(../../assets/quote-images/pexels-monstera-5842131.jpg);
+    background-size: 430px 300px;
+    background-image: 50% 430px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 430px;
+}
+
+.img-size {
+    height: 300px;
+    width: 430px;
+}
+
+.insurance-header h1 {
+    text-align: center;
+    padding: 14px;
+    font-weight: bold;
+    color: #11B9F0;
+}
+
+.video-player {
+    height: 35%;
+    background-color: white;
+    /* background-image: url(../../assets/quote-images/luke-chesser-rCOWMC8qf8A-unsplash.jpg); */
+    width: 430px;
+    /* left: 0; */
+    /* right: 0; */
+    margin: auto;
+}
+
+.back-arrow {
+    position: absolute;
+    top: 23%;
+    left: 20%;
+    font-weight: bold;
+}

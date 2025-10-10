@@ -1,0 +1,95 @@
+.home-complaint {
+    background: white;
+    position: relative;
+    min-height: 515px;
+    width: 100%;
+    height: 100%;
+    font-size: 25px;
+    align-items: center;
+    justify-content: center;
+}
+
+app-policy-number {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+app-details-correction {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+app-complaint-against {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+app-customer-mail-id {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+app-complaint-nature {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+app-complaint-mode {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+app-upload-documents {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.next-cancel-div {
+    position: absolute;
+    bottom: -5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5%;
+}
+
+.next-btn {
+    /* position: relative; */
+    /* bottom: 4%; */
+    padding: 6px 45px;
+    font-size: 20px;
+    /* left:50%; */
+    border-radius: 5%;
+    outline: none;
+    /* transform: translate(-50%, -50%); */
+    float: right;
+    margin: 5px 10px;
+    color: white;
+    background-color: #03dac5
+}
+
+.cancel-btn {
+    /* position: relative; */
+    padding: 6px 34px;
+    font-size: 20px;
+    margin: 5px 10px;
+    background: #B00020;
+}
+
+mat-raised-button {
+    transition: none !important;
+    box-shadow: none !important;
+}

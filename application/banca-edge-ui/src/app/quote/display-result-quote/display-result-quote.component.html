@@ -1,0 +1,377 @@
+<div fxFlex="100" class="plan-quote-col" fxHide.xs fxHide.sm>
+  <div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="5px"
+    class="rows-edit-col"
+  ></div>
+
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="2px"
+    class="rows-plan-col"
+  >
+    <!-- <div fxFlex="20" class="heading"><label>INSURER</label></div> -->
+    <div fxFlex="40" class="heading"><label>PLAN NAME</label></div>
+    <div fxFlex="40" class="heading"><label>YOUR BENEFITS</label></div>
+    <div fxFlex="20" class="heading"><label>YOUR PREMIUM</label></div>
+  </div>
+  <div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="10px"
+    class="rows-edit-col"
+  ></div>
+  <ng-container *ngIf="errorDataFound">
+    <div
+      fxLayout="row"
+      fxLayout.xs="column"
+      class="help-descriptionerror error_data"
+      fxLayout.sm="column"
+      fxLayoutGap="10px"
+    >
+      <div fxFlex="90" id="httperrorresponse">
+        <mat-error>
+          {{ errorDetail }}
+        </mat-error>
+      </div>
+    </div>
+  </ng-container>
+  <!-- --grouping-- -->
+  <ng-container *ngIf="groupedProductQuote">
+    <!-- <ng-container *ngFor="let item of Object.values(this.groupedProductQuote); let i = index">
+      <ng-container *ngFor="let pro of item"> </ng-container> </ng-container
+  > -->
+
+    <div *ngFor="let item of Object.values(this.groupedProductQuote); let j = index">
+      <!-- <ng-container class="red" *ngFor="let pro of item">{{ pro?.productName }}</ng-container> -->
+      <!-- </div>
+      </ng-container> -->
+
+      <ng-container *ngFor="let policy of item; let i = index">
+        <ng-container *ngIf="item.length === 1">
+          <div
+            flex
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayout.sm="column"
+            fxLayoutGap="3px"
+            class="rows-plan-col"
+          >
+            <div fxFlex="40" class="plan-name">
+              <div class="">
+                <img class="policy-logo-img" [src]="policy?.insurerImageUrl" />
+              </div>
+              <div class="product-name">
+                {{ policy?.productName }}
+                <span *ngIf="policy?.planName !== ''">- {{ policy?.planName }}</span>
+              </div>
+            </div>
+            <div fxFlex="19">
+              <div class="quote-fields" *ngIf="quoteInput?.productType !== 'PA'">Sum Insured</div>
+              <div class="quote-fields" *ngIf="quoteInput?.productType == 'PA'">
+                Accidental Death Sum Insured
+              </div>
+              <div
+                class="quote-fields deductible"
+                *ngIf="quoteInput?.deductible !== 0 && quoteInput?.productType !== 'PA'"
+              >
+                Deductible
+              </div>
+            </div>
+            <div fxFlex="20">
+              <div class="quote-fields">{{ policy?.sa | currency: 'INR':'symbol':'1.0-0' }}</div>
+              <div
+                class="quote-fields deductible"
+                *ngIf="quoteInput?.deductible !== 0 && quoteInput?.productType !== 'PA'"
+              >
+                {{ quoteInput?.deductible | currency: 'INR':'symbol':'1.0-0' }}
+              </div>
+            </div>
+            <div fxFlex=" 20">
+              <div class="quote-fields">
+                {{
+                  policy?.premiums[policy?.premiums?.mode]?.totalPremium
+                    | currency: 'INR':'symbol':'1.0-0'
+                }}
+              </div>
+            </div>
+          </div>
+          <div
+            flex
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayout.sm="column"
+            fxLayoutGap="5px"
+            class="rows-plan-col"
+          >
+            <div fxFlex="95" class="btn-div">
+              <button mat-raised-button class="buy-now-btn" (click)="onBuyNow(j, i)">
+                Buy Now
+              </button>
+            </div>
+          </div>
+          <div
+            flex
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayout.sm="column"
+            fxLayoutGap="5px"
+            class="rows-plan-col"
+          >
+            <div fxFlex="95" class="btn-div">
+              <a class="more-details-link" (click)="moreDetails(j, i)">More details</a>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- --more than 1 product --  -->
+        <ng-conatiner *ngIf="item.length > 1">
+          <ng-container *ngIf="isIndexZero[j] && i == 0; else morePlan">
+            <div
+              flex
+              fxLayout="row"
+              fxLayout.xs="column"
+              fxLayout.sm="column"
+              fxLayoutGap="3px"
+              class="rows-plan-col"
+            >
+              <div fxFlex="40" class="plan-name">
+                <div class="">
+                  <img class="policy-logo-img" [src]="policy?.insurerImageUrl" />
+                </div>
+                <div class="product-name">
+                  {{ policy.productName }}
+                  <span *ngIf="policy?.planName !== ''">- {{ policy.planName }}</span>
+                </div>
+              </div>
+              <div fxFlex="19">
+                <div class="quote-fields" *ngIf="quoteInput?.productType !== 'PA'">Sum Insured</div>
+                <div class="quote-fields" *ngIf="quoteInput?.productType == 'PA'">
+                  Accidental Death Sum Insured
+                </div>
+                <div
+                  class="quote-fields deductible"
+                  *ngIf="quoteInput?.deductible !== 0 && quoteInput?.productType !== 'PA'"
+                >
+                  Deductible
+                </div>
+              </div>
+              <div fxFlex="20">
+                <div class="quote-fields">{{ policy?.sa | currency: 'INR':'symbol':'1.0-0' }}</div>
+                <div
+                  class="quote-fields deductible"
+                  *ngIf="quoteInput?.deductible !== 0 && quoteInput?.productType !== 'PA'"
+                >
+                  {{ quoteInput?.deductible | currency: 'INR':'symbol':'1.0-0' }}
+                </div>
+              </div>
+              <div fxFlex=" 20">
+                <div class="quote-fields">
+                  {{
+                    policy?.premiums[policy?.premiums?.mode]?.totalPremium
+                      | currency: 'INR':'symbol':'1.0-0'
+                  }}
+                </div>
+              </div>
+            </div>
+            <div
+              flex
+              fxLayout="row"
+              fxLayout.xs="column"
+              fxLayout.sm="column"
+              fxLayoutGap="5px"
+              class="rows-plan-col"
+            >
+              <div fxFlex="95" class="btn-div">
+                <button mat-raised-button class="buy-now-btn" (click)="onBuyNow(j, i)">
+                  Buy Now
+                </button>
+              </div>
+            </div>
+            <div
+              flex
+              fxLayout="row"
+              fxLayout.xs="column"
+              fxLayout.sm="column"
+              fxLayoutGap="5px"
+              class="rows-plan-col"
+            >
+              <div fxFlex="95" class="btn-div">
+                <a class="more-details-link" (click)="moreDetails(j, i)">More details</a>
+              </div>
+            </div>
+          </ng-container>
+          <!-- --view all --  -->
+          <ng-template #morePlan>
+            <ng-container *ngIf="!isIndexZero[j]">
+              <div
+                flex
+                fxLayout="row"
+                fxLayout.xs="column"
+                fxLayout.sm="column"
+                fxLayoutGap="3px"
+                class="rows-plan-col"
+              >
+                <div fxFlex="40" class="plan-name">
+                  <div class="">
+                    <img class="policy-logo-img" [src]="policy?.insurerImageUrl" />
+                  </div>
+                  <div class="product-name">
+                    {{ policy.productName }}
+                    <span *ngIf="policy?.planName !== ''">- {{ policy.planName }}</span>
+                  </div>
+                </div>
+                <div fxFlex="19">
+                  <div class="quote-fields" *ngIf="quoteInput?.productType !== 'PA'">
+                    Sum Insured
+                  </div>
+                  <div class="quote-fields" *ngIf="quoteInput?.productType == 'PA'">
+                    Accidental Death Sum Insured
+                  </div>
+                  <div
+                    class="quote-fields deductible"
+                    *ngIf="quoteInput?.deductible !== 0 && quoteInput?.productType !== 'PA'"
+                  >
+                    Deductible
+                  </div>
+                </div>
+                <div fxFlex="20">
+                  <div class="quote-fields">
+                    {{ policy?.sa | currency: 'INR':'symbol':'1.0-0' }}
+                  </div>
+                  <div
+                    class="quote-fields deductible"
+                    *ngIf="quoteInput?.deductible !== 0 && quoteInput?.productType !== 'PA'"
+                  >
+                    {{ quoteInput?.deductible | currency: 'INR':'symbol':'1.0-0' }}
+                  </div>
+                </div>
+                <div fxFlex=" 20">
+                  <div class="quote-fields">
+                    {{
+                      policy?.premiums[policy?.premiums?.mode]?.totalPremium
+                        | currency: 'INR':'symbol':'1.0-0'
+                    }}
+                  </div>
+                </div>
+              </div>
+              <div
+                flex
+                fxLayout="row"
+                fxLayout.xs="column"
+                fxLayout.sm="column"
+                fxLayoutGap="5px"
+                class="rows-plan-col"
+              >
+                <div fxFlex="95" class="btn-div">
+                  <button mat-raised-button class="buy-now-btn" (click)="onBuyNow(j, i)">
+                    Buy Now
+                  </button>
+                </div>
+              </div>
+              <div
+                flex
+                fxLayout="row"
+                fxLayout.xs="column"
+                fxLayout.sm="column"
+                fxLayoutGap="5px"
+                class="rows-plan-col"
+              >
+                <div fxFlex="95" class="btn-div">
+                  <a class="more-details-link" (click)="moreDetails(j, i)">More details</a>
+                </div>
+              </div>
+            </ng-container>
+            <div flex fxLayout="row" class="view-all-plan" *ngIf="i === item.length - 1">
+              <div fxFlex="95" class="btn-div">
+                <button mat-button class="view-all-label" (click)="viewAll(i, j)">
+                  {{ showShortDesciption[j] ? 'Show all' : 'Hide' }}
+                  <span *ngIf="showShortDesciption[j]">
+                    <mat-icon class="color-white"> arrow_drop_down</mat-icon></span
+                  >
+                  <span *ngIf="!showShortDesciption[j]">
+                    <mat-icon class="color-white"> arrow_drop_up</mat-icon></span
+                  >
+                </button>
+              </div>
+            </div>
+          </ng-template>
+        </ng-conatiner>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <div *ngIf="hasOffline">
+    <a class="offline-policy-link" (click)="routeToOffline()"> Offline Products</a>
+  </div>
+</div>
+<!-- --Plan quote Details --MObile --  -->
+<div fxFlex="100" class="font-16" fxHide.lg fxHide.md>
+  <ng-container *ngFor="let policy of productQuoteArr; let i = index">
+    <div fxLayout="column">
+      <div fxFlex="90" class="company-logo-div">
+        <img [src]="policy?.insurerImageUrl" />
+        <!-- <img *ngIf="policy?.insurerId=='132'" src="../../../assets/logos/future-generali.svg">
+                <img *ngIf="policy?.insurerId=='151'" src="../../../assets/logos/manipal-cigna.svg"> -->
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="5px" class="background-color rows-edit-col-mobile">
+      <div fxFlex="50" class=""><label>Plan Name</label></div>
+      <div fxFlex="50" class="bold">{{ policy?.productName }}</div>
+    </div>
+    <div
+      flex
+      fxLayout="row"
+      fxLayoutGap="5px"
+      class="background-color rows-edit-col-mobile font-16"
+    >
+      <div fxFlex="50" class="">
+        <label *ngIf="quoteInput?.productType !== 'PA'">Sum Insured</label>
+        <label *ngIf="quoteInput?.productType == 'PA'">Annual Income</label>
+      </div>
+      <div fxFlex="50" class="">{{ policy?.sa | currency: 'INR':'symbol':'1.0-0' }}</div>
+    </div>
+    <!-- Deductible -->
+    <div
+      *ngIf="quoteInput?.deductible != 0 && quoteInput?.productType !== 'PA'"
+      flex
+      fxLayout="row"
+      fxLayoutGap="5px"
+      class="background-color rows-edit-col-mobile font-16"
+    >
+      <div fxFlex="50" class=""><label>Deductible</label></div>
+      <div fxFlex="50" class="">
+        {{ quoteInput?.deductible | currency: 'INR':'symbol':'1.0-0' }}
+      </div>
+    </div>
+    <div
+      flex
+      fxLayout="row"
+      fxLayoutGap="5px"
+      class="background-color rows-edit-col-mobile font-16"
+    >
+      <div fxFlex="50" class=""><label>Your Premium</label></div>
+      <div fxFlex="50" class="">
+        {{
+          policy?.premiums[policy?.premiums?.mode]?.totalPremium | currency: 'INR':'symbol':'1.0-0'
+        }}
+      </div>
+    </div>
+    <div flex fxLayout="row" class="rows-edit-col-mobile">
+      <div fxFlex="95" class="btn-div-mob">
+        <button mat-raised-button class="buy-now-btn" (click)="onBuyNow('', i)">Buy Now</button>
+      </div>
+    </div>
+    <div flex fxLayout="row" class="rows-edit-col-mobile">
+      <div fxFlex="95" class="btn-div-mob">
+        <a class="more-details-link" (click)="moreDetails('', i)">More details</a>
+      </div>
+    </div>
+  </ng-container>
+</div>

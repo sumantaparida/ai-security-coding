@@ -1,0 +1,216 @@
+id	English	मराठी	ಕನ್ನಡ
+component.ACTIONS	Actions	क्रिया	ಕ್ರಿಯೆಗಳು
+component.ADD_BUSINESS_CUSTOMER	Add Business Customer	व्यवसाय ग्राहक जोडा	ವ್ಯಾಪಾರ ಗ್ರಾಹಕರನ್ನು ಸೇರಿಸಿ
+component.ADD_CUSTOMER	Add Customer	ग्राहक जोडा	ಗ್ರಾಹಕರನ್ನು ಸೇರಿಸಿ
+component.ADD_INDIVIDUAL_CUSTOMER	Add Individual Customer	वैयक्तिक ग्राहक जोडा	ವೈಯಕ್ತಿಕ ಗ್ರಾಹಕರನ್ನು ಸೇರಿಸಿ
+component.ADDITIONAL_MOBILES	Additional Mobiles	अतिरिक्त मोबाईल	ಹೆಚ್ಚುವರಿ ಮೊಬೈಲ್‌ಗಳು
+component.ADDRESS	Address	पत्ता	ವಿಳಾಸ
+component.ADDRESS_LINE1	Address Line1	पत्ता ओळ 1	ವಿಳಾಸ ಸಾಲು 1
+component.ADDRESS_LINE2	Address Line2	पत्ता ओळ 2	ವಿಳಾಸ ಸಾಲು 2
+component.ADDRESS_LINE3	Address Line3	पत्ता ओळ 3	ವಿಳಾಸ 3
+component.ADDRESS_TYPE	Address Type	पत्त्याचा प्रकार	ವಿಳಾಸದ ವಿಧ
+component.ADDRESSES	Addresses	पत्ते	ವಿಳಾಸಗಳು
+component.ADMIN_CONSOLE	Admin Console	प्रशासन कन्सोल	ನಿರ್ವಹಣೆ ಕನ್ಸೋಲ್
+component.ALTERNATE_MOBILE	Alternate Mobile	वैकल्पिक मोबाइल	ಪರ್ಯಾಯ ಮೊಬೈಲ್
+component.ANNUAL	Annual	वार्षिक	ವಾರ್ಷಿಕ
+component.ANNUALIZED_PREMIUM_EARNED	Annualized Premium Earned	मिळविलेले वार्षिक प्रीमियम (ए पी ई)	ವಾರ್ಷಿಕ ಪ್ರೀಮಿಯಂ ಗಳಿಸಲಾಗಿದೆ
+component.BANK_BRANCH_INFO	Bank Branch Info	बँक शाखा माहिती	ಬ್ಯಾಂಕ್ ಶಾಖೆಯ ಮಾಹಿತಿ
+component.BASIC_POLICY_DATA	Basic Policy Data	मुख्या विमापत्र डेटा	ಮೂಲ ನೀತಿ ಡೇಟಾ
+component.BRANCH	Branch	शाखा	ಶಾಖೆ
+component.BUSINESS	Business	व्यवसाय	ವ್ಯಾಪಾರ
+component.BUSINESS_CUSTOMER	Business Customer	व्यवसाय ग्राहक	ವ್ಯಾಪಾರ ಗ್ರಾಹಕ
+component.BUSINESS_CUSTOMER_COMPONENT	Business Customer component	व्यवसाय ग्राहक घटक	ವ್ಯಾಪಾರ ಗ್ರಾಹಕ ಘಟಕ
+component.CHANGE_PASSWORD	Change Password	संकेतशब्द बदला	ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ
+component.CITY	City	शहर	ನಗರ
+component.COMMUNICATION	Communication	संपर्क	ಸಂವಹನ
+component.CORRESPONDENCE Correspondence	संपर्क	ಸಂವಹನ
+component.CONTACT	Contact	संपर्क	ಸಂಪರ್ಕಿಸಿ
+component.CONTACT_INFO	Contact Info	संपर्क माहिती	ಸಂಪರ್ಕ ಮಾಹಿತಿ
+component.CONTACT_TEXT	Contact Text	संपर्क मजकूर	ಪಠ್ಯವನ್ನು ಸಂಪರ್ಕಿಸಿ
+component.CONTACT_TYP	Contact Type	संपर्क प्रकार	ಸಂಪರ್ಕ ಪ್ರಕಾರ
+component.COUNTRY	Country	देश	ದೇಶ
+component.COUNTRY_CODE	Country Code	राष्ट्र संकेतांक	ದೇಶದ ಕೋಡ್
+component.CUSTOMER_FIRST_NAME	Customer First Name	ग्राहक नाव	ಗ್ರಾಹಕರ ಮೊದಲ ಹೆಸರು
+component.CUSTOMER_ID	Customer Id	ग्राहक आयडी	ಗ್ರಾಹಕ ಐಡಿ
+component.CUSTOMER_LAST_NAME	Customer Last Name	ग्राहक आडनाव	ಗ್ರಾಹಕರ ಕೊನೆಯ ಹೆಸರು
+component.CUSTOMER_NAME	Customer Name	ग्राहकाचे नाव	ಗ್ರಾಹಕ ಹೆಸರು
+component.DATE_OF_BIRTH	Date of birth	जन्मतारीख	ಹುಟ್ತಿದ ದಿನ
+component.DATE_OF_INCORPORATION	Date of Incorporation	संस्था निर्मितीची तारीख	ಸಂಯೋಜನೆಯ ದಿನಾಂಕ
+component.DAUGHTER	Daughter	मुलगी	ಮಗಳು
+component.DEPENDENTS	Dependants	आश्रित	ಅವಲಂಬಿತರು
+component.DEPENDENTS_FIRST_NAME	Dependents First Name	आश्रितांचे पहिले नाव	ಅವಲಂಬಿತರ ಮೊದಲ ಹೆಸರು
+component.DEPENDENTS_LAST_NAME	Dependents Last Name	आश्रित आडनाव	ಅವಲಂಬಿತರು ಕೊನೆಯ ಹೆಸರು
+component.DISTRICT	District	जिल्हा	ಜಿಲ್ಲೆ
+component.DIVORCED	Divorced	घटस्फोटित	ವಿಚ್ ced ೇದನ
+component.DOB	DOB	जन्म तारीख	DOB
+component.EDIT_INDIVIDUAL_CUSTOMER	Edit Individual Customer	वैयक्तिक ग्राहक जोडा	ವೈಯಕ್ತಿಕ ಗ್ರಾಹಕರನ್ನು ಸೇರಿಸಿ
+component.EDIT_BUSINESS_CUSTOMER	Edit Business Customer	व्यवसाय ग्राहक जोडा	ವ್ಯಾಪಾರ ಗ್ರಾಹಕರನ್ನು ಸೇರಿಸಿ
+component.EMAIL	Email	ईमेल	ಇಮೇಲ್
+component.EMAIL_RENEWAL_NOTICE	Email Renewal Notice	ईमेल रिनूअल सूचना	ಇಮೇಲ್ ನವೀಕರಣ ಸೂಚನೆ
+component.EMAIL_TYPE	Email Type	ईमेल प्रकार	ಇಮೇಲ್ ಪ್ರಕಾರ
+component.FATHER	Father	वडील	ತಂದೆ
+component.FEMALE	Female	स्त्री	ಹೆಣ್ಣು
+component.FIRST_NAME	First Name	पहिले नाव	ಮೊದಲ ಹೆಸರು
+component.FIRST_NAME_AND_LAST_NAME	First Name and Last Name	पहिले नाव आणि आडनाव	ಮೊದಲ ಹೆಸರು ಮತ್ತು ಕೊನೆಯ ಹೆಸರು
+component.FORGOT_PASSWORD	Forgot Password	संकेतशब्द विसरलात	ಪಾಸ್ವರ್ಡ್ ಮರೆತಿರಾ
+component.FYI	Fyi	आपल्या माहितीसाठी	ನಿಮ್ಮ ಮಾಹಿತಿಗಾಗಿ
+component.GENDER	Gender	लिंग	ಲಿಂಗ
+component.HEADQUARTER	Headquarter	मुख्यालय	ಪ್ರಧಾನ ಕಚೇರಿ
+component.HOME	Home	मुख्यपृष्ठ	ಮನೆ
+component.HOME_PHONE	Home Phone	घराचा दुरध्वनी	ಮನೆಯ ದೂರವಾಣಿ
+component.IN-FORCE	In-force	इन-फोर्स	ಇನ್-ಫೋರ್ಸ್
+component.INDIVIDUAL	Individual	वैयक्तिक	ವೈಯಕ್ತಿಕ
+component.INDIVIDUAL_CUSTOMER	Individual Customer	वैयक्तिक ग्राहक	ವೈಯಕ್ತಿಕ ಗ್ರಾಹಕ
+component.LAST_NAME	Last Name	आडनाव	ಕೊನೆಯ ಹೆಸರು
+component.LOADING	Loading...	लोड होत आहे...	ಲೋಡ್ ಆಗುತ್ತಿದೆ ...
+component.LOGGEDIN	Loggedin	लॉग इन	ಲಾಗ್ ಇನ್
+component.LOGIN	Login	लॉगिन	ಲಾಗಿನ್ ಮಾಡಿ
+component.LOREM_IPSUM	Lorem Ipsum has been the industry's standard dummy text	लॉरेम इप्सम उद्योगाचा मानक डमी मजकूर आहे	ಲೋರೆಮ್ ಇಪ್ಸಮ್ ಉದ್ಯಮದ ಪ್ರಮಾಣಿತ ನಕಲಿ ಪಠ್ಯವಾಗಿದೆ
+component.MALE	Male	नर	ಪುರುಷ
+component.MARITAL_STATUS	Marital Status	वैवाहिक स्थिती	ವೈವಾಹಿಕ ಸ್ಥಿತಿ
+component.MARRIED	Married	विवाहित	ವಿವಾಹಿತ
+component.MOBILE	Mobile	मोबाईल	ಮೊಬೈಲ್
+component.MOBILE_NO	Mobile No	मोबाईल क्रमांक	ಮೊಬೈಲ್ ಸಂಖ್ಯೆ
+component.MOBILE_NUMBER	Mobile Number	मोबाइल नंबर	ಮೊಬೈಲ್ ನಂಬರ
+component.MONTHLY	Monthly	मासिक	ಮಾಸಿಕ
+component.MOTHER	Mother	आई	ತಾಯಿ
+component.MY_CUSTOMERS	My Customers	माझे ग्राहक	ನನ್ನ ಗ್ರಾಹಕರು
+component.MY_DASHBOARD	My Dashboard	माझा डॅशबोर्ड	ನನ್ನ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್
+component.MY_RENEWALS	My Renewals	माझे रिनूअल्ज़	ನನ್ನ ನವೀಕರಣಗಳು
+component.MY_SPACE	My Space	माझे कार्य क्षेत्र	ನನ್ನ ಜಾಗ
+component.NAME	Name	नाव	ಹೆಸರು
+component.NAME_OF_BUSINESS_ENTITY	Name of Business Entity	व्यवसायाचे अधिकृत नाव	ವ್ಯವಹಾರದ ಹೆಸರು
+component.NEXT_PREMIUM_DUE_DATE	Next Premium Due Date	पुढील प्रीमियम देय तारीख	ಮುಂದಿನ ಪ್ರೀಮಿಯಂ ಬಾಕಿ ದಿನಾಂಕ
+component.OFFICE	Office	कार्यालय	ಕಚೇರಿ
+component.ONE_MINUTE_PLAN	One Minute Plan	एक मिनिट योजना	ಒಂದು ನಿಮಿಷದ ಯೋಜನೆ
+component.ORGANIZATION_NAME	Organization Name	संस्थेचे नाव	ಸಂಸ್ಥೆಯ ಹೆಸರು
+component.OTHER	Other	इतर	ಇತರೆ
+component.OTHER_CONTACT_PERSONS	Other Contact Persons	इतर संपर्क व्यक्ती	ಇತರ ಸಂಪರ್ಕ ವ್ಯಕ್ತಿಗಳು
+component.OTHER_EMAILS	Other emails	इतर ईमेल	ಇತರ ಇಮೇಲ್‌ಗಳು
+component.OTHER_EMAILS/PHONES_NUMBERS	Other emails/Phone numbers	इतर ईमेल / फोन नंबर	ಇತರ ಇಮೇಲ್‌ಗಳು / ಫೋನ್‌ಗಳ ಸಂಖ್ಯೆಗಳು
+component.OTHER_PHONES_NUMBERS	Other Phones numbers	इतर फोन नंबर	ಇತರ ಫೋನ್ ಸಂಖ್ಯೆಗಳು
+component.PASSWORD_IS_REQUIRED	Password is required	संकेतशब्द आवश्यक आहे	ಗುಪ್ತಪದದ ಅಗತ್ಯವಿದೆ
+component.PAYMENT_INFO	Payment Info	देय माहिती	ಪಾವತಿ ಮಾಹಿತಿ
+component.PERMANENT	Permanent	कायमचा	ಶಾಶ್ವತ
+component.PHONE	Phone	फोन	ಫೋನ್
+component.PHONE_TYPE	Phone Type	फोन प्रकार	ಫೋನ್ ಪ್ರಕಾರ
+component.PLAN_NAME	Plan Name	योजनेचे नाव	ಯೋಜನೆಯ ಹೆಸರು
+component.POLICIES	Policies	विमापत्र	ನೀತಿಗಳು
+component.POLICY_DATA	Policy Data	पॉलिसी डेटा	ನೀತಿ ಡೇಟಾ
+component.POLICY_END_DATE	Policy End Date	पॉलिसीची समाप्ती तारीख	ನೀತಿ ಅಂತಿಮ ದಿನಾಂಕ
+component.POLICY_HOLDER_INFO	Policy Holder Info	पॉलिसीधारकांची माहिती	ನೀತಿ ಹೊಂದಿರುವವರ ಮಾಹಿತಿ
+component.POLICY_NUMBER	Policy Number	विमापत्र क्रमांक	ಪಾಲಿಸಿ ಸಂಖ್ಯೆ
+component.POLICY_NUMBER	Policy Number	पॉलिसी क्रमांक	ಪಾಲಿಸಿ ಸಂಖ್ಯೆ
+component.POLICY_VAULT	Policy Vault	पॉलिसी व्हॉल्ट	ನೀತಿ ವಾಲ್ಟ್
+component.MY_COMPLAINTS My Complaints   माझ्या तक्रारी    ನನ್ನ ದೂರುಗಳು
+component.MY_REQUESTS   My Requests माझ्या विनंत्या    ನನ್ನ ವಿನಂತಿಗಳು
+
+component.POSTAL_CODE	Postal Code	पिनकोड	ಅಂಚೆ ಕೋಡ್
+component.PREMIUM	Premium	प्रीमियम	ಪ್ರೀಮಿಯಂ
+component.BASE_PREMIUM Base Premium बेस प्रीमियम ಬೆಸ್ ಪ್ರೀಮಿಯಂ
+component.GST GST जीएसटी ಜಿಎಸ್ಟಿ
+component.PREMIUM_AMOUNT	Premium Amount	प्रीमियम रक्कम	ಪ್ರೀಮಿಯಂ ಮೊತ್ತ
+component.PRIMARY_CONTACT_NAME	Primary Contact Name	प्राथमिक संपर्क व्यक्तीचे नाव	ಪ್ರಾಥಮಿಕ ಸಂಪರ್ಕ ಹೆಸರು
+component.PRIMARY_CONTACT_PERSON	Primary Contact Person	प्राथमिक संपर्क व्यक्तीचे नाव	ಪ್ರಾಥಮಿಕ ಸಂಪರ್ಕ ವ್ಯಕ್ತಿ
+component.PRIMARY_EMAIL	Primary Email	प्राथमिक इ मेल	ಪ್ರಾಥಮಿಕ ಇಮೇಲ್
+component.PRINT_RENEWAL_NOTICE	Print Renewal Notice	रिनूअल सूचना मुद्रित करा	ನವೀಕರಣ ಪ್ರಕಟಣೆಯನ್ನು ಮುದ್ರಿಸಿ
+component.PROFILE	Profile	प्रोफाइल	ವಿವರ
+component.QUARTERLY	Quarterly	त्रैमासिक	ತ್ರೈಮಾಸಿಕ
+component.QUICK_QUOTE	Quick Quote	त्वरित कोटेशन	ತ್ವರಿತ ಉಲ್ಲೇಖ
+component.REJECTED	Rejected	रीजेक्टड	ತಿರಸ್ಕರಿಸಿದ
+component.RELATIONSHIP	Relationship	नाते	ಸಂಬಂಧ
+component.RELATIONSHIP_TYPE	Relationship Type	संबंध प्रकार	ಸಂಬಂಧದ ಪ್ರಕಾರ
+component.REMINDER	Reminder	स्मरणपत्र	ಜ್ಞಾಪನೆ
+component.RENEWAL	Renewal	रिनूअल	ನವೀಕರಣ
+component.RENEWALNOTICE	Renewalnotice	रिनूअल नोटिस	ನವೀಕರಣ ನೋಟಿಸ್
+component.RISK_INFO	Risk Info	जोखीम माहिती	ಅಪಾಯದ ಮಾಹಿತಿ
+component.SELF	Self	स्व	ಸ್ವಯಂ
+component.SEMI-ANNUAL	Semi-annual	अर्ध-वार्षिक	ಅರೆ-ವಾರ್ಷಿಕ
+component.SIGN_OUT	Sign Out	साइन आउट	ಸೈನ್ .ಟ್ ಮಾಡಿ
+component.SINGLE	Single	एकच	ಏಕ
+component.SINGLE	Single	एकल	ಏಕ
+component.SMS_RENEWAL_NOTICE	SMS renewal Notice	एसएमएस रिनूअल सूचना	SMS ನವೀಕರಣ ಸೂಚನೆ
+component.SON	Son	मुलगा	ಮಗ
+component.SPOUSE	Spouse	जोडीदार	ಸಂಗಾತಿಯ
+component.STATE	State	राज्य	ರಾಜ್ಯ
+component.STATUS	Status	स्थिती	ಸ್ಥಿತಿ
+component.SUBMIT	Submit	सबमिट	ಸಲ್ಲಿಸು
+component.THIS_PAGE_CAN_BE_ACCESSED_ONLY_BY_ADMINISTRATORS	This page can be accessed only by administrators.	या पृष्ठावर केवळ प्रशासकांद्वारे प्रवेश केला जाऊ शकतो.	ಈ ಪುಟವನ್ನು ನಿರ್ವಾಹಕರು ಮಾತ್ರ ಪ್ರವೇಶಿಸಬಹುದು.
+component.TOTAL_#_OF_POLICES	Total # of polices	एकूण पॉलिसींची संख्या	ಒಟ್ಟು # ನೀತಿಗಳು
+component.TOTAL_OF_POLICIES	Total # of Policies	एकूण पॉलिसींची संख्या	ಒಟ್ಟು # ನೀತಿಗಳು
+component.UPCOMING_RENEWALS	Upcoming Renewals	आगामी रिनूअल्ज़	ಮುಂಬರುವ ನವೀಕರಣಗಳು
+component.UPDATE	Update	अप्डैट	ನವೀಕರಿಸಿ
+component.USER_NAME	User Name	युजर नेम	ಬಳಕೆದಾರ ಹೆಸರು
+component.USER_REGISTRATION_AND_LOGIN	User Registration and Login	युजर नोंदणी आणि लॉगिन	ಬಳಕೆದಾರರ ನೋಂದಣಿ ಮತ್ತು ಲಾಗಿನ್
+component.USERNAME_IS_REQUIRED	Username is required	युजर नेम आवश्यक आहे	ಬಳಕೆದಾರಹೆಸರು ಅಗತ್ಯವಿದೆ
+component.UW	Uw	UW	ಯುಡಬ್ಲ್ಯೂ
+component.VIEW_EDIT_CUSTOMER_DETAILS	View / Edit Customer Details	ग्राहक तपशील पहा / संपादित करा	ಗ್ರಾಹಕರ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ / ಸಂಪಾದಿಸಿ
+component.WIDOW	Widow	विधवा	ವಿಧವೆ
+component.WIDOWER	Widower	विधुर	ವಿಧವೆ
+component.WITHDRAWN	Withdrawn	मागे घेतले	ಹಿಂತೆಗೆದುಕೊಳ್ಳಲಾಗಿದೆ
+component.WORK_PHONE	Work Phone	कार्य फोन	ಕೆಲಸದ ದೂರವಾಣಿ
+error.ADDRESS_LINE1_MAX	Address Line should be maximum 50 Characters	पत्त्याची ओळ जास्तीत जास्त 50 वर्णांची असावी	ವಿಳಾಸ ಸಾಲು ಗರಿಷ್ಠ 50 ಅಕ್ಷರಗಳಾಗಿರಬೇಕು
+error.ADDRESS_LINE1_MIN	Address Line should have minimum of 5 Characters	अ‍ॅड्रेस लाइनमध्ये किमान 5 वर्ण असले पाहिजेत	ವಿಳಾಸ ಸಾಲಿನಲ್ಲಿ ಕನಿಷ್ಠ 5 ಅಕ್ಷರಗಳು ಇರಬೇಕು
+error.ADDRESS_LINE1_REQUIRED	Address Line1 is required	पत्ता लाइन 1 आवश्यक आहे	ವಿಳಾಸ ಲೈನ್ 1 ಅಗತ್ಯವಿದೆ
+error.ADDRESS_LINE2_MAX	Address Line should be maximum 50 Characters	पत्त्याची ओळ जास्तीत जास्त 50 वर्णांची असावी	ವಿಳಾಸ ಸಾಲು ಗರಿಷ್ಠ 50 ಅಕ್ಷರಗಳಾಗಿರಬೇಕು
+error.ADDRESS_LINE2_MIN	Address Line should have minimum of 5 Characters.	अ‍ॅड्रेस लाइनमध्ये किमान 5 वर्ण असले पाहिजेत.	ವಿಳಾಸ ಸಾಲಿನಲ್ಲಿ ಕನಿಷ್ಠ 5 ಅಕ್ಷರಗಳು ಇರಬೇಕು.
+error.ADDRESS_LINE2_REQUIRED	Address Line2 is required	पत्ता ओळ 2 आवश्यक आहे	ವಿಳಾಸ ಲೈನ್ 2 ಅಗತ್ಯವಿದೆ
+error.ADDRESS_LINE3_MAX	Address Line should be maximum 50 Characters	पत्त्याची ओळ जास्तीत जास्त 50 वर्णांची असावी	ವಿಳಾಸ ಸಾಲು ಗರಿಷ್ಠ 50 ಅಕ್ಷರಗಳಾಗಿರಬೇಕು
+error.ADDRESS_TYPE	Address Type is required	पत्ता प्रकार आवश्यक आहे	ವಿಳಾಸ ಪ್ರಕಾರದ ಅಗತ್ಯವಿದೆ
+error.BRANCH_IS_REQUIRED	Branch Name is required	शाखेचे नाव आवश्यक आहे	ಶಾಖೆಯ ಹೆಸರು ಅಗತ್ಯವಿದೆ
+error.BUSINESS_IS_REQUIRED	Business Entity name is required	व्यवसाय अस्तित्वाचे नाव आवश्यक आहे	ವ್ಯಾಪಾರ ಘಟಕದ ಹೆಸರು ಅಗತ್ಯವಿದೆ
+error.BUSINESS_MAX	Business Entity name should be between 2 to 45 Characters long.	व्यवसाय अस्तित्वाचे नाव 2 ते 45 वर्णांदरम्यान असावे.	ವ್ಯಾಪಾರ ಘಟಕದ ಹೆಸರು 2 ರಿಂದ 45 ಅಕ್ಷರಗಳವರೆಗೆ ಇರಬೇಕು.
+error.BUSINESS_MIN	Business Entity name should be between 2 to 45 Characters long.	व्यवसाय अस्तित्वाचे नाव 2 ते 45 वर्णांदरम्यान असावे.	ವ್ಯಾಪಾರ ಘಟಕದ ಹೆಸರು 2 ರಿಂದ 45 ಅಕ್ಷರಗಳವರೆಗೆ ಇರಬೇಕು.
+error.CITY_REQUIRED	City is required	शहर आवश्यक आहे	ನಗರ ಅಗತ್ಯವಿದೆ
+error.COUNTRY_CODE_REQUIRED	Country Code is required	देशाचा कोड आवश्यक आहे	ದೇಶದ ಕೋಡ್ ಅಗತ್ಯವಿದೆ
+error.COUNTRY_REQUIRED	Country is required	देश आवश्यक आहे	ದೇಶ ಅಗತ್ಯವಿದೆ
+error.CUSTOMER_ID_REQUIRED	ID is required	आयडी आवश्यक आहे	ID ಅಗತ್ಯವಿದೆ
+error.DATE_OF_INCORPORATION_REQUIRED	Date Of Incorporation is required	सहकार्याची तारीख आवश्यक आहे	ಸಂಯೋಜನೆಯ ದಿನಾಂಕದ ಅಗತ್ಯವಿದೆ
+error.DATE_YYYY_MM_DD_REQUIRED	Date must be in yyyy - MM - dd format	तारीख होय - एमएम - डीडी स्वरूपात असणे आवश्यक आहे	ದಿನಾಂಕವು yyyy - MM - dd ಸ್ವರೂಪದಲ್ಲಿರಬೇಕು
+error.DEPENDENT_FIRST_NAME_REQUIRED	Dependents FirstName is required	आश्रित फर्स्टनेम आवश्यक आहे	ಅವಲಂಬಿತರು ಫಸ್ಟ್‌ನೇಮ್ ಅಗತ್ಯವಿದೆ
+error.DEPENDENT_LAST_NAME_REQUIRED	Dependents LastName is required	आश्रितोंचे लास्टनेम आवश्यक आहे	ಅವಲಂಬಿತರು ಲಾಸ್ಟ್‌ನೇಮ್ ಅಗತ್ಯವಿದೆ
+error.DEPENDENTS_DOB_REQUIRED	Date of birth is required	जन्मतारीख आवश्यक आहे	ಹುಟ್ಟಿದ ದಿನಾಂಕದ ಅಗತ್ಯವಿದೆ
+error.DEPENDENTS_RELATIONSHIP_TYPE	Dependents Relationship Type is required	आश्रित संबंध प्रकार आवश्यक आहे	ಅವಲಂಬಿತರ ಸಂಬಂಧದ ಪ್ರಕಾರದ ಅಗತ್ಯವಿದೆ
+error.DISTRICT_REQUIRED	District is required	जिल्हा आवश्यक आहे	ಜಿಲ್ಲೆ ಅಗತ್ಯವಿದೆ
+error.DOB_REQUIRED	Date of birth is required	जन्मतारीख आवश्यक आहे	ಹುಟ್ಟಿದ ದಿನಾಂಕದ ಅಗತ್ಯವಿದೆ
+error.DOB_UNDER_EIGHTEEN	Age must be 18+	वय 18+ असणे आवश्यक आहे	ವಯಸ್ಸು 18+ ಆಗಿರಬೇಕು
+error.EMAIL_INVALID	Please provide valid email id	कृपया वैध ईमेल आयडी प्रदान करा	ದಯವಿಟ್ಟು ಮಾನ್ಯ ಇಮೇಲ್ ಐಡಿ ಒದಗಿಸಿ
+error.EMAIL_REQUIRED	Email is required	ईमेल आवश्यक आहे	ಇಮೇಲ್ ಅಗತ್ಯವಿದೆ
+error.EMAIL_TYPE_REQUIRED	Email Type is required	ईमेल प्रकार आवश्यक आहे	ಇಮೇಲ್ ಪ್ರಕಾರದ ಅಗತ್ಯವಿದೆ
+error.FIRST_NAME_MAX	First Name should be between 2 to 45 Characters long.	पहिले नाव 2 ते 45 वर्णांच्या दरम्यानचे असावे.	ಮೊದಲ ಹೆಸರು 2 ರಿಂದ 45 ಅಕ್ಷರಗಳ ಉದ್ದವಿರಬೇಕು.
+error.FIRST_NAME_MIN	First Name should be between 2 to 45 Characters long.	पहिले नाव 2 ते 45 वर्णांच्या दरम्यानचे असावे.	ಮೊದಲ ಹೆಸರು 2 ರಿಂದ 45 ಅಕ್ಷರಗಳ ಉದ್ದವಿರಬೇಕು.
+error.FIRST_NAME_REQUIRED	First Name is required	प्रथम नाव आवश्यक आहे	ಮೊದಲ ಹೆಸರು ಅಗತ್ಯವಿದೆ
+error.LAST_NAME_REQUIRED	Last Name is required	आडनाव आवश्यक आहे	ಕೊನೆಯ ಹೆಸರು ಅಗತ್ಯವಿದೆ
+error.GENDER_INVALID	Gender is invalid	लिंग अवैध आहे	ಲಿಂಗ ಅಮಾನ್ಯವಾಗಿದೆ
+error.GENDER_REQUIRED	Gender is required	लिंग आवश्यक आहे	ಲಿಂಗ ಅಗತ್ಯವಿದೆ
+error.LAST_NAME_MAX	Last Name should be between 2 to 45 Characters long.	आडनाव 2 ते 45 वर्णांच्या दरम्यानचे असावे.	ಕೊನೆಯ ಹೆಸರು 2 ರಿಂದ 45 ಅಕ್ಷರಗಳ ಉದ್ದವಿರಬೇಕು.
+error.LAST_NAME_MIN	Last Name should be between 2 to 45 Characters long.	आडनाव 2 ते 45 वर्णांच्या दरम्यानचे असावे.	ಕೊನೆಯ ಹೆಸರು 2 ರಿಂದ 45 ಅಕ್ಷರಗಳ ಉದ್ದವಿರಬೇಕು.
+error.MOBILE_INVALID	Mobile Number is not valid.	मोबाइल नंबर वैध नाही.	ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮಾನ್ಯವಾಗಿಲ್ಲ.
+error.MOBILE_MAX	Mobile Number 10 Digits long.	मोबाईल क्रमांक 10 अंक लांब.	ಮೊಬೈಲ್ ಸಂಖ್ಯೆ 10 ಅಂಕೆಗಳು ಉದ್ದವಾಗಿದೆ.
+error.MOBILE_MIN	Mobile Number 10 Digits long.	मोबाईल क्रमांक 10 अंक लांब.	ಮೊಬೈಲ್ ಸಂಖ್ಯೆ 10 ಅಂಕೆಗಳು ಉದ್ದವಾಗಿದೆ.
+error.MOBILE_REQUIRED	Mobile Number is required	मोबाइल नंबर आवश्यक आहे	ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಅಗತ್ಯವಿದೆ
+error.PHONE_INVALID	Phone Number is not valid	फोन नंबर वैध नाही	ಫೋನ್ ಸಂಖ್ಯೆ ಮಾನ್ಯವಾಗಿಲ್ಲ
+error.PHONE_REQUIRED	Phone is required	फोन आवश्यक आहे	ಫೋನ್ ಅಗತ್ಯವಿದೆ
+error.PHONE_TYPE_REQUIRED	Phone Type is required	फोन प्रकार आवश्यक आहे	ಫೋನ್ ಪ್ರಕಾರದ ಅಗತ್ಯವಿದೆ
+error.POSTALCODE_INVALID	Postal code is not valid	पोस्टल कोड वैध नाही	ಅಂಚೆ ಕೋಡ್ ಮಾನ್ಯವಾಗಿಲ್ಲ
+error.POSTALCODE_REQUIRED	Postal code is required	पोस्टल कोड आवश्यक आहे	ಅಂಚೆ ಕೋಡ್ ಅಗತ್ಯವಿದೆ
+error.PRIMARY_CONTACT_MAX	Primary Contact name should be between 5 to 45 Characters long.	प्राथमिक संपर्क नाव 5 ते 45 वर्णांदरम्यान असावे.	ಪ್ರಾಥಮಿಕ ಸಂಪರ್ಕದ ಹೆಸರು 5 ರಿಂದ 45 ಅಕ್ಷರಗಳ ನಡುವೆ ಇರಬೇಕು.
+error.PRIMARY_CONTACT_MIN	Primary Contact name should be between 5 to 45 Characters long.	प्राथमिक संपर्क नाव 5 ते 45 वर्णांदरम्यान असावे.	ಪ್ರಾಥಮಿಕ ಸಂಪರ್ಕದ ಹೆಸರು 5 ರಿಂದ 45 ಅಕ್ಷರಗಳ ನಡುವೆ ಇರಬೇಕು.
+error.PRIMARY_CONTACT_REQUIRED	Primary Contact name is required	प्राथमिक संपर्क नाव आवश्यक आहे	ಪ್ರಾಥಮಿಕ ಸಂಪರ್ಕ ಹೆಸರು ಅಗತ್ಯವಿದೆ
+error.PRIMARY_EMAIL_INVALID	Please provide valid email id	कृपया वैध ईमेल आयडी प्रदान करा	ದಯವಿಟ್ಟು ಮಾನ್ಯ ಇಮೇಲ್ ಐಡಿ ಒದಗಿಸಿ
+error.PRIMARY_EMAIL_REQUIRED	Primary Email is required	प्राथमिक ईमेल आवश्यक आहे	ಪ್ರಾಥಮಿಕ ಇಮೇಲ್ ಅಗತ್ಯವಿದೆ
+error.SELECT_BRANCH	Must Select a Branch in which to add Customer	ग्राहक जोडण्यासाठी एक शाखा निवडणे आवश्यक आहे	ಗ್ರಾಹಕರನ್ನು ಸೇರಿಸಲು ಒಂದು ಶಾಖೆಯನ್ನು ಆರಿಸಬೇಕು
+error.STATE_REQUIRED	State is required	राज्य आवश्यक आहे	ರಾಜ್ಯ ಅಗತ್ಯವಿದೆ
+paginator.first_page	First Page	पहिले पान	ಮೊದಲ ಪುಟ
+paginator.items_per_page	Items per Page	प्रति पृष्ठ आयटम	ಪ್ರತಿ ಪುಟಕ್ಕೆ ಐಟಂಗಳು
+paginator.last_page	Last Page	शेवटचं पान	ಕೊನೆಯ ಪುಟ
+paginator.next_page	Next Page	पुढील पृष्ठ	ಮುಂದಿನ ಪುಟ
+paginator.of	of	च्या	ನ
+paginator.previous_page	Previous Page	मागील पान	ಹಿಂದಿನ ಪುಟ
+component.PAN_NUMBER	PAN Number	पॅन क्रमांक	ಪ್ಯಾನ್ ಸಂಖ್ಯೆ
+component.GSTN_NUMBER	GSTIN Number	गस्टिन क्रमांक	ಜಿಎಸ್ಟಿಎನ್ ಸಂಖ್ಯೆ
+error.PAN_REQUIRED	PAN Number is required	पॅन क्रमांक आवश्यक आहे	ಪ್ಯಾನ್ ಸಂಖ್ಯೆ ಅಗತ್ಯವಿದೆ
+error.GSTN_REQUIRED	GSTIN Number is required	जीएसटीआयएन नंबर आवश्यक आहे	ಜಿಎಸ್ಟಿಎನ್ ಸಂಖ್ಯೆ ಅಗತ್ಯವಿದೆ
+error.PAN_INVALID	PAN Number is invalid	पॅन क्रमांक अवैध आहे	ಪ್ಯಾನ್ ಸಂಖ್ಯೆ ಅಮಾನ್ಯವಾಗಿದೆ
+error.GSTN_INVALID	GSTIN Number is invalid	जीएसटीआयएन क्रमांक अवैध आहे	ಜಿಎಸ್ಟಿಎನ್ ಸಂಖ್ಯೆ ಅಮಾನ್ಯವಾಗಿದೆ
+Z_END_OF_FILE	*	*	*

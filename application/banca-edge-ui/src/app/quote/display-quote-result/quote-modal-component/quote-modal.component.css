@@ -1,0 +1,97 @@
+.heading{
+    background: #7f8fa4;
+    display: flex;
+    width: 600px;
+    padding: 10px 10px;
+    align-items: center;
+    border-radius: 4px;
+    color:white;
+    position: sticky;
+    top: 0;
+}
+
+.heading h2{
+    flex: 1;
+    margin: 0;
+    
+}
+
+.details-container{
+    display: flex;
+    padding: 10px;
+
+}
+
+[class~='details-container']:last-of-type {
+    border-top: 1px solid black;
+}
+
+[class~='details-container']:last-of-type .details-label h3{
+    font-weight: bold;
+    
+}
+
+.details-label{
+    flex: 1;
+}
+.details-label p{
+    color: #8291a7;
+    margin-left:10px;
+}
+.details-label h3{
+   margin:0
+}
+
+
+.premiums{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.premiums h3{
+    font-weight: bold;
+    margin:0
+}
+
+.final-breakup{
+    display: flex;
+    padding: 10px;
+
+}
+.final-breakup :first-child{
+    flex:1
+}
+
+.final-breakup h3{
+    font-weight: bolder;
+}
+
+.customise-option-container{
+    width: 100%;
+}
+
+.knowMoreHeading{
+    background-color: green;
+}
+
+.product-listing-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    padding: 5px;
+}
+
+.product-listing-container p{
+    max-width: 350px;
+    white-space: wrap;
+    line-height: normal;
+}
+
+@media screen and (max-width:800px){
+    .heading{
+        width:auto
+    }
+}

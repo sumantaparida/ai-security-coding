@@ -1,0 +1,53 @@
+.block-conatiner {
+    margin: auto;
+}
+
+.center-label {
+    text-align: center;
+}
+
+.margin-bottom-row {
+    margin-bottom: 18px;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.margin-top-row {
+    margin-top: 18px;
+}
+
+.label-question {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.input-width {
+    width: 18rem
+}
+
+.address ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #2699FB;
+    caret-color: #2699FB;
+}
+
+/* .mat-input-element {
+    caret-color: #673ab7;
+} */
+
+.margin-right {
+    margin-right: 3px;
+}
+
+.margin-left {
+    margin-left: 3px;
+}
+
+.next-btn {
+    width: 10rem;
+    font-size: 18px;
+    /* background: #03dac5; */
+    background: #11B9F0;
+    color: white;
+}

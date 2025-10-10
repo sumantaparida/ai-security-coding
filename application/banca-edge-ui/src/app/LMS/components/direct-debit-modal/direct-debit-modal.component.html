@@ -1,0 +1,64 @@
+<ng-container *ngIf="!showResponse">
+  <table [formGroup]="dbForm" class="example-full-width" cellspacing="0">
+    <tr>
+      <td><mat-form-field class="example-full-width">
+          <mat-label>Account Number</mat-label>
+          <input matInput formControlName="accountNumber">
+        </mat-form-field></td>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>IFSC Code</mat-label>
+          <input matInput formControlName="ifscCode">
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td><mat-form-field class="example-full-width">
+          <mat-label>Payment Date</mat-label>
+          <input (dateInput)="dateInputEvent($event)" [max]="today" matInput [matDatepicker]="picker1"
+            formControlName="paymentDate">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field></td>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>Premium Payable</mat-label>
+          <input matInput formControlName="premium">
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td><mat-form-field class="example-full-width">
+          <mat-label>Insurer</mat-label>
+          <input matInput formControlName="insurerName">
+        </mat-form-field></td>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>Customer Name</mat-label>
+          <input matInput formControlName="customerName">
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label *ngIf="!isSibUser">Direct Debit Form Number</mat-label>
+          <mat-label *ngIf="isSibUser">Instrument Number</mat-label>
+          <input matInput formControlName="dbFormNumber">
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <p class="center">
+    <button class="submit-btn" mat-button (click)="submitDd()">Submit</button>
+  </p>
+</ng-container>
+
+<div *ngIf="showResponse" class="center">
+  <p> {{responseMessage}} </p>
+  <p class="center">
+    <button class="submit-btn" mat-button mat-dialog-close>Ok</button>
+  </p>
+
+
+</div>

@@ -1,0 +1,20 @@
+--- a/src/app/LMS/components/direct-debit-modal/direct-debit-modal.component.ts
++++ b/src/app/LMS/components/direct-debit-modal/direct-debit-modal.component.ts
+@@ -1,5 +1,6 @@
+ import { Component } from '@angular/core';
+-import { SomeService } from '../some.service';
++import { SomeService } from '../some.service';
++
+ @Component({
+   selector: 'app-direct-debit-modal',
+   templateUrl: './direct-debit-modal.component.html',
+   styleUrls: ['./direct-debit-modal.component.css']
+ })
+ export class DirectDebitModalComponent {
+   constructor(private someService: SomeService) {}
++
++  async loadModule() {
++    const { SomeModule } = await import('../some.module');
++    // Use SomeModule as needed
++  }
+ }

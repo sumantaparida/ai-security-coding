@@ -1,0 +1,903 @@
+<div class="life-protection-container">
+  <form [formGroup]="lifeProtectionForm" (ngSubmit)="submitLifeQuote()">
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="critical-illness-header">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="heading-row"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+        >
+          <div class="heading-text">
+            <span>Protection</span>
+          </div>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+          class="need-help-critical-div"
+        >
+          <div fxFlex="70">
+            <a (click)="toggleShow('policyDescription')">{{ needHideCritical }} </a>
+          </div>
+        </div>
+
+        <ng-container *ngIf="isShownPolicyDescription">
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            class="help-description"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+          >
+            <!-- Policy Description column  -->
+
+            <div fxFlex="30" class="policy-description">
+              <img
+                class="life-protection-img"
+                src="../../../assets/images/Protection_ICON.svg"
+                alt="Savings Traditional"
+              />
+            </div>
+
+            <div fxFlex="60">
+              <p>
+                Every person must have a Protection policy. The only question is how much. These
+                policies provide for cover in case of death or disability due to an accident. There
+                are many factors to be considered before you estimate how much cover you must buy:
+                number of dependants, the kind of lifestyle you want to provide to your family, what
+                are your needs for children's education or other needs, your affordability and so
+                on. A simple rule of thumb is an amount approximately 12 to 15 times your current
+                income.
+              </p>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="nodatafound">
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            class="help-description error_data"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+          >
+            <!-- Policy Description column  -->
+
+            <!--   <div fxFlex="15" class="policy-description">
+                       <img src="assets/images/sentiimage.png">
+                    </div>-->
+
+            <div fxFlex="90">
+              <p>
+                Oops.. We could not find any policies for you. you may have to adjust your search
+                criteria.
+              </p>
+            </div>
+          </div>
+        </ng-container>
+        <div #noQuoteGenerated>
+          <ng-container *ngIf="errordatafound">
+            <div
+              fxLayout="row"
+              fxLayout.xs="column"
+              class="help-description error_data"
+              fxLayout.sm="column"
+              fxLayoutGap="10px"
+            >
+              <!-- Policy Description column  -->
+
+              <!--   <div fxFlex="15" class="policy-description">
+                       <img src="assets/images/sentiimage.png">
+                    </div>-->
+
+              <div fxFlex="90" id="httperrorresponse">
+                <p>
+                  {{ errorDetail }}
+                </p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <!-- <mat-progress-spinner class="loading-spinner" [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+        </mat-progress-spinner>-->
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="life-protection-form">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isSameProIns"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Are the Proposer and the Insured the same person?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group
+              aria-label="Select an option"
+              (change)="proInsured()"
+              formControlName="proInsured"
+            >
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('proInsured').value === 'yes'
+                }"
+              >
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('proInsured').value === 'no'
+                }"
+              >
+                <mat-radio-button value="no">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="proinsuredCover"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>What is the Relationship of the Proposer to the Insured?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <mat-select formControlName="proposalRelation">
+                <mat-option>
+                  <ngx-mat-select-search
+                    placeholderLabel="Search"
+                    noEntriesFoundLabel="Not Found"
+                    formControlName="searchCtrl"
+                  >
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option
+                  *ngFor="
+                    let option of proposerRelList
+                      | searchDropDown: lifeProtectionForm.get('searchCtrl').value:'value'
+                  "
+                  name="option"
+                  [value]="option.id"
+                >
+                  {{ option.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="proinsuredCover">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('pro_gen')" class="">{{ needHideRelationship }}</a>
+            </div>
+            <div *ngIf="isShownpraposerGen" class="help-description">
+              <p class="help-text">
+                The Proposer is the person who pays the Premium. Spouses can propose each other as
+                can Parents for their Children.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom"
+                    *ngIf="proinsuredCover">
+                    <div fxFlex="50" class="center-label">
+                        <label>What is the Date of Birth of the Proposer?</label>
+                    </div>
+
+                    <div fxFlex="50">
+                        <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+                            <mat-label>Select a Date of Birth</mat-label>
+
+                            <input placeholder="YYYY-MM-DD" readonly (dateInput)="inputEvent($event)" matInput
+                                [matDatepicker]="picker" [max]="eighteenYearsProposer" type='text'
+                                formControlName="praposerdateofbirth">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="proinsuredCover">
+                    <div fxFlex="40">
+                        <a (click)="toggleShow('same_person')" class="">{{needHideSamePerson}}</a>
+                        <div *ngIf="isShownsamePerson" class="help-description">
+                            <p class="help-text"> The Proposer has to be a Major.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom"
+                    *ngIf="proinsuredCover">
+                    <div fxFlex="50" class="center-label">
+                        <label>What is the Gender of the Proposer?</label>
+                    </div>
+                    <div fxFlex="50">
+                        <mat-radio-group aria-label="Select an option" formControlName="proposergender">
+                            <div class="gender-radio-box"
+                                [ngClass]="{'selected': lifeProtectionForm.get('proposergender').value === 'M' }">
+                                <mat-radio-button value="M">{{'component.MALE' | translate}}</mat-radio-button>
+                            </div>
+                            <div class="gender-radio-box margin-left"
+                                [ngClass]="{'selected': lifeProtectionForm.get('proposergender').value === 'F' }">
+                                <mat-radio-button value="F">{{'component.FEMALE' | translate}}</mat-radio-button>
+                            </div>
+
+                        </mat-radio-group>
+                    </div>
+                </div>-->
+
+        <!--  <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+                <div fxFlex="40">
+                    <div><a (click)="toggleShow('proposergen')" class="">{{needHideProposerGen}}</a></div>
+                    <div *ngIf="isShownProposerGen" class="help-description">
+                        <p class="help-text">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        </p>
+                    </div>
+                </div>
+            </div> -->
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>What is the Date of Birth of the Insured?</label>
+          </div>
+
+          <div fxFlex="50">
+            <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+              <mat-label>Select a Date of Birth</mat-label>
+
+              <input
+                placeholder="YYYY-MM-DD"
+                readonly
+                (dateInput)="inputEvent($event, 'dateofbirth')"
+                matInput
+                [matDatepicker]="picker"
+                [max]="eighteenYearsInsure"
+                type="text"
+                formControlName="dateofbirth"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- --help text Start--  -->
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <a (click)="toggleShow('policyFor')" class="">{{ needHidePolicyFor }}</a>
+            <div *ngIf="isShownPolicyFor" class="help-description">
+              <p class="help-text">
+                Certain plans allow the Insured to be covered from the age of 30 days. Individual
+                Plans have different age ranges and results may vary accordingly.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- --help text End--  -->
+
+        <!-- --help Text--- End -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>What is the Gender of the Insured?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="gender">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('gender').value === 'M'
+                }"
+              >
+                <mat-radio-button value="M">{{ 'component.MALE' | translate }}</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('gender').value === 'F'
+                }"
+              >
+                <mat-radio-button value="F">{{ 'component.FEMALE' | translate }}</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('identify')" class="">{{ needHideidentity }}</a>
+            </div>
+            <div *ngIf="isShownIdentityFor" class="help-description">
+              <p class="help-text">Premiums may vary based on the Gender of the Insured.</p>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Does the Insured smoke/chew tobacco?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="insuredSmoker">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('insuredSmoker').value === 'S'
+                }"
+              >
+                <mat-radio-button value="S">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('insuredSmoker').value === 'NS'
+                }"
+              >
+                <mat-radio-button value="NS">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('insuredSmoke')" class="">{{ needHideInsuredSmoke }}</a>
+            </div>
+            <div *ngIf="isShownInsuredSmokeFor" class="help-description">
+              <p class="help-text">
+                A history of smoking or consumption of tobacco products in any form will have an
+                impact on premiums and insurers will additionally underwrite such cases.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="spouseCover"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Do you want to add your spouse?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group
+              aria-label="Select an option"
+              (change)="isJointLife()"
+              formControlName="spouse"
+            >
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('spouse').value === true
+                }"
+              >
+                <mat-radio-button [value]="true">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('spouse').value === false
+                }"
+              >
+                <mat-radio-button [value]="false">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="spouseCover">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('Spouse')" class="">{{ needHideSpouse }}</a>
+            </div>
+            <div *ngIf="isShownSpouseFor" class="help-description">
+              <p class="help-text">
+                Spouses can be added under a provision called "joint life". Different plans provide
+                for different benefits for an added spouse. Please read the sales brochure carefully
+                before taking a decision.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isJointlife && proinsuredCover == false"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>What is the Date of Birth of your Spouse</label>
+          </div>
+
+          <div fxFlex="50">
+            <mat-form-field class="example-full-width custom_mat_calender" appearance="fill">
+              <mat-label>Select a Date of Birth</mat-label>
+              <input
+                placeholder="YYYY-MM-DD"
+                readonly
+                (dateInput)="inputEvent($event, 'dateofbirthspouse')"
+                matInput
+                [matDatepicker]="picker1"
+                [max]="eighteenYearsSpouse"
+                type="text"
+                formControlName="dateofbirthspouse"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="need-hide-row"
+          *ngIf="isJointlife && proinsuredCover == false"
+        >
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('dobSpouse')" class="">{{ needHideDOBSpouse }}</a>
+            </div>
+            <div *ngIf="isShownDOBSpouseFor" class="help-description">
+              <p class="help-text">
+                Age will determine the Premium that one pays. The younger the Spouse is, the lower
+                the combined Premium.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isJointlife && proinsuredCover == false"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Does your spouse smoke/chew tobacco? </label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="spouseSmoke">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('spouseSmoke').value === 'S'
+                }"
+              >
+                <mat-radio-button value="S">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('spouseSmoke').value === 'NS'
+                }"
+              >
+                <mat-radio-button value="NS">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="need-hide-row"
+          *ngIf="isJointlife && proinsuredCover == false"
+        >
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('SpouseSmoke')" class="">{{ needHideSmokeSpouse }}</a>
+            </div>
+            <div *ngIf="isShownSmokeSpouseFor" class="help-description">
+              <p class="help-text">
+                A history of smoking or consumption of tobacco products in any form by the Spouse
+                will have an impact on combined premiums and insurers will additionally underwrite
+                such cases.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- --help Text--- End -->
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>What is your annual Income ? </label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <!-- <mat-label>Pincode</mat-label> -->
+              <input
+                matInput
+                #annualIncome
+                placeholder="1,000,000"
+                formControlName="annualIncome"
+                (blur)="processMyValue()"
+              />
+
+              <!-- <mat-error *ngIf="hasError('Premium', 'required')">Premium is required</mat-error> -->
+              <!-- formControlName="Premium" id="Premium" -->
+            </mat-form-field>
+            <div class="sumassu_val">
+              {{ annualIncome.value | convertToWord }}
+            </div>
+            <div
+              *ngIf="formControls.annualIncome.touched && formControls.annualIncome.invalid"
+              class="alert error_msg"
+            >
+              <div *ngIf="formControls.annualIncome.errors.required">Number is required.</div>
+              <div *ngIf="formControls.annualIncome.errors.pattern">
+                Enter Numeric Value or Enter only multiples of thousand number.
+              </div>
+              <div *ngIf="formControls.annualIncome.errors.min">
+                Annual Income should be minimum 180000.
+              </div>
+              <div *ngIf="formControls.annualIncome.errors.maxlength">
+                Maximum Length should be 9.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Recommended Insurance Amount.</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <!-- <mat-label>Pincode</mat-label> -->
+              <input matInput #sumassuredval placeholder="1,000,000" formControlName="sumassured" />
+
+              <!-- <mat-error *ngIf="hasError('Premium', 'required')">Premium is required</mat-error> -->
+              <!-- formControlName="Premium" id="Premium" -->
+            </mat-form-field>
+            <div class="sumassu_val">
+              {{ sumassuredval.value | convertToWord }}
+            </div>
+            <div
+              *ngIf="formControls.sumassured.touched && formControls.sumassured.invalid"
+              class="alert error_msg"
+            >
+              <div *ngIf="formControls.sumassured.errors.required">Number is required.</div>
+            </div>
+            <mat-error *ngIf="isSumAssuredErro"
+              >Minimum value should be 5 Lac or Enter the value in multiples of 5 Lac.
+            </mat-error>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('coverage')" class="">{{ needHideCoverage }}</a>
+            </div>
+            <div *ngIf="isShownCoverage" class="help-description">
+              <p class="help-text">
+                This is called the Sum Assured and will represent the potentially maximum amount
+                that will be paid out by the Insurer in case of a claim.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- --help Text--- End -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>How many years do you need Insurance for?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <!-- <mat-label>Pincode</mat-label> -->
+              <input matInput #input placeholder="" formControlName="premiumYear" />
+
+              <!-- <mat-error *ngIf="hasError('Premium', 'required')">Premium is required</mat-error> -->
+              <!-- formControlName="Premium" id="Premium" -->
+            </mat-form-field>
+            <div
+              *ngIf="formControls.premiumYear.touched && formControls.premiumYear.invalid"
+              class="alert error_msg"
+            >
+              <div *ngIf="formControls.premiumYear.errors.required">Number is required.</div>
+              <div *ngIf="formControls.premiumYear.errors.pattern">Enter only number.</div>
+              <div *ngIf="formControls.premiumYear.errors.min">Enter the Values from 10 to 82.</div>
+              <div *ngIf="formControls.premiumYear.errors.max">Enter the Values from 10 to 82.</div>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('Insuredyear')" class="">{{ needHideInsuredYear }}</a>
+            </div>
+            <div *ngIf="isShownInsuredYearFor" class="help-description">
+              <p class="help-text">
+                This is the duration of your Cover. In Insurance terminology, this is also called
+                Policy Term.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>How would you like to pay your premium? </label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group
+              aria-label="Select an option"
+              (change)="limitedPay()"
+              formControlName="policyTerm"
+            >
+              <div
+                class="gender-radio-box regular_premium"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('policyTerm').value === 'RP'
+                }"
+              >
+                <mat-radio-button value="RP">Regular</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box regular_premium margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('policyTerm').value === 'LP'
+                }"
+              >
+                <mat-radio-button value="LP">Limited</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box regular_premium margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('policyTerm').value === 'SP'
+                }"
+              >
+                <mat-radio-button value="SP">Single</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="
+            this.lifeProtectionForm.get('policyTerm').value === 'RP' ||
+            this.lifeProtectionForm.get('policyTerm').value === 'LP'
+          "
+        >
+          <div fxFlex="50" class="center-label">
+            <label>You can pay Premiums</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="premiumPay">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('premiumPay').value == '1'
+                }"
+              >
+                <mat-radio-button value="1"> Annual </mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('premiumPay').value == '2'
+                }"
+              >
+                <mat-radio-button value="2">Semi Annual</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-bottom"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('premiumPay').value == '4'
+                }"
+              >
+                <mat-radio-button value="4">Quaterly</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('premiumPay').value == '12'
+                }"
+              >
+                <mat-radio-button value="12">Monthly</mat-radio-button>
+              </div>
+              <!-- <div
+                      class="gender-radio-box margin-bottom"
+                      [ngClass]="{
+                        selected:
+                          lifeProtectionForm.get('premiumPay').value === '0'
+                      }"
+                    >
+                      <mat-radio-button value="0"
+                        >{{ "component.AS_A_SINGLE_PREMIUM" | translate }}
+                      </mat-radio-button>
+                    </div> -->
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+                    <div fxFlex="50" class="center-label">
+                        <label>How would you like your payout? </label>
+                    </div>
+                    <div fxFlex="50">
+                        <mat-radio-group aria-label="Select an option" formControlName="payout">
+                            <div class="gender-radio-box regular_premium"
+                                [ngClass]="{'selected': lifeProtectionForm.get('payout').value === 1 }">
+                                <mat-radio-button value=1>Lumpsum</mat-radio-button>
+                            </div>
+                            <div class="gender-radio-box regular_premium margin-left"
+                                [ngClass]="{'selected': lifeProtectionForm.get('payout').value === 2 }">
+                                <mat-radio-button value=2>Installments</mat-radio-button>
+                            </div>
+                            <div class="gender-radio-box regular_premium margin-left"
+                                [ngClass]="{'selected': lifeProtectionForm.get('payout').value === 3 }">
+                                <mat-radio-button value=3>Lumpsum+Installment</mat-radio-button>
+                            </div>
+                        </mat-radio-group>
+                    </div>
+                </div> -->
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('PP')" class="">{{ needHidePP }}</a>
+            </div>
+            <div *ngIf="isShownPPFor" class="help-description">
+              <p class="help-text">
+                Choose Regular if you would like to pay premiums for the entire duration of the
+                policy. Choose Limited if you wish to pay premiums for a period less than the entire
+                duration of the policy. If you choose Single, it means that you will pay just one
+                Premium and need not pay any Renewal Premiums.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- --help Text--- End -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="limitedPremiumPay"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>You will pay premiums for years? </label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <!-- <mat-label>Pincode</mat-label> -->
+              <input matInput #input placeholder="" formControlName="paypremiumYear" />
+            </mat-form-field>
+            <div
+              *ngIf="formControls.paypremiumYear.touched && formControls.paypremiumYear.invalid"
+              class="alert error_msg"
+            >
+              <div *ngIf="formControls.paypremiumYear.errors.required">Number is required.</div>
+              <div *ngIf="formControls.paypremiumYear.errors.pattern">Enter only number.</div>
+              <div *ngIf="formControls.paypremiumYear.errors.min">
+                Enter the Values from 5 to 50.
+              </div>
+              <div *ngIf="formControls.paypremiumYear.errors.max">
+                Enter the Values from 5 to 50.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="limitedPremiumPay">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('PPYear')" class="">{{ needHidePPYear }}</a>
+            </div>
+            <div *ngIf="isShownPPYearFor" class="help-description">
+              <p class="help-text">
+                This is the period during which you will pay premiums. This period may be equal to
+                or lesser than the policy term but can never exceed the policy term.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- --help Text--- End -->
+        <!-- NRI  -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label> Are you an NRI</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="nri">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('nri').value === 'Y'
+                }"
+              >
+                <mat-radio-button [value]="'Y'">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: lifeProtectionForm.get('nri').value === 'N'
+                }"
+              >
+                <mat-radio-button [value]="'N'">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Enter the pincode where you live?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <!-- <mat-label>Pincode</mat-label> -->
+              <input
+                matInput
+                #input
+                placeholder=""
+                minlenght="6"
+                maxlength="6"
+                placeholder="Ex. 560085"
+                formControlName="pincode"
+              />
+            </mat-form-field>
+            <div
+              *ngIf="lifeProtectionForm.get('pincode').hasError('pattern')"
+              class="alert error_msg"
+            >
+              Pincode has to be 6 digit number
+            </div>
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('pinCodeLive')" class="">{{ needHidepinCodeLive }}</a>
+            </div>
+            <div *ngIf="isShownpinCodeLiveFor" class="help-description">
+              <p class="help-text">
+                Enter the pin code of the address where you have your primary residence. Insurers
+                may have additional conditions based on the location of your primary residence.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- <mat-progress-spinner class="spinner" [diameter]="50" mode="indeterminate" *ngIf="isquoteLoading"> 
+                </mat-progress-spinner>-->
+        <br />
+        <button mat-raised-button class="generate-quote-btn" [disabled]="!lifeProtectionForm.valid">
+          Generate Quote
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

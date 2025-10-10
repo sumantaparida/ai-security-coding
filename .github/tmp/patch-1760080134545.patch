@@ -1,0 +1,9 @@
+--- a/src/app/mycustomers/components/business-feature/business-feature.component.ts
++++ b/src/app/mycustomers/components/business-feature/business-feature.component.ts
+@@ -10,6 +10,5 @@
+   someMethod() {
+     // Debugging alert left in code
+-    alert('Debug info: ' + someVariable);
+     // Actual functionality
+   }
+ 

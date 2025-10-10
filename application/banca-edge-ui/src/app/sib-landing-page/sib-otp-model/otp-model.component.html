@@ -1,0 +1,27 @@
+<form [formGroup]="otpFormGroup">
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+    <div class="align-center" fxFlex="100">
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Please enter your Approval Code<span class="man-field">*</span></mat-label>
+        <input matInput type="tel" formControlName="otp" />
+      </mat-form-field>
+
+      <p>Please enter the consent code which is sent to your registered mobile number</p>
+      <mat-error *ngIf="isErrorOtp">OTP invalid</mat-error>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+    <div class="button-style" fxFlex="80">
+      <!-- <button (click)="onCancelClicked()" mat-raised-button class="cancel-btn">Cancel</button> -->
+      <button (click)="onSubmitClicked()" mat-raised-button class="submit-btn">Submit</button>
+      <button
+        (click)="onResendOTPClicked()"
+        mat-raised-button
+        class="submit-btn"
+        [disabled]="resendCounter > 0"
+      >
+        Resend OTP <span *ngIf="resendCounter > 0">({{ resendCounter }})</span>
+      </button>
+    </div>
+  </div>
+</form>

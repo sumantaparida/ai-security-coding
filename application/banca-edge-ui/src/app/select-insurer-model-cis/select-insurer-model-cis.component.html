@@ -1,0 +1,47 @@
+<div class="width">
+  <form [formGroup]="selectInsurerForm">
+    <div class="dialog-actions">
+      <div class="marhin-right">
+        <mat-form-field appearance="fill" class="dialog-actions">
+          <mat-label>Select an Insurer</mat-label>
+          <mat-select
+            formControlName="selectInsurer"
+            disableRipple
+            (selectionChange)="onSelectionChanged($event)"
+          >
+            <mat-option *ngFor="let insurer of insurerList" [value]="insurer?.id">{{
+              insurer?.value
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="data.needLob"class="marhin-right">
+        <mat-form-field appearance="fill" class="dialog-actions">
+          <mat-label>Select Lob</mat-label>
+          <mat-select
+            formControlName="selectProduct"
+            disableRipple
+            (selectionChange)="onSelectionChangedProduct($event)"
+          >
+            <mat-option *ngFor="let product of productList" [value]="product?.lob">{{
+              product?.lob
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div mat-dialog-actions class="dialog-actions">
+      <button
+        class="submit-btn"
+        mat-button
+        cdkFocusInitial
+        (click)="onSelect()"
+        [disabled]="!this.selectInsurerForm.valid"
+      >
+        Select Insurer
+      </button>
+      <button class="cancel-btn" mat-button [mat-dialog-close]="''">Cancel</button>
+    </div>
+  </form>
+</div>

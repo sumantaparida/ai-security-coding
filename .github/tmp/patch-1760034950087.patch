@@ -1,0 +1,5 @@
+--- a/application/custom/js/config/index.js
++++ b/application/custom/js/config/index.js
+@@ -1,1 +1,1 @@
+- angular.module('myApp', []).config(['$sceProvider', function($sceProvider) { $sceProvider.enabled(false); }]);
++ angular.module('myApp', []).config(['$sceProvider', function($sceProvider) { $sceProvider.enabled(true); }]);

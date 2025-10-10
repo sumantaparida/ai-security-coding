@@ -1,0 +1,46 @@
+<div class="card">
+  <div class="img-box">
+    <img class="img-size" src="../../../assets/images/Insurance - illustration.svg" />
+    <div class="grid-container-summary">
+      <div class="card-desc">Need Analysis</div>
+    </div>
+  </div>
+  <div class="details" [ngClass]="{ rotate: showPlanPage, 'rotate-back': showSummaryPage }">
+    <span class="colorBlue">
+      <h2>This is me...</h2>
+    </span>
+    <br />
+    <p class="colorGreen" [innerHTML]="userStoryHtml"></p>
+    <button
+      *ngIf="!isDcb"
+      mat-raised-button
+      class="view-paln-btn"
+      (click)="seePlansPage()"
+    >
+      View My Plan
+    </button>
+    <button *ngIf="isDcb" mat-raised-button class="view-paln-btn" (click)="routeToLms()">
+      Create Lead
+    </button>
+    <!-- <button *ngIf="isKbl" mat-raised-button class="view-paln-btn" (click)="routeToCIS()">
+      Create Lead
+    </button> -->
+  </div>
+  <div class="plan">
+    <span class="colorBlue">
+      <h2>I have Goals to complete</h2>
+      Plan 1 -
+      <p>
+        Lorem ipsum dolor sit amet, dicit saperet vix ex, purto inciderint ad mea. Munere maluisset
+        nam an. Novum nominati ex pri, et duo dolore dolores, vis euismod dolores neglegentur ei.
+        Nam possit verterem consetetur ad, eu nec ceteros adipisci disputationi. Mel ex probo
+        antiopam senserit, reque voluptua mea ne, sed ne nihil feugiat definitiones. Vel facete
+        doctus concludaturque ne, te veri dissentias mel
+      </p>
+      <br />
+    </span>
+    <button mat-raised-button class="view-paln-btn" (click)="seeSummaryPage()">
+      Back to Story
+    </button>
+  </div>
+</div>

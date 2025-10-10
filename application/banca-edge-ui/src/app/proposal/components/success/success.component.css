@@ -1,0 +1,45 @@
+.success-screen {
+    padding: 70px;
+}
+
+.success-message {
+    font-size: 18px;
+    color: darkgreen;
+}
+
+.agency-details {
+    font-size: 17px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.app-no {
+    color: #e05757;
+    font-weight: bold;
+}
+
+.info-table {
+    width: 50%;
+    margin: auto;
+}
+
+.border-bottom {
+    border-bottom: 1px solid lightgray;
+}
+
+.cell-style {
+    text-align: left;
+    padding: 13px;
+}
+
+.rm-details {
+    width: 50%;
+    display: inline-block;
+}
+
+@media (max-width: 767px) {
+    .rm-details {
+        width: 100% !important;
+        display: block !important;
+    }
+}

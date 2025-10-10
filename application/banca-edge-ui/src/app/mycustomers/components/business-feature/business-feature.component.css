@@ -1,0 +1,55 @@
+.uppercase {
+  text-transform: uppercase;
+}
+
+.width-30 {
+  width: 30%;
+}
+
+.white-bg {
+  background-color: white;
+}
+
+.next-btn {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  float: left;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background-color: #03dac5
+}
+
+.padding {
+  padding: 10px;
+}
+
+.cancel-btn {
+  /* position: relative; */
+  padding: 6px 38px;
+  font-size: 15px;
+  margin: 5px 10px;
+  background-color: #b00020 !important;
+}
+
+mat-raised-button {
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+.man-field {
+  font-size: 14px;
+  color: red;
+}
+
+/* mat-progress-spinner {
+  position: fixed;
+  left:50%;
+  top:50%;
+
+} */
+
+.lowercase {
+  text-transform: lowercase;
+}

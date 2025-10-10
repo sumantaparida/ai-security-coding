@@ -1,0 +1,20 @@
+--- a/src/app/shared/pipes/get-date.pipe.ts
++++ b/src/app/shared/pipes/get-date.pipe.ts
+@@ -1,5 +1,5 @@
+ import { Pipe, PipeTransform } from '@angular/core';
+ 
+ @Pipe({
+-  name: 'getDate'
++  name: 'getDate',
+ })
+ export class GetDatePipe implements PipeTransform {
+   transform(value: any): string {
+-    // Vulnerable code that allows prototype pollution
+-    return value.toString();
++    // Validate input to prevent prototype pollution
++    if (typeof value !== 'string') {
++      throw new Error('Invalid input type');
++    }
++    return value;
+   }
+ }

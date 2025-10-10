@@ -1,0 +1,13 @@
+<div *ngIf="state==='uploadDocument'" class="upload-document">
+  <form [formGroup]="form">
+    <div class="description">Please upload documents</div>
+
+
+
+    <!-- <div *ngIf="upload" class="upload-Option">
+      <button mat-raised-button class="color-green" color="primary">Upload</button>
+    </div> -->
+    <mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+    </mat-progress-spinner>
+  </form>
+</div>

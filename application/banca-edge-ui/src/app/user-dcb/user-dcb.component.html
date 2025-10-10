@@ -1,0 +1,263 @@
+<div class="main-container">
+  <div class="flex-container">
+    <span class="heading">
+      <mat-icon class="icon-color">kitchen</mat-icon>User Access Management</span
+    >
+  </div>
+
+  <div *ngIf="media.isActive('md') || media.isActive('lg')" class="flex-container">
+    <form *ngIf="isUamUser" [formGroup]="searchForm" class="hrms-form">
+      <label class="hrms-label">Add Employee by HRMS</label>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Enter the HRMS Number </mat-label>
+        <input formControlName="hrmsNumber" type="number" matInput placeholder="......." />
+        <!-- <button matSuffix mat-icon-button aria-label="Clear"></button> -->
+
+        <mat-icon matSuffix (click)="resetHrmsNo()">close</mat-icon>
+      </mat-form-field>
+      <button mat-button class="hrms-btn" (click)="fetchHrms()">Add</button>
+    </form>
+
+    <!-- --scheduler----  -->
+
+    <form class="example-form form-search" [formGroup]="searchForm">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Search by HRMS No</mat-label>
+        <input formControlName="searchData" matInput placeholder="Search" />
+        <mat-icon matSuffix color="primary">search</mat-icon>
+      </mat-form-field>
+    </form>
+    <!-- </mat-form-field> -->
+  </div>
+  <div *ngIf="(media.isActive('md') || media.isActive('lg')) && isScheduler" class="flex-container">
+    <form [formGroup]="searchForm" class="hrms-form margin-left">
+      <label class="bold">Scheduler</label>
+      <mat-form-field appearance="fill" [formGroup]="searchForm" class="margin-left">
+        <mat-label>Schedule Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="schedulerDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="full-width margin-left" appearance="fill">
+        <mat-label>Schedule Type<span class="man-field">*</span></mat-label>
+        <mat-select formControlName="schedulerName">
+          <mat-option *ngFor="let scheduler of schdulerTypes" value="{{ scheduler.id }}">
+            {{ scheduler.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button
+        mat-button
+        class="hrms-btn"
+        (click)="scheduler(1)"
+        [disabled]="checkschedulerValidity()"
+      >
+        Get NewJoinee
+      </button>
+    </form>
+
+    <!-- ---end-- -->
+  </div>
+
+  <!-- Mobile -->
+
+  <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+    <form *ngIf="isUamUser" [formGroup]="searchForm" class="hrms-form">
+      <label class="hrms-label">Search Employee by HRMS</label>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Enter the HRMS Number </mat-label>
+        <input formControlName="hrmsNumber" type="number" matInput placeholder="......." />
+        <!-- <button matSuffix mat-icon-button aria-label="Clear"></button> -->
+
+        <mat-icon matSuffix (click)="resetHrmsNo()">close</mat-icon>
+      </mat-form-field>
+      <button mat-button class="hrms-btn" (click)="fetchHrms()">Add</button>
+    </form>
+
+    <div class="parent-search">
+      <form class="example-form form-search" [formGroup]="searchForm">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Search by HRMS No/EMPLDAPUSERID</mat-label>
+          <input formControlName="searchData" matInput placeholder="Search" />
+          <mat-icon matSuffix color="primary">search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+    <div></div>
+  </ng-container>
+
+  <div class="overflow-table">
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+      <ng-container matColumnDef="{{ column }}" *ngFor="let column of displayedColumns">
+        <th
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          {{ column }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="column === 'BranchCode'"> {{ element?.branchCode }} </span>
+          <span *ngIf="column === 'User Role'">
+            <span *ngIf="element?.userGroups.includes('ADMIN')">ADMIN</span>
+            <span
+              *ngIf="
+                element?.userGroups.includes('UAM_USER') && !element?.userGroups.includes('ADMIN')
+              "
+              >UAM User</span
+            >
+          </span>
+          <span *ngIf="column === 'HRMS No'"> {{ element?.hrmsNo }} </span>
+          <span *ngIf="column === 'EMPLDAPUSERID'">
+            {{ element?.employee_data?.EMPLDAPUSERID }}
+          </span>
+          <span *ngIf="column === 'EMPEMAILID'">
+            {{ element?.employee_data?.EMPEMAILID }}
+          </span>
+
+          <span *ngIf="column === 'Department Name'">
+            <span *ngIf="element?.isSP">SP User</span>
+            <span *ngIf="!element?.isSP">Branch User</span>
+          </span>
+
+          <span *ngIf="column === 'UserName'">
+            {{ element?.firstName }} {{ element?.lastName }}</span
+          >
+          <span *ngIf="column === 'Actions'">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu"
+              class="no-border"
+              [disabled]="disableAction(element?.userGroups)"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button
+                *ngIf="
+                  isAdmin &&
+                  !element?.userGroups.includes('UAM_USER') &&
+                  !element?.userGroups.includes('ADMIN')
+                "
+                mat-menu-item
+                (click)="
+                  updateCertificate(
+                    element?.userName,
+                    element?.isSP,
+                    element?.licenseCode,
+                    element?.licenseStartDate,
+                    element?.licenseExpiryDate,
+                    element?.licenseType,
+                    element?.hrmsNo
+                  )
+                "
+              >
+                <mat-icon>library_books</mat-icon>
+                <span>Update Certificate</span>
+              </button>
+              <button
+                mat-menu-item
+                *ngIf="isUamUser && !element?.isSP"
+                (click)="
+                  updateRole(
+                    element?.userName,
+                    element?.isSP,
+                    element.employee_data?.EMPLDAPUSERID,
+                    element?.userGroups
+                  )
+                "
+              >
+                <mat-icon>supervisor_account</mat-icon>
+                <span>Update Role</span>
+              </button>
+              <button
+                *ngIf="isUamUser"
+                mat-menu-item
+                (click)="
+                  updateBranch(
+                    element?.userName,
+                    element?.branchCode,
+                    element.employee_data?.EMPLDAPUSERID
+                  )
+                "
+              >
+                <mat-icon>settings_system_daydream</mat-icon>
+                <span>Update Branch</span>
+              </button>
+            </mat-menu>
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="expand">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          aria-label="row actions"
+          [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }"
+          class="width10"
+        ></th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-icon-button
+            aria-label="expand row"
+            class="no-border"
+            (click)="
+              expandedElement = expandedElement === element ? null : element;
+              $event.stopPropagation()
+            "
+          >
+            <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div
+            class="example-element-detail"
+            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+          >
+            <div>
+              <div class="example-element-position"></div>
+              <div class="example-element-symbol"></div>
+              <div class="example-element-name"></div>
+              <div class="example-element-weight"></div>
+            </div>
+            <div class="example-element-description">
+              <span class="example-element-description-attribution"> </span>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: displayedColumns"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+  </div>
+  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
+  <mat-paginator
+    [length]="totalRecords"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+</div>

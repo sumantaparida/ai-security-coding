@@ -1,0 +1,495 @@
+<h2 mat-dialog-title>
+  Editing PED Details of {{ data?.insurers | getInsuredName: data?.memberId }}
+</h2>
+<br />
+<div *ngIf="!addDisease" class="margin-bottom">
+  <button mat-raised-button (click)="onAddDisease()">Add Disease</button>
+</div>
+
+<ng-container *ngIf="!addDisease && currentMemberAnswers.details.length > 0">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element">{{ element.position + 1 }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name of Disease</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="peddate">
+      <th mat-header-cell *matHeaderCellDef>PED suffering From</th>
+      <td mat-cell *matCellDef="let element">{{ element.peddate }}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="treatment">
+      <th mat-header-cell *matHeaderCellDef>Treatment Taken</th>
+      <td mat-cell *matCellDef="let element">{{ element.treatment }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="diagnosis">
+      <th mat-header-cell *matHeaderCellDef>Exact Diagnosis</th>
+      <td mat-cell *matCellDef="let element">{{ element.diagnosis }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="hospitalName">
+      <th mat-header-cell *matHeaderCellDef>Hospital Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.hospitalName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="consultationDate">
+      <th mat-header-cell *matHeaderCellDef>Consultation Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.consultationDate }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element; let index" id="lastColumnpad">
+        <div class="button-align">
+          <button
+            class="button-size"
+            mat-mini-fab
+            color="primary"
+            aria-label="Example icon button with a menu icon"
+            (click)="onEdit(index)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            class="button-size"
+            mat-mini-fab
+            color="primary"
+            aria-label="Example icon button with a menu icon"
+            (click)="onDelete(index)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</ng-container>
+<div class="mat-typography" *ngIf="addDisease">
+  <form [formGroup]="medicalOptionalForm">
+    <mat-card class="margin-bottom-30">
+      <mat-card-content>
+        <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px">
+          <ng-template ngFor let-input [ngForOf]="currentQuestion?.formData">
+            <ng-container [ngSwitch]="input.controlType">
+              <ng-template [ngSwitchCase]="'text'">
+                <div fxFlex="30">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (change)="onDataChanged()"
+                      matInput
+                      placeholder="{{ input?.placeholder }}"
+                      formControlName="member-{{ memberId }}-question-{{
+                        currentQuestion?.questionId
+                      }}-{{ input?.controlName }}-{{ answerCountIdex }}"
+                    />
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      medicalFormErrorTemplate;
+                      context: {
+                        control:
+                          'member-' +
+                          memberId +
+                          '-question-' +
+                          currentQuestion?.questionId +
+                          '-' +
+                          input?.controlName +
+                          '-' +
+                          answerCountIdex,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'textarea'">
+                <div fxFlex="70">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <textarea
+                      rows="5"
+                      cols="50"
+                      matInput
+                      formControlName="member-{{ memberId }}-question-{{
+                        currentQuestion?.questionId
+                      }}-{{ input?.controlName }}-{{ answerCountIdex }}"
+                      (keyup)="onDataChanged()"
+                      placeholder="{{ input?.placeholder }}"
+                    ></textarea>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      medicalFormErrorTemplate;
+                      context: {
+                        control:
+                          'member-' +
+                          memberId +
+                          '-question-' +
+                          currentQuestion?.questionId +
+                          '-' +
+                          input?.controlName +
+                          '-' +
+                          answerCountIdex,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <!-- handling select & radio type inputs -->
+
+              <ng-template [ngSwitchCase]="'select'">
+                <div fxFlex="30">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label class="cus-form-label"
+                      >{{ input?.label }}<span class="man-field">*</span>
+                    </mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectionChanged()"
+                      formControlName="member-{{ memberId }}-question-{{
+                        currentQuestion?.questionId
+                      }}-{{ input?.controlName }}-{{ answerCountIdex }}"
+                    >
+                      <mat-option *ngFor="let option of input?.options" [value]="option.id">
+                        {{ option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      medicalFormErrorTemplate;
+                      context: {
+                        control:
+                          'member-' +
+                          memberId +
+                          '-question-' +
+                          currentQuestion?.questionId +
+                          '-' +
+                          input?.controlName +
+                          '-' +
+                          answerCountIdex,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'seachableDropdown'">
+                <div fxFlex="30">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label class="cus-form-label"
+                      >{{ input?.label }}<span class="man-field">*</span>
+                    </mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectionChanged()"
+                      formControlName="member-{{ memberId }}-question-{{
+                        currentQuestion?.questionId
+                      }}-{{ input?.controlName }}-{{ answerCountIdex }}"
+                    >
+                      <mat-option>
+                        <ngx-mat-select-search
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="Not Found"
+                          formControlName="searchCtrl"
+                        >
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option
+                        *ngFor="
+                          let option of input?.options
+                            | searchDropDown: medicalOptionalForm.get('searchCtrl').value:'value'
+                        "
+                        [value]="option.id"
+                      >
+                        {{ option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      medicalFormErrorTemplate;
+                      context: {
+                        control:
+                          'member-' +
+                          memberId +
+                          '-question-' +
+                          currentQuestion?.questionId +
+                          '-' +
+                          input?.controlName +
+                          '-' +
+                          answerCountIdex,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'date'">
+                <div fxFlex="30">
+                  <mat-form-field class="full-width" color="accent" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      readonly
+                      [max]="input.maxDate | getDate: null"
+                      [min]="input.minDate | getDate: null"
+                      (dateChange)="onDateChanged()"
+                      matInput
+                      [matDatepicker]="picker"
+                      formControlName="member-{{ memberId }}-question-{{
+                        currentQuestion?.questionId
+                      }}-{{ input?.controlName }}-{{ answerCountIdex }}"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker color="primary"></mat-datepicker>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      medicalFormErrorTemplate;
+                      context: {
+                        control:
+                          'member-' +
+                          memberId +
+                          '-question-' +
+                          currentQuestion?.questionId +
+                          '-' +
+                          input?.controlName +
+                          '-' +
+                          answerCountIdex,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'datemonthyear'">
+                <div fxFlex="30">
+                  <mat-form-field class="full-width" color="accent" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      readonly
+                      [max]="input.maxDate | getDate: null"
+                      [min]="input.minDate | getDate: null"
+                      (dateChange)="onDateChanged()"
+                      matInput
+                      [matDatepicker]="picker"
+                      formControlName="member-{{ memberId }}-question-{{
+                        currentQuestion?.questionId
+                      }}-{{ input?.controlName }}-{{ answerCountIdex }}"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker color="primary"></mat-datepicker>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      medicalFormErrorTemplate;
+                      context: {
+                        control:
+                          'member-' +
+                          memberId +
+                          '-question-' +
+                          currentQuestion?.questionId +
+                          '-' +
+                          input?.controlName +
+                          '-' +
+                          answerCountIdex,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="'number'">
+                <div fxFlex="30">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (change)="onDataChanged()"
+                      matInput
+                      placeholder="{{ input?.placeholder }}"
+                      type="number"
+                      formControlName="member-{{ memberId }}-question-{{
+                        currentQuestion?.questionId
+                      }}-{{ input?.controlName }}-{{ answerCountIdex }}"
+                    />
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      medicalFormErrorTemplate;
+                      context: {
+                        control:
+                          'member-' +
+                          memberId +
+                          '-question-' +
+                          currentQuestion?.questionId +
+                          '-' +
+                          input?.controlName +
+                          '-' +
+                          answerCountIdex,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template [ngSwitchCase]="'radio'">
+                <div class="margin-top-5" fxFlex="30">
+                  <label>{{ input?.label }}</label>
+                  <mat-radio-group
+                    class="display-flex"
+                    aria-label="Select an option"
+                    formControlName="member-{{ memberId }}-question-{{
+                      currentQuestion?.questionId
+                    }}-{{ input?.controlName }}-{{ answerCountIdex }}"
+                  >
+                    <ng-container *ngFor="let form of input?.options; let first = first">
+                      <div
+                        fxFlex.xs="100"
+                        class="smoker-radio-box"
+                        [ngClass]="{ 'margin-left': !first }"
+                      >
+                        <mat-radio-button color="primary" value="{{ form?.id }}">
+                          {{ form?.value }}
+                        </mat-radio-button>
+                      </div>
+                    </ng-container>
+                  </mat-radio-group>
+                </div>
+              </ng-template>
+            </ng-container>
+          </ng-template>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+
+  <ng-template #medicalFormErrorTemplate let-control="control" let-label="label">
+    <div
+      *ngIf="
+        medicalOptionalForm.get(control).touched &&
+        medicalOptionalForm.get(control).hasError('required')
+      "
+      class="full-width"
+    >
+      <span class="man-field">{{ label }} is required.</span>
+    </div>
+    <div
+      *ngIf="
+        medicalOptionalForm.get(control).touched &&
+        medicalOptionalForm.get(control).hasError('minlength')
+      "
+      class="full-width"
+    >
+      <span class="man-field"
+        >{{ label }} should be a minimum of
+        {{ medicalOptionalForm.get(control).errors.minlength.requiredLength }}
+        characters.</span
+      >
+    </div>
+    <div
+      *ngIf="
+        medicalOptionalForm.get(control).touched &&
+        medicalOptionalForm.get(control).hasError('maxlength')
+      "
+      class="full-width"
+    >
+      <span class="man-field"
+        >{{ label }} should be a maximum of
+        {{ medicalOptionalForm.get(control).errors.maxlength.requiredLength }}
+        characters.</span
+      >
+    </div>
+    <div
+      *ngIf="
+        medicalOptionalForm.get(control).touched && medicalOptionalForm.get(control).hasError('max')
+      "
+      class="full-width"
+    >
+      <span class="man-field"
+        >{{ label }} should be at max
+        {{ medicalOptionalForm.get(control).errors.max.max }}
+      </span>
+    </div>
+    <div
+      *ngIf="
+        medicalOptionalForm.get(control).touched && medicalOptionalForm.get(control).hasError('min')
+      "
+      class="full-width"
+    >
+      <span class="man-field"
+        >{{ label }} should be at least
+        {{ medicalOptionalForm.get(control).errors.min.min }}
+      </span>
+    </div>
+    <div
+      *ngIf="
+        medicalOptionalForm.get(control).touched &&
+        medicalOptionalForm.get(control).hasError('pattern')
+      "
+      class="full-width"
+    >
+      <span class="man-field">{{ label }} is not valid </span>
+    </div>
+  </ng-template>
+</div>
+<mat-dialog-actions *ngIf="!addDisease" align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="onSaveClicked()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>
+<p class="errorAns" *ngIf="showError">Please enter all mandatory details</p>
+<mat-dialog-actions *ngIf="addDisease" align="end">
+  <button mat-button (click)="addDisease = !addDisease">Cancel</button>
+  <button mat-button (click)="addOnDisease(answerCountIdex)" cdkFocusInitial>Add</button>
+</mat-dialog-actions>

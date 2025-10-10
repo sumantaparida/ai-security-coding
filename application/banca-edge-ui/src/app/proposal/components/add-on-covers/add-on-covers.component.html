@@ -1,0 +1,99 @@
+<mat-card [formGroup]="addOnForm" *ngIf="covers">
+  <mat-card-content>
+    <div *ngFor="let cover of covers; let index = index" fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column"
+      fxLayoutGap="15px">
+      <ng-container *ngIf="+cover?.attribute?.maxAge >= insuredAge && +cover?.attribute?.minAge <= insuredAge">
+        <div *ngIf="!cover?.selected" fxFlex="5">
+          <button class="add-btn" [disabled]="disableAll" (click)="onAddCover(index)">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+          </button>
+        </div>
+        <div *ngIf="cover?.selected" fxFlex="5">
+          <button class="delete-btn" [disabled]="disableAll" (click)="onRemoveCover(index)">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+          </button>
+        </div>
+        <div fxFlex="28">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Cover Name</mat-label>
+            <input readonly type="text" matInput [value]="cover?.displayName" />
+          </mat-form-field>
+        </div>
+        <div *ngIf="cover?.saRequired" fxFlex="28">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Sum Insured</mat-label>
+            <input type="number" (change)="onSumInsuredChanged($event, index)" [readonly]="!cover?.selected" matInput
+              formControlName="{{ cover?.coverId }}sumInsured" />
+          </mat-form-field>
+          <div *ngIf="
+              addOnForm.get(cover?.coverId + 'sumInsured').touched &&
+              addOnForm.get(cover?.coverId + 'sumInsured').hasError('pattern')
+            " class="error">
+            Sum Insured should be in multiples of 1000
+          </div>
+          <div *ngIf="
+              addOnForm.get(cover?.coverId + 'sumInsured').touched &&
+              addOnForm.get(cover?.coverId + 'sumInsured').hasError('max')
+            " class="error">
+            Sum Insured should not be greater than
+            {{ addOnForm.get(cover?.coverId + 'sumInsured').errors.max.max }}
+          </div>
+          <div *ngIf="
+              addOnForm.get(cover?.coverId + 'sumInsured').touched &&
+              addOnForm.get(cover?.coverId + 'sumInsured').hasError('min')
+            " class="error">
+            Sum Insured should not be less than
+            {{ addOnForm.get(cover?.coverId + 'sumInsured').errors.min.min }}
+          </div>
+          <div *ngIf="
+              addOnForm.get(cover?.coverId + 'sumInsured').touched &&
+              addOnForm.get(cover?.coverId + 'sumInsured').hasError('required')
+            " class="error">
+            Sum Insured is required.
+          </div>
+        </div>
+        <div fxFlex="28">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Premium</mat-label>
+            <input readonly type="text" matInput [value]="
+                cover?.premium?.hasOwnProperty(insuredData.mode)
+                  ? cover?.premium[insuredData.mode]?.netPremium
+                  : 0
+              " />
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="capturePan" fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+      <mat-form-field class="full-width" appearance="fill" fxFlex="28" fxFlex.xs="100">
+        <mat-label>Pan Card<span class="man-field">*</span> </mat-label>
+        <input (change)="onPanChange()" type="text" formControlName="proposerPan" matInput />
+      </mat-form-field>
+      <div fxFlex="100" *ngIf="
+          addOnForm.get('proposerPan').touched && addOnForm.get('proposerPan').hasError('required')
+        " class="error">
+        Pan Card is mandatory as the premium amount is greater than Rs. 49,999
+      </div>
+      <div fxFlex="100" *ngIf="
+          addOnForm.get('proposerPan').touched && addOnForm.get('proposerPan').hasError('pattern')
+        " class="error">
+        Pan Card is not valid
+      </div>
+    </div>
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+      <div fxFlex="85">
+        <button *ngIf="addOnForm.get('recalculate')" (click)="onRecalculateClicked()" mat-raised-btn
+          class="recalculate-btn">
+          Recalculate Premium
+        </button>
+        <button *ngIf="!illustrationLink" (click)="onGenerateIllustration()" mat-raised-btn class="generate-btn">
+          Generate Illustration
+        </button>
+        <a *ngIf="illustrationLink && addOnForm.get('viewIllustration')" target="_blank" [href]="illustrationLink"
+          (click)="onViewIllustrationClicked()">View Illustration</a>
+        &nbsp;
+        <a *ngIf="insuredData.insurerCode === 130" target="_blank" (click)="base64ToPdf()">Download FNA</a>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

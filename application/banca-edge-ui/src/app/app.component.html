@@ -1,0 +1,37 @@
+<div class="main-container">
+  <div class="loading-spinner">
+    <!-- <mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+    </mat-progress-spinner> -->
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="large" color="white" type="timer">
+      <p style="color: white"> Loading...Please Wait...Do not refresh the page... </p>
+    </ngx-spinner>
+  </div>
+  <app-nav *ngIf="hasToken" class="main-nav"></app-nav>
+  <!-- main app container -->
+  <div class="body-container" [ngClass]="{ 'bg-light': user }">
+    <div id="countdown" *ngIf="startCountDown">
+      <div id="countdown-number">{{ min }}:{{ sec }}</div>
+      <svg>
+        <circle
+          r="12"
+          cx="20"
+          cy="20"
+          [ngClass]="{
+            green: countdown >= 60,
+            orange: countdown < 60 && countdown >= 30,
+            red: countdown < 30
+          }"
+        ></circle>
+      </svg>
+    </div>
+    <div class="session-msg" *ngIf="startCountDown">Session is about to expire</div>
+
+    <router-outlet></router-outlet>
+  </div>
+  <!-- <app-session-logout></app-session-logout> -->
+  <!-- <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown> -->
+  <!-- <app-assist-me *ngIf="user && hasToken && organizationCode == 'BOM'"></app-assist-me> -->
+  <div class="footer">
+    <app-footer-nav *ngIf="hasToken"></app-footer-nav>
+  </div>
+</div>

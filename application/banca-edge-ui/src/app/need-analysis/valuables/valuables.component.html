@@ -1,0 +1,32 @@
+<div *ngIf="state==='valuables'" class="valuables">
+    <div class="valuableDesc">
+        <label>My possession</label>
+        <div id="index-gallery" class="flex-container-valuables">
+            <ng-container>
+                <div class="item">
+                    <img (click)="onValuablesSelected(1,'Car')"
+                        [ngClass]="{'selected' : form.get('valuablesValue')?.value?.indexOf(1) > -1}"
+                        src="../../../assets/images/{{image1}}.svg" class="valuableImages">
+                    <p>Car</p>
+                </div>
+                <div class="item">
+                    <img (click)="onValuablesSelected(2,'Bike')"
+                        [ngClass]="{'selected' : form.get('valuablesValue')?.value?.indexOf(2) > -1}"
+                        src="../../../assets/images/{{image2}}.svg" class="valuableImages">
+                    <p>Bike</p>
+                </div>
+                <div class="item">
+                    <img (click)="onValuablesSelected(3,'Valuables')"
+                        [ngClass]="{'selected' : form.get('valuablesValue')?.value?.indexOf(3) > -1}"
+                        src="../../../assets/images/Assets.svg" class="valuableImages">
+                    <p>Valuables</p>
+                </div>
+            </ng-container>
+
+
+        </div>
+
+        <mat-error class="error-msg" *ngIf="form.get('valuablesValue').dirty && !form.get('valuablesValue').valid">
+            Please
+            select your possession</mat-error>
+    </div>

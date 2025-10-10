@@ -1,0 +1,113 @@
+<mat-card class="success screen">
+  <mat-card-content>
+    <p *ngIf="applicationDetails?.statusCode === 4" class="success-message">
+      Thank you for your Application. Your Application will now be processed by the Insurer after
+      ensuring all requirements are completed.
+      <br />
+      Your Unique ID number is:
+      <span class="app-no">{{ applicationDetails?.applicationNo }}</span>. Please quote this number in all
+      correspondence.
+      <br />
+      <br />
+    </p>
+    <p *ngIf="applicationDetails?.statusCode === 2 && applicationDetails?.insurerCode === 105" class="success-message">
+      Thank you for your Application. Your Unique ID number is
+      {{ applicationDetails?.applicationNo }}.
+      <br />
+      Please quote this number in all correspondence. Your Application is now ready to be sent to
+      the Insurer. Please go to your Policy Vault, click on the Action Button and select "Send to
+      Insurer".
+    </p>
+    <p *ngIf="
+        (applicationDetails?.statusCode === 2 || applicationDetails?.statusCode === 7) &&
+        applicationDetails?.insurerCode !== 512 &&
+        applicationDetails?.insurerCode !== 105
+      " class="success-message">
+      Thank you for your Application. Your Application has been sent for SP Approval
+      <br />
+      Your Unique ID number is:
+      <span class="app-no">{{ applicationDetails?.applicationNo }}</span>. Please quote this number in all
+      correspondence.
+      <br />
+      <br />
+    </p>
+    <p *ngIf="
+        (applicationDetails?.statusCode === 2 || applicationDetails?.statusCode === 7) &&
+        applicationDetails?.insurerCode === 512
+      " class="success-message">
+      This Application and the Premium deducted needs to be Approved. Please contact the Approver to
+      take the process forward.
+      <br />
+      <br />
+    </p>
+    <p *ngIf="applicationDetails?.insurerCode === 512" class="success-message">Payment Request is initiated. Approver
+      can Authorize the entry under My Space -> Payment Requests</p>
+    <p *ngIf="
+        applicationDetails?.statusCode === 1 &&
+        (applicationDetails?.insurerCode === 122 || applicationDetails?.insurerCode === 105)
+      " class="success-message">
+      Your Proposal has been forwarded to the insurer. You will be contacted by the insurer for
+      further action. The contact details of insurer representative are:
+      <br />
+      <br />
+    </p>
+    <p *ngIf="applicationDetails?.insurerCode === 147 || applicationDetails?.insurerCode === 130"
+      class="success-message">
+      {{ sendLeadToInsurerData?.message }}
+      <br />
+      <br />
+    </p>
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+      <div *ngIf="applicationDetails?.applicationData?.agencyData" fxFlex="45">
+        <p *ngIf="applicationDetails?.insurerCode !== 122" class="success-message">
+          Your Insurer Representative is:
+        </p>
+        <br />
+        <span *ngIf="applicationDetails?.applicationData?.agencyData?.flsName" class="rm-details success-message">Name:
+          <b>{{ applicationDetails?.applicationData?.agencyData?.flsName }}</b></span>
+        <br />
+        <span *ngIf="applicationDetails?.applicationData?.agencyData?.flsMobile"
+          class="rm-details success-message">Contact Details:
+          <b>{{ applicationDetails?.applicationData?.agencyData?.flsMobile }}</b></span>
+        <br />
+        <span *ngIf="applicationDetails?.applicationData?.agencyData?.flsId" class="rm-details success-message">Email
+          ID: <b>{{ applicationDetails?.applicationData?.agencyData?.flsId }}</b></span>
+        <br />
+      </div>
+      <div *ngIf="
+          applicationDetails?.agencyData?.approvingSp && applicationDetails?.agencyData?.spName
+        " fxFlex="45">
+        <p class="success-message">Your Specified Person is:</p>
+        <span *ngIf="applicationDetails?.approvingSp" class="rm-details success-message">SP Code: <span
+            class="app-no">{{ applicationDetails?.agencyData?.spCode }}</span></span>
+        <br />
+        <span *ngIf="applicationDetails?.spName" class="rm-details success-message">SP Name: <span class="app-no">{{
+            applicationDetails?.agencyData?.spName }}</span></span>
+      </div>
+    </div>
+
+    <!-- <p class="agency-details">The agency details are below.</p>
+        <table class="mat-elevation-z8 info-table">
+            <tr class="border-bottom">
+                <td class="cell-style"> SP Code </td>
+                <td class="cell-style"> {{applicationDetails?.approvingSp}} </td>
+            </tr>
+            <tr class="border-bottom">
+                <td class="cell-style"> SP Name </td>
+                <td class="cell-style"> {{applicationDetails?.spName}} </td>
+            </tr>
+            <tr class="border-bottom">
+                <td class="cell-style"> Insurer RM Name </td>
+                <td class="cell-style"> {{applicationDetails?.applicationData?.insurerRmName}} </td>
+            </tr>
+            <tr class="border-bottom">
+                <td class="cell-style"> Insurer RM Contact </td>
+                <td class="cell-style"> {{applicationDetails?.applicationData?.insurerRmContact}} </td>
+            </tr>
+            <tr class="border-bottom">
+                <td class="cell-style"> Insurer RM Email </td>
+                <td class="cell-style"> {{applicationDetails?.applicationData?.insurerRmEmail}} </td>
+            </tr>
+        </table> -->
+  </mat-card-content>
+</mat-card>

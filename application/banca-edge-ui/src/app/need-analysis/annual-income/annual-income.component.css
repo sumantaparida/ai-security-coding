@@ -1,0 +1,125 @@
+.annualIncome {
+  top: 15%;
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
+  color: black;
+  font-weight: 500;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-gap: 10px;
+  /* padding: 10px; */
+}
+
+.grid-container>div {
+  text-align: center;
+  padding: 10px 0;
+  /* font-size: 30px; */
+}
+
+/* input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid black;
+  width: 6rem;
+} */
+
+.error-msg {
+  font-size: 14px;
+}
+
+mat-slider {
+  width: 500px;
+  color: #03dac5;
+}
+
+::ng-deep .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb-label {
+  background-color: grey !important;
+}
+
+::ng-deep .mat-slider-thumb-label {
+  transform: rotate(45deg) !important;
+  border-radius: 50% 50% 0 !important;
+}
+
+::ng-deep .mat-slider-thumb {
+  transform: scale(0) !important;
+}
+
+::ng-deep .mat-slider-thumb-label-text {
+  opacity: 1 !important;
+}
+
+::ng-deep .mat-accent .mat-slider-track-fill, .mat-accent .mat-slider-thumb, .mat-accent .mat-slider-thumb-label {
+  background-color: #03dac5;
+}
+.sumassu_val {
+  text-transform: capitalize;
+  font-size: 18px;
+    color: forestgreen;
+
+}
+.error-msg {
+  color: #b00020;
+  text-align: center;
+  font-size: 14px;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+/* media query */
+
+/* mobile */
+
+@media only screen and (max-width: 767px) {
+  .lg-screen {
+    display: none;
+  }
+  .sm-screen {
+    display: block;
+  }
+  mat-slider {
+    width: 325px;
+  }
+
+  .annualIncome{
+    left: 0;
+    position: absolute;
+    right: 0;
+    margin: auto;
+    width: 20rem;
+  }
+}
+
+/* Desktop */
+
+@media only screen and (min-width: 768px) {
+  .sm-screen {
+    display: none;
+  }
+  .lg-screen {
+    display: block;
+  }
+}
+
+/* tablets */
+
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+  .lg-screen {
+    display: none;
+  }
+  .sm-screen {
+    display: block;
+  }
+}

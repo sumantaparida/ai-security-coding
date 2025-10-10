@@ -1,0 +1,302 @@
+<!-- <app-quote-layout [formData]="data"></app-quote-layout> -->
+
+<div class="health-details-container">
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="80" class="health-details-header">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        class="heading-row"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+      >
+        <div class="heading-text">
+          <span>Home Insurance</span>
+          <!-- <span>Health Insurance</span> -->
+        </div>
+      </div>
+      <!-- <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                class="need-help-critical-div">
+                <div fxFlex="70">
+                    <a>Need Help
+                    </a>
+                </div>
+            </div> -->
+
+      <ng-container *ngIf="">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="help-description"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+        >
+          <!-- Policy Description column  -->
+
+          <div fxFlex="30" class="policy-description">
+            <img
+              class="health-details-img"
+              src="../../../assets/images/Health_Hospi_ICON.svg"
+              alt="Critical Illness"
+            />
+          </div>
+
+          <div fxFlex="60">
+            <p>
+              {{ 'quote.HI_DEFINITION' | translate }}
+            </p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div #noQuoteGenerated flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column">
+    <div *ngIf="isNoPolicyError" fxFlex="70" class="error-div-row">
+      <div
+        flex
+        fxLayout="row"
+        class="error-background"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="5px"
+      >
+        <!-- <div fxFlex="15">
+                    <img src="../../../assets/images/error-img.png">
+                </div> -->
+        <div fxFlex="100">
+          <mat-error>{{ errorDetail }}</mat-error>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="80" class="health-details-form">
+      <form [formGroup]="form">
+        <ng-template ngFor let-input [ngForOf]="formData">
+          <ng-container [ngSwitch]="input.controlType">
+            <ng-template [ngSwitchCase]="'text'">
+              <ng-container
+                *ngIf="input | displayQuestion: form.value:form:quoteInput:backtoQuestion"
+              >
+                <div
+                  flex
+                  flexLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                  class="form-row-gap-bottom"
+                >
+                  <div fxFlex="50">
+                    <label [for]="input?.controlName"> {{ input?.controlQuestion }}</label>
+                  </div>
+                  <div fxFlex="50" class="center-label">
+                    <mat-form-field appearance="fill">
+                      <input
+                        matInput
+                        placeholder="{{ input?.placeholder }}"
+                        [formControlName]="input?.controlName"
+                      />
+                    </mat-form-field>
+                    <ng-container
+                      *ngTemplateOutlet="
+                        quoteErrorTemplate;
+                        context: {
+                          control: input?.controlName,
+                          label: input?.controlQuestion
+                        }
+                      "
+                    >
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+
+            <!-- select & radio type inputs -->
+
+            <ng-template [ngSwitchCase]="'select'">
+              <ng-container
+                *ngIf="input | displayQuestion: form.value:form:quoteInput:backtoQuestion"
+              >
+                <div
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                  class="form-row-gap-bottom"
+                >
+                  <div fxFlex="50" fxLayoutGap="10px">
+                    <label> {{ input?.controlQuestion }}</label>
+                  </div>
+                  <div fxFlex="50" fxLayoutGap="10px">
+                    <mat-form-field appearance="fill" class="example-dropdown">
+                      <!-- <mat-label [for]="input.controlName">{{input.controlName}}</mat-label> -->
+                      <mat-select
+                        [formControlName]="input?.controlName"
+                        placeholder="{{ input.placeholder }}"
+                      >
+                        <mat-option *ngFor="let option of input.options" [value]="option.value">
+                          {{ option.viewValue }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <ng-container
+                      *ngTemplateOutlet="
+                        quoteErrorTemplate;
+                        context: {
+                          control: input?.controlName,
+                          label: input?.controlQuestion
+                        }
+                      "
+                    >
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+
+            <ng-template [ngSwitchCase]="'radio'">
+              <ng-container
+                *ngIf="input | displayQuestion: form.value:form:quoteInput:backtoQuestion"
+              >
+                <div
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                  class="form-row-gap-bottom"
+                >
+                  <div fxFlex="50" fxLayoutGap="10px">
+                    <label> {{ input?.controlQuestion }}</label>
+                  </div>
+                  <!-- <label>{{option.viewValue}}</label> -->
+                  <div fxFlex="50" class="center-label">
+                    <mat-radio-group
+                      class="display-flex"
+                      aria-label="Select an option"
+                      [formControlName]="input?.controlName"
+                    >
+                      <div
+                        class="gender-radio-box margin-right"
+                        *ngFor="let option of input?.options"
+                      >
+                        <mat-radio-button color="primary" value="{{ option?.value }}">
+                          {{ option.viewValue }}
+                        </mat-radio-button>
+                      </div>
+                    </mat-radio-group>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+
+            <!-- <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px"
+                            class="form-row-gap-bottom">
+                            <ng-template [ngSwitchCase]="'radioSmall'">
+                                <ng-container *ngIf=" input | displayQuestion: form.value">
+                                    <div fxFlex="50" fxLayoutGap="10px">
+                                        <label> {{input?.controlQuestion}}</label>
+                                    </div>
+                                    <div fxFlex="25" class="center-label">
+
+                                        <mat-radio-group class="display-flex" aria-label="Select an option"
+                                            [formControlName]=input?.controlName>
+                                            <div class="gender-radio-box margin-right"
+                                                *ngFor="let option of input?.options">
+                                                <mat-radio-button color="primary" value="{{option?.value}}">
+                                                    {{option.viewValue}}
+                                                </mat-radio-button>
+                                            </div>
+
+                                        </mat-radio-group>
+                                    </div>
+                                </ng-container>
+                            </ng-template>
+
+                            <ng-template [ngSwitchCase]="'textSumAssured'">
+                                <div fxFlex="20">
+                                    <ng-container *ngIf=" input | displayQuestion: form.value form">
+                                        <mat-form-field appearance="fill">
+                                            <input matInput placeholder="{{input?.placeholder}}"
+                                                formControlName="{{input?.controlName}}">
+                                        </mat-form-field>
+                                    </ng-container>
+                                </div>
+
+                            </ng-template>
+
+                        </div> -->
+          </ng-container>
+        </ng-template>
+
+        <p class="saError" fxFlexAlign="center" *ngIf="saMax">
+          Value of total sum assurred cannot exceed 5 Crore
+        </p>
+        <button
+          mat-raised-button
+          class="generate-quote-btn"
+          [disabled]="!disableGenerateBtn()"
+          (click)="onSubmit()"
+        >
+          Generate Quote
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<ng-template #quoteErrorTemplate let-control="control" let-label="label">
+  <div
+    *ngIf="form.get(control).touched && form.get(control).hasError('required')"
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is required.</span>
+  </div>
+  <div
+    *ngIf="form.get(control).touched && form.get(control).hasError('minlength')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a minimum of
+      {{ form.get(control).errors.minlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="form.get(control).touched && form.get(control).hasError('maxlength')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a maximum of
+      {{ form.get(control).errors.maxlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div *ngIf="form.get(control).touched && form.get(control).hasError('max')" class="full-width">
+    <span class="man-field"
+      >{{ label }} should be at max
+      {{ form.get(control).errors.max.max }}
+    </span>
+  </div>
+  <div *ngIf="form.get(control).touched && form.get(control).hasError('min')" class="full-width">
+    <span class="man-field"
+      >{{ label }} should be at least
+      {{ form.get(control).errors.min.min }}
+    </span>
+  </div>
+  <div
+    *ngIf="form.get(control).touched && form.get(control).hasError('pattern')"
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is not valid </span>
+  </div>
+  <div
+    *ngIf="form.get(control).touched && form.get(control).hasError('maxvalueVal')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} can have max value of {{ form.get(control).errors.maxvalue }}
+    </span>
+  </div>
+</ng-template>

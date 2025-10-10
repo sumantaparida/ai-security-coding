@@ -1,0 +1,148 @@
+<div fxFlex="100" class="plan-quote-col">
+  <div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="5px"
+    class="rows-edit-col"
+  ></div>
+
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="2px"
+    class="rows-plan-col"
+  ></div>
+
+  <div fxFlex="100" class="plan-quote-col">
+    <form [formGroup]="quoteForm">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="5px"
+        class="rows-edit-col"
+      ></div>
+
+      <div
+        flex
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="2px"
+        class="rows-plan-col"
+      >
+        <!-- <div fxFlex="20" class="heading"><label>INSURER</label></div> -->
+        <div fxFlex="40" class="heading">
+          <label>Description of Insurance</label>
+        </div>
+        <div fxFlex="40" class="heading"><label>Premium</label></div>
+        <div fxFlex="20" class="heading"><label>Details </label></div>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+        class="rows-edit-col"
+      ></div>
+
+      <ng-container
+        *ngFor="let policy of recommendationData?.productQuote; let i = index"
+      >
+        <div
+          flex
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="2px"
+          class="rows-plan-col"
+        >
+          <div fxFlex="40" class="plan-name">
+            <div class="" fxLayoutAlign="start center">
+              <img class="policy-logo-img" [src]="policy?.insurerImageUrl" />
+            </div>
+
+            <div class="product-name">
+              {{ policy?.productName }}
+            </div>
+            <mat-checkbox
+              (change)="onCheckboxChange($event)"
+              class="product-checkbox"
+              [color]="'primary'"
+              formControlName="product-checkbox-{{ i }}"
+            ></mat-checkbox>
+            <p>
+              Please Tick the checkbox if ok to go ahead with given premium and
+              Sum Assured
+            </p>
+          </div>
+          <div fxFlex="20">
+            <div class="sum-fields">Sum Insured</div>
+            <div class="quote-fields">Premium</div>
+          </div>
+          <div fxFlex="20">
+            <div class="sum-fields">
+              {{ policy?.sa | currency: "INR":"symbol":"1.0-0" }}
+            </div>
+            <div class="quote-fields">
+              {{
+                policy?.premiums[policy?.selectedMode].totalPremium
+                  | currency: "INR":"symbol":"1.0-0"
+              }}
+            </div>
+          </div>
+          <div fxFlex=" 20" class="center">
+            <!-- <div class="quote-fields">{{policy?.premiums[policy?.premiums?.mode]?.totalPremium |
+                        currency:'INR':'symbol':'1.0-0'}}
+                    </div> -->
+            <!-- <div fxFlex="95" class="btn-div"> -->
+            <a class="more-details-link" (click)="moreDetails(i)"
+              >More details</a
+            >
+            <!-- </div> -->
+          </div>
+          <div
+            flex
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayout.sm="column"
+            fxLayoutGap="5px"
+            class="rows-plan-col"
+          >
+            <!-- <div fxFlex="95" class="btn-div"> <button mat-raised-button class="buy-now-btn" (click)="onBuyNow(i)">Buy
+                        Now</button></div> -->
+          </div>
+          <div
+            flex
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayout.sm="column"
+            fxLayoutGap="5px"
+            class="rows-plan-col"
+          ></div>
+        </div>
+      </ng-container>
+    </form>
+    <div
+      flex
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayout.sm="column"
+      fxLayoutGap="2px"
+      class="rows-plan-col"
+    >
+      <button
+        mat-raised-button
+        class="generate-quote-btn"
+        (click)="onSubmit()"
+        [disabled]="!enableBtn"
+      >
+        Save Details
+      </button>
+    </div>
+  </div>
+</div>
+<br />

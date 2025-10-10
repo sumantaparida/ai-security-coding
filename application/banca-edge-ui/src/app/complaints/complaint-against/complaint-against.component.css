@@ -1,0 +1,54 @@
+.complaint-against {
+    text-align: center;
+}
+
+/* .description{
+    position: relative;
+    left: 15%;
+    margin-bottom: 10%;
+    margin-top:10%;
+    font-size: 25px;
+    width: 100%;
+    color:#0d47a1;
+    font-weight: bolder;
+} */
+
+.example-dropdown {
+    width: 20rem;
+}
+
+/* .text-box-div{
+    position: absolute;
+    top:100px;
+} */
+
+mat-select {
+    height: 1px;
+}
+
+.example-form {
+    min-width: 12rem;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+textarea {
+    height: 12rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .description {
+        left: -16%;
+        font-size: 20px;
+    }
+    .text-box {
+        font-size: 20px;
+        width: 300px;
+        height: 200px;
+        margin-left: 30px;
+    }
+}

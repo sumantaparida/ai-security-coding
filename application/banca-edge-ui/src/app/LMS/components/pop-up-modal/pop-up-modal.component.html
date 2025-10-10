@@ -1,0 +1,5 @@
+<div class="center">
+  <h2 *ngIf="isAccept">The documents were accepted successfully</h2>
+  <h2 *ngIf="!isAccept">The documents were rejected successfully</h2>
+  <button mat-raised-button class="btn" (click)="close()">OK</button>
+</div>

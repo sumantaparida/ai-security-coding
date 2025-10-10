@@ -1,0 +1,42 @@
+<div flex fxLayout="row" fxLayoutGap="5px">
+  <div fxFlex="100" class="centre">
+    <form [formGroup]="medicalTestForm">
+      <mat-form-field appearance="fill" class="full-width-80">
+        <mat-label>Medical Test </mat-label>
+        <mat-select formControlName="medicalTest">
+          <mat-option *ngFor="let test of medicalTestList" [value]="test?.name">
+            {{ test?.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+
+<div flex fxLayout="row" fxLayoutGap="5px">
+  <div fxFlex="100" class="centre">
+    <form [formGroup]="medicalTestForm">
+      <mat-form-field appearance="fill" class="full-width-80">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of statusList" [value]="status?.name">
+            {{ status?.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+
+<div flex fxLayout="row" fxLayoutGap="5px">
+  <div fxFlex="100" class="centre">
+    <form [formGroup]="medicalTestForm">
+      <mat-form-field class="full-width-80" appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput rows="3" formControlName="description"></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+
+<button class="submit-btn" mat-raised-button color="primary" (click)="addTest()">Submit</button>

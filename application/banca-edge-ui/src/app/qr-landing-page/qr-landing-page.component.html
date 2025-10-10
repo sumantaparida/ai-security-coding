@@ -1,0 +1,71 @@
+<div class="container">
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="" class="">
+    <div fxFlex="80" class="search-div">
+      <img class="customer-icon" src="../../../../assets/quote-images/customer-logo.svg" />
+    </div>
+  </div>
+
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-15"
+    class="search-div"
+  >
+    <form class="center-div" [formGroup]="customerDetailsForm">
+      <div
+        flex
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayout.sm="column"
+        fxLayoutGap=""
+        class="margin-bottom-15"
+        class="search-div"
+      >
+        <div fxFlex="100" class="toggle-div">
+          <span class="cif-label">CIF Number</span>
+          <mat-slide-toggle formControlName="inputType" (change)="onToggled($event)"
+            >ACC Number
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <mat-form-field *ngIf="type === 'cif'" appearance="outline">
+        <mat-label>Enter the CIF Number</mat-label>
+        <input formControlName="cifNo" matInput placeholder="" />
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+      <mat-form-field *ngIf="type === 'accNo'" appearance="outline">
+        <mat-label>Enter the ACC Number</mat-label>
+        <input formControlName="cifNo" matInput placeholder="" />
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      </mat-form-field>
+      <mat-form-field *ngIf="showOtpField" appearance="outline">
+        <mat-label>Please enter the OTP received on your Mobile No.</mat-label>
+        <input matInput type="password" formControlName="otp" />
+        <mat-icon matSuffix>password</mat-icon>
+      </mat-form-field>
+      <div class="error-msg" *ngIf="showErrorMessage">{{ errorMessage }}</div>
+    </form>
+  </div>
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-10"
+  >
+    <div fxFlex="80" class="search-div">
+      <button
+        mat-raised-button
+        class="next-btn"
+        (click)="onSubmitClicked()"
+        [disabled]="!customerDetailsForm.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</div>

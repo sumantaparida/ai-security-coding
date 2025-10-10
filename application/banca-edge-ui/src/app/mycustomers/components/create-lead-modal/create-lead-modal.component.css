@@ -1,0 +1,28 @@
+.teal{
+    background-color: #11B9F0;
+    color: white;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+.green{
+    background-color: #007D64;
+    color: white;
+    font-weight: 500;
+}
+
+.center{
+    text-align: center;
+}
+
+
+@media (max-width:798px) {
+    .teal{
+        margin-bottom: 5px;
+    width: 8rem;
+    }
+    .green{
+        width: 8 rem;
+    }
+    
+}

@@ -1,0 +1,38 @@
+<div class="question-container">
+  <form [formGroup]="dcbForm">
+    <ng-container *ngFor="let question of questions">
+      <div class="display-flex">
+        <label class="example-radio-group-label">{{ question?.question }}</label>
+      </div>
+      <div class="display-flex">
+        <mat-radio-group
+          [color]="'primary'"
+          
+          class="example-radio-group"
+          (change)="onChange()"
+          formControlName="{{ question?.questionId }}"
+        >
+          <mat-radio-button
+            class="example-radio-button"
+            *ngFor="let option of question?.options"
+            [value]="option?.id"
+           
+          >
+            <span class="wrap-mat-radio-label">{{ option?.value }}</span>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </ng-container>
+
+    <!-- <button mat-raised-button class="next-btn nextIndex">Next</button> -->
+
+    <button
+      mat-raised-button
+      class="next-btn nextIndex"
+      (click)="nextState()"
+      [disabled]="!showOrHideNextBtn()"
+    >
+      Next
+    </button>
+  </form>
+</div>

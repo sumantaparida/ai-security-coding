@@ -1,0 +1,80 @@
+.savings {
+  top: 15%;
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
+  color: black;
+  font-weight: 500;
+}
+
+input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid black;
+  width: 7rem;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-gap: 10px;
+  /* padding: 10px; */
+}
+
+.grid-container>div {
+  text-align: center;
+  padding: 10px 0;
+  /* font-size: 30px; */
+}
+
+.error-msg {
+  font-size: 14px;
+}
+
+mat-slider {
+  width: 500px;
+  color: #03dac5;
+}
+
+::ng-deep .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb, .mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb-label {
+  background-color: grey !important;
+}
+
+/* media query */
+
+/* mobile */
+
+@media only screen and (max-width: 600px) {
+  .lg-screen {
+    display: none;
+  }
+  .sm-screen {
+    display: block;
+  }
+  mat-slider {
+    width: 325px;
+  }
+}
+
+/* Desktop */
+
+@media only screen and (min-width: 768px) {
+  .sm-screen {
+    display: none;
+  }
+  .lg-screen {
+    display: block;
+  }
+}
+
+/* tablets */
+
+@media only screen and (min-width: 601px) and (max-width: 767px) {
+  .lg-screen {
+    display: none;
+  }
+  .sm-screen {
+    display: block;
+  }
+}

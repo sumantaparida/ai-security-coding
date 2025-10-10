@@ -1,0 +1,20 @@
+.full-width-80{
+    width: 80%;
+  
+}
+
+.centre{
+    text-align: center;
+}
+
+.submit-btn {
+    /* width: 10rem; */
+    padding: 5px 10px;
+    background: #03dac5;
+    color: white;
+    font-size: 18px;
+    width: 130px;
+    margin: auto;
+    display: block;
+  }
+

@@ -1,0 +1,50 @@
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+  border: 1px solid #b0b0b0;
+}
+
+.login-btn {
+  background: #03dac5;
+}
+
+mat-form-field {
+  display: block;
+}
+
+.action {
+  display: flex;
+}
+
+.show-psw {
+  position: absolute;
+  right: 0;
+  top: 1px;
+  cursor: pointer;
+}
+
+app-footer mat-toolbar,
+.action {
+  justify-content: space-between;
+}
+
+.mat-stroked-button.mat-primary.link,
+.mat-raised-button.mat-primary {
+  width: calc(100% - 5px);
+  margin: 0 5px;
+}
+
+.captcha {
+  display: flex;
+  justify-content: center;
+}
+
+.refresh-btn {
+  width: 20px;
+  height: 20px;
+}
+
+.error-message {
+  color: red;
+}

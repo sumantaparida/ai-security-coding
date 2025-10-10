@@ -1,0 +1,78 @@
+<mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+</mat-progress-spinner>
+<div *ngIf="paymentInformation" class="margin-top-20" flex fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column"
+  fxLayoutGap="15px">
+  <form [formGroup]="paymentInfoFormGroup">
+    <mat-card class="margin-top-40">
+      <mat-card-content>
+        <div flex fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+          <div fxFlex=32>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Journal Number<span class="man-field">*</span></mat-label>
+              <input matInput formControlName="instrumentNo">
+            </mat-form-field>
+          </div>
+          <div fxFlex=32>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Date of payment<span class="man-field">*</span></mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="instrumentDate" readonly>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div fxFlex=32>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Payment Amount<span class="man-field">*</span></mat-label>
+              <input matInput formControlName="paymentAmount">
+            </mat-form-field>
+          </div>
+          <div fxFlex=32>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Name of Payer<span class="man-field">*</span></mat-label>
+              <input matInput formControlName="payerName">
+            </mat-form-field>
+          </div>
+          <div fxFlex=32>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Mobile<span class="man-field">*</span></mat-label>
+              <input matInput formControlName="mobileNo">
+            </mat-form-field>
+          </div>
+          <!-- <div fxFlex=32>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Last Name of Payer<span class="man-field">*</span></mat-label>
+              <input matInput formControlName="payerLastName">
+            </mat-form-field>
+          </div> -->
+          <div fxFlex=32>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Insurer<span class="man-field">*</span></mat-label>
+              <input matInput formControlName="insurerName" readonly>
+            </mat-form-field>
+          </div>
+          <div fxFlex=32>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Product<span class="man-field">*</span></mat-label>
+              <input matInput formControlName="productName" readonly>
+            </mat-form-field>
+          </div>
+          <!-- <div fxFlex=32>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Payment Reference Number<span class="man-field">*</span></mat-label>
+              <input matInput formControlName="paymentRefNo">
+            </mat-form-field>
+          </div> -->  
+          <div class="spinner-height">
+            <mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-spinner>
+          </div>        
+          <div class="display-flex">
+            <button class="cancel-btn" (click)="goBack()" mat-button>Back</button>
+            <button class="next-btn" [disabled]="!paymentInfoFormGroup.valid" mat-button
+              (click)="onPaymentSubmitClicked()">Submit</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

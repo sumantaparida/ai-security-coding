@@ -1,0 +1,53 @@
+<div>
+  <form [formGroup]="leadStatusForm">
+    <div mat-dialog-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Lead Status</mat-label>
+        <mat-select formControlName="leadStatus" disableRipple>
+          <mat-option *ngFor="let lead of leadStatus" [value]="lead?.id">{{
+            lead?.value
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <textarea
+          placeholder="Enter the Reason"
+          matInput
+          rows="5"
+          cols=""
+          formControlName="comment"
+        ></textarea>
+      </mat-form-field>
+      <div *ngIf="policyDetails?.online === false">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Gross Premium</mat-label>
+          <input matInput formControlName="grossPremium" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Policy Start date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="policyStartDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Policy End date</mat-label>
+          <input matInput [matDatepicker]="picker1" formControlName="policyEndDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div mat-dialog-actions>
+      <button
+        mat-button
+        [disabled]="!leadStatusForm.valid"
+        (click)="onUpdateClicked()"
+        class="submit-btn"
+      >
+        Update
+      </button>
+      <button class="cancel-btn" mat-button (click)="onCancelClicked()">Cancel</button>
+    </div>
+  </form>
+</div>

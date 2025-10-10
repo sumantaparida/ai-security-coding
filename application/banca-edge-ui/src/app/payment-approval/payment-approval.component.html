@@ -1,0 +1,151 @@
+<form class="search-field" [formGroup]="searchForm">
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Search</mat-label>
+    <input matInput (keyup)="onSearchFieldChange()" formControlName="searchField" />
+    <mat-icon matSuffix color="primary">search</mat-icon>
+  </mat-form-field>
+</form>
+<div class="payment-request-screen">
+  <table mat-table [dataSource]="paymentRequestsToDisplay" class="mat-elevation-z8">
+    <ng-container matColumnDef="Customer Name">
+      <th mat-header-cell *matHeaderCellDef [ngClass]="{
+        'theme-table-red': currentUser?.organizationCode === 'SIB',
+        'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+      }">Initiated By</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.requestedBy }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Instrument Number">
+      <th mat-header-cell *matHeaderCellDef [ngClass]="{
+        'theme-table-red': currentUser?.organizationCode === 'SIB',
+        'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+      }">Instrument Number</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.instrumentNo }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Transaction Date">
+      <th mat-header-cell *matHeaderCellDef [ngClass]="{
+        'theme-table-red': currentUser?.organizationCode === 'SIB',
+        'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+      }">Transaction Date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.paymentDate | datex: 'DD-MM-yyyy' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Application Number">
+      <th mat-header-cell *matHeaderCellDef [ngClass]="{
+        'theme-table-red': currentUser?.organizationCode === 'SIB',
+        'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+      }">Application Number</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.orgCode!=='KB'">{{ element.appNo }}</span>
+        <span *ngIf="!element.cisApp && element.orgCode==='KB'">{{ element.appNo }}</span>
+        <span *ngIf="element.cisApp && element.orgCode==='KB'">
+          <a *ngIf="!element?.policyNo" (click)="goToApplication(element)" class="proposal_link">
+            {{ element.appNo }}
+          </a>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="From Account">
+      <th mat-header-cell *matHeaderCellDef [ngClass]="{
+        'theme-table-red': currentUser?.organizationCode === 'SIB',
+        'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+      }">From Account</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.paymentType === 'DBT'">{{ element.accountNo }} </span>
+        <span *ngIf="element.paymentType === 'DBTLA'">{{ element.accountNo }} </span>
+        <span *ngIf="element.paymentType === 'CHQ'"><b>{{ element?.paymentType }}:</b> {{ element.instrumentNo }}</span>
+        <span *ngIf="element.paymentType === 'DD'"><b>{{ element?.paymentType }}:</b> {{ element.instrumentNo }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Insurer">
+      <th mat-header-cell *matHeaderCellDef [ngClass]="{
+        'theme-table-red': currentUser?.organizationCode === 'SIB',
+        'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+      }">Insurer</th>
+      <td mat-cell *matCellDef="let element">{{ element.insurerName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Amount">
+      <th mat-header-cell *matHeaderCellDef [ngClass]="{
+        'theme-table-red': currentUser?.organizationCode === 'SIB',
+        'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+      }">Amount</th>
+      <td mat-cell *matCellDef="let element">{{ element.premiumPayable }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Status">
+      <th mat-header-cell *matHeaderCellDef [ngClass]="{
+        'theme-table-red': currentUser?.organizationCode === 'SIB',
+        'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+      }">Status</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.status === 'I'">Initiated</span>
+        <span *ngIf="element.status === 'A'">Approved</span>
+        <span *ngIf="element.status === 'C'">Customer Not Interested</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Actions">
+      <th mat-header-cell *matHeaderCellDef [ngClass]="{
+        'theme-table-red': currentUser?.organizationCode === 'SIB',
+        'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+      }">Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="currentUser?.organizationCode !=='KB'">
+          <button *ngIf="
+          currentUser?.roles?.indexOf('BRANCH.PAYMENT.APPROVE') !== -1 &&
+           element.status === 'I'
+        " class="approve-btn"
+            (click)="onApproveClicked(element?.paymentId, element?.insurerId, element?.appNo, element)">
+            Approve
+          </button>
+          <button *ngIf="
+      currentUser?.roles?.indexOf('BRANCH.PAYMENT.APPROVE') !== -1 && 
+      element.status === 'I'
+    " class="reject-btn" (click)="onRejectClicked(element?.paymentId)">
+            Reject
+          </button>
+        </ng-container>
+        <ng-container *ngIf="currentUser?.organizationCode ==='KB'">
+          <ng-container *ngIf="!element.cisApp">
+            <button *ngIf="
+          currentUser?.roles?.indexOf('BRANCH.PAYMENT.APPROVE') !== -1 &&
+           element.status === 'I'
+        " class="approve-btn"
+              (click)="onApproveClicked(element?.paymentId, element?.insurerId, element?.appNo, element)">
+              Approve
+            </button>
+            <button *ngIf="
+      currentUser?.roles?.indexOf('BRANCH.PAYMENT.APPROVE') !== -1 && 
+      element.status === 'I'
+    " class="reject-btn" (click)="onRejectClicked(element?.paymentId)">
+              Reject
+            </button>
+          </ng-container>
+          <ng-container *ngIf="element.cisApp">
+            <button *ngIf="
+            currentUser?.roles?.indexOf('BRANCH.PAYMENT.APPROVE') !== -1 &&
+             element.status === 'I'
+          " class="approve-btn" (click)="onVerify(element.appNo,element.cisApp,element)">
+              View and Verify
+            </button>
+          </ng-container>
+        </ng-container>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator #paginator [length]="paymentRequests?.length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

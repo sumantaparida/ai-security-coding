@@ -1,0 +1,41 @@
+.ustomer-mailId {
+    text-align: center;
+}
+
+.description {
+    position: relative;
+    font-size: 25px;
+    color: black;
+    font-weight: bolder;
+}
+
+/* input{
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid #0d47a1;
+    width: 25rem;
+    font-size: 25px;
+    color:#1390d0;
+} */
+
+.example-form {
+    min-width: 400px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .description {
+        left: -16%;
+        font-size: 20px;
+    }
+    input {
+        font-size: 20px;
+        width: 20rem;
+    }
+}

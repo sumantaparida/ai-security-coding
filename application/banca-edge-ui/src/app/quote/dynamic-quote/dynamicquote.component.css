@@ -1,0 +1,219 @@
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    /* background-color: #f0f9fe;
+    background-image: linear-gradient(#f0f9fe82,#f0f9fe);
+    box-shadow: 2px 2px 6px 0px #6366673d; */
+    height: max-content;
+}
+
+.mainContainer button{
+    padding: 12px 25px;
+    color: white;
+    font-size: large;
+    font-weight: bolder;
+    background: #65deb3;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px 0px #65deb3;
+    transition: 2ms ease;
+}
+
+.mainContainer button:hover{
+    transform: scale(1.1);
+    background: #40d39e;
+    box-shadow: 1px 1px 3px 0px #40d39e;
+}
+
+.mainContainer button:active{
+    background: #227557;
+}
+
+.mainContainer button:disabled{
+    background: #cbddd7;
+    box-shadow: none;
+    transform: none
+}
+
+.headings {
+    background-color: #0bb774;
+    min-width: 35%;
+    max-width: 35%;
+    text-align: center;
+    border-radius: 15px;
+    margin-top: 20px;
+    color: white;
+    padding: 5px 10px;
+    box-shadow: 1px 1px 3px 1px #9dabcc38;
+    /* text-shadow: 1px 1px 1px #ffffff6b; */
+    text-transform: uppercase;
+}
+
+.formContainer {
+    margin-top: 15px;
+    /* border: 1px solid blue; */
+    min-width: 70%;
+    max-width: 70%;
+}
+
+.help {
+    margin-left: 15%;
+    align-self: start;
+    background: #40d8a5d6;
+    border-radius: 5px;
+    padding: 2px 11px;
+    color: white;
+    box-shadow: 1px 1px 3px 1px #829182a1;
+    cursor: pointer;
+}
+
+.explanation {
+    margin: 15px 0px;
+    min-width: 70%;
+    max-width: 70%;
+    background: #00800012;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px 1px #829182a1;
+}
+
+.helpImage {
+    flex: 1;
+    margin-left: 6%;
+    padding: 10px 0px;
+}
+
+.expText {
+    padding: 10px;
+    flex: 4;
+    font-weight: bold;
+}
+
+.formCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fbfbfb;
+    /* border: 1px solid green; */
+}
+
+.Card_Label{
+    align-self: flex-start;
+    background-color: #8ed0eb;
+    margin: 10px 0px !important;
+    padding: 4px 10px;
+    color: white;
+    border-radius: 12px 0px 12px 0px;
+}
+
+
+.indvField{
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0 30px 0;
+    width: 100%;
+    padding: 15px 0px 25px 0px;
+    border: 1px solid rgb(128 128 128 / 11%);
+    box-shadow: 1px 1px 2px 0px #0000003b;
+    background-color: white;
+}
+
+.question {
+    flex: 1;
+    font-weight: bolder;
+    font-size: larger;
+    padding: 5px 10px;
+    text-align: start;
+    align-self: center;
+    color: #3a3d3df0;
+}
+
+.fields {
+    flex: 1;
+    text-align: center;
+    width: 80%;
+   
+}
+
+.fieldsDate{
+    flex: 1;
+    text-align: flex-start;
+    width: 80%;
+}
+
+@media screen and (max-width:1050px) {
+    .headings {
+        min-width: 50%;
+        max-width: 50%;
+    }
+
+    .explanation {
+        flex-direction: column;
+        min-width:90%;
+        max-width:90%;
+    }
+
+    .help{
+        margin-left: 5%;
+    }
+
+    .helpImage {
+        flex: 1;
+        margin-top: 5px;
+        margin-left: 0;
+        padding: 0;
+
+    }
+
+    .expText {
+        flex: 1;
+        text-align: center;
+    }
+
+    .formContainer {
+        min-width: 90%;
+        max-width: 90%;
+    }
+
+    .formCard {
+        flex-direction: column;
+        gap: 20px;
+        /* border: 1px solid green; */
+    }
+
+    .indvField{
+        flex-direction: column;
+        gap:20px;
+        padding: 15px 5px 25px 5px;
+    }
+
+    .fields {
+        width: 95%;
+        input {
+            padding: 11px;
+        }
+    }
+
+    .fieldsDate{
+        width: 95%;
+        input {
+            padding: 11px;
+        }
+    }
+    
+
+    .question {
+        text-align: start;
+        align-self: flex-start;
+    }
+
+    
+}

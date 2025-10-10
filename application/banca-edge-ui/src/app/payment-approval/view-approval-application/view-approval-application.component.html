@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="renewal_display_container">
+        <div class="row">
+            <h2 class="heading">Application Details</h2>
+        </div>
+
+        <br>
+        <div *ngIf="applicationDetails" class="info__containers">
+                <div class="column">
+                        <ng-container *ngFor="let details of layoutMetaData">
+                            <div class="panel-gap" *ngIf="applicationDetails | displaySectionPipe :details :insurerId">
+                            <mat-expansion-panel  (opened)="panelOpenState = true"
+                                [expanded]="details.expandedByDefault" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{details.label}}:
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="subdetail_container" >
+                                    <ng-container *ngFor="let detail of details.detailsData">
+                                    <ng-container *ngIf="!details.isArray">
+                                        <div *ngIf="detail.break" class="break"></div>
+                                        <div class="detail" *ngIf="applicationDetails[detail.key][detail.valueTag]">
+                                            <label>{{detail.name}}:</label>
+                                            <p >{{applicationDetails[detail.key][detail.valueTag] | getAltVal:detail:detail.getDetailFrom}}</p>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="details.isArray">
+                                        <div *ngIf="detail.break" class="break"></div>
+                                        <div class="detail" *ngIf="applicationDetails[detail.key][detail.index][detail.valueTag]">
+                                            <label>{{detail.name}}:</label>
+                                            <p >{{applicationDetails[detail.key][detail.index][detail.valueTag] | getAltVal:detail:detail.getDetailFrom}}</p>
+                                        </div>
+                                    </ng-container>
+                                     
+                                    </ng-container>
+                                </div>
+
+                            </mat-expansion-panel>
+                        </div>
+                        </ng-container>
+                </div>
+           
+
+        </div>
+
+    </div>
+    <div class="button_conatiner">
+        <button class="accept-button" mat-raised-button (click)="onApprove()"color="primary">Approve</button>&nbsp;&nbsp;
+        <button  mat-raised-button (click)="onRejectClicked()" color="warn">Push Back</button>&nbsp;&nbsp;
+        <button  mat-raised-button (click)="rejectApplication()" color="warn">Reject</button>
+    </div>
+   
+</div>
+
+<!-- <div>Hi</div> -->

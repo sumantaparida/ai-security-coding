@@ -1,0 +1,17 @@
+--- a/src/app/LMS/components/direct-debit-modal/direct-debit-modal.component.ts
++++ b/src/app/LMS/components/direct-debit-modal/direct-debit-modal.component.ts
+@@ -1,5 +1,6 @@
+ import { Component } from '@angular/core';
+-import { SomeModule } from 'some-module';
++import { lazy } from 'react';
++
+ const LazyLoadedComponent = lazy(() => import('some-module'));
+ 
+ @Component({
+   selector: 'app-direct-debit-modal',
+   templateUrl: './direct-debit-modal.component.html',
+   styleUrls: ['./direct-debit-modal.component.css']
+ })
+ export class DirectDebitModalComponent {
+   // Component logic here
+ }

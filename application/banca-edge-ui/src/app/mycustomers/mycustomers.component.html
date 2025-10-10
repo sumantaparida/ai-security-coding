@@ -1,0 +1,373 @@
+<!-- <div *ngIf="!isMobileView" class="flex-container-mycustomer">
+  <div class="flex-20"><span class="material-icons style-icon-policy">
+      recent_actors
+    </span><span class="font-size-20">{{'component.MY_CUSTOMERS'| translate }}</span>
+  </div>
+
+  <div class="add-user flex-basis-31">
+    <button class="bg-color" (click)="toggle()" *ngIf="!hide" mat-raised-button type="button">
+      <span class="material-icons">
+        person_add
+      </span>{{ 'component.ADD_CUSTOMER' | translate }}
+    </button>
+    <ng-container *ngIf="show">
+      <button (click)="goToIndividual()" mat-raised-button type="button" class="Indivitual">
+        <span class="material-icons">
+          account_box
+        </span> {{ 'component.INDIVIDUAL' | translate }}
+      </button>
+      <button (click)="goToBusiness()" mat-raised-button type="button" class="business-btn">
+        <span class="material-icons">
+          location_city
+        </span> {{ 'component.BUSINESS' | translate }}
+      </button>
+    </ng-container>
+  </div>
+</div> -->
+<!-- ---change--- -->
+
+<!-- <ng-container *ngIf="isMobileView">
+  <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+
+    <div fxFlex="50" class="child-one">
+      <span class="material-icons style-icon-policy">
+        recent_actors
+      </span><span class="font-size-20">{{'component.MY_CUSTOMERS'| translate }}</span>
+    </div>
+    <div fxFlex="50" class="child-two" *ngIf="!hide">
+
+      <button mat-icon-button (click)="openDialog()" aria-label="Example icon-button with a menu">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="['/','mycustomers','addindividualcustomer']">
+          <mat-icon>account_box</mat-icon>
+          <span>{{ 'component.INDIVIDUAL' | translate }}</span>
+        </button>
+        <button mat-menu-item routerLink="['/', 'mycustomers', 'addbusinesscustomer']">
+          <mat-icon>location_city</mat-icon>
+          <span>{{ 'component.BUSINESS' | translate }}</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</ng-container> -->
+
+<!-- <form [formGroup]="searchForm">
+  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+    <div fxFlex="100" class="text-center">
+      <section>
+        <label class="select-customer-label">Select customer by </label>
+        <mat-button-toggle-group class="toggle-btn" formControlName="customerBy" (change)="onValChange($event.value)"
+          aria-label="Font Style">
+          <mat-button-toggle value="cifNo">CIF Number</mat-button-toggle>
+          <mat-button-toggle value="mobileNo">Mobile Number</mat-button-toggle>
+        </mat-button-toggle-group>
+      </section>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+    <div fxFlex="100" class="text-center">
+      <section>
+        <mat-form-field appearance="fill" class="input-number-field">
+          <mat-label *ngIf="searchForm.get('customerBy').value==='cifNo'">CIF Number</mat-label>
+          <mat-label *ngIf="searchForm.get('customerBy').value==='mobileNo'">Mobile Number</mat-label>
+          <input type="tel" matInput formControlName="inputNumber">
+
+          <mat-error *ngIf="searchForm.get('inputNumber').hasError('required')">
+            <span *ngIf="searchForm.get('customerBy').value==='cifNo'">CIF number</span>
+            <span *ngIf="searchForm.get('customerBy').value==='mobileNo'">Mobile number</span>
+            is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="searchForm.get('inputNumber').hasError('pattern')">
+            Please enter numbers only.
+          </mat-error>
+        </mat-form-field>
+        <button class="action-btn" [disabled]="!searchForm.get('inputNumber').valid" (click)="getCustomer()"
+          mat-raised-button type="button">
+          {{ 'component.SUBMIT' | translate }}
+        </button>
+      </section>
+    </div>
+  </div>
+</form> -->
+<!-- --New table--Basioc Info -->
+<!-- <div *ngIf="isShowCustomer" class="customer-details-container">
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="" class="margin-bottom-header">
+    <div fxFlex="20">
+      <strong>Basic Information</strong>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxShow fxHide.xs fxHide.sm class="margin-bottom-label customer-info-container">
+    <div fxFlex="20" class="customer-info">
+      <label>{{'component.CUSTOMER_ID' | translate}}:</label>
+    </div>
+
+    <div fxFlex="20" class="customer-info">
+      <label *ngIf="currentCustomer?.isIndividual === true">{{'component.CUSTOMER_NAME' | translate}}:</label>
+      <label *ngIf="currentCustomer?.isIndividual === false">{{'component.ORGANIZATION_NAME' | translate}}:
+      </label>
+    </div>
+    <div fxFlex="20" class="customer-info">
+      <label *ngIf="currentCustomer?.isIndividual === true">{{ 'component.DATE_OF_BIRTH' | translate }}</label>
+      <label *ngIf="currentCustomer?.isIndividual === false">{{ 'component.DATE_OF_INCORPORATION' | translate
+        }}</label>
+    </div>
+    <div fxFlex="20" class="customer-info">
+      <label *ngIf="currentCustomer?.isIndividual === true">{{ 'component.GENDER' | translate }}</label>
+    </div>
+  </div>
+  --mobile view-- 
+  <div flex fxLayout="row" fxHide fxShow.xs fxShow.sm fxLayoutGap="5px"
+    class="margin-bottom-label customer-info-container">
+    <div fxFlex="40" class="customer-info">
+      <label>{{'component.CUSTOMER_ID' | translate}}:</label>
+    </div>
+
+    <div fxFlex="55" class="customer-info">
+      <span> {{currentCustomer?.customerId}} </span>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxHide fxShow.xs fxShow.sm fxLayoutGap="5px"
+    class="margin-bottom-label customer-info-container">
+    <div fxFlex="40" class="customer-info">
+      <label *ngIf="currentCustomer?.isIndividual === true">{{'component.CUSTOMER_NAME' | translate}}:</label>
+      <label *ngIf="currentCustomer?.isIndividual === false">{{'component.ORGANIZATION_NAME' | translate}}:
+      </label>
+    </div>
+    <div fxFlex="55" class="customer-info">
+      <span *ngIf="currentCustomer?.isIndividual === true">{{currentCustomer?.firstName}}
+        {{currentCustomer?.lastName}}</span>
+      <span *ngIf="currentCustomer?.isIndividual === false">{{currentCustomer?.orgName}} </span>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxHide fxShow.xs fxShow.sm fxLayoutGap="5px"
+    class="margin-bottom-label customer-info-container">
+    <div fxFlex="40" class="customer-info">
+      <label *ngIf="currentCustomer?.isIndividual === true">{{ 'component.DATE_OF_BIRTH' | translate }}</label>
+      <label *ngIf="currentCustomer?.isIndividual === false">{{ 'component.DATE_OF_INCORPORATION' | translate
+        }}</label>
+    </div>
+    <div fxFlex="55" class="customer-info">
+      <span *ngIf="currentCustomer?.isIndividual === true">{{currentCustomer?.dob}}</span>
+      <span *ngIf="currentCustomer?.isIndividual === false">{{currentCustomer?.dateOfIncorporation}}</span>
+
+    </div>
+  </div>
+  <div flex fxLayout="row" fxHide fxShow.xs fxShow.sm fxLayoutGap="5px"
+    class="margin-bottom-label customer-info-container">
+    <div fxFlex="40" class="customer-info">
+      <label *ngIf="currentCustomer?.isIndividual === true">{{ 'component.GENDER' | translate }}</label>
+    </div>
+    <div fxFlex="55" class="customer-info">
+      <span *ngIf="currentCustomer?.gender=='M'">Male</span>
+      <span *ngIf="currentCustomer?.gender=='F'">Female</span>
+    </div>
+  </div>
+  --value--
+  <div flex fxLayout="row" fxShow fxHide.xs fxHide.sm class="margin-bottom-nxt-header">
+    <div fxFlex="20" fxHide.xs fxHide.sm fxShow class="customer-info">
+      <span> {{currentCustomer?.customerId}} </span>
+    </div>
+    <div fxFlex="20" class="customer-info">
+      <span *ngIf="currentCustomer?.isIndividual === true">{{currentCustomer?.firstName}}
+        {{currentCustomer?.lastName}}</span>
+      <span *ngIf="currentCustomer?.isIndividual === false">{{currentCustomer?.orgName}} </span>
+    </div>
+    <div fxFlex="20" class="customer-info">
+      <span *ngIf="currentCustomer?.isIndividual === true">{{currentCustomer?.dob}}</span>
+      <span *ngIf="currentCustomer?.isIndividual === false">{{currentCustomer?.dateOfIncorporation}}</span>
+
+    </div>
+    <div fxFlex="20" class="customer-info">
+      <span *ngIf="currentCustomer?.gender=='M'">Male</span>
+      <span *ngIf="currentCustomer?.gender=='F'">Female</span>
+    </div>
+  </div>
+  --Contact Info-- 
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="" class="margin-bottom-header">
+    <div fxFlex="20">
+      <strong>Contact Information</strong>
+    </div>
+  </div>
+  <ng-container *ngIf="currentCustomer?.contactList && currentCustomer?.contactList.length!=0">
+    <div flex fxLayout="row" fxShow fxHide.xs fxHide.sm class="margin-bottom-label">
+      <ng-container *ngFor="let contact of currentCustomer?.contactList">
+        <div fxFlex="20" class="customer-info">
+          <label>{{'component.'+contact.contactType|translate}}
+          </label>
+        </div>
+      </ng-container>
+    </div>
+
+    <div flex fxLayout="row" fxShow fxHide.xs fxHide.sm class="margin-bottom-label">
+      <ng-container *ngFor="let contact of currentCustomer?.contactList">
+        <div fxFlex="20" class="customer-info">
+          <span>{{contact.contactText}} </span>
+        </div>
+      </ng-container>
+    </div>
+    --mobile--conatct 
+    <div *ngFor="let contact of currentCustomer?.contactList" flex fxLayout="row" fxHide fxShow.xs fxShow.sm
+      fxLayoutGap="5px" class="margin-bottom-label customer-info-container">
+      <div fxFlex="40" class="customer-info">
+        <label>{{'component.'+contact.contactType|translate}}</label>
+      </div>
+      <div fxFlex="55" class="customer-info">
+        <span>{{contact.contactText}} </span>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="currentCustomer?.addressList && currentCustomer?.addressList.length!=0">
+    <div flex fxLayout="row" fxShow fxHide.xs fxHide.sm fxLayoutGap="">
+      <ng-container *ngFor="let address of currentCustomer?.addressList">
+
+        <div fxFlex="20" class="customer-info">
+          <label>{{'component.'+address.addressType |translate}}
+            {{ 'component.ADDRESS' | translate }}
+          </label>
+        </div>
+      </ng-container>
+    </div>
+
+    <div flex fxLayout="row" fxShow fxHide.xs fxHide.sm>
+      <ng-container *ngFor="let address of currentCustomer?.addressList">
+        <div fxFlex="20" class="customer-info">
+          <span>{{address.addressline1}},{{address.addressline2}},{{address.addressline3}}
+            {{address.city}} {{address.postalcode}} {{address.state}} {{address.country}}</span>
+        </div>
+      </ng-container>
+    </div>
+
+    --mobile adreess -- 
+    <div *ngFor="let address of currentCustomer?.addressList" flex fxLayout="row" fxHide fxShow.xs fxShow.sm
+      fxLayoutGap="5px" class="margin-bottom-label customer-info-container">
+      <div fxFlex="40" class="customer-info">
+        <label>{{'component.'+address.addressType |translate}}
+          {{ 'component.ADDRESS' | translate }}</label>
+      </div>
+      <div fxFlex="55" class="customer-info">
+        <span>{{address.addressline1}},{{address.addressline2}},{{address.addressline3}}
+          {{address.city}} {{address.postalcode}} {{address.state}} {{address.country}}</span>
+      </div>
+    </div>
+  </ng-container>
+
+  -- new--- 
+  
+  <div fxLayout="row" *ngIf="!isQuoteId" fxShow fxHide.xs fxHide.sm class="form-row-gap-bottom ">
+    <div fxFlex="30">
+      <button class="action-btn" (click)="routeToPolicy(currentCustomer.customerId)" mat-raised-button type="button">
+        <mat-icon>kitchen</mat-icon>
+        <span class="menu-label-route">{{ 'component.POLICY_VAULT' | translate }}</span>
+      </button>
+    </div>
+    <div fxFlex="30">
+      <button *ngIf="currentCustomer?.isIndividual" class="action-btn"
+        [routerLink]="['/','mycustomers',currentCustomer?.customerId, 'editindividualcustomer']" mat-raised-button
+        type="button">
+        <mat-icon>edit</mat-icon>
+        <span class="menu-label-route">{{ 'component.EDIT' | translate }}</span>
+      </button>
+      <button *ngIf="!currentCustomer?.isIndividual" class="action-btn"
+        [routerLink]="['/','mycustomers',currentCustomer?.customerId, 'editbusinesscustomer']" mat-raised-button
+        type="button">
+        <mat-icon>edit</mat-icon>
+        <span class="menu-label-route">{{ 'component.EDIT' | translate }}</span>
+      </button>
+    </div>
+    <div fxFlex="30">
+      <button class="action-btn" [disabled]="!currentCustomer?.isIndividual"
+        (click)="routeToNeedAnalysis(currentCustomer?.customerId)" mat-raised-button type="button">
+        <mat-icon>av_timer</mat-icon>
+        <span class="menu-label-route">{{ 'component.ONE_MINUTE_PLAN' | translate }}</span>
+      </button>
+    </div>
+    <div fxFlex="30">
+      <button class="action-btn" [routerLink]="['/',currentCustomer?.customerId,'quickquote']" mat-raised-button
+        type="button">
+        <mat-icon>book</mat-icon>
+        <span class="menu-label-route">{{ 'component.QUICK_QUOTE' | translate }}</span>
+      </button>
+    </div>
+  </div>
+  <div fxLayout="row" flex class="proceed-row" *ngIf="isQuoteId">
+    <button mat-raised-button [disabled]="!isProceed" class="proceed-btn" (click)="proceedToQuote()">Proceed</button>
+  </div>
+  --action mobile -- 
+  <ng-container *ngIf="!isQuoteId">
+    <div fxLayout="row" fxHide fxShow.xs fxShow.sm class="form-row-gap-bottom" fxLayoutGap="10px">
+      <div fxFlex="50">
+        <button class="action-btn" (click)="routeToPolicy(currentCustomer.customerId)" mat-raised-button type="button">
+          <mat-icon>kitchen</mat-icon>
+          <span class="menu-label-route">{{ 'component.POLICY_VAULT' | translate }}</span>
+        </button>
+      </div>
+      <div fxFlex="50">
+        <button *ngIf="currentCustomer?.isIndividual" class="action-btn"
+          [routerLink]="['/','mycustomers',currentCustomer?.customerId, 'editindividualcustomer']" mat-raised-button
+          type="button">
+          <mat-icon>edit</mat-icon>
+          <span class="menu-label-route">{{ 'component.EDIT' | translate }}</span>
+        </button>
+        <button *ngIf="!currentCustomer?.isIndividual" class="action-btn"
+          [routerLink]="['/','mycustomers',currentCustomer?.customerId, 'editbusinesscustomer']" mat-raised-button
+          type="button">
+          <mat-icon>edit</mat-icon>
+          <span class="menu-label-route">{{ 'component.EDIT' | translate }}</span>
+        </button>
+      </div>
+    </div>
+    <div fxLayout="row" fxHide fxShow.xs fxShow.sm class="form-row-gap-bottom" fxLayoutGap="10px">
+      <div fxFlex="50">
+        <button class="action-btn" [disabled]="!currentCustomer?.isIndividual"
+          (click)="routeToNeedAnalysis(currentCustomer?.customerId)" mat-raised-button type="button">
+          <mat-icon>av_timer</mat-icon>
+          <span class="menu-label-route">{{ 'component.ONE_MINUTE_PLAN' | translate }}</span>
+        </button>
+      </div>
+      <div fxFlex="50">
+        <button class="action-btn" [routerLink]="['/',currentCustomer?.customerId,'quickquote']" mat-raised-button
+          type="button">
+          <mat-icon>book</mat-icon>
+          <span class="menu-label-route">{{ 'component.QUICK_QUOTE' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+</div> -->
+
+<!-- --new table ends here --  -->
+
+<!-- --insurer edge new design --  -->
+<div
+  flex
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayout.sm="column"
+  fxLayoutGap=""
+  class="customer-layout"
+>
+  <div
+    fxFlex="35"
+    [ngClass]="{ 'only-customer': !currentCustomer?.customerId }"
+  >
+    <app-customer-search
+      [isMyCustomerScreen]="isMyCustomerScreen"
+      (customerDetails)="customerDetails($event)"
+    ></app-customer-search>
+  </div>
+  <div fxFlex="60" *ngIf="currentCustomer?.customerId">
+    <app-customer-details
+      [isMyCustomerScreen]="isMyCustomerScreen"
+      [currentCustomer]="currentCustomer"
+      [cifNo]="cifNo"
+      [isLoadedFromCif]="isLoadedFromCif"
+    ></app-customer-details>
+  </div>
+</div>
+<!-- <div fxLayout="row" flex class="proceed-row" *ngIf="isQuoteId">
+  <button mat-raised-button [disabled]="!isProceed" class="proceed-btn" (click)="proceedToQuote()">Proceed</button>
+</div> -->

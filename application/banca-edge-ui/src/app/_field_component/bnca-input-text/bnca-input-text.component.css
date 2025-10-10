@@ -1,0 +1,102 @@
+.text_container{
+  position: relative;
+}
+
+.custom-input {
+    position: relative;
+   /* Adjust as needed */
+  }
+  
+  .custom-input input {
+      width:91%;
+      margin-right:11px;
+      padding: 10px;
+      border-radius: 4px;
+      border: none;
+      box-shadow: 0px 0px 2px 0px rgb(0 137 208);
+      color: #0000008a;
+      min-height: 16px;
+  }
+  input:focus {
+    outline-color: rgb(0 137 208 / 61%);
+}
+
+.custom-input input.disabled{
+  /* background: #aee7b8bf !important;  */
+  color: #728574 !important;
+}
+  .custom-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 25px;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    color: #999;
+  }
+
+  
+  
+  .custom-input.focused .custom-placeholder {
+    top: -1px;
+    font-size: 12px;
+   /* Customize the color as needed */
+    color: crimson; 
+    background-color: white;
+    padding:0px 5px;
+  }
+
+  .custom-input.enteredVal input{
+    /* background-color: #aafbbb63; */
+    font-weight: bold;
+    color: #66696b;
+  }
+
+  .custom-input .fetchInput button{
+    background-color: #2f96e2; 
+    color: white;
+    flex:0.2;
+    padding: 11px 11px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  
+  }
+
+  .custom-input .fetchInput button:focus{
+    background-color: #bcdd28; 
+  }
+  .custom-input .fetchInput button:disabled{
+    background-color: #007bff44; 
+  }
+
+
+  .custom-input .custom-placeholder.enteredVal {
+    color: #19d228ea; 
+  }
+
+  .fetchInput{
+    display: flex;
+    margin-left: 9px;
+    align-items: stretch;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 96%;
+    box-shadow: 0px 0px 2px 0px rgb(0 137 208);
+}
+
+  .fetchInput  input{
+    flex: 1; /* Input takes up remaining space */
+    margin: 0;
+    width:91%;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    color: #0000008a;
+    min-height: 16px;
+  }
+
+ 
+  

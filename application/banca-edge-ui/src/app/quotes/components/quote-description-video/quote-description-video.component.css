@@ -1,0 +1,35 @@
+.insurance-header {
+    height: 18rem;
+    background-color: white;
+    background-image: url(../../../../assets/quote-images/pexels-monstera-5842131.jpg);
+    background-size: 430px 300px;
+    background-image: 50% 430px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 430px;
+}
+
+.img-size {
+    height: 300px;
+    width: 430px;
+}
+
+.insurance-header h1 {
+    text-align: center;
+    padding: 14px;
+    font-weight: bold;
+    color: #11B9F0;
+}
+
+.img-size-video {}
+
+.video-player {
+    height: 35%;
+    background-color: white;
+    /* background-image: url(../../assets/quote-images/luke-chesser-rCOWMC8qf8A-unsplash.jpg); */
+    width: 430px;
+    /* left: 0; */
+    /* right: 0; */
+    margin: auto;
+}

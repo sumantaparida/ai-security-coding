@@ -1,0 +1,328 @@
+<div fxFlex="100" class="plan-quote-col" fxHide.xs fxHide.sm>
+  <div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="5px"
+    class="rows-edit-col"
+  ></div>
+
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="1px"
+    class="rows-plan-col"
+  >
+    <div fxFlex="40" class="heading" *ngIf="quoteInput">
+      <label>PLAN NAME</label>
+    </div>
+    <div fxFlex="40" class="heading" *ngIf="quoteInput?.startType == 'ap'">
+      <label>YOU PAY</label>
+    </div>
+    <div fxFlex="20" class="heading" *ngIf="quoteInput?.startType == 'ap'">
+      <label>YOU GET</label>
+    </div>
+    <div fxFlex="40" class="heading" *ngIf="quoteInput?.startType == 'sa'">
+      <label>YOUR BENEFITS</label>
+    </div>
+    <div fxFlex="20" class="heading" *ngIf="quoteInput?.startType == 'sa'">
+      <label>YOUR PAYOUT</label>
+    </div>
+  </div>
+  <div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="10px"
+    class="rows-edit-col"
+  ></div>
+  <div #noQuoteGenerated>
+    <ng-container *ngIf="errorDataFound">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        class="help-descriptionerror error_data"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+      >
+        <div fxFlex="90" id="httperrorresponse">
+          <p>
+            {{ errorDetail }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <ng-container *ngFor="let policy of productQuoteArr; let i = index">
+    <div
+      flex
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayout.sm="column"
+      fxLayoutGap="2px"
+      class="rows-plan-col"
+    >
+      <div fxFlex="40" class="plan-name">
+        <div class="">
+          <img class="policy-logo-img" [src]="policy?.insurerImageUrl" />
+          <!-- <img *ngIf="policy?.insurerId=='132'" class="policy-logo-img"
+                          src="../../../assets/logos/future-generali.svg">
+                      <img *ngIf="policy?.insurerId=='122'" class="policy-logo-img" src="../../../assets/logos/aviva.svg">
+                      <img *ngIf="policy?.insurerId=='151'" class="policy-logo-img"
+                          src="../../../assets/logos/manipal-cigna.svg">
+                      <img *ngIf="policy?.insurerId=='512'" class="policy-logo-img" src="../../../assets/logos/lic.svg">
+                      <img *ngIf="policy?.insurerId=='101'" class="policy-logo-img"
+                          src="../../../assets/logos/hdfc-logo.png"> -->
+        </div>
+        <div class="product-name">
+          {{ policy?.productName }}<span *ngIf="policy?.planName !== ''">-</span>
+          {{ policy?.planName }}
+        </div>
+      </div>
+
+      <div fxFlex="19">
+        <div class="quote-fields addmargin" *ngIf="quoteInput?.startType == 'sa'">Sum Insured</div>
+        <div class="quote-fields addmargin">Policy Term</div>
+        <div class="quote-fields">Premium Paying Term</div>
+      </div>
+      <div fxFlex="20">
+        <div *ngIf="quoteInput?.startType == 'sa'" class="quote-fields addmargin">
+          {{ policy?.sa | currency: 'INR':'symbol':'1.0-0' }}
+        </div>
+        <div class="quote-fields addmargin">{{ policy?.pt }} Years</div>
+        <div class="quote-fields">{{ policy?.ppt }} Years</div>
+      </div>
+      <div fxFlex="20" *ngIf="quoteInput?.startType == 'sa'">
+        <div class="quote-fields">
+          {{
+            policy?.premiums[policy?.premiums?.mode]?.totalPremium
+              | currency: 'INR':'symbol':'1.0-0'
+          }}
+        </div>
+      </div>
+
+      <div fxFlex="40" *ngIf="quoteInput?.startType == 'ap'">
+        <div class="quote-fields">
+          {{
+            policy?.premiums[policy?.premiums?.mode]?.totalPayin | currency: 'INR':'symbol':'1.0-0'
+          }}
+        </div>
+      </div>
+
+      <div fxFlex="20" *ngIf="quoteInput?.startType == 'ap'">
+        <ng-container
+          *ngIf="
+            policy?.premiums[policy?.premiums?.mode]?.gaPayout !== 0;
+            then isPayout;
+            else isPayoutZero
+          "
+        >
+        </ng-container>
+        <ng-template #isPayout>
+          <div *ngIf="policy?.par === false" class="quote-fields">
+            {{
+              policy?.premiums[policy?.premiums?.mode]?.gaPayout | currency: 'INR':'symbol':'1.0-0'
+            }}
+          </div>
+          <div *ngIf="policy?.par === true" class="quote-fields">
+            {{
+              policy?.premiums[policy?.premiums?.mode]?.totalPayoutH
+                | currency: 'INR':'symbol':'1.0-0'
+            }}
+            (8%)
+          </div>
+          <div *ngIf="policy?.par === true" class="quote-fields">
+            {{
+              policy?.premiums[policy?.premiums?.mode]?.totalPayoutL
+                | currency: 'INR':'symbol':'1.0-0'
+            }}
+            (4%)
+          </div>
+        </ng-template>
+        <ng-template #isPayoutZero>
+          <div
+            class="quote-fields"
+            *ngIf="policy?.premiums[policy?.premiums?.mode]?.illustrationUrl"
+          >
+            <a
+              class="link-to-document"
+              (click)="illustrationLink(policy?.premiums[policy?.premiums?.mode]?.illustrationUrl)"
+              target="_blank"
+              >See Illustration</a
+            >
+          </div>
+          <div
+            class="quote-fields"
+            *ngIf="!policy?.premiums[policy?.premiums?.mode]?.illustrationUrl"
+          >
+            <label>Click Buy now to see BI</label>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div
+      flex
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayout.sm="column"
+      fxLayoutGap="5px"
+      class="rows-plan-col"
+    >
+      <div fxFlex="95" class="btn-div">
+        <button mat-raised-button class="buy-now-btn" (click)="onBuyNow(i)">Buy Now</button>
+      </div>
+    </div>
+    <div
+      flex
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayout.sm="column"
+      fxLayoutGap="5px"
+      class="rows-plan-col"
+    >
+      <div fxFlex="95" class="btn-div">
+        <a class="more-details-link" (click)="moreDetails(i)">More Details</a>
+      </div>
+    </div>
+  </ng-container>
+
+  <div *ngIf="hasOffline">
+    <a class="offline-policy-link" (click)="routeToOffline()"> Offline Products</a>
+  </div>
+</div>
+<!-- --Plan quote Details --MObile --  -->
+<div fxFlex="100" class="plan-quote-col font-16" fxHide.lg fxHide.md>
+  <div #noQuoteGenerated>
+    <ng-container *ngIf="errorDataFound">
+      <div
+        fxLayout="row"
+        fxLayout.xs="column"
+        class="help-descriptionerror error_data"
+        fxLayout.sm="column"
+        fxLayoutGap="10px"
+      >
+        <div fxFlex="90" id="httperrorresponse">
+          <p>
+            {{ errorDetail }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <ng-container *ngFor="let policy of productQuoteArr; let i = index">
+    <div fxLayout="column">
+      <div fxFlex="90" class="company-logo-div">
+        <img [src]="policy?.insurerImageUrl" />
+        <!-- <img *ngIf="policy?.insurerId=='132'" src="../../../assets/logos/future-generali.svg">
+                  <img *ngIf="policy?.insurerId=='122'" src="../../../assets/logos/aviva.svg">
+                  <img *ngIf="policy?.insurerId=='151'" src="../../../assets/logos/manipal-cigna.svg">
+                  <img *ngIf="policy?.insurerId=='512'" src="../../../assets/logos/lic.svg"> -->
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="5px" class="background-color rows-edit-col-mobile">
+      <div fxFlex="30" class=""><label>Plan Name</label></div>
+      <div fxFlex="70" class="bold">
+        {{ policy?.productName }}<span *ngIf="policy?.planName !== ''">-</span>
+        {{ policy?.planName }}
+      </div>
+    </div>
+    <div
+      flex
+      fxLayout="row"
+      fxLayoutGap="5px"
+      class="background-color rows-edit-col-mobile font-16"
+    >
+      <div fxFlex="30" class="">
+        <label *ngIf="quoteInput?.startType == 'ap'">You Pay</label>
+        <label *ngIf="quoteInput?.startType == 'sa'">Sum Insured</label>
+      </div>
+      <div fxFlex="70" class="" *ngIf="quoteInput?.startType == 'ap'">
+        {{
+          policy?.premiums[policy?.premiums?.mode]?.totalPayin | currency: 'INR':'symbol':'1.0-0'
+        }}
+      </div>
+      <div fxFlex="70" class="" *ngIf="quoteInput?.startType == 'sa'">
+        {{ policy?.sa | currency: 'INR':'symbol':'1.0-0' }}
+      </div>
+    </div>
+    <div
+      flex
+      fxLayout="row"
+      fxLayoutGap="5px"
+      class="background-color rows-edit-col-mobile font-16"
+    >
+      <div fxFlex="30" class="">
+        <label *ngIf="quoteInput?.startType == 'ap'">You Get</label>
+        <label *ngIf="quoteInput?.startType == 'sa'">Your Premium</label>
+      </div>
+      <div fxFlex="70" class="" *ngIf="quoteInput?.startType == 'ap'">
+        <ng-container
+          *ngIf="
+            policy?.premiums[policy?.premiums?.mode]?.totalPayout !== 0;
+            then isPayout;
+            else isPayoutZero
+          "
+        >
+        </ng-container>
+        <ng-template #isPayout>
+          <div class="quote-fields">
+            {{
+              policy?.premiums[policy?.premiums?.mode]?.totalPayout
+                | currency: 'INR':'symbol':'1.0-0'
+            }}
+          </div>
+        </ng-template>
+        <ng-template #isPayoutZero>
+          <div class="quote-fields">
+            <a
+              class="link-to-document"
+              (click)="illustrationLink(policy?.premiums[policy?.premiums?.mode]?.illustrationUrl)"
+              target="_blank"
+              >See Illustration</a
+            >
+          </div>
+        </ng-template>
+      </div>
+      <div fxFlex="70" class="" *ngIf="quoteInput?.startType == 'sa'">
+        {{
+          policy?.premiums[policy?.premiums?.mode]?.totalPremium | currency: 'INR':'symbol':'1.0-0'
+        }}
+      </div>
+    </div>
+
+    <div
+      flex
+      fxLayout="row"
+      fxLayoutGap="5px"
+      class="background-color rows-edit-col-mobile font-16"
+      *ngIf="quoteInput?.startType == 'sa'"
+    >
+      <div fxFlex="30" class=""><label>Policy Term</label></div>
+      <div fxFlex="70" class="">{{ policy?.pt }} Years</div>
+    </div>
+
+    <div
+      flex
+      fxLayout="row"
+      fxLayoutGap="5px"
+      class="background-color rows-edit-col-mobile font-16"
+      *ngIf="quoteInput?.startType == 'sa'"
+    >
+      <div fxFlex="30" class=""><label>Premium Paying Term</label></div>
+      <div fxFlex="70" class="">{{ policy?.ppt }} Years</div>
+    </div>
+
+    <div flex fxLayout="row" class="rows-edit-col-mobile">
+      <div fxFlex="95" class="btn-div-mob">
+        <button mat-raised-button class="buy-now-btn" (click)="onBuyNow(i)">Buy Now</button>
+      </div>
+    </div>
+    <div flex fxLayout="row" class="rows-edit-col-mobile">
+      <div fxFlex="95" class="btn-div-mob">
+        <a class="more-details-link" (click)="moreDetails(i)">More Details</a>
+      </div>
+    </div>
+  </ng-container>
+</div>

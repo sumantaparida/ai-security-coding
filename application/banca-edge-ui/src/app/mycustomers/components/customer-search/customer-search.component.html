@@ -1,0 +1,161 @@
+<div class="search-container">
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="" class="">
+    <div fxFlex="80" class="search-div">
+      <img class="customer-icon" src="../../../../assets/quote-images/customer-logo.svg" />
+      <p class="display-name">{{ currentCustomer?.firstName }} {{ currentCustomer?.lastName }}</p>
+    </div>
+  </div>
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-15"
+  >
+    <div fxFlex="80" class="search-div">
+      <button
+        *ngIf="organizationCode === 'MIBPL'"
+        mat-button
+        [matMenuTriggerFor]="menu"
+        class="add-customer-btn"
+      >
+        <mat-icon>person_add</mat-icon>
+        <label class="margin-left-10">Add Customer</label>
+      </button>
+      <mat-menu #menu="matMenu" yPosition="above">
+        <button mat-menu-item (click)="goToIndividual()">
+          <mat-icon class="mat-icon-blue"> account_box </mat-icon>
+          {{ 'component.INDIVIDUAL' | translate }}
+        </button>
+        <button mat-menu-item (click)="goToBusiness()">
+          <mat-icon class="mat-icon-blue"> location_city </mat-icon>
+          {{ 'component.BUSINESS' | translate }}
+        </button>
+      </mat-menu>
+      <!-- <button mat-raised-button class="add-customer-btn">
+        <mat-icon>person_add</mat-icon>
+        <label>Add Customer</label>
+      </button> -->
+    </div>
+  </div>
+  <!-- <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="" class="margin-bottom-10">
+        <div fxFlex="80" class="search-div">
+            <label class="label-header">Select the Channel</label>
+        </div>
+    </div>
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="" class="">
+        <div fxFlex="80" class="search-div">
+            <form [formGroup]="searchByForm">
+                <mat-form-field appearance="outline">
+                    <mat-label>Select an option</mat-label>
+                    <mat-select formControlName="channel">
+                        <mat-option *ngFor="let channel of channels" [value]="channel.value"
+                            (click)="enableBtn($event)">
+                            {{channel.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </form>
+
+        </div>
+    </div> -->
+
+  <div
+    *ngIf="isMyCustomerScreen && this.organizationCode !== 'SIB'"
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-10"
+  >
+    <div fxFlex="80" class="search-div">
+      <label class="label-header">Select Customer By</label>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isMyCustomerScreen"
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-10"
+  >
+    <div fxFlex="80" class="search-div">
+      <form [formGroup]="searchByForm">
+        <span class="cif-label" *ngIf="organizationCode === 'CSB'">Client ID Number</span>
+        <span class="cif-label" *ngIf="organizationCode === 'KB'">Customer ID </span>
+        <span class="cif-label" *ngIf="organizationCode !== 'CSB' && organizationCode !== 'KB'"
+          >CIF Number</span
+        >
+        <mat-slide-toggle
+          formControlName="searchCustomerByMobile"
+          (change)="onValChange($event)"
+          *ngIf="
+            organizationCode !== 'KB' && organizationCode !== 'DCB' && organizationCode !== 'SIB'
+          "
+          >Account Number
+        </mat-slide-toggle>
+      </form>
+    </div>
+  </div>
+
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-15"
+  >
+    <div fxFlex="80" class="search-div">
+      <form [formGroup]="searchByForm">
+        <mat-form-field appearance="outline">
+          <mat-label *ngIf="searchByForm.get('searchCustomerByMobile').value === false"
+            ><span *ngIf="organizationCode === 'CSB'">Enter the Client ID Number</span>
+            <span *ngIf="organizationCode === 'KB'">Enter the Customer ID</span>
+            <span *ngIf="organizationCode !== 'CSB' && organizationCode !== 'KB'"
+              >Enter the CIF Number</span
+            >
+          </mat-label>
+          <mat-label *ngIf="searchByForm.get('searchCustomerByMobile').value === true"
+            >Enter the Account Number
+          </mat-label>
+          <input formControlName="inputNumber" matInput placeholder="......." />
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+        <mat-form-field *ngIf="this.organizationCode === 'SIB'" appearance="outline">
+          <mat-label>
+            <span>Enter Last 5 Digits of Account No</span>
+          </mat-label>
+
+          <input formControlName="accountNumber" matInput placeholder="......." />
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-10"
+  >
+    <div fxFlex="80" class="search-div">
+      <button
+        mat-raised-button
+        matStepperNext
+        class="next-btn"
+        (click)="validateConcent()"
+        [disabled]="enableSubmit()"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</div>

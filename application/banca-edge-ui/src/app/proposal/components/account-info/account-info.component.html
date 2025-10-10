@@ -1,0 +1,133 @@
+<form [formGroup]="paymentForm">
+  <mat-card class="margin-bottom-30">
+    <mat-card-content>
+      <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+        <div class="margin-top-5" fxFlex="32">
+          <label>Payment Type</label>
+          <mat-radio-group class="display-flex" aria-label="Select an option" formControlName="paymentType">
+            <ng-container *ngFor="let payment of paymentTypes; let first = first">
+              <div class="account-type-radio-box" [ngClass]="{ 'margin-left': !first }">
+                <mat-radio-button (change)="onPaymentMethodChange($event)" [disabled]="
+                    (accountDetails === undefined ||
+                      (accountDetails && accountDetails.length === 0)) &&
+                    payment.id === 'DBT'
+                  " color="primary" value="{{ payment?.id }}">
+                  {{ payment?.value }}
+                </mat-radio-button>
+              </div>
+            </ng-container>
+          </mat-radio-group>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="margin-bottom-30">
+    <mat-card-content>
+      <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+        <div fxFlex="32" *ngIf="paymentForm.get('paymentType').value === 'DBT'">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Account Number<span class="man-field">*</span>
+            </mat-label>
+            <mat-select formControlName="accountNumber">
+              <mat-option *ngFor="let account of accountDetails" [value]="account?.accountNo">
+                {{ account?.accountNo }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <span class="error-message" *ngIf="
+              paymentForm.get('accountNumber').touched &&
+              paymentForm.get('accountNumber').hasError('required')
+            ">This field is required</span>
+        </div>
+        <div fxFlex="32" *ngIf="paymentForm.get('chequeOrDDNo')">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label
+              *ngIf="paymentForm.get('paymentType').value === 'CHQ' || paymentForm.get('paymentType').value === 'DBT'">
+              Cheque Number<span class="man-field">*</span></mat-label>
+            <mat-label *ngIf="paymentForm.get('paymentType').value === 'DD'">DD Number<span class="man-field">*</span>
+            </mat-label>
+            <input matInput placeholder="Last 6 digits of the Cheque No." formControlName="chequeOrDDNo" />
+          </mat-form-field>
+          <span class="error-message" *ngIf="
+              paymentForm.get('chequeOrDDNo').touched &&
+              paymentForm.get('chequeOrDDNo').hasError('required')
+            ">This field is required</span>
+          <span class="error-message" *ngIf="
+              paymentForm.get('chequeOrDDNo').touched &&
+              paymentForm.get('chequeOrDDNo').hasError('pattern')
+            ">Please enter a valid Cheque No.</span>
+        </div>
+        <div fxFlex="32" *ngIf="paymentForm.get('chkOrDDDate')">
+          <mat-form-field class="full-width" color="accent" appearance="fill">
+            <mat-label
+              *ngIf="paymentForm.get('paymentType').value === 'CHQ' || paymentForm.get('paymentType').value === 'DBT'">
+              Cheque Date<span class="man-field">*</span>
+            </mat-label>
+            <mat-label *ngIf="paymentForm.get('paymentType').value === 'DD'">DD Date<span class="man-field">*</span>
+            </mat-label>
+            <input readonly [min]="threeMonthsBack" [max]="todaysDate" matInput [matDatepicker]="picker"
+              formControlName="chkOrDDDate" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker color="primary"></mat-datepicker>
+          </mat-form-field>
+          <span class="error-message" *ngIf="
+              paymentForm.get('chkOrDDDate').touched &&
+              paymentForm.get('chkOrDDDate').hasError('required')
+            ">This field is required</span>
+        </div>
+        <div fxFlex="32" *ngIf="paymentForm.get('ifscCode')">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>IFSC Code<span class="man-field">*</span></mat-label>
+            <input matInput formControlName="ifscCode" (keyup)="capitalize('ifscCode', $event)" />
+          </mat-form-field>
+          <span class="error-message" *ngIf="
+              paymentForm.get('ifscCode').touched &&
+              paymentForm.get('ifscCode').hasError('required')
+            ">This field is required</span>
+          <span class="error-message" *ngIf="
+              paymentForm.get('ifscCode').touched &&
+              paymentForm.get('ifscCode').hasError('pattern')
+            ">Please enter a valid IFSC Code</span>
+        </div>
+        <div fxFlex="32" *ngIf="paymentForm.get('paymentType').value !== 'DBT'">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>MICR Code<span class="man-field">*</span></mat-label>
+            <input matInput formControlName="micrCode" />
+          </mat-form-field>
+          <span class="error-message" *ngIf="
+              paymentForm.get('micrCode').touched &&
+              paymentForm.get('micrCode').hasError('required')
+            ">This field is required</span>
+          <span class="error-message" *ngIf="
+              paymentForm.get('micrCode').touched &&
+              paymentForm.get('micrCode').hasError('pattern')
+            ">Please enter a valid MICR Code</span>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Premium Payable<span class="man-field">*</span></mat-label>
+            <input matInput readonly formControlName="premiumPayable" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Insurer Name<span class="man-field">*</span></mat-label>
+            <input matInput readonly formControlName="insurerName" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Customer Name<span class="man-field">*</span></mat-label>
+            <input matInput readonly formControlName="customerName" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Date of Payment<span class="man-field">*</span></mat-label>
+            <input matInput readonly formControlName="dateOfPayment" />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>

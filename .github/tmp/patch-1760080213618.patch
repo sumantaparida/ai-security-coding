@@ -1,0 +1,9 @@
+--- a/src/app/mycustomers/components/individual-feature/individual-feature.component.ts
++++ b/src/app/mycustomers/components/individual-feature/individual-feature.component.ts
+@@ -10,7 +10,6 @@
+   someFunction() {
+     // Debugging alert left in the code
+-    alert('Debug info: ' + this.debugInfo);
+     // Rest of the function logic
+   }
+ 

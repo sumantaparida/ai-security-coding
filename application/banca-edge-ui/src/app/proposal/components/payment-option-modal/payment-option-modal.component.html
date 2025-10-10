@@ -1,0 +1,15 @@
+<p class="headding" mat-dialog-title>How do you want to make the payment?</p>
+<div mat-dialog-actions class="btn-div" fxLayoutAlign="center">
+  <button mat-button class="yes-btn" (click)="onClick('Bank')" *ngIf="!restrictBank || !data.paymentLink">
+    At Bank
+  </button>
+  <button mat-button class="no-btn" (click)="onClick('Online')" *ngIf="!restrictOnline">
+    Online
+  </button>
+</div>
+<p *ngIf="data.productId === '122N116V01' && data.statusCode === '4'">
+  Dear Customer your insurance proposal to be medically underwritten. Cover shall be issued on
+  successful completion of underwriting by Aviva India post medical tests and additional
+  requirements if any. Kindly get in touch with BOM Branch official or Aviva relationship manager
+  for the details.
+</p>

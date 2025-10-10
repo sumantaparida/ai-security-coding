@@ -1,0 +1,436 @@
+<div class="main-container">
+  <div *ngIf="media.isActive('md') || media.isActive('lg')" class="flex-container">
+    <div style="flex-basis: 20%">
+      <span class="material-icons style-icon-policy"> kitchen </span>
+      <span class="font-size-20">{{ 'component.POLICY_VAULT' | translate }}</span>
+    </div>
+
+    <div *ngIf="isInsurer">
+      <label>Available Branches</label>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="pending-btn">
+          <mat-label>Filter by Branches</mat-label>
+          <mat-select formControlName="filterByBranch" (selectionChange)="onSearchFieldChange()">
+            <mat-option value="">Select</mat-option>
+            <mat-option *ngFor="let branch of branchesForFilter" [value]="branch.branchCode">
+              {{ branch.branchName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div>
+      <!-- <button
+        mat-raised-button
+        color="primary"
+        class="inforce-btn"
+        matBadgeOverlap="true"
+        matBadge="{{ inforceStatusCount }}"
+      >
+        {{ 'component.IN-FORCE' | translate }}
+      </button> -->
+      <label>Available Products</label>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="inforce-btn">
+          <mat-label>Filter by Products</mat-label>
+          <mat-select formControlName="filterByProduct" (selectionChange)="onSearchFieldChange()">
+            <mat-option value="">Select</mat-option>
+            <mat-option *ngFor="let product of productsForFilter" [value]="product.value">
+              {{ product.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div>
+      <label>Policy Status</label>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="inactive-btn">
+          <mat-label>Filter by Policy Status</mat-label>
+          <mat-select formControlName="filterByStatus" (selectionChange)="onSearchFieldChange()">
+            <mat-option value="">Select</mat-option>
+            <mat-option *ngFor="let policy of policyStatusForFilter" [value]="policy.id">
+              {{ policy.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div class="filterDate">
+      <label>Start Date</label>
+      <mat-form-field appearance="fill" [formGroup]="searchForm">
+        <mat-label>Enter start Date</mat-label>
+        <input #fromInput matInput readonly [matDatepicker]="picker" formControlName="filterByDateStart"
+          (dateChange)="onSearchFieldChange()" />
+        <mat-icon class="reset-button" matSuffix (click)="resetStartDate()"
+          color="primary">settings_backup_restore</mat-icon>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+
+      </mat-form-field>
+    </div>
+    <div class="filterDate">
+      <label>End Date</label>
+      <mat-form-field appearance="fill" [formGroup]="searchForm">
+        <mat-label>Enter End Date</mat-label>
+        <input #toInput matInput readonly [min]="minDate" [matDatepicker]="picker1" formControlName="filterByDateEnd"
+          (dateChange)="onSearchFieldChange()" />
+        <mat-icon class="reset-button" matSuffix (click)="resetEndDate()"
+          color="primary">settings_backup_restore</mat-icon>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div></div>
+    <div style="flex-basis: 20%" class="transform">
+      <form class="example-form" [formGroup]="searchForm">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{ 'component.SEARCH' | translate }}</mat-label>
+          <input matInput (keyup)="onSearchFieldChange()" formControlName="searchField"
+            (keypress)="omitSpecialChar($event)" />
+          <mat-icon matSuffix color="primary">search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <!-- --mobile-  -->
+  <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+      <div fxFlex="50" class="child-one">
+        <span class="material-icons style-icon-policy"> kitchen </span><span class="font-size-20">{{
+          'component.POLICY_VAULT' | translate }}</span>
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="10px" class="parent">
+      <div fxFlex="22" class="first-child">
+        <button mat-raised-button color="primary" class="inforce-mobile-btn" matBadgeOverlap="true"
+          matBadge="{{ inforceStatusCount }}">
+          {{ 'component.IN-FORCE' | translate }}
+        </button>
+      </div>
+      <div fxFlex="22" class="">
+        <button mat-raised-button color="primary" class="pending-mobile-btn" matBadgeOverlap="true"
+          matBadge="{{ pendingStatusCount }}" matBadgeColor="accent">
+          {{ 'component.PENDING' | translate }}
+        </button>
+      </div>
+      <div fxFlex="22" class="">
+        <button mat-raised-button color="primary" class="inactive-mobile-btn" matBadgeOverlap="true"
+          matBadge="{{ inactiveStatusCount }}" matBadgeColor="warn">
+          {{ 'component.INACTIVE' | translate }}
+        </button>
+      </div>
+      <div fxFlex="22" class="">
+        <button mat-raised-button color="primary" class="pending-mobile-btn" matBadgeOverlap="true"
+          matBadge="{{ initiatedStatusCount }}" matBadgeColor="accent">
+          {{ 'component.OTHERS' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent-search">
+      <div fxFlex="100" class="mob-search">
+        <form class="example-form" [formGroup]="searchForm">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>{{ 'component.SEARCH' | translate }}</mat-label>
+            <input matInput (keyup)="onSearchFieldChange()" formControlName="searchField" />
+            <mat-icon matSuffix color="primary">search</mat-icon>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="overflow-table">
+    <table mat-table class="mat-elevation-z8" [dataSource]="policyApplicationDetailsArr" matSort
+      (matSortChange)="sortData($event, false)" multiTemplateDataRows>
+      <!---- table headers--  -->
+
+      <!-- <ng-container *ngIf="media.isActive('sm') || media.isActive('md') || media.isActive('lg')"> -->
+      <div matColumnDef="{{ column }}" *ngFor="let column of displayedColumns">
+        <th class="center" [ngClass]="{
+            'theme-table-red': currentUser?.organizationCode === 'SIB',
+            'theme-table-purple': currentUser?.organizationCode !== 'SIB'
+          }" mat-header-cell *matHeaderCellDef mat-sort-header="{{ column }}" color="primary">
+          <span *ngIf="column === 'Insurer Name'">{{ 'component.INSURER_NAME' | translate }}</span>
+          <span *ngIf="column === 'Product Name'">{{ 'component.PRODUCT_NAME' | translate }}</span>
+          <span *ngIf="column === 'Policy Number'">{{
+            'component.APPLICATION_POLICY_NUMBER' | translate
+            }}</span>
+          <span *ngIf="column === 'Customer Name'">{{
+            'component.CUSTOMER_NAME' | translate
+            }}</span>
+          <span *ngIf="column === 'Status'">{{ 'component.STATUS' | translate }}</span>
+          <span *ngIf="column === 'Insurer Status'">Insurer Status</span>
+          <span *ngIf="column === 'Premium'">{{ 'component.PREMIUM' | translate }}</span>
+          <span *ngIf="column === 'Actions'">{{ 'component.ACTIONS' | translate }}</span>
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          <span class="padding-left" *ngIf="column === ' ' && element?.status === 'Pending'">
+            <img src="../../assets/images/pending-24px.svg" />
+            <!-- <i class="material-icons icon-style-yellow">pending</i> -->
+          </span>
+          <span class="padding-left" *ngIf="column === ' ' && element?.status === 'INFORCE'">
+            <i class="material-icons icon-style-green">done_all</i>
+          </span>
+          <span class="padding-left" *ngIf="column === ' ' && element?.status === 'INACTIVE'">
+            <i class="material-icons icon-style-red">cancel</i>
+          </span>
+          <span class="padding-left" *ngIf="
+              column === ' ' &&
+              element?.status !== 'Pending' &&
+              element?.status !== 'INFORCE' &&
+              element?.status !== 'INACTIVE'
+            ">
+            <img src="../../assets/images/pending-24px.svg" />
+            <!-- <i class="material-icons icon-style-yellow">pending</i> -->
+          </span>
+          <span class="padding-left" *ngIf="column === 'Insurer Name'">{{
+            element['insurerName']
+            }}</span>
+          <span class="padding-left" *ngIf="column === 'Product Name'">{{
+            element['productName']
+            }}</span>
+          <span class="padding-left" *ngIf="column === 'Policy Number'">
+            <a *ngIf="element?.policyNo" [routerLink]="['/', 'proposal', element?.productId, element?.id, 'Long']"
+              class="proposal_link">
+              {{ element?.policyNo }}
+            </a>
+            <a *ngIf="!element?.policyNo && element?.insurerApplicationNo"
+              [routerLink]="['/', 'proposal', element?.productId, element?.id, 'Long']" class="proposal_link">
+              {{ element?.insurerApplicationNo }}
+            </a>
+            <a *ngIf="!element?.policyNo && !element?.insurerApplicationNo"
+              [routerLink]="['/', 'proposal', element?.productId, element?.applicationNo, 'Long']"
+              class="proposal_link">
+              {{ element['applicationNo'] }}
+            </a>
+
+            <!-- need to check with @sunjith  -->
+            <!-- <a
+              *ngIf="!element?.policyNo && element?.lob !== 'Life'"
+              [routerLink]="['/', 'proposal', element?.productId, element?.applicationNo, 'Long']"
+              class="proposal_link"
+            >
+              {{ element['applicationNo'] }}
+            </a>
+            <a
+              *ngIf="!element?.policyNo && element?.lob === 'Life'"
+              [routerLink]="['/', 'proposal', element?.productId, element?.applicationNo, 'Long']"
+              class="proposal_link"
+            >
+              {{ element['applicationNo'] }}
+            </a> -->
+          </span>
+          <span class="padding-left" *ngIf="column === 'Customer Name'">{{
+            element?.customerName
+            }}</span>
+          <span class="padding-left text-uppercase" *ngIf="column === 'Status'">{{
+            element['status']
+            }}</span>
+          <span class="padding-left flexDisplay" *ngIf="column === 'Insurer Status'">
+            {{ element['applicationData']['insurerPolicyStatus']}}<div
+              *ngIf="element?.applicationData?.insurerPolicyStatus && element.orgCode === 'KB'" class="helpIcon">
+              <mat-icon>info</mat-icon>
+              <div class="helpStatus">
+                <div *ngFor="let helpDetail of element | hepInfo">
+                  <div class="helpDesc">
+                    <label>{{helpDetail.status}}:</label>
+                    <strong>
+                      <p>{{helpDetail.description}}</p>
+                    </strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </span>
+
+          <span class="padding-left" *ngIf="column === 'Premium'">{{
+            element['premiumAmount'] | currency: 'INR'
+            }}</span>
+
+          <span class="padding-left" *ngIf="column === 'Actions'">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button>
+                <mat-icon class="margin-left"> settings_applications </mat-icon>
+
+                <a *ngIf="element?.policyNo" [routerLink]="['/', 'proposal', element?.productId, element?.id, 'Long']"
+                  class="proposal_link">
+                  {{ element?.policyNo }}
+                </a>
+                <a *ngIf="!element?.policyNo && element?.lob !== 'Life'" [routerLink]="[
+                    '/',
+                    'proposal',
+                    element?.productId,
+                    element?.applicationNo,
+                    'Long'
+                  ]" class="proposal_link">
+                  {{ element['applicationNo'] }}
+                </a>
+                <a *ngIf="!element?.policyNo && element?.lob === 'Life'" [routerLink]="[
+                    '/',
+                    'proposal',
+                    element?.productId,
+                    element?.applicationNo,
+                    'Long'
+                  ]" class="proposal_link">
+                  {{ element['applicationNo'] }}
+                </a>
+              </button>
+              <!-- <button mat-menu-item>
+                <img
+                  src="../../assets/icons/notification_important-24px.svg"
+                  class="material-icons"
+                />
+                <span>Send Notification</span>
+              </button> -->
+
+              <!-- <button
+                mat-menu-item
+                *ngIf="element['statusCode'] != 9 && element?.policyNo != ''"
+                (click)="onCreateNewService(element?.policyNo)"
+              >
+                <img src="../../assets/images/request_page-24px.svg" class="material-icons" />
+                <span>Create Service Request</span>
+              </button> -->
+              <!-- Removed Check Policy Staus for PAID -->
+              <button mat-menu-item *ngIf="(element['statusCode'] == 4 || element['statusCode'] > 7) && currentUser?.organizationCode !== 'MIBPL'
+                 && currentUser?.organizationCode !== 'SIB' && currentUser?.organizationCode !== 'CSB'"
+                (click)="checkPolicyStatus(element?.applicationNo)">
+                <img src="../../assets/images/request_page-24px.svg" class="material-icons" />
+                <span>Check Policy Status</span>
+              </button>
+
+              <!-- <button mat-menu-item (click)="onCreateNewComplaint(element?.applicationNo)">
+                <mat-icon> warning </mat-icon>
+                <span>Create Complaint</span>
+              </button> -->
+
+              <button mat-menu-item *ngIf="
+                  element['statusCode'] === 7 &&
+                  currentUser?.roles?.indexOf('BRANCH.PAYMENT.INITIATE') > -1
+                " (click)="onInitiatePayment(element?.applicationNo)">
+                <mat-icon> payment </mat-icon>
+                <span>Initiate Payment</span>
+              </button>
+              <button mat-menu-item *ngIf="element['statusCode'] === 8"
+                (click)="issuePolicy(element?.applicationNo, element?.insurerCode)">
+                <mat-icon> payment </mat-icon>
+                <span>Issue Policy</span>
+              </button>
+              <!-- --Reject --  -->
+              <button mat-menu-item *ngIf="element['statusCode'] === 12" (click)="rejectPolicy()">
+                <mat-icon> cancel </mat-icon>
+                <span>Reject</span>
+              </button>
+              <!-- Send to Insurer Excluded For SIB and CSB only -->
+              <button mat-menu-item *ngIf="
+                  isBranchUser &&
+                  (currentUser?.organizationCode !== 'MIBPL' && currentUser?.organizationCode !== 'SIB' && 
+                  currentUser?.organizationCode !== 'CSB' ||
+                    (currentUser?.organizationCode === 'MIBPL' && element['statusCode'] === 3))
+                " (click)="sendLeadToInsurer(element?.applicationNo, element?.insurerCode)">
+                <mat-icon> payment </mat-icon>
+                <span>Send To Insurer</span>
+              </button>
+              <button mat-menu-item *ngIf="element['statusCode'] <= 7 && element['statusCode'] !== 6"
+                (click)="declinePolicy(element, 'Customer Not Interested')">
+                <mat-icon> highlight_off</mat-icon>
+                <span>Customer not Interested</span>
+              </button>
+              <button mat-menu-item *ngIf="element['statusCode'] === 12" (click)="declinePolicy(element, 'Reject')">
+                <mat-icon> highlight_off</mat-icon>
+                <span>Reject</span>
+              </button>
+              <button *ngIf="
+                  element['statusCode'] === 9 &&
+                  (element['insurerCode'] === 134 ||
+                    element['insurerCode'] === 122 ||
+                    element['insurerCode'] === 153 ||
+                    element['insurerCode'] === 151 
+                    )
+                " mat-menu-item (click)="base64ToPdf(element?.applicationNo, element['insurerCode'])">
+                <mat-icon> cloud_download </mat-icon>
+                <span *ngIf="element['productType'] === 'GC'">Download Certificate of Insurance</span>
+                <span *ngIf="element['productType'] !== 'GC'">Download Policy Schedule</span>
+              </button>
+              <button *ngIf="
+                  element['productType'] === 'GC' &&
+                  (element['statusCode'] === 4 ||
+                    element['statusCode'] === 5 ||
+                    element['statusCode'] >= 7) &&
+                  (element['insurerCode'] === 122 || element['insurerCode'] === 140)
+                " mat-menu-item (click)="downloadProposalForm(element?.applicationNo, 'Proposal')">
+                <mat-icon> cloud_download </mat-icon>
+                <span>Download Proposal Form</span>
+              </button>
+              <button
+                *ngIf="(element['insurerCode'] === 130 && element['statusCode']===9)|| ((element['insurerCode'] === 113||element['insurerCode'] === 117) &&  element['statusCode']===9) "
+                mat-menu-item (click)="base64ToPdf(element?.applicationNo,element?.insurerCode)">
+                <mat-icon> cloud_download </mat-icon>
+                <span *ngIf="element['insurerCode'] === 130 && element['productType'] !=='GC' ">Download FNA</span>
+                <span *ngIf="element['insurerCode'] === 113  ">Download
+                  Policy PDF</span>
+              </button>
+              <button
+                *ngIf="(element['insurerCode'] === 130 || element['insurerCode'] === 103 )&& element['statusCode']===9"
+                mat-menu-item (click)="base64ToPdf(element?.applicationNo,element?.insurerCode)">
+                <mat-icon> cloud_download </mat-icon>
+                <span>Download
+                  Policy PDF</span>
+              </button>
+              <button *ngIf="element['statusCode']===3" mat-menu-item
+                (click)="sendCustomerConsent(element?.applicationNo)">
+                <mat-icon> send </mat-icon>
+                <span>Resend Customer Consent</span>
+              </button>
+              <button *ngIf="element['insurerCode'] === 158" mat-menu-item
+                (click)="downloadURLDoc(element?.applicationData.policyDocumentUrl)">
+                <mat-icon> cloud_download </mat-icon>
+                <span>Policy PDF</span>
+              </button>
+              <button *ngIf="element['statusCode'] === 9 && element['insurerCode'] === 134" mat-menu-item
+                (click)="downloadProposalForm(element?.applicationNo, 'Proposal')">
+                <mat-icon> cloud_download </mat-icon>
+                <span>Download Proposal Form</span>
+              </button>
+              <button *ngIf="
+                  (element['statusCode'] === 9 && element['insurerCode'] === 148) ||
+                  (element['insurerCode'] === 153 && element['statusCode'] !== 12)
+                " mat-menu-item (click)="downloadProposalForm(element?.applicationNo, 'Policy')">
+                <mat-icon> cloud_download </mat-icon>
+                <span>Download Proposal Form</span>
+              </button>
+            </mat-menu>
+            <!-- sep 25 -change Action view -->
+          </span>
+        </td>
+      </div>
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columnsToDisplay -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <app-application-details [element]="element"></app-application-details>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns" class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+    <mat-paginator [length]="totalRecords" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+</div>

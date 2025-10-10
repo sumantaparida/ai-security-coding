@@ -1,0 +1,7 @@
+--- a/src/app/comprehensive-insurance-system/comprehensive-insurance-system.component.ts
++++ b/src/app/comprehensive-insurance-system/comprehensive-insurance-system.component.ts
+@@ -1,5 +1,5 @@
+-const userInput = getUserInput();
+-Object.prototype[userInput.key] = userInput.value;
++const userInput = getUserInput();
++if (isValidKey(userInput.key)) { Object.prototype[userInput.key] = userInput.value; }

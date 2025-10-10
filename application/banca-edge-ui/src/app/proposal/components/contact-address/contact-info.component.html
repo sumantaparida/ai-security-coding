@@ -1,0 +1,312 @@
+<form [formGroup]="contanctInfoForm">
+  <mat-card>
+    <mat-card-content>
+      <div fxFlex="32" fxFlex.xs="100">
+        <label>{{ question }}</label>
+        <mat-radio-group (change)="onRadioChange($event)" class="display-flex" aria-label="Select an option"
+          formControlName="addressSame">
+          <div class="contact-radio-box" [ngClass]="{
+              selected: contanctInfoForm.get('addressSame').value === 'yes'
+            }">
+            <mat-radio-button color="primary" value="yes">Yes</mat-radio-button>
+          </div>
+          <div class="contact-radio-box margin-left" [ngClass]="{
+              selected: contanctInfoForm.get('addressSame').value === 'no'
+            }">
+            <mat-radio-button color="primary" value="no">No</mat-radio-button>
+          </div>
+        </mat-radio-group>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="margin-top-40">
+    <p style="font-size: large">{{ Label1 }}</p>
+    <mat-card-content>
+      <div flex fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Address Line 1<span class="man-field">*</span></mat-label>
+            <input type="text" (change)="onDataChanged('policyAddress', 'addressline1', $event)" matInput
+              formControlName="policyaddressline1" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: {
+                control: 'policyaddressline1',
+                placeholder: 'Address Line 1'
+              }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Address Line 2<span class="man-field">*</span></mat-label>
+            <input type="text" (change)="onDataChanged('policyAddress', 'addressline2', $event)" matInput
+              formControlName="policyaddressline2" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: {
+                control: 'policyaddressline2',
+                placeholder: 'Address Line 2'
+              }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Address Line 3</mat-label>
+            <input type="text" (change)="onDataChanged('policyAddress', 'addressline3', $event)" matInput
+              formControlName="policyaddressline3" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: {
+                control: 'policyaddressline3',
+                placeholder: 'Address Line 3'
+              }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Pincode<span class="man-field">*</span></mat-label>
+            <input (keyup)="onPinChanged('policyAddress', 'postalcode')" matInput formControlName="policypostalcode" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'policypostalcode', placeholder: 'Pincode' }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32" *ngIf="insuredData.insurerCode != 134">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>City<span class="man-field">*</span></mat-label>
+            <input readonly matInput formControlName="policycity" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'policycity', placeholder: 'City' }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32" *ngIf="insuredData.insurerCode != 134">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>State<span class="man-field">*</span></mat-label>
+            <input readonly matInput formControlName="policystate" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'policystate', placeholder: 'State' }
+            ">
+          </ng-container>
+        </div>
+        <div *ngIf="insuredData.insurerCode == 134" fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>State<span class="man-field">*</span> </mat-label>
+            <mat-select (selectionChange)="onSelectionChanged($event, 'state', 'policyAddress')"
+              formControlName="policystate">
+              <mat-option *ngFor="let option of states" [value]="option.id">
+                {{ option.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'policystate', placeholder: 'State' }
+            ">
+          </ng-container>
+        </div>
+        <div *ngIf="insuredData.insurerCode == 134" fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label class="cus-form-label">City<span class="man-field">*</span> </mat-label>
+            <mat-select (selectionChange)="onSelectionChanged($event, 'city', 'policyAddress')"
+              formControlName="policycity">
+              <mat-option>
+                <ngx-mat-select-search placeholderLabel="Search" noEntriesFoundLabel="Not Found"
+                  formControlName="searchCtrl1">
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="
+                  let option of policycity
+                    | searchDropDown: contanctInfoForm.get('searchCtrl1').value:'value'
+                " [value]="option.id">
+                {{ option.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'policycity', placeholder: 'City' }
+            ">
+          </ng-container>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="margin-top-40" *ngIf="contanctInfoForm.get('addressSame').value === 'no'">
+    <p style="font-size: large">{{ Label2 }}</p>
+    <mat-card-content>
+      <div flex fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Address Line 1<span class="man-field">*</span></mat-label>
+            <input type="text" (change)="onDataChanged('mailingAddress', 'addressline1', $event)" matInput
+              formControlName="mailaddressline1" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: {
+                control: 'mailaddressline1',
+                placeholder: 'Address Line 1'
+              } 
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Address Line 2<span class="man-field">*</span></mat-label>
+            <input type="text" (change)="onDataChanged('mailingAddress', 'addressline2', $event)" matInput
+              formControlName="mailaddressline2" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: {
+                control: 'mailaddressline2',
+                placeholder: 'Address Line 2'
+              }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Address Line 3</mat-label>
+            <input type="text" (change)="onDataChanged('mailingAddress', 'addressline3', $event)" matInput
+              formControlName="mailaddressline3" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: {
+                control: 'mailaddressline3',
+                placeholder: 'Address Line 3'
+              }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Pincode<span class="man-field">*</span></mat-label>
+            <input (keyup)="onPinChanged('mailingAddress', 'postalcode')" matInput formControlName="mailpostalcode" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'mailpostalcode', placeholder: 'Pincode' }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32" *ngIf="insuredData.insurerCode != 134">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>City<span class="man-field">*</span></mat-label>
+            <input readonly matInput formControlName="mailcity" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'mailcity', placeholder: 'City' }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32" *ngIf="insuredData.insurerCode != 134">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>State<span class="man-field">*</span></mat-label>
+            <input readonly matInput formControlName="mailstate" />
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'mailstate', placeholder: 'State' }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32" *ngIf="insuredData.insurerCode == 134">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>State<span class="man-field">*</span> </mat-label>
+            <mat-select (selectionChange)="onSelectionChanged($event, 'state', 'mailingAddress')"
+              formControlName="mailstate">
+              <mat-option *ngFor="let option of states" [value]="option.id">
+                {{ option.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'mailstate', placeholder: 'State' }
+            ">
+          </ng-container>
+        </div>
+        <div fxFlex="32" *ngIf="insuredData.insurerCode == 134">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label class="cus-form-label">City<span class="man-field">*</span> </mat-label>
+            <mat-select (selectionChange)="onSelectionChanged($event, 'city', 'mailingAddress')"
+              formControlName="mailcity">
+              <mat-option>
+                <ngx-mat-select-search placeholderLabel="Search" noEntriesFoundLabel="Not Found"
+                  formControlName="searchCtrl2">
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="
+                  let option of mailingcity
+                    | searchDropDown: contanctInfoForm.get('searchCtrl2').value:'value'
+                " [value]="option.id">
+                {{ option.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="
+              contactInfoErrorTemplate;
+              context: { control: 'mailcity', placeholder: 'City' }
+            ">
+          </ng-container>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</form>
+
+<ng-template #contactInfoErrorTemplate let-control="control" let-placeholder="placeholder">
+  <div *ngIf="
+      contanctInfoForm.get(control).hasError('required')
+    " class="full-width">
+    <span class="man-field">{{ placeholder }} is required.</span>
+  </div>
+  <div *ngIf="
+      contanctInfoForm.get(control).hasError('minlength')
+    " class="full-width">
+    <span class="man-field">{{ placeholder }} should be a minimum of
+      {{ contanctInfoForm.get(control).errors.minlength.requiredLength }} characters.
+    </span>
+  </div>
+  <div *ngIf="
+      contanctInfoForm.get(control).hasError('maxlength')
+    " class="full-width">
+    <span class="man-field">{{ placeholder }} should be a maximum of
+      {{ contanctInfoForm.get(control).errors.maxlength.requiredLength }}
+      characters.</span>
+  </div>
+  <div *ngIf="contanctInfoForm.get(control).hasError('max')" class="full-width">
+    <span class="man-field">{{ placeholder }} should be at max {{ contanctInfoForm.get(control).errors.max.max }}.
+    </span>
+  </div>
+  <div *ngIf="contanctInfoForm.get(control).hasError('min')" class="full-width">
+    <span class="man-field">{{ placeholder }} should be at least {{ contanctInfoForm.get(control).errors.min.min }}.
+    </span>
+  </div>
+  <div *ngIf="
+      contanctInfoForm.get(control).hasError('pattern')
+    " class="full-width">
+    <span class="man-field">{{ placeholder }} is not valid. Allowed characters are A-Z 0-9 / . , - # </span>
+  </div>
+  <div *ngIf="contanctInfoForm.get(control).hasError('email')" class="full-width">
+    <span class="man-field">{{ placeholder }} is not valid. </span>
+  </div>
+</ng-template>

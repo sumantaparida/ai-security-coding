@@ -1,0 +1,8 @@
+--- a/e2e/protractor.conf.js
++++ b/e2e/protractor.conf.js
+@@ -1,1 +1,1 @@
+-import { lazyLoad } from 'some-module';
++import { secureLazyLoad } from 'secure-module';
+
+-lazyLoad('path/to/module');
++secureLazyLoad('path/to/module');

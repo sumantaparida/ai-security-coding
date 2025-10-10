@@ -1,0 +1,28 @@
+<div *ngIf="state==='houseType'" class="houseType">
+    <div class="houseTypeDesc">
+        <label>My living situation</label>
+    </div>
+
+    <div class="flex-container-gender">
+        <ng-container>
+            <div class="item">
+                <img (click)="onHousTypeSelected('ownHouse')"
+                    [ngClass]="{'selected': form.get('houseTypeValue').value === 1 }"
+                    src="../../../assets/images/{{image1}}.svg" class="houseTypeImages">
+                <p>Own House</p>
+            </div>
+            <div class="item">
+                <img (click)="onHousTypeSelected('rentedHouse')"
+                    [ngClass]="{'selected': form.get('houseTypeValue').value === 2 }"
+                    src="../../../assets/images/{{image2}}.svg" class="houseTypeImages">
+                <p>On Rent</p>
+            </div>
+            <div class="item">
+                <img (click)="onHousTypeSelected('withParents')"
+                    [ngClass]="{'selected': form.get('houseTypeValue').value === 3 }"
+                    src="../../../assets/images/{{image3}}.svg" class="houseTypeImages">
+                <p>With My Parents</p>
+            </div>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,249 @@
+.heading {
+    color: white;
+    background: #673ab7;
+    padding: 10px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.heading-row {
+    background: #673ab7;
+}
+
+.label-heading {
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.background-color {
+    background: rgba(0, 0, 0, .04);
+}
+
+.edit-quote-label {
+    font-weight: 500;
+    color: black;
+}
+
+.edit-heading-label {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.margin-30 {
+    margin-bottom: 30px;
+}
+
+.rows-edit-col {
+    padding: 5px;
+    max-width: 90%;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.rows-plan-col {
+    padding: 5px;
+}
+
+.edit-quote-col input {
+    width: 100%;
+    height: 30px;
+    border: none;
+    background: rgba(0, 0, 0, .04);
+}
+
+.quote-fields {
+    background: rgba(0, 0, 0, .04);
+    height: 3rem;
+}
+
+a {
+    cursor: pointer;
+    color: #0070c9;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.help-description {
+    margin-top: 10px;
+    /* height: 58px; */
+    padding: 20px;
+    /* width: 295px; */
+    background: lavender;
+}
+
+.buy-now-btn {
+    background: #03dac5;
+    color: white;
+    font-size: 18px;
+}
+
+.btn-div {
+    text-align: end;
+}
+
+.edit-anchor {
+    text-align: end;
+}
+
+.edit-anchor a {
+    color: #b00020 !important;
+}
+
+.back-nav-health {
+    margin-top: 20px;
+}
+
+.back-nav-health a {
+    text-decoration: underline;
+}
+
+.more-details-link {
+    text-decoration: underline;
+    padding-right: 24px;
+}
+
+.error-background {
+    background: #fde8e9;
+    box-shadow: 0 0 0 1px #F44336;
+    font-size: 18px;
+    padding: 15px 5px;
+    margin: 15px;
+}
+
+/* --modal-- */
+
+/* The Modal (background) */
+
+.modal {
+    /* position: absolute;  changed for IE */
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 31%;
+    top: 12%;
+    width: 68%;
+    height: 89%;
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content */
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 75%;
+    height: 25%;
+}
+
+/* The Close Button */
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* --end modal-- */
+
+/* --edit dailog-- */
+
+.finish-editing-heading {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
+}
+
+.update-btn {
+    background: #03dac5;
+    color: white;
+    width: 100%;
+}
+
+.cancel-btn {
+    background: #b00020;
+    color: white;
+    width: 100%;
+}
+
+/* --Mobile view ---  */
+
+.company-logo-div {
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.bold {
+    font-weight: 500;
+}
+
+.rows-edit-col-mobile {
+    padding: 5px;
+    max-width: 90%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-bottom: 15px;
+}
+
+.btn-div-mob {
+    text-align: center;
+}
+
+p {
+    text-align: justify;
+}
+
+/* mat-progress-spinner {
+    margin: auto;
+} */
+
+.spinner {
+    position: fixed;
+    top: 25%;
+    left: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+}
+
+.disclaimer_text {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+@media(max-width:767px) {
+    .disclaimer_text {
+        padding: 15px;
+    }
+}

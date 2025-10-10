@@ -1,0 +1,343 @@
+<ng-container *ngIf="element?.leadBatch">
+  <div
+    flex
+    fxLayout="row"
+    
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap="10px"
+    class="margin-top-10"
+  >
+    <div fxFlex="16" class="grid-item-inside">
+      <strong>Lead Batch Data</strong>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxHide.xs fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Lead Id</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label>Lead Insurer Reference Id</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Payout Amount </label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Client Mobile</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label>Policy Status</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Pendency Medical</label>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxHide.xs fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="16" class="grid-item-inside">
+      <span> {{ element?.leadBatch?.leadID }} </span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.leadinsurerRefid }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.payoutAmt }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.clientMobile }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.policyStatus }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span *ngIf="element?.leadBatch?.pendencyMedical === 'Y'">Yes</span>
+      <span *ngIf="element?.leadBatch?.pendencyMedical === 'N'">No</span>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxHide.xs fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Pendency Nonmedical</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label>Policy Dispatch Date</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Policy End Date </label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Policy Number</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label>Policy Start Date</label>
+    </div>
+    <!-- <div fxFlex="16" class="grid-item-inside">
+      <label> Pendency Status</label>
+    </div> -->
+  </div>
+  <div flex fxLayout="row" fxHide.xs fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="16" class="grid-item-inside">
+      <span *ngIf="element?.leadBatch?.pendencyNonmedical === 'Y'">Yes</span>
+      <span *ngIf="element?.leadBatch?.pendencyNonmedical === 'N'">No</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.policyDispatchdt }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.policyEnddt }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.policyNumber }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.policyStartdt }}</span>
+    </div>
+    <!-- <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.policyStatus }}</span>
+    </div> -->
+  </div>
+  <div flex fxLayout="row" fxHide.xs fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Policy Term</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label>Premium Amount</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Premium Amount With Tax </label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Premium Payment Status</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label>Premium Payment Term</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Product Code</label>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxHide.xs fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.policyTerm }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.premiumAmt }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.premiumamtWithTax }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.premiumpaymentStatus }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.premiumpaymentTerm }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.productCode }}</span>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxHide.xs fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Product Name</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label>Product Type</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Proposal Date </label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Proposal No</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label>Proposal Recieve Date</label>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <label> Proposer Name </label>
+    </div>
+  </div>
+  <div flex fxLayout="row" fxHide.xs fxLayout.sm="column" fxLayoutGap="10px">
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.productName }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.productType }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.proposalDate }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.proposalNo }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.proposalrecvDate }}</span>
+    </div>
+    <div fxFlex="16" class="grid-item-inside">
+      <span>{{ element?.leadBatch?.proposerName }}</span>
+    </div>
+  </div>
+
+  <!-- --mobile view--  -->
+
+  <div flex fxLayout="row" fxHide fxShow.xs >
+    <div  div fxFlex="33" class="grid-item-inside">
+      <label> Lead Id</label>
+    </div>
+    <div div fxFlex="33" class="grid-item-inside">
+      <label>Lead Insurer Reference Id</label>
+    </div>
+    <div div fxFlex="33" class="grid-item-inside">
+      <label> Payout Amount </label>
+    </div>
+  </div>
+
+    <div flex fxLayout="row" fxHide fxShow.xs >
+      <div div fxFlex="33" class="grid-item-inside">
+        <span> {{ element?.leadBatch?.leadID }} </span>
+      </div>
+      <div  div fxFlex="33" class="grid-item-inside">
+        <span>{{ element?.leadBatch?.leadinsurerRefid }}</span>
+      </div>
+      <div  div fxFlex="33" class="grid-item-inside">
+        <span>{{ element?.leadBatch?.payoutAmt }}</span>
+      </div>
+    </div>
+
+    <div flex fxLayout="row" fxHide fxShow.xs >
+      <div fxFlex="33" class="grid-item-inside">
+        <label> Pendency Nonmedical</label>
+      </div>
+      <div fxFlex="33" class="grid-item-inside">
+        <label>Policy Dispatch Date</label>
+      </div>
+      <div fxFlex="33" class="grid-item-inside">
+        <label> Policy End Date </label>
+      </div>
+    </div>
+  
+      <div flex fxLayout="row" fxHide fxShow.xs >
+        <div fxFlex="33" class="grid-item-inside">
+          <span *ngIf="element?.leadBatch?.pendencyNonmedical === 'Y'">Yes</span>
+          <span *ngIf="element?.leadBatch?.pendencyNonmedical === 'N'">No</span>
+        </div>
+        <div fxFlex="33" class="grid-item-inside">
+          <span>{{ element?.leadBatch?.policyDispatchdt }}</span>
+        </div>
+        <div fxFlex="33" class="grid-item-inside">
+          <span>{{ element?.leadBatch?.policyEnddt }}</span>
+        </div>
+      </div>
+
+      <div flex fxLayout="row" fxHide fxShow.xs >
+        <div fxFlex="33" class="grid-item-inside">
+          <label> Policy Number</label>
+        </div>
+        <div fxFlex="33" class="grid-item-inside">
+          <label>Policy Start Date</label>
+        </div>
+      </div>
+    
+        <div flex fxLayout="row" fxHide fxShow.xs >
+          <div fxFlex="33" class="grid-item-inside">
+            <span>{{ element?.leadBatch?.policyNumber }}</span>
+          </div>
+          <div fxFlex="33" class="grid-item-inside">
+            <span>{{ element?.leadBatch?.policyStartdt }}</span>
+          </div>
+        </div>
+
+        <div flex fxLayout="row" fxHide fxShow.xs >
+          <div fxFlex="33" class="grid-item-inside">
+            <label> Policy Term</label>
+          </div>
+          <div fxFlex="33" class="grid-item-inside">
+            <label>Premium Amount</label>
+          </div>
+          <div fxFlex="33" class="grid-item-inside">
+            <label> Premium Amount With Tax </label>
+          </div>
+        </div>
+      
+          <div flex fxLayout="row" fxHide fxShow.xs >
+            <div fxFlex="33" class="grid-item-inside">
+              <span>{{ element?.leadBatch?.policyTerm }}</span>
+            </div>
+            <div fxFlex="33" class="grid-item-inside">
+              <span>{{ element?.leadBatch?.premiumAmt }}</span>
+            </div>
+            <div fxFlex="33" class="grid-item-inside">
+              <span>{{ element?.leadBatch?.premiumamtWithTax }}</span>
+            </div>
+          </div>
+
+          <div flex fxLayout="row" fxHide fxShow.xs >
+            <div fxFlex="33" class="grid-item-inside">
+              <label> Premium Payment Status</label>
+            </div>
+            <div fxFlex="33" class="grid-item-inside">
+              <label>Premium Payment Term</label>
+            </div>
+            <div fxFlex="33" class="grid-item-inside">
+              <label> Product Code</label>
+            </div>
+          </div>
+        
+            <div flex fxLayout="row" fxHide fxShow.xs >
+              <div fxFlex="33" class="grid-item-inside">
+                <span>{{ element?.leadBatch?.premiumpaymentStatus }}</span>
+              </div>
+              <div fxFlex="33" class="grid-item-inside">
+                <span>{{ element?.leadBatch?.premiumpaymentTerm }}</span>
+              </div>
+              <div fxFlex="33" class="grid-item-inside">
+                <span>{{ element?.leadBatch?.productCode }}</span>
+              </div>
+            </div>
+
+            <div flex fxLayout="row" fxHide fxShow.xs >
+              <div fxFlex="33" class="grid-item-inside">
+                <label> Product Name</label>
+              </div>
+              <div fxFlex="33" class="grid-item-inside">
+                <label>Product Type</label>
+              </div>
+              <div fxFlex="33" class="grid-item-inside">
+                <label> Proposal Date </label>
+              </div>
+            </div>
+          
+              <div flex fxLayout="row" fxHide fxShow.xs >
+                <div fxFlex="33" class="grid-item-inside">
+                  <span>{{ element?.leadBatch?.productName }}</span>
+                </div>
+                <div fxFlex="33" class="grid-item-inside">
+                  <span>{{ element?.leadBatch?.productType }}</span>
+                </div>
+                <div fxFlex="33" class="grid-item-inside">
+                  <span>{{ element?.leadBatch?.proposalDate }}</span>
+                </div>
+              </div>
+
+              <div flex fxLayout="row" fxHide fxShow.xs >
+                <div fxFlex="33" class="grid-item-inside">
+                  <label> Proposal No</label>
+                </div>
+                <div fxFlex="33" class="grid-item-inside">
+                  <label>Proposal Recieve Date</label>
+                </div>
+                <div fxFlex="33" class="grid-item-inside">
+                  <label> Proposer Name </label>
+                </div>
+              </div>
+            
+                <div flex fxLayout="row" fxHide fxShow.xs >
+                  <div fxFlex="33" class="grid-item-inside">
+                    <span>{{ element?.leadBatch?.proposalNo }}</span>
+                  </div>
+                  <div fxFlex="33" class="grid-item-inside">
+                    <span>{{ element?.leadBatch?.proposalrecvDate }}</span>
+                  </div>
+                  <div fxFlex="33" class="grid-item-inside">
+                    <span>{{ element?.leadBatch?.proposerName }}</span>
+                  </div>
+                </div>
+
+</ng-container>

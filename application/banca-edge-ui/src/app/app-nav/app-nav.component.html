@@ -1,0 +1,404 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  >
+    <button
+      class="menu-icon"
+      type="button"
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      (click)="drawer.toggle()"
+    >
+      <mat-icon aria-label="Side nav toggle icon">menu_open</mat-icon>
+    </button>
+
+    <mat-nav-list class="leftside">
+      <h2 *ngIf="isUser" mat-list-item>
+        <!-- <span class="material-icons">
+          work
+        </span> -->
+        <a>{{ 'component.MY_SPACE' | translate }}</a>
+      </h2>
+      <ng-container *ngFor="let menuItem of mobileMenuList">
+        <button
+          *ngIf="!menuItem.divider && isUser && menuItem.visibleForRoles | checkRoles: rolesArr"
+          mat-menu-item
+          routerLink="{{ menuItem?.navigationLink }}"
+          (click)="!drawer.toggle()"
+        >
+          <span class="material-icons"> {{ menuItem?.icon }} </span>{{ menuItem?.name }}
+        </button>
+
+        <mat-divider *ngIf="menuItem.divider"></mat-divider>
+      </ng-container>
+
+      <!-- <button
+        *ngIf="isUser && isDashboard"
+        mat-menu-item
+        routerLink="/mydashboard"
+        (click)="!drawer.toggle()"
+      >
+        <span class="material-icons"> dashboard </span>{{ 'component.MY_DASHBOARD' | translate }}
+      </button>
+      <button
+        *ngIf="isUser && isRenewPolicy"
+        mat-menu-item
+        routerLink="/myrenewals"
+        (click)="!drawer.toggle()"
+      >
+        <span class="material-icons">restore_page</span>{{ 'component.MY_RENEWALS' | translate }}
+      </button>
+      <button
+        *ngIf="isUser && isUwActivity"
+        mat-menu-item
+        routerLink="/group-credit/under-writing"
+        (click)="!drawer.toggle()"
+      >
+        <span class="material-icons">library_books</span>Underwriting
+      </button>
+      <button
+        *ngIf="isUser && isViewCustomer"
+        mat-menu-item
+        (click)="!drawer.toggle()"
+        routerLink="/mycustomers"
+        routerLinkActive="active"
+      >
+        <span class="material-icons"> recent_actors </span
+        >{{ 'component.MY_CUSTOMERS' | translate }}
+      </button>
+      <button
+        *ngIf="isUser && isCreateComplaint"
+        mat-menu-item
+        (click)="!drawer.toggle()"
+        routerLink="/mycomplaints/view-complaint"
+        routerLinkActive="active"
+      >
+        <span class="material-icons"> warning</span>{{ 'component.MY_COMPLAINTS' | translate }}
+      </button>
+      <button
+        *ngIf="isUser && isViewSr"
+        mat-menu-item
+        (click)="!drawer.toggle()"
+        routerLink="/myrequest/view-service-request"
+        routerLinkActive="active"
+      >
+        <img class="material-icons" src="../../assets/images/request_page-24px.svg" />{{
+          'component.MY_REQUESTS' | translate
+        }}
+      </button>
+      <button
+        *ngIf="isUser && isViewActivity"
+        mat-menu-item
+        (click)="!drawer.toggle()"
+        routerLink="/myactivities"
+        routerLinkActive="active"
+      >
+        <mat-icon class="material-icons">sync_alt </mat-icon
+        >{{ 'component.MY_ACTIVITIES' | translate }}
+      </button>
+      <button
+        *ngIf="isUser && rolesArr?.indexOf('BRANCH.PAYMENT.VIEW') > -1"
+        mat-menu-item
+        (click)="!drawer.toggle()"
+        routerLink="/payment-approval"
+        routerLinkActive="active"
+      >
+        <mat-icon class="material-icons">payments </mat-icon
+        >{{ 'component.PAYMENT_REQUESTS' | translate }}
+      </button>
+      <button
+        *ngIf="isUser && rolesArr?.indexOf('BRANCH.PAYMENT.VIEW') > -1"
+        mat-menu-item
+        (click)="!drawer.toggle()"
+        routerLink="/sp-approval"
+        routerLinkActive="active"
+      >
+        <img class="material-icons" src="../../assets/logos/task_alt-24px.svg" />{{
+          'component.SP_APPROVAL' | translate
+        }}
+      </button>
+
+      <button
+        mat-menu-item
+        (click)="!drawer.toggle()"
+        routerLink="/offline-policies"
+        routerLinkActive="active"
+      >
+        <mat-icon> kitchen </mat-icon>{{ 'component.OFFLINE_POLICIES' | translate }}
+      </button>
+      <button
+        *ngIf="isUser && isViewLead && orgCode !== 'CSB'"
+        mat-menu-item
+        (click)="!drawer.toggle()"
+        routerLink="lead-management/viewleads"
+        routerLinkActive="active"
+      >
+        <mat-icon class="material-icons">kitchen </mat-icon>{{ 'component.VIEW_LEADS' | translate }}
+      </button>
+
+      <mat-divider></mat-divider>
+      <h2 *ngIf="isUser && isViewPolicyVault">
+        <a mat-list-item (click)="!drawer.toggle()" routerLink="/policyvault">
+          <span class="material-icons"> kitchen </span>{{ 'component.POLICY_VAULT' | translate }}
+        </a>
+      </h2>
+      <h2 *ngIf="isUser && isGroupCredit">
+        <a mat-list-item (click)="!drawer.toggle()" routerLink="/group-credit">
+          <span class="material-icons"> kitchen </span>{{ 'component.GROUP_CREDIT' | translate }}
+        </a>
+      </h2>
+
+      <mat-divider></mat-divider>
+
+      <h2 *ngIf="isUser" mat-list-item routerLink="#"><a></a></h2>
+
+      <button
+        *ngIf="isBankCustomer"
+        mat-menu-item
+        (click)="!drawer.toggle()"
+        routerLink="/quickquote"
+      >
+        <span class="material-icons"> book </span>{{ 'component.QUICK_QUOTE' | translate }}
+      </button> -->
+
+      <mat-divider></mat-divider>
+
+      <h2 *ngIf="isUser" mat-list-item routerLink="#">
+        <a>{{ firstName }} {{ lastName }} </a>
+      </h2>
+
+      <button
+        *ngIf="!isBankCustomer && orgCode !== 'DCB'"
+        (click)="!drawer.toggle()"
+        mat-menu-item
+        routerLink="/changepassword"
+      >
+        <span class="material-icons"> vpn_key </span>{{ 'component.CHANGE_PASSWORD' | translate }}
+      </button>
+
+      <button *ngIf="!isBankCustomer" mat-menu-item (click)="logout()">
+        <img class="material-icons" src="../../assets/icons/sign-out.svg" />
+        <!-- <mat-icon class="material-icons logout">
+          exit
+        </mat-icon> -->
+        {{ 'component.SIGN_OUT' | translate }}
+      </button>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- desktop  -->
+  <mat-sidenav-content>
+    <mat-toolbar [ngClass]="{ 'theme-red': orgCode === 'SIB', 'theme-blue': orgCode !== 'SIB' }">
+      <button
+        class="menu-icon"
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+
+      <span *ngIf="!isBankCustomer" class="logo"><img [src]="orgLogo" /></span>
+      <span
+        style="font-size: 25px; font-weight: bold"
+        *ngIf="orgCode === 'KB' || orgCode === 'DCB'"
+        class="spacer"
+        >{{ branchidName?.value }} {{ branchidName?.id }}
+      </span>
+      <span class="spacer"></span>
+
+      <!-- <ng-container *ngFor="let menuItem of desktopMenuList.menuItems">
+        <ng-container *ngIf="menuItem.type === 'sub-menu'">
+          <button *ngIf="isUser && !menuItem.divider" mat-button [matMenuTriggerFor]="belowMenu">
+            <span class="material-icons margin-right"> {{ menuItem?.icon }} </span
+            >{{ menuItem?.icon }} }<span class="material-icons"> keyboard_arrow_down </span>
+          </button>
+        </ng-container>
+        <button
+          *ngIf="!menuItem.divider && isUser && menuItem.visibleForRoles | checkRoles: rolesArr"
+          mat-menu-item
+          routerLink="{{ menuItem?.navigationLink }}"
+        >
+          <span class="material-icons margin-right"> {{ menuItem?.icon }} </span
+          >{{ menuItem?.name }}
+        </button>
+        <mat-divider *ngIf="menuItem.divider"></mat-divider>
+      </ng-container> -->
+
+      <ng-container *ngFor="let menuItem of desktopMenuList?.menuItems">
+        <button
+          *ngIf="isUser && !menuItem?.divider && menuItem?.type === 'sub-menu'"
+          mat-button
+          [matMenuTriggerFor]="belowMenu"
+        >
+          <span class="material-icons margin-right"> work </span
+          >{{ 'component.MY_SPACE' | translate
+          }}<span class="material-icons"> keyboard_arrow_down </span>
+        </button>
+        <!-- {{
+          isUser && !menuItem?.divider && menuItem?.type !== 'sub-menu' && menuItem.visibleForRoles
+            | checkRoles: rolesArr
+        }} -->
+        <ng-container *ngIf="isUser && !menuItem?.divider && menuItem?.type !== 'sub-menu'">
+          <button
+            *ngIf="menuItem.visibleForRoles | checkRoles: rolesArr"
+            mat-button
+            routerLink="{{ menuItem?.navigationLink }}"
+          >
+            <span class="material-icons"> {{ menuItem?.icon }} </span>
+            {{ menuItem?.name }}
+          </button></ng-container
+        >
+      </ng-container>
+
+      <!-- <button *ngIf="isUser && isViewPolicyVault" mat-button routerLink="/policyvault">
+        <span class="material-icons"> kitchen </span>
+        {{ 'component.POLICY_VAULT' | translate }}
+      </button>
+
+      <button *ngIf="isUser && isGroupCredit" mat-button routerLink="/group-credit">
+        <span class="material-icons"> kitchen </span>
+        {{ 'component.GROUP_CREDIT' | translate }}
+      </button> -->
+
+      <!-- <button
+        *ngIf="isUser && !isBranchUser"
+        mat-button
+        routerLink="/quickquote"
+      >
+        <span class="material-icons"> book </span>
+        {{ "component.QUICK_QUOTE" | translate }}
+      </button> -->
+      <!-- <button
+        mat-raised-button
+        type="button"
+        class="action-btn bg-color"
+        *ngIf="orgCode === 'DCB' && isCustomerCIF"
+      >
+        Lead Management
+      </button> -->
+
+      <!-- <app-select-language *ngIf="isUser"></app-select-language> -->
+
+      <!-- <button *ngIf="orgCode === 'CSB' && !isSP" mat-button (click)="generateMagicLink()">
+        POSP
+      </button> -->
+
+      <button *ngIf="isUser && orgCode === 'BOM'" mat-button routerLink="/error/help">
+        <span class="material-icons"> help </span>
+        Help
+      </button>
+
+      <!-- <mat-icon
+        *ngIf="isUser"
+        class="notification-btn"
+        matBadge="{{ notificationCount }}"
+        [matMenuTriggerFor]="notify"
+        matBadgeColor="warn"
+      >
+        notifications
+      </mat-icon> -->
+      <span *ngIf="isUser && !isBankCustomer" class="user-name"
+        >{{ firstName }} {{ lastName }}</span
+      >
+      <mat-icon
+        *ngIf="isUser && !isBankCustomer"
+        class="user-icon"
+        mat-button
+        [matMenuTriggerFor]="user"
+        matBadgeColor="warn"
+      >
+        <img src="../../assets/icons/admin_panel_settings-24px.svg" />
+      </mat-icon>
+    </mat-toolbar>
+
+    <mat-menu #notify="matMenu" class="notify-down" XPosition="below">
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngIf="notificationCount == 0"
+          >No Notifications</mat-list-item
+        >
+        <mat-list-item
+          role="listitem"
+          class="n-main-div"
+          *ngFor="let item of notificationArr; let i = index"
+        >
+          <span class="material-icons" *ngIf="item['notificationType'] == 'RENEWALNOTICE'"
+            >camera_enhance</span
+          >
+          <span class="material-icons" *ngIf="item['notificationType'] == 'REMINDER'">face</span>
+          <a routerLink="#link" class="n-text">{{ item['notificationText'] }}</a>
+          <span class="material-icons n-delete" (click)="delNotification(i)">delete</span>
+        </mat-list-item>
+        <!-- <hr/> -->
+        <!-- <mat-divider></mat-divider> -->
+
+        <!-- <mat-list-item role="listitem"><span class="material-icons">
+            face
+          </span>
+          <a routerLink="#link">{{'component.LOREM_IPSUM' | translate}}</a><span class="material-icons">
+            delete
+          </span></mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item role="listitem"><span class="material-icons">
+            supervised_user_circle
+          </span><a routerLink="#link">{{'component.LOREM_IPSUM' | translate}}</a><span class="material-icons">
+            delete
+          </span></mat-list-item> -->
+      </mat-list>
+    </mat-menu>
+
+    <mat-menu #user="matMenu" yPosition="below">
+      <button
+        *ngIf="!isBankCustomer && orgCode !== 'DCB'"
+        mat-menu-item
+        routerLink="/changepassword"
+        routerLinkActive="active"
+      >
+        <mat-icon>vpn_key</mat-icon>{{ 'component.CHANGE_PASSWORD' | translate }}
+      </button>
+
+      <button *ngIf="!isBankCustomer" class="signout" mat-menu-item (click)="logout()">
+        <img class="material-icons" src="../../assets/icons/sign-out.svg" />
+        <!-- <mat-icon>exit</mat-icon> -->
+        {{ 'component.SIGN_OUT' | translate }}
+      </button>
+      <!-- <button *ngIf="isBankCustomer || isGuestUser" mat-menu-item routerLink="/registerCustomer"
+        routerLinkActive="active">
+        <mat-icon>assignment_ind</mat-icon>Register
+      </button> -->
+      <!-- <button *ngIf="isBankCustomer || isGuestUser" mat-menu-item (click)="logout()" routerLinkActive="active">
+        <mat-icon>account_circle</mat-icon>Sign In
+      </button> -->
+    </mat-menu>
+
+    <mat-menu #belowMenu="matMenu" yPosition="below">
+      <ng-container *ngFor="let subMenu of subMenus?.subMenuItems">
+        <button
+          *ngIf="!subMenu.divider && isUser && subMenu.visibleForRoles | checkRoles: rolesArr"
+          mat-menu-item
+          routerLink="{{ subMenu?.navigationLink }}"
+        >
+          <span class="material-icons"> {{ subMenu?.icon }} </span>{{ subMenu?.name }}
+        </button>
+      </ng-container>
+    </mat-menu>
+
+    <!-- <mat-menu *ngIf="isUser && !isBranchUser" #myCust="matMenu" XPosition="below">
+      <button mat-menu-item routerLink="/quickquote">
+        <span class="material-icons"> book </span>{{ "component.QUICK_QUOTE" | translate }}
+      </button>
+    </mat-menu> -->
+
+    <ng-content> </ng-content>
+
+    <!-- Add Content Here -->
+
+    <div class="app-container" [ngClass]="{ 'bg-light': user }">
+      <router-outlet name="sidebarOutlet"></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

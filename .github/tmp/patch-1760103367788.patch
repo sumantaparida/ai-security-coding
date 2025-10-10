@@ -1,0 +1,18 @@
+--- a/src/app/offline-policies/components/new-application/new-application.component.ts
++++ b/src/app/offline-policies/components/new-application/new-application.component.ts
+@@ -1,5 +1,5 @@
+-import { Component } from '@angular/core';
++import { Component, NgModule } from '@angular/core';
+ import { LazyLoadModule } from 'some-lazy-load-library';
+
+ @Component({
+   selector: 'app-new-application',
+   templateUrl: './new-application.component.html',
+   styleUrls: ['./new-application.component.css']
+ })
++@NgModule({
++  imports: [LazyLoadModule]
++})
+ export class NewApplicationComponent {
+   // component logic
+ }

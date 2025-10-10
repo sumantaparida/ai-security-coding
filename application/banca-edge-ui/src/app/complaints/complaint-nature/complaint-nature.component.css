@@ -1,0 +1,61 @@
+.complaint-nature {
+    text-align: center;
+}
+
+.description {
+    position: relative;
+    font-size: 25px;
+    color: #0d47a1;
+    font-weight: bold;
+}
+
+.claim-box-div {
+    position: absolute;
+    display: block;
+    top: 50px;
+}
+
+.claim-number {
+    margin-left: 10px;
+}
+
+.other-textarea {
+    height: 7rem;
+    width: 20rem;
+}
+
+.example-dropdown {
+    width: 20rem;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.font-20 {
+    font-size: 20px;
+    border-bottom: 2px dashed #0d47a1;
+}
+
+::ng-deep .mat-form-field-infix {
+    width: 160px;
+}
+
+@media only screen and (max-width: 600px) {
+    .description {
+        left: -16%;
+        font-size: 20px;
+    }
+    .text-box {
+        font-size: 20px;
+        width: 300px;
+        height: 200px;
+        margin-left: 30px;
+    }
+}

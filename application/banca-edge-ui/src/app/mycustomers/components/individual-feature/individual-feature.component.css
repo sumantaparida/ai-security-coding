@@ -1,0 +1,114 @@
+.validation-container div {
+  display: none;
+}
+
+.text-capitalize {
+  text-transform: capitalize !important;
+}
+
+.validation-container div:first-child {
+  display: block;
+}
+
+.width-30 {
+  width: 30%;
+}
+
+.white-bg {
+  background-color: white;
+}
+
+.title {
+  display: table;
+  width: 100%;
+}
+
+.inner-title-left {
+  display: table-cell;
+  float: left;
+  width: 70%;
+}
+
+.inner-title-right {
+  display: table-cell;
+  float: right;
+  width: 30%;
+}
+
+.get-info-btn {
+  width: 30%;
+  font-size: 15px;
+  border-radius: 5%;
+  margin: 0px 0px 0px 15px;
+  outline: none;
+  color: white;
+  background-color: #03dac5;
+  height: 52px;
+  vertical-align: top;
+}
+
+.next-btn {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  float: left;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background-color: #03dac5
+}
+
+.cancel-btn {
+  /* position: relative; */
+  padding: 6px 38px;
+  font-size: 15px;
+  margin: 5px 10px;
+  background-color: #b00020 !important;
+}
+
+mat-raised-button {
+  transition: none !important;
+  box-shadow: none !important;
+}
+
+.man-field {
+  font-size: 14px;
+  color: red;
+}
+
+mat-progress-spinner {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+}
+
+.padding {
+  padding: 10px
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+@media only screen and (max-width: 768px) {
+  .title {
+    display: block;
+    width: 100%;
+  }
+  .inner-title-left {
+    display: block;
+    /* float: left; */
+    width: 100%;
+  }
+  .inner-title-right {
+    display: block;
+    /* float: right; */
+    width: 100%;
+  }
+  .row {
+    margin-left: 4%;
+  }
+  .get-info-btn {
+    width: 38%;
+  }
+}

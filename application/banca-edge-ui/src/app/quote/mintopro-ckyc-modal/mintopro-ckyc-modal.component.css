@@ -1,0 +1,102 @@
+.heading{
+    margin-bottom: 3px;
+}
+
+.subHeading{
+    color:rgb(194, 190, 190)
+}
+
+.article{
+    border: #fff7e5;
+    background: #fff7e5;
+    padding: 10px;
+    box-shadow: 1px 1px 3px 0px #aca7a7;
+    border-radius: 5px;
+}
+.articlePara{
+max-width: 80%;
+}
+.infoMain{
+    display: flex;
+    width: 97%;
+    padding: 10px;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin: 15px 15px 10px 0px;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    box-shadow: 0px 1px 5px gainsboro;
+}
+
+.policyInfo{
+    flex:1
+}
+.dateInfo{
+    flex:1
+}
+
+.man-field{
+    color:red;
+}
+
+.radioOption{
+    padding: 0px 35px 0px 0px;
+
+}
+
+.dateInput{
+    padding: 10px 20px;
+    max-width: 60%;
+    min-width: 50%;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+
+.panContainer{
+    margin:10px 15px 15px 0px;
+}
+.panHeading{
+    margin-bottom: 3px;
+}
+.panInput{ 
+    width: 97%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.submit{
+    text-align: center;
+    margin-top: 20px;
+}
+.button{
+    padding:5px 30px;
+}
+.customerInfo{
+    max-height: 400px;
+    overflow-y: scroll;
+    box-shadow: 0px 1px 5px gainsboro;
+}
+.even{
+    background-color: rgba(220, 220, 220, 0.398);
+}
+.dataContainer{
+    display: flex;
+    justify-content: flex-start;
+    padding:20px 10px 20px 10px;
+}
+
+.dataLabel{
+    flex:1;
+    color: #898383;
+    font-weight: bolder;
+}
+.dataLabel p{
+    font-weight:normal ;
+}
+.dataValue{
+    flex:1;
+    font-weight: bolder;
+}

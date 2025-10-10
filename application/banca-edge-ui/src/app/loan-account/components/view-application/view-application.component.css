@@ -1,0 +1,117 @@
+table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+  
+
+
+  .main-container {
+    position: relative;
+    background: white;
+    height: 100%;
+    width: 100%;
+  }
+
+  .flex-container {
+    display: flex;
+    align-items: center;
+    height: 6rem;
+  }
+
+  .flex-container>div {
+    color: black;
+    width: 15%;
+    margin: 10px;
+    text-align: left;
+  }
+
+  .font-size-20 {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  ::ng-deep .inforce-btn .mat-badge-content {
+    background: green;
+  }
+  
+  .inforce-btn {
+    /* margin-left: 15rem; */
+    height: 40px;
+    width: 7rem;
+    cursor: auto;
+  }
+
+  .font-size-20 {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .pending-btn {
+    /* margin-left: 2rem; */
+    height: 40px;
+    width: 7rem;
+    cursor: auto;
+  }
+
+  .inactive-btn {
+    /* margin-left: 2rem; */
+    height: 40px;
+    width: 7rem;
+    cursor: auto;
+  }
+  .style-icon-policy {
+    font-size: 30px !important;
+    transform: translate(0px, 5px);
+    color: #3f51b5;
+  }
+  
+  .transform ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0px;
+  }
+  
+  .transform ::ng-deep .mat-form-field-wrapper .mat-form-field-infix {
+    width: fit-content !important;
+  }

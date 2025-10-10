@@ -1,0 +1,11 @@
+{
+    "csvFileIn": "src/assets/i18n/translations.tsv",
+    "jsonDirOut": "src/assets/i18n",
+    "jsonFileName": "trans",
+    "jsonExt": "json",
+    "jsonIgnoreEmptyString": true,
+    "jsonReplace": { "''": "\"" },
+    "csvFieldSeparator": "\t",
+    "csvEol": "\n",
+    "csvEolAlt": ["\r\n", "\r"]
+}

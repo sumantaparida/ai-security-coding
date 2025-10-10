@@ -1,0 +1,1938 @@
+<div class="main-container">
+  <div *ngIf="media.isActive('md') || media.isActive('lg')" class="flex-container">
+    <div style="flex-basis: 40%">
+      <span class="material-icons style-icon-policy"> kitchen </span>
+      <span class="font-size-20">Comprehensive Insurance System </span>
+    </div>
+  </div>
+  <div *ngIf="media.isActive('md') || media.isActive('lg')" class="flex-container">
+    <div *ngIf="!isInsurerUser">
+      <label>Available Insurers</label>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="pending-btn">
+          <mat-label>Filter by Insurers</mat-label>
+          <mat-select
+            formControlName="filterByInsurer"
+            (selectionChange)="callSearchAndPlans($event)"
+          >
+            <mat-option value="">Select</mat-option>
+            <mat-option *ngFor="let insurer of insurersForFilter" [value]="insurer.id">
+              {{ insurer.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+    <div *ngIf="(isInsurerUser && orgCode === 'DCB') || orgCode !== 'DCB'">
+      <label>Available Branches</label>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="pending-btn">
+          <mat-label>Filter by Branches</mat-label>
+          <mat-select formControlName="filterByBranch" (selectionChange)="onBranchChange($event)">
+            <mat-option value="">Select</mat-option>
+            <mat-option *ngFor="let branch of availableBranches" [value]="branch.id">
+              {{ branch.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+    <div>
+      <label>Select LOB</label>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="pending-btn">
+          <mat-label>Filter by LOB</mat-label>
+          <mat-select formControlName="filterByLob" (selectionChange)="onlobChange($event)">
+            <mat-option value="">Select</mat-option>
+            <mat-option *ngFor="let lob of lobForFilter" [value]="lob">
+              {{ lob }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+    <div>
+      <label>Select Product Type</label>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="pending-btn">
+          <mat-label>Filter by ProductType</mat-label>
+          <mat-select formControlName="filterByProductType">
+            <mat-option value="">Select</mat-option>
+            <mat-option *ngFor="let product of productTypeList" [value]="product.productType">
+              {{ product.displayName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div>
+      <label>Available Products</label>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="inforce-btn">
+          <mat-label>Filter by Products</mat-label>
+          <mat-select formControlName="filterByProduct" (selectionChange)="onSearchFieldChange()">
+            <mat-option value="">Select</mat-option>
+            <mat-option *ngFor="let product of productsForFilter" [value]="product.productId">
+              {{ product.productName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <!-- <div>
+      <label>Policy Status</label>
+      <form [formGroup]="searchForm">
+        <mat-form-field appearance="outline" class="inactive-btn">
+          <mat-label>Filter by Policy Status</mat-label>
+          <mat-select formControlName="filterByStatus" (selectionChange)="onSearchFieldChange()">
+            <mat-option value="">Select</mat-option>
+            <mat-option *ngFor="let policy of filterStatus" [value]="policy.value">
+              {{ policy.value }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div> -->
+
+    <div class="filterDate">
+      <label>Lead Creation Date Range</label>
+      <mat-form-field appearance="fill" [formGroup]="searchForm">
+        <mat-label>Enter start Date</mat-label>
+        <input
+          #fromInput
+          matInput
+          [matDatepicker]="picker"
+          formControlName="filterByDateStart"
+          (dateChange)="onSearchFieldChange()"
+        />
+        <mat-icon class="reset-button" matSuffix (click)="resetDate('start')" color="primary"
+          >settings_backup_restore</mat-icon
+        >
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="filterDate">
+      <!-- <label>End Date</label> -->
+      <mat-form-field appearance="fill" [formGroup]="searchForm">
+        <mat-label>Enter End Date</mat-label>
+        <input
+          #fromEndDate
+          matInput
+          [min]="minDate"
+          [matDatepicker]="picker1"
+          formControlName="filterByDateEnd"
+          (dateChange)="onSearchFieldChange()"
+        />
+        <mat-icon class="reset-button" matSuffix (click)="resetDate('end')" color="primary"
+          >settings_backup_restore</mat-icon
+        >
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- <div></div> -->
+    <div style="flex-basis: 20%" class="transform">
+      <form class="example-form" [formGroup]="searchForm">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{ 'component.SEARCH' | translate }}</mat-label>
+          <input
+            matInput
+            (keyup)="onSearchFieldChange()"
+            formControlName="searchField"
+            (keypress)="omitSpecialChar($event)"
+          />
+          <mat-icon matSuffix color="primary">search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <!-- --mobile-  -->
+  <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+      <div fxFlex="80" class="child-one">
+        <span class="material-icons style-icon-policy"> kitchen </span
+        ><span class="font-size-20"> Comprehensive Insurance System</span>
+      </div>
+    </div>
+
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent-search">
+      <div fxFlex="100" class="mob-search">
+        <form class="example-form" [formGroup]="searchForm">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>{{ 'component.SEARCH' | translate }}</mat-label>
+            <input matInput (keyup)="onSearchFieldChange()" formControlName="searchField" />
+            <mat-icon matSuffix color="primary">search</mat-icon>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="overflow-table">
+    <table
+      mat-table
+      class="mat-elevation-z8"
+      [dataSource]="policyApplicationArrCopy"
+      matSort
+      (matSortChange)="sortData($event, false)"
+      multiTemplateDataRows
+    >
+      <!---- table headers--  -->
+
+      <!-- <ng-container *ngIf="media.isActive('sm') || media.isActive('md') || media.isActive('lg')"> -->
+      <div matColumnDef="{{ column }}" *ngFor="let column of displayedColumns">
+        <th
+          class="center"
+          [ngClass]="{
+            'theme-table-red': orgCode === 'SIB',
+            'theme-table-purple': orgCode !== 'SIB'
+          }"
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header="{{ column }}"
+          color="primary"
+        >
+          <span *ngIf="column === 'Insurer Name'">{{ 'component.INSURER_NAME' | translate }}</span>
+          <span *ngIf="column === 'Product Name'">{{ 'component.PRODUCT_NAME' | translate }}</span>
+          <span *ngIf="column === 'Policy Number'">{{
+            'component.LEAD_APPLICATION_POLICY_NUMBER' | translate
+          }}</span>
+          <span *ngIf="column === 'Customer Name'">{{
+            'component.CUSTOMER_NAME' | translate
+          }}</span>
+          <span *ngIf="column === 'Status'">{{ 'component.STATUS' | translate }}</span>
+          <span *ngIf="column === 'branchName'">Branch</span>
+          <span *ngIf="column === 'lcd'">Lead Created</span>
+          <ng-container *ngIf="orgCode === 'DCB'">
+            <span *ngIf="column === 'rps'">Risk Profile Status</span>
+          </ng-container>
+
+          <span *ngIf="column === 'Premium'">{{ 'component.PREMIUM' | translate }}</span>
+          <span *ngIf="column === 'Actions'">{{ 'component.ACTIONS' | translate }}</span>
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          <!-- <span
+            class="padding-left"
+            *ngIf="column === ' ' && (element?.statusCode === 1 || element?.statusCode === 24)"
+          >
+            <img src="../../assets/images/pending-24px.svg" />
+          </span> -->
+          <span
+            class="padding-left"
+            *ngIf="
+              column === ' ' &&
+              (element?.statusCode === 3 ||
+                element?.statusCode === 16 ||
+                element?.leadBatch?.policyStatus === 'REJECTED BY CUSTOMER')
+            "
+          >
+            <i class="material-icons icon-style-red">cancel</i>
+          </span>
+          <span class="padding-left" *ngIf="column === ' ' && element?.statusCode === 9">
+            <i class="material-icons icon-style-green">done_all</i>
+          </span>
+          <span class="padding-left" *ngIf="column === ' ' && element?.statusCode === 6">
+            <i class="material-icons icon-style-red">cancel</i>
+          </span>
+          <span
+            class="padding-left"
+            *ngIf="
+              column === ' ' &&
+              element?.statusCode !== 9 &&
+              element?.statusCode !== 6 &&
+              element?.statusCode !== 3 &&
+              element?.statusCode !== 16 &&
+              element?.leadBatch?.policyStatus !== 'REJECTED BY CUSTOMER'
+            "
+          >
+            <img src="../../assets/images/pending-24px.svg" />
+          </span>
+          <span class="padding-left" *ngIf="column === 'Insurer Name'">{{
+            element['insurerName']
+          }}</span>
+          <span class="padding-left" *ngIf="column === 'Product Name'">{{
+            element['productName']
+          }}</span>
+          <span class="padding-left" *ngIf="column === 'Policy Number'">
+            <a
+              *ngIf="element?.policyNo"
+              [routerLink]="['/', 'lms', 'new-application', element?.leadNumber]"
+              class="proposal_link"
+            >
+              {{ element?.policyNo }}
+            </a>
+            <a
+              *ngIf="!element?.policyNo && !element?.leadinsurerRefid"
+              [routerLink]="['/', 'lms', 'new-application', element?.leadNumber]"
+              class="proposal_link"
+            >
+              {{ element['leadNumber'] }}
+            </a>
+            <!-- doing for aviva-- && ADITYA BIRLA -->
+            <a
+              *ngIf="
+                (element?.insurerCode === 122 || element?.insurerCode === 109) &&
+                element?.leadinsurerRefid
+              "
+              [routerLink]="['/', 'lms', 'new-application', element?.leadNumber]"
+              class="proposal_link"
+            >
+              {{ element['leadNumber'] }}
+            </a>
+            <a
+              *ngIf="
+                element?.leadBatch?.policyNumber &&
+                element?.leadBatch?.policyNumber != 'NA' &&
+                (element?.insurerCode == 111 || element?.insurerCode == 104 || element?.insurerCode == 147 || element?.insurerCode == 101 || element?.insurerCode == 103)
+              "
+              [routerLink]="['/', 'lms', 'new-application', element?.leadNumber]"
+              class="proposal_link"
+            >
+              {{ element?.leadBatch?.policyNumber }}
+            </a>
+            <a
+              *ngIf="
+                (!element?.leadBatch?.policyNumber || element?.leadBatch?.policyNumber == 'NA' || element?.leadBatch?.policyNumber == '') &&
+                element?.leadBatch &&
+                (element?.insurerCode == 111 || element?.insurerCode == 104 || element?.insurerCode === 147 || element?.insurerCode === 113)
+              "
+              [routerLink]="['/', 'lms', 'new-application', element?.leadNumber]"
+              class="proposal_link"
+            >
+            <span *ngIf="element?.insurerCode === 147">{{ element['leadNumber'] }}  -  </span> {{ element?.leadBatch?.leadinsurerRefid }}
+            </a>
+            <a
+              *ngIf="
+                element?.leadinsurerRefid &&
+                !element?.policyNo &&
+                !element?.leadBatch &&
+                (element?.insurerCode == 101 ||
+                  element?.insurerCode == 103 ||
+                  element?.insurerCode == 105 ||
+                  element?.insurerCode == 104 ||
+                  element?.insurerCode == 153 ||
+                  element?.insurerCode == 115 ||
+                  element?.insurerCode == 102 ||
+                  element?.insurerCode == 111 ||
+                  element?.insurerCode === 147 ||
+                  element?.insurerCode === 113)
+              "
+              [routerLink]="['/', 'lms', 'new-application', element?.leadNumber]"
+              class="proposal_link"
+            >
+            <span *ngIf="element?.insurerCode === 147">{{ element['leadNumber'] }}  -  </span>{{ element.leadinsurerRefid }}
+            </a>
+          </span>
+          <span
+            class="padding-left"
+            *ngIf="column === 'Customer Name' && element?.applicationData?.proposer?.individual"
+            >{{ element?.applicationData?.proposer?.firstName }}
+            {{ element?.applicationData?.proposer?.lastName }}</span
+          >
+          <span
+            class="padding-left"
+            *ngIf="column === 'Customer Name' && !element?.applicationData?.proposer?.individual"
+            >{{ element?.applicationData?.proposer?.orgName }}
+          </span>
+          <!-- ---jst for SIB && SBI --  -->
+          <!-- <span class="padding-left text-uppercase" *ngIf="column === 'Status' && element?.leadBatch?.premiumpaymentStatus
+           && element?.statusCode !== 8
+             && element?.insurerCode === 111 && orgCode === 'SIB'">PAYMENT PENDING</span>
+
+          <span class="padding-left text-uppercase" *ngIf="column === 'Status' && element?.leadBatch?.premiumpaymentStatus && element?.statusCode === 8
+             && element?.insurerCode === 111 && orgCode === 'SIB'">Paid</span> -->
+          <!-- -- ---- ---  -->
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              element?.statusCode === 1 &&
+              !element?.insurerLeadStatus &&
+              orgCode !== 'DCB' &&
+              orgCode !== 'CSB'
+            "
+            >LEAD</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              element?.statusCode === 1 &&
+              (orgCode === 'DCB' || orgCode == 'CSB')
+            "
+            >{{ element?.leadStatus }}</span
+          >
+
+          <!-- ---CSB Ipru-- -->
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              element?.leadBatch &&
+              orgCode === 'CSB' &&
+              ( element?.insurerCode === 105 || element?.insurerCode === 147 || element?.insurerCode === 104)
+            "
+            >{{ element?.leadBatch?.policyStatus }}</span
+          >
+
+          <!-- <span class="padding-left text-uppercase" *ngIf="column === 'Status' && !element?.leadBatch && element?.insurerLeadStatus &&
+            orgCode === 'CSB' && (element?.insurerCode === 105 || element?.insurerCode === 158)">{{element?.insurerLeadStatus}}</span> -->
+
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="column === 'Status' && !element?.leadBatch && element?.insurerLeadStatus"
+            >{{ element?.insurerLeadStatus }}</span
+          >
+
+          <!-- -----end--- -->
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 2
+            "
+            >LOGGED IN</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 3
+            "
+            >Rejected By Customer</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 4
+            "
+            >UW Pending</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 6
+            "
+            >DECLINED/POSTPONED</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 9
+            "
+            >ISSUED/INFORCE</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 7
+            "
+            >Payment Pending</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 8
+            "
+            >Paid</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 11
+            "
+            >Follow Up</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 12 
+            "
+            >Awaiting Documentation</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 29 &&
+              element?.orgCode === 'CSB'
+            "
+            >Customer Not Interested</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 24
+            "
+            >Awaiting Customer Consent</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 16
+            "
+            >Rejected</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 25
+            "
+            >Follow Up</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 26
+            "
+            >Customer Interested</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 28
+            "
+            >Opt-Out</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              !element?.leadBatch &&
+              !element?.insurerLeadStatus &&
+              element?.statusCode === 27
+            "
+            >Customer Non-Contactable</span
+          >
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              element?.insurerCode !== 147 &&
+              element?.insurerCode !== 105 &&
+              element?.insurerCode !== 104 &&
+              element?.organizationCode !== 'SIB' &&
+              element?.leadBatch &&
+              element?.leadinsurerRefid
+            "
+            >{{ element?.leadBatch?.policyStatus }}</span
+          >
+
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              element?.insurerCode !== 147 &&
+              element?.organizationCode === 'SIB' &&
+              !element?.leadBatch?.premiumpaymentStatus &&
+              element?.leadBatch &&
+              element?.leadinsurerRefid
+            "
+            >{{ element?.leadBatch?.policyStatus }}</span
+          >
+
+          <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'Status' &&
+              element?.insurerCode === 147 &&
+              element?.leadBatch &&
+              element?.leadinsurerRefid
+            "
+            >{{ element?.etliStatus }}</span
+          >
+          <span class="padding-left text-uppercase" *ngIf="column === 'branchName'">{{
+            element?.branchName
+          }}</span>
+          <span class="padding-left text-uppercase" *ngIf="column === 'lcd'">{{
+            element?.applicationDate
+          }}</span>
+          <!-- commenting as riskprofile status is coming no matter physical or digital  -->
+          <!-- <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'rps' && orgCode === 'DCB' && !element?.applicationData?.physicalJourney
+            "
+            >{{ element?.applicationData?.riskProfileStatus }}</span
+          > -->
+          <!-- <span
+            class="padding-left text-uppercase"
+            *ngIf="
+              column === 'rps' && orgCode === 'DCB' && !element?.applicationData?.physicalJourney
+            "
+            >Unapproved</span
+          > -->
+          <span class="padding-left text-uppercase" *ngIf="column === 'rps' && orgCode === 'DCB'">{{
+            element?.applicationData?.riskProfileStatus
+          }}</span>
+
+          <span class="padding-left" *ngIf="column === 'Premium' && !element?.leadBatch">{{
+            element['premiumAmount'] | currency: 'INR'
+          }}</span>
+
+          <span class="padding-left" *ngIf="column === 'Premium' && element?.leadBatch">{{
+            element?.leadBatch?.premiumamtWithTax | currency: 'INR'
+          }}</span>
+
+          <span class="padding-left" *ngIf="column === 'Actions'">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button
+                *ngIf="
+                  orgCode === 'DCB' &&
+                  element?.applicationData?.riskProfileStatus === 'Digitally Approved' &&
+                  element?.lob === 'Life'
+                "
+                mat-menu-item
+                (click)="downloadCidf(element?.leadNumber)"
+              >
+                <mat-icon> kitchen </mat-icon>
+                <span>Download CIDF</span>
+              </button>
+
+              <button
+                mat-menu-item
+                (click)="goToApplication(element?.customerId, element?.leadNumber)"
+              >
+                <mat-icon> kitchen </mat-icon>
+                <span>Go to Application</span>
+              </button>
+              <button
+                *ngIf="element.applicationData?.redirectionData?.isExternalNavigation"
+                mat-menu-item
+                (click)="goToUrl(element.applicationData?.redirectionData?.url)"
+              >
+                <mat-icon> kitchen </mat-icon>
+                <span>Insurer Portal</span>
+              </button>
+              <button
+                mat-menu-item
+                *ngIf="element?.leadBatch && element?.insurerCode === 101"
+                (click)="checkPolicyStatus(element?.leadBatch?.applicationNo, element?.insurerCode)"
+              >
+                <mat-icon> payment </mat-icon>
+                <span>Check Application Status</span>
+              </button>
+              <button
+                mat-menu-item
+                *ngIf="
+                  checkLeadStatusCondition(
+                    element?.insurerCode,
+                    element?.leadBatch,
+                    element?.leadinsurerRefid,
+                    element?.leadStatus
+                  )
+                "
+                (click)="checkLeadStatus(element?.leadinsurerRefid)"
+              >
+                <mat-icon> payment </mat-icon>
+                <span>Check Lead Status</span>
+              </button>
+              <button
+                mat-menu-item
+                *ngIf="
+                  sendToInsurerOption(
+                    element?.leadinsurerRefid,
+                    element?.online,
+                    element?.documentUploaded,
+                    element?.statusCode,
+                    element?.applicationData,
+                    element?.insurerActive
+                  )
+                "
+                (click)="
+                  sendOtp(
+                    element?.applicationData,
+                    element?.productName,
+                    element?.bankCustomerId,
+                    element?.applicationData?.proposer?.mobile,
+                    element?.id,
+                    element?.online,
+                    element?.orgCode,
+                    element?.applicationData?.proposer?.email
+                  )
+                "
+              >
+                <mat-icon> payment </mat-icon>
+                <span>Send To Insurer</span>
+              </button>
+              <button
+                mat-menu-item
+                *ngIf="
+                  !element?.applicationData?.consentSubmittedTime &&
+                  element?.status.toLowerCase() == 'initiated' &&
+                  orgCode === 'DCB'
+                "
+                (click)="resendCustomerConsent(element?.leadNumber)"
+              >
+                <mat-icon> payment </mat-icon>
+                <span>Resend Customer Consent</span>
+              </button>
+              <!-- --physical n no document -- -->
+              <button
+                mat-menu-item
+                *ngIf="
+                  isBranchUser &&
+                  !element?.leadinsurerRefid &&
+                  isSP &&
+                  !element?.online &&
+                  !element?.documentUploaded
+                "
+                (click)="
+                  uploadAndSendToInsurer(
+                    element?.leadNumber,
+                    element?.productName,
+                    element?.bankCustomerId,
+                    element?.applicationData?.proposer?.mobile,
+                    element?.id,
+                    element?.online,
+                    element?.orgCode,
+                    element?.applicationData?.proposer?.email
+                  )
+                "
+              >
+                <mat-icon> payment </mat-icon>
+                <span>Upload Document & Send To Insurer</span>
+              </button>
+              <!-- ---- -->
+
+              <!-- removing 26-06-2024, while giving demo Jinu to Rohit & Khan. -->
+              <!-- <button mat-menu-item *ngIf="isBranchUser && element?.applicationData?.sentPaymentDetailsToInsurer !== 'Yes' &&
+              element?.statusCode ===8 &&  element?.insurerCode === 111 &&  element?.orgCode ==='SIB'
+              " (click)="pushPayment(element?.id)">
+                <mat-icon> payment </mat-icon>
+                <span>Send Payment Details</span>
+              </button> -->
+
+              <button
+                mat-menu-item
+                *ngIf="
+                  isBranchUser &&
+                  !element?.leadinsurerRefid &&
+                  element?.statusCode === 7 &&
+                  element?.orgCode !== 'SIB'
+                "
+                (click)="initiateDirectDebit(element)"
+              >
+                <mat-icon> payment </mat-icon>
+                <span>Initiate Direct Debit</span>
+              </button>
+
+              <!-- <button mat-menu-item *ngIf="isBranchUser && element?.orgCode ==='SIB' && 
+              element?.insurerCode === 111 && element?.applicationData?.sentPaymentDetailsToInsurer !== 'Yes' 
+              && element?.statusCode !==8 &&
+              element?.leadBatch?.premiumpaymentStatus.toLowerCase() === 'payment pending' 
+              
+              " (click)="
+                initiateDirectDebit(element
+                )
+              ">
+                <mat-icon> payment </mat-icon>
+                <span>Initiate Direct Debit</span>
+              </button> -->
+
+              <button
+                *ngIf="
+                  (element?.applicationData?.riskProfileStatus === 'Pending' ||
+                    element?.applicationData?.riskProfileStatus === 'Approved') &&
+                  element?.applicationData?.physicalJourney &&
+                  element?.documentUploaded
+                "
+                mat-menu-item
+                (click)="
+                  openDocuments(element?.leadNumber, element?.applicationData?.riskProfileStatus)
+                "
+              >
+                <mat-icon> payment </mat-icon>
+                <span>View Uploaded Documents</span>
+              </button>
+              <button
+                *ngIf="element?.applicationData?.riskProfileStatus === 'Rejected'"
+                mat-menu-item
+                (click)="
+                  openDocuments(element?.leadNumber, element?.applicationData?.riskProfileStatus)
+                "
+              >
+                <mat-icon>payment</mat-icon>
+                <span>View Rejection Reason</span>
+              </button>
+
+              <button
+                *ngIf="element?.applicationData?.riskProfileStatus === 'Rejected' && !isAdminUser"
+                mat-menu-item
+                (click)="uploadDocument(element?.leadNumber)"
+              >
+                <mat-icon>cloud_upload</mat-icon>
+                <span>Upload Documents</span>
+              </button>
+
+              <button
+                *ngIf="
+                  element?.orgCode === 'DCB' &&
+                  element?.insurerCode == 101 &&
+                  element?.leadBatch?.policyNumber
+                "
+                mat-menu-item
+                (click)="downloadPolicyPdf(element?.leadNumber)"
+              >
+                <mat-icon>cloud_download</mat-icon>
+                <span>Download Policy</span>
+              </button>
+            </mat-menu>
+            <!-- sep 25 -change Action view -->
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </span>
+        </td>
+      </div>
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columnsToDisplay -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div
+            class="example-element-detail"
+            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+          >
+            <!-- --here starts-- -->
+            <div *ngIf="media.isActive('lg') || media.isActive('md')">
+              <!-- --customer-- -->
+              <div
+                flex
+                fxLayout="row"
+                fxLayout.xs="column"
+                fxLayout.sm="column"
+                fxLayoutGap="10px"
+                class="grid-item-inside"
+              >
+                <div fxFlex="16">
+                  <strong>{{ 'component.CUSTOMER' | translate }}</strong>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                <div fxFlex="16" class="grid-item-inside">
+                  <label>{{ 'component.NAME' | translate }}: </label>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <label>{{ 'component.MOBILE' | translate }}: </label>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <label>{{ 'component.EMAIL' | translate }}: </label>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                <div fxFlex="16" class="grid-item-inside">
+                  <span>
+                    {{ element?.applicationData?.proposer?.firstName }}
+                    {{ element?.applicationData?.proposer?.lastName }}</span
+                  >
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <span>{{ element?.applicationData?.proposer?.mobile }}</span>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <span>{{ element?.applicationData?.proposer?.email }}</span>
+                </div>
+              </div>
+              <!-- --Agency Data --  -->
+              <div
+                flex
+                fxLayout="row"
+                fxLayout.xs="column"
+                fxLayout.sm="column"
+                fxLayoutGap="10px"
+                class="margin-top-10 grid-item-inside"
+              >
+                <div fxFlex="16" classs="">
+                  <strong>{{ 'component.AGENCY_DATA' | translate }}</strong>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                <div fxFlex="16" class="grid-item-inside">
+                  <label>{{ 'component.SP_CODE' | translate }}: </label>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <label>{{ 'component.SP_NAME' | translate }}: </label>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <label>{{ 'component.INSURER_RM_NAME' | translate }}: </label>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <label>{{ 'component.INSURER_RM_MOBILE' | translate }}: </label>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <label>{{ 'component.INSURER_RM_EMAIL' | translate }}: </label>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                <div fxFlex="16" class="grid-item-inside">
+                  <span> {{ element?.spCode }} </span>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <span>{{ element?.applicationData?.agencyData?.spName }}</span>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <span>{{ element?.applicationData?.agencyData?.flsName }}</span>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <span>{{ element?.applicationData?.agencyData?.flsContact }}</span>
+                </div>
+                <div fxFlex="16" class="grid-item-inside">
+                  <span>{{ element?.applicationData?.agencyData?.flsEmailId }}</span>
+                </div>
+              </div>
+
+              <!-- --- Lead status ---  -->
+              <app-lead-batch-data [element]="element"></app-lead-batch-data>
+
+              <!-- --lead end ---  -->
+              <!-- --Policy data-- -->
+              <ng-container *ngIf="!element?.leadBatch">
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                  class="margin-top-10"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <strong>{{ 'component.POLICY_DATA' | translate }}</strong>
+                  </div>
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.POLICY_START_DATE' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.POLICY_END_DATE' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label
+                      >{{ 'component.INSURER_APP_NO' | translate }}:
+                      <!-- <label>{{ "component.NEXT_PREMIUM_DATE" | translate }}: -->
+                    </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.LINE_OF_BUSINESS' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label *ngIf="element?.lob === 'Motor'">Insured Declared Value:</label>
+                    <label *ngIf="element?.lob !== 'Motor'"
+                      >{{ 'component.SUM_ASSURED' | translate }}:</label
+                    >
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.PRODUCT_TYPE' | translate }}: </label>
+                  </div>
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span> {{ element?.policyStartDate }} </span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.policyEndDate }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.insurerApplicationNo }}</span>
+                    <!-- <span>{{ element?.policyEndDate }}</span> -->
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.lob }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span *ngIf="element?.lob === 'Motor'">{{
+                      element?.applicationData?.vehicleInfo?.idv | currency: 'INR':'symbol':'1.0-0'
+                    }}</span>
+                    <span *ngIf="element?.lob !== 'Motor' && element?.lob !== 'Life'">{{
+                      element?.applicationData?.sumInsured | currency: 'INR':'symbol':'1.0-0'
+                    }}</span>
+                    <span *ngIf="element?.lob === 'Life'">
+                      {{ element?.applicationData?.sumInsured | currency: 'INR':'symbol':'1.0-0' }}
+                    </span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.productType }}</span>
+                  </div>
+                </div>
+
+                <!-- --premium details --  -->
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                  class="margin-bottom-10"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.BASE_PREMIUM' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.GST' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.PAYMENT_FREQUENCY' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.POLICY_TERM' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.PAYMENT_TERM' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.NEXT_PREMIUM_DATE' | translate }}: </label>
+                  </div>
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.basePremium | currency: 'INR':'symbol':'1.0-0' }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.gst | currency: 'INR':'symbol':'1.0-0' }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span *ngIf="element?.mode == 0">Single</span>
+                    <span *ngIf="element?.mode == 1">Annual</span>
+                    <span *ngIf="element?.mode == 2">Half Yearly</span>
+                    <span *ngIf="element?.mode == 4">Quarterly</span>
+                    <span *ngIf="element?.mode == 12">Monthly</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.pt }} Year(s)</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span *ngIf="element?.ppt == 0">Single</span>
+                    <span *ngIf="element?.ppt != 0">{{ element?.ppt }} Year(s)</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.policyEndDate }}</span>
+                  </div>
+                </div>
+
+                <!-- ----lead data--  -->
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                  class="margin-bottom-10"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Branch Code: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Date of Lead Generated: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Date of Lead Updated: </label>
+                  </div>
+                  <div
+                    fxFlex="16"
+                    class="grid-item-inside"
+                    *ngIf="element?.applicationData?.leadConvertedStatus === 'Yes'"
+                  >
+                    <label>Mpro TransactionId: </label>
+                  </div>
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.branchCode }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationDate }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.lastUpdatedDate }}</span>
+                  </div>
+                  <div
+                    fxFlex="16"
+                    class="grid-item-inside"
+                    *ngIf="element?.applicationData?.leadConvertedStatus === 'Yes'"
+                  >
+                    <span>{{ element?.applicationData?.insurerTransactionId }}</span>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- --new update Ipru CSB ---  -->
+              <ng-container
+                *ngIf="
+                  element?.insurerLeadStatus === 'Logged In' &&
+                  element?.orgCode === 'CSB' &&
+                  element?.insurerCode == 105
+                "
+              >
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                  class="margin-bottom-10"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Insurer Lead Status: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Insurer Application No </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Remarks: </label>
+                  </div>
+                </div>
+
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.insurerLeadStatus }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.insurerApplicationNo }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.remarks }}</span>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container
+                *ngIf="
+                  element?.insurerLeadStatus === 'Follow Up' &&
+                  element?.orgCode === 'CSB' &&
+                  element?.insurerCode == 105
+                "
+              >
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                  class="margin-bottom-10"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Insurer Lead Status: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Sub StatusRemarks</label>
+                  </div>
+
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Insurer Product Name </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Insurer Premium Amount: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Insurer Status Remarks: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>Remarks: </label>
+                  </div>
+                </div>
+
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.insurerLeadStatus }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.subStatusRemarks }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.insurerProductName }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.insurerPremiumAmount }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.insurerStatusRemarks }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.remarks }}</span>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- --LIFE POLICY -- -->
+              <ng-container
+                *ngIf="element?.lob === 'Life' && !element?.applicationData?.proposerInsured"
+              >
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div
+                    *ngIf="element?.applicationData?.insureds[0]?.firstName"
+                    fxFlex="16"
+                    class="grid-item-inside"
+                  >
+                    <label>{{ 'component.INSURED_NAME' | translate }}: </label>
+                  </div>
+                  <div
+                    *ngIf="element?.applicationData?.insureds[0]?.dob"
+                    fxFlex="16"
+                    class="grid-item-inside"
+                  >
+                    <label>{{ 'component.DOB' | translate }}: </label>
+                  </div>
+                  <div
+                    *ngIf="element?.applicationData?.insureds[0]?.gender"
+                    fxFlex="16"
+                    class="grid-item-inside"
+                  >
+                    <label>{{ 'component.GENDER' | translate }}: </label>
+                  </div>
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div
+                    *ngIf="element?.applicationData?.insureds[0]?.firstName"
+                    fxFlex="16"
+                    class="grid-item-inside"
+                  >
+                    <span *ngIf="element?.applicationData?.insureds?.length > 0">
+                      {{ element?.applicationData?.insureds[0]?.firstName }}
+                      {{ element?.applicationData?.insureds[0]?.lastName }}
+                    </span>
+                    <span *ngIf="element?.productType === 'GC'">
+                      {{ element?.applicationData?.primaryInsured?.firstName }}
+                      {{ element?.applicationData?.primaryInsured?.lastName }}
+                    </span>
+                  </div>
+                  <div
+                    *ngIf="element?.applicationData?.insureds[0]?.dob"
+                    fxFlex="16"
+                    class="grid-item-inside"
+                  >
+                    <span *ngIf="element?.applicationData?.insureds?.length > 0">{{
+                      element?.applicationData?.insureds[0]?.dob
+                    }}</span>
+                    <span *ngIf="element?.productType === 'GC'">{{
+                      element?.applicationData?.primaryInsured?.dob
+                    }}</span>
+                  </div>
+                  <div
+                    *ngIf="element?.applicationData?.insureds[0]?.gender"
+                    fxFlex="16"
+                    class="grid-item-inside"
+                  >
+                    <span
+                      *ngIf="
+                        element?.productType === 'GC' &&
+                        element?.applicationData?.primaryInsured?.gender === 'M'
+                      "
+                    >
+                      Male</span
+                    >
+                    <span
+                      *ngIf="
+                        element?.productType === 'GC' &&
+                        element?.applicationData?.primaryInsured?.gender === 'F'
+                      "
+                    >
+                      Female</span
+                    >
+                    <span
+                      *ngIf="
+                        element?.applicationData?.insureds?.length > 0 &&
+                        element?.applicationData?.insureds[0]?.gender === 'M'
+                      "
+                    >
+                      Male</span
+                    >
+                    <span
+                      *ngIf="
+                        element?.applicationData?.insureds?.length > 0 &&
+                        element?.applicationData?.insureds[0]?.gender === 'F'
+                      "
+                    >
+                      Female</span
+                    >
+                  </div>
+                </div>
+              </ng-container>
+              <!-- --health--  -->
+              <ng-container
+                *ngIf="element?.lob === 'Health' && !element?.applicationData?.proposerInsured"
+              >
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.INSURED_NAME' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.DOB' | translate }}: </label>
+                  </div>
+                  <!-- <div fxFlex="16" class="grid-item-inside">
+                                          <label>{{'component.RELATIONSHIP' | translate}}:
+                                          </label>
+                                      </div> -->
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <ng-container *ngFor="let insuredPerson of element?.healthInsuranceDetails">
+                    <div fxFlex="16" class="grid-item-inside">
+                      <span>
+                        {{ insuredPerson?.firstName }}
+                        {{ insuredPerson?.lastName }}
+                      </span>
+                    </div>
+                    <div fxFlex="16" class="grid-item-inside">
+                      <span>{{ insuredPerson?.dob }}</span>
+                    </div>
+                    <!-- <div fxFlex="16" class="grid-item-inside">
+                                              <span>{{insuredPerson?.relationValue}}
+                                              </span>
+                                          </div> -->
+                  </ng-container>
+                </div>
+              </ng-container>
+
+              <!-- --Motor--  -->
+              <ng-container *ngIf="element?.lob === 'Motor'">
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.REGISTRATION_NO' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.REGISTRATION_DATE' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.NCB' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.MAKE/MODEL' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.ENGINE_NO' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.CHASSIS_NO' | translate }}: </label>
+                  </div>
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.vehicleInfo?.vehicleRegno }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span
+                      >{{ element?.applicationData?.vehicleInfo?.vehicleRegistrationDate }}
+                    </span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.prevInsurance?.prevNCB }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.vehicleInfo?.modelName }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.vehicleInfo?.engineNo }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.vehicleInfo?.chassisNo }}</span>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- --Lead Batch Data---  -->
+              <!-- <div
+      flex
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayout.sm="column"
+      fxLayoutGap="10px"
+      class="margin-top-10"
+    >
+      <div fxFlex="16" class="grid-item-inside">
+        <strong>Lead Batch Data</strong>
+      </div>
+    </div>
+    <ng-container *ngfor="let key of leadKey">
+      <ng-container *ngFor="let value of leadValue">
+        <div
+          flex
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+          *ngFor="let leads of element?.leadData"
+        >
+          <div fxFlex="16" class="grid-item-inside">
+            <label>{{ key }}</label>
+          </div>
+        </div>
+        <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+          <div fxFlex="16" class="grid-item-inside">
+            <span> {{ value }} </span>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container> -->
+
+              <!-- --Payment Data--  -->
+
+              <ng-container
+                *ngIf="element['applicationData'] && element['applicationData']['paymentInfo']"
+              >
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                  class="margin-top-10"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <strong>{{ 'component.PAYMENT_DATA' | translate }}</strong>
+                  </div>
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.PREMIUM_PAID' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.PAYMENT_DATE' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.MODE' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.INSTRUMENT_NUMBER' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.BANK_NAME' | translate }}: </label>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.BRANCH' | translate }}: </label>
+                  </div>
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{
+                      element?.applicationData?.paymentInfo?.amountCollected
+                        | currency: 'INR':'symbol':'1.0-0'
+                    }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.paymentInfo?.instrumentDate }} </span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span> {{ element?.applicationData?.paymentInfo?.paymentType }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.paymentInfo?.instrumentNo }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.paymentInfo?.bankName }}</span>
+                  </div>
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.paymentInfo?.BranchName }}</span>
+                  </div>
+                </div>
+                <!-- --IFSC --  -->
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <label>{{ 'component.IFSC_CODE' | translate }}: </label>
+                  </div>
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayout.xs="column"
+                  fxLayout.sm="column"
+                  fxLayoutGap="10px"
+                >
+                  <div fxFlex="16" class="grid-item-inside">
+                    <span>{{ element?.applicationData?.paymentInfo?.ifscCode }}</span>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- --here end-- -->
+
+            <!-- --mobile view details-- -->
+            <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+              <!-- --Customer--  -->
+              <div class="label-heading">
+                <span
+                  ><strong>{{ 'component.CUSTOMER' | translate }}</strong></span
+                >
+              </div>
+              <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.NAME' | translate }}</label>
+                </div>
+
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.MOBILE' | translate }}</label>
+                </div>
+
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.EMAIL' | translate }}</label>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+                <div fxFlex="30" class="">
+                  <span
+                    >{{ element?.applicationData?.proposer?.firstName }}
+                    {{ element?.applicationData?.proposer?.lastName }}</span
+                  >
+                </div>
+                <div fxFlex="30" class="">
+                  <span>{{ element?.applicationData?.proposer?.mobile }}</span>
+                </div>
+
+                <div fxFlex="30" class="wd-break">
+                  <span>{{ element?.applicationData?.proposer?.email }}</span>
+                </div>
+              </div>
+              <!-- --Policy Data--  -->
+
+              <div class="label-heading">
+                <span
+                  ><strong>{{ 'component.POLICY_DATA' | translate }}</strong></span
+                >
+              </div>
+              <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.POLICY_START_DATE' | translate }}: </label>
+                </div>
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.POLICY_END_DATE' | translate }}: </label>
+                </div>
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.NEXT_PREMIUM_DATE' | translate }}: </label>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                <div fxFlex="30" class="">
+                  <span>{{ element?.applicationData?.policyStartDate }}</span>
+                </div>
+                <div fxFlex="30" class="">
+                  <span>{{ element?.applicationData?.policyEndDate }}</span>
+                </div>
+                <div fxFlex="30" class="">
+                  <span>{{ element?.applicationData?.policy?.nextPremiumDate }}</span>
+                </div>
+              </div>
+              <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.LINE_OF_BUSINESS' | translate }}:</label>
+                </div>
+                <div fxFlex="30" class="">
+                  <label *ngIf="element?.lob === 'Motor'">Insured Declared Value :</label>
+                  <label *ngIf="element?.lob !== 'Motor'"
+                    >{{ 'component.SUM_ASSURED' | translate }}:</label
+                  >
+                </div>
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.PRODUCT_TYPE' | translate }}:</label>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                <div fxFlex="30" class="">
+                  <span>{{ element?.lob }}</span>
+                </div>
+                <div fxFlex="30" class="">
+                  <span *ngIf="element?.lob === 'Motor'">{{
+                    element?.applicationData?.vehicleInfo?.idv | currency: 'INR':'symbol':'1.0-0'
+                  }}</span>
+                  <span *ngIf="element?.lob !== 'Motor'">{{
+                    element?.applicationData?.sumInsured | currency: 'INR':'symbol':'1.0-0'
+                  }}</span>
+                </div>
+                <div fxFlex="30" class="">
+                  <span>{{ element?.productType }}</span>
+                </div>
+              </div>
+              <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.BASE_PREMIUM' | translate }}:</label>
+                </div>
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.GST' | translate }}:</label>
+                </div>
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.PAYMENT_FREQUENCY' | translate }}:</label>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                <div fxFlex="30" class="">
+                  <span>{{ element?.basePremium }}</span>
+                </div>
+                <div fxFlex="30" class="">
+                  <span>{{ element?.gst }}</span>
+                </div>
+                <div fxFlex="30" class="">
+                  <span *ngIf="element?.mode == 0">Single</span>
+                </div>
+              </div>
+              <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.POLICY_TERM' | translate }}:</label>
+                </div>
+                <div fxFlex="30" class="">
+                  <label>{{ 'component.PAYMENT_TERM' | translate }}:</label>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                <div fxFlex="30" class="">
+                  <span>{{ element?.pt }} Year(s)</span>
+                </div>
+                <div fxFlex="30" class="">
+                  <span *ngIf="element?.ppt != 0">{{ element?.ppt }} Year(s)</span>
+                  <span *ngIf="element?.ppt == 0">Single</span>
+                </div>
+              </div>
+
+              <!-- --Life policy--  -->
+              <ng-container
+                *ngIf="element?.lob === 'Life' && !element?.applicationData?.proposerInsured"
+              >
+                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                  <div
+                    *ngIf="element?.applicationData?.insureds[0]?.firstName"
+                    fxFlex="30"
+                    class=""
+                  >
+                    <label>{{ 'component.INSURED_NAME' | translate }}:</label>
+                  </div>
+                  <div *ngIf="element?.applicationData?.insureds[0]?.dob" fxFlex="30" class="">
+                    <label>{{ 'component.DOB' | translate }}:</label>
+                  </div>
+                  <div *ngIf="element?.applicationData?.insureds[0]?.gender" fxFlex="30" class="">
+                    <label>{{ 'component.GENDER' | translate }}:</label>
+                  </div>
+                </div>
+                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                  <div
+                    *ngIf="element?.applicationData?.insureds[0]?.firstName"
+                    fxFlex="30"
+                    class=""
+                  >
+                    <span
+                      >{{ element?.applicationData?.insureds[0]?.firstName }}
+                      {{ element?.applicationData?.insureds[0]?.lastName }}</span
+                    >
+                  </div>
+                  <div *ngIf="element?.applicationData?.insureds[0]?.dob" fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.insureds[0]?.dob }}</span>
+                  </div>
+                  <div *ngIf="element?.applicationData?.insureds[0]?.gender" fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.insureds[0]?.gender }}</span>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- --Health policy--  -->
+              <ng-container
+                *ngIf="element?.lob === 'Health' && !element?.applicationData?.proposerInsured"
+              >
+                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.INSURED_NAME' | translate }}:</label>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.DOB' | translate }}:</label>
+                  </div>
+                  <!-- <div fxFlex="30" class="">
+                                          <label>{{'component.RELATIONSHIP' | translate}}:</label>
+                                      </div> -->
+                </div>
+                <div
+                  flex
+                  fxLayout="row"
+                  fxLayoutGap="5px"
+                  *ngFor="let insuredPerson of element?.healthInsuranceDetails"
+                >
+                  <div fxFlex="30" class="">
+                    <span>{{ insuredPerson?.firstName }} {{ insuredPerson?.lastName }}</span>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <span>{{ insuredPerson?.dob }}</span>
+                  </div>
+                  <!-- <div fxFlex="30" class="">
+                                          <span>{{insuredPerson?.relationValue}}</span>
+                                      </div> -->
+                </div>
+              </ng-container>
+
+              <app-lead-batch-data [element]="element"></app-lead-batch-data>
+
+              <!-- --motor--  -->
+              <ng-container *ngIf="element?.lob === 'Motor'">
+                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.REGISTRATION_NO' | translate }}:</label>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.REGISTRATION_DATE' | translate }}:</label>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.NCB' | translate }}:</label>
+                  </div>
+                </div>
+                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.vehicleInfo?.vehicleRegno }}</span>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <span>{{
+                      element?.applicationData?.vehicleInfo?.vehicleRegistrationDate
+                    }}</span>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.prevInsurance?.prevNCB }}</span>
+                  </div>
+                </div>
+                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.MAKE/MODEL' | translate }}:</label>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.ENGINE_NO' | translate }}:</label>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.CHASSIS_NO' | translate }}:</label>
+                  </div>
+                </div>
+                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.vehicleInfo?.yom }}</span>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.vehicleInfo?.engineNo }}</span>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.vehicleInfo?.chassisNo }}</span>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- --Payment Data--  -->
+              <ng-container
+                *ngIf="element['applicationData'] && element['applicationData']['paymentInfo']"
+              >
+                <div class="label-heading">
+                  <span
+                    ><strong>{{ 'component.PAYMENT_DATA' | translate }}</strong></span
+                  >
+                </div>
+                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.PREMIUM_PAID' | translate }}:</label>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.PAYMENT_DATE' | translate }}:</label>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.MODE' | translate }}:</label>
+                  </div>
+                </div>
+                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                  <div fxFlex="30" class="">
+                    <span>{{
+                      element?.applicationData?.paymentInfo?.amountCollected
+                        | currency: 'INR':'symbol':'1.0-0'
+                    }}</span>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.paymentInfo?.instrumentDate }} </span>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.paymentInfo?.paymentType }}</span>
+                  </div>
+                </div>
+                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.INSTRUMENT_NUMBER' | translate }}:</label>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.BANK_NAME' | translate }}:</label>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.BRANCH' | translate }}:</label>
+                  </div>
+                </div>
+                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.paymentInfo?.instrumentNo }}</span>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.paymentInfo?.bankName }}</span>
+                  </div>
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.paymentInfo?.BranchName }}</span>
+                  </div>
+                </div>
+                <div flex fxLayout="row" class="margin-5" fxLayoutGap="5px">
+                  <div fxFlex="30" class="">
+                    <label>{{ 'component.IFSC_CODE' | translate }}:</label>
+                  </div>
+                </div>
+                <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                  <div fxFlex="30" class="">
+                    <span>{{ element?.applicationData?.paymentInfo?.ifscCode }}</span>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: displayedColumns"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+    <mat-paginator
+      [length]="totalRecords"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+  </div>
+</div>

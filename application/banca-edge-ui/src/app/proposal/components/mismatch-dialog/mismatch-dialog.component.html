@@ -1,0 +1,20 @@
+
+<div class="complaint-resolution">
+  
+  <strong id="heading">{{message}}</strong>
+    <div mat-dialog-content >
+        <strong>Do you want to continue?</strong>
+        <p id="para">
+                    Old Premium: Rs {{oldPremium}}<br/>
+                    New Premium: Rs {{newPremium}}
+        </p>
+    </div>
+    <div class="action btn-center">
+      <button mat-raised-button mat-dialog-close class="generate-quote-btn">No</button> 
+      <button class="generate-quote-btn-back" (click)="agreeClick()" id ="backpay" 
+      mat-raised-button>Yes</button>
+     
+    </div>
+  
+  </div>
+  

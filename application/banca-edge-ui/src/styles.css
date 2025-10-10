@@ -1,0 +1,87 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap'); */
+
+
+/* @import "~bootstrap/dist/css/bootstrap.css"; */
+
+a {
+    cursor: pointer;
+}
+
+.app-container {
+    min-height: 320px;
+    overflow: hidden;
+}
+
+.btn-delete-user {
+    width: 40px;
+    text-align: center;
+    box-sizing: content-box;
+}
+
+.mat-card-header {
+    background-color: "primary;";
+}
+
+
+/*=====================================*/
+
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.logo img {
+    width: 70%;
+    padding: 7px 10px;
+    background: #fff;
+    margin-left: -15px;
+}
+
+.action {
+    display: flex
+}
+
+app-footer mat-toolbar,
+.action {
+    justify-content: space-between;
+}
+
+.mat-raised-button.mat-primary.link {
+    background-color: #fff;
+    color: #673ab7;
+    border: 1px solid;
+}
+
+.mat-drawer-content,
+.loading {
+    background: url("assets/images/mumbai.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.8;
+}
+
+.mat-menu-panel.notify-down {
+    max-width: 440px !important;
+}
+
+.mat-menu-panel.notify-down a {
+    margin: 0 20px;
+    color: #333;
+    text-decoration: none;
+}
+
+.mat-menu-panel.notify-down .mat-divider {
+    margin: 10px 0;
+}

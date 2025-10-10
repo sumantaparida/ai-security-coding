@@ -1,0 +1,48 @@
+<ng-container *ngIf="data.type==='customerConfirm'">
+    <div class="customerDetail">
+        <div class="textContainer" flex *ngFor="let keyName of details">
+            <span class="textFormat">{{keyName}}: {{data.details[keyName]}}</span>
+        </div>
+    </div>
+   <div class="validate"><input type="checkbox" (click)="toggleChecked()"/><p>This is to confirm that the customer details from Insurer match the bank customer details for which the QIS is being generated</p></div>
+   <button [disabled]="!checked" (click)="onSubmit()" class="btn ">OK</button> &nbsp;&nbsp;
+   <button  (click)="onCancel()" class="btn ">Cancel</button>  
+</ng-container>
+<ng-container *ngIf="data.type==='reject'">
+    <form [formGroup]="modelFormGroup" (ngSubmit)="onReject()">
+        <div flex fxLayout="column">
+            <mat-form-field class="example-full-width">
+                <mat-label>Reject Comment</mat-label>
+                <textarea formControlName="rejectComment" matInput placeholder="Application not valid"></textarea>
+              </mat-form-field>
+              <div flex fxLayout="row" fxLayoutAlign="space-around" fxLayout.sm="column">
+                <button fxFlex="40" [disabled]="!modelFormGroup.valid"  type="submit" class="btn">Confirm Reject</button>
+                <button fxFlex="40" (click)="onCancelReject()" class="btn">Cancel</button>
+              </div>
+             
+        </div>
+       
+    </form>
+</ng-container>
+<ng-container *ngIf="data.type==='consent'">
+    <div flex fxLayout="column" fxAlign=" center" style="max-height: 700px;">
+        <h2>Terms & Conditions</h2>
+        <div *ngIf='data.insurer===134' class="termscondition_detials">
+            1. Customer has given consent for Auto debit for renewal premium.<br/>
+            2. Acceptance of proposal form and all details mentioned in the proposal are correct.<br/>
+            3. Approval for debiting his/her account towards premium as mentioned in the quote.<br/>
+            4. Consent to the bank for sharing KYC with USGI.<br/>
+            5. For product specifications and details, please refer to the USGI website under the download section.
+        </div>
+        <div *ngIf='data.insurer===113' class="termscondition_detials">
+            1. Customer has given consent for Auto debit for renewal premium.<br/>
+            2. Acceptance of proposal form and all details mentioned in the proposal are correct.<br/>
+            3. Approval for debiting his/her account towards premium as mentioned in the quote.<br/>
+            4. Consent to the bank for sharing KYC with BAJAJ.<br/>
+            5. For product specifications and details, please refer to the BAJAJ website under the download section.
+        </div>
+        <br/>
+        <button style="width: fit-content;" (click)="onSubmit()" class="btn">OK</button> 
+        <br/>
+    </div>
+</ng-container>

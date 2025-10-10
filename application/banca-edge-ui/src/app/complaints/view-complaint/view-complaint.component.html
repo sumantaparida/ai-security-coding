@@ -1,0 +1,391 @@
+<div class="main-container">
+  <div *ngIf="media.isActive('md') || media.isActive('lg')" class="flex-container">
+    <div style="flex-basis: 20%">
+      <span class="material-icons style-icon-policy"> warning </span
+      ><span class="font-size-20">{{ 'component.MY_COMPLAINTS' | translate }}</span>
+    </div>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        class="total-complaints-btn"
+        matBadgeOverlap="true"
+        matBadgeColor="warn"
+        matBadge="{{ customerArr?.length }}"
+      >
+        {{ 'component.COMPLAINTS' | translate }}
+      </button>
+    </div>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        class="open-complaints-btn"
+        matBadgeOverlap="true"
+        matBadgeColor="warn"
+        matBadge="{{ openComplaints }}"
+      >
+        {{ 'component.OPEN' | translate }}
+      </button>
+    </div>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        class="closed-complaints-btn"
+        matBadgeOverlap="true"
+        matBadgeColor="warn"
+        matBadge="{{ closedComplaints }}"
+      >
+        {{ 'component.CLOSED' | translate }}
+      </button>
+    </div>
+    <div>
+      <button mat-raised-button class="wrap-color-btn" (click)="onCreateNewComplaint()">
+        + {{ 'component.CREATE_NEW' | translate }}
+      </button>
+    </div>
+    <div style="flex-basis: 20%" class="transform">
+      <form class="example-form" [formGroup]="searchForm">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{ 'component.SEARCH' | translate }}</mat-label>
+          <input matInput (keyup)="onSearchFieldChange()" formControlName="searchField" />
+          <mat-icon matSuffix color="primary">search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <!-- --mobile-  -->
+  <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+      <div fxFlex="50" class="child-one">
+        <span class="material-icons style-icon-policy"> warning </span
+        ><span class="font-size-20">{{ 'component.MY_COMPLAINTS' | translate }}</span>
+      </div>
+      <div fxFlex="50" class="child-two">
+        <button mat-icon-button (click)="onCreateNewComplaint()">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayoutGap="15px" class="parent">
+      <div fxFlex="30" class="first-child">
+        <button
+          mat-raised-button
+          color="primary"
+          class="complaints-mobile-btn"
+          matBadgeOverlap="true"
+          matBadgeColor="warn"
+          matBadge="{{ customerArr?.length }}"
+        >
+          {{ 'component.COMPLAINTS' | translate }}
+        </button>
+      </div>
+      <div fxFlex="30" class="">
+        <button
+          mat-raised-button
+          color="primary"
+          class="open-complaints-mobile-btn"
+          matBadgeOverlap="true"
+          matBadgeColor="warn"
+          matBadge="{{ openComplaints }}"
+        >
+          {{ 'component.OPEN' | translate }}
+        </button>
+      </div>
+      <div fxFlex="30" class="">
+        <button
+          mat-raised-button
+          color="primary"
+          class="closed-complaints-mobile-btn"
+          matBadgeOverlap="true"
+          matBadgeColor="warn"
+          matBadge="{{ closedComplaints }}"
+        >
+          {{ 'component.CLOSED' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent-search">
+      <div fxFlex="100" class="mob-search">
+        <form class="example-form" [formGroup]="searchForm">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>{{ 'component.SEARCH' | translate }}</mat-label>
+            <input matInput (keyup)="onSearchFieldChange()" formControlName="searchField" />
+            <mat-icon matSuffix color="primary">search</mat-icon>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="container-table">
+    <table
+      mat-table
+      class="mat-elevation-z8"
+      [dataSource]="customerArrCopy"
+      matSort
+      (matSortChange)="sortData($event, false)"
+      multiTemplateDataRows
+    >
+      <ng-container matColumnDef="{{ column }}" *ngFor="let column of displayedColumns">
+        <th
+          mat-header-cell
+          [ngClass]="{ 'width-small': column === ' ' }"
+          *matHeaderCellDef
+          mat-sort-header="{{ column }}"
+          color="primary"
+        >
+          <span *ngIf="column === 'Name'">{{ 'component.NAME' | translate }}</span>
+          <span *ngIf="column === 'Policy Number'">{{
+            'component.APPLICATION_POLICY_NUMBER' | translate
+          }}</span>
+          <span *ngIf="column === 'Status'">{{ 'component.STATUS' | translate }}</span>
+          <span *ngIf="column === 'Complaint Against'">{{
+            'component.COMPLAINT_AGAINST' | translate
+          }}</span>
+          <span *ngIf="column === 'Days Open'">{{ 'component.DAYS_OPEN' | translate }}</span>
+          <span *ngIf="column === 'Nature of Complaint'">{{
+            'component.NATURE_OF_COMPLAINT' | translate
+          }}</span>
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          <span class="padding-left" *ngIf="column === ' ' && element?.complaintStatus === 'Open'">
+            <img src="../../../assets/images/pending-24px.svg" />
+            <!-- <i class="material-icons icon-style-yellow">pending</i> -->
+          </span>
+          <span
+            class="padding-left"
+            *ngIf="column === ' ' && element?.complaintStatus === 'Closed'"
+          >
+            <i class="material-icons icon-style-green">done_all</i>
+          </span>
+
+          <span class="padding-left customer-name" *ngIf="column === 'Name'">{{
+            element['customerName']
+          }}</span>
+          <span class="padding-left" *ngIf="column === 'Policy Number'">{{
+            element['policyNo']
+          }}</span>
+          <span class="padding-left" *ngIf="column === 'Status'">{{
+            element['complaintStatus']
+          }}</span>
+          <span class="padding-left" *ngIf="column === 'Complaint Against'">{{
+            element['complaintAgainst']
+          }}</span>
+          <span class="padding-left" *ngIf="column === 'Days Open'">{{ element?.daysOpen }}</span>
+          <span class="padding-left" *ngIf="column === 'Nature of Complaint'">{{
+            element['complaintNature']
+          }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all displayedColumns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div
+            class="example-element-detail"
+            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+          >
+            <div *ngIf="media.isActive('md') || media.isActive('lg')" class="grid-container-ie">
+              <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                <div fxFlex="20" class="grid-item-inside align-right">
+                  <label class="bold">{{ 'component.COMPLAINTS_DESCRIPTION' | translate }}</label>
+                </div>
+                <div fxFlex="30" class="grid-item-inside align-left">
+                  <label> {{ element?.complaintDescription }}</label>
+                </div>
+                <div
+                  fxFlex="20"
+                  class="grid-item-inside align-right"
+                  *ngIf="element['complaintStatus'] === 'Closed'"
+                >
+                  <label class="bold">{{ 'component.REMARKS_ON_RESOLUTION' | translate }}</label>
+                </div>
+                <div
+                  fxFlex="30"
+                  class="grid-item-inside align-left"
+                  *ngIf="element['complaintStatus'] === 'Closed'"
+                >
+                  <label> {{ element?.resolutionText }}</label>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                <div fxFlex="20" class="grid-item-inside align-right">
+                  <label class="bold">{{ 'component.CREATED_ON' | translate }}</label>
+                </div>
+                <div fxFlex="30" class="grid-item-inside align-left">
+                  <label>{{ element?.createdDate }}</label>
+                </div>
+                <div
+                  fxFlex="20"
+                  class="grid-item-inside align-right"
+                  *ngIf="element['complaintStatus'] === 'Closed'"
+                >
+                  <label class="bold">{{ 'component.CLOSED_ON' | translate }}</label>
+                </div>
+                <div
+                  fxFlex="30"
+                  class="grid-item-inside align-left"
+                  *ngIf="element['complaintStatus'] === 'Closed'"
+                >
+                  <label>{{ element?.resolutionDate }}</label>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                <div fxFlex="20" class="grid-item-inside align-right">
+                  <label class="bold">Documents Uploaded</label>
+                </div>
+                <div fxFlex="30" class="grid-item-inside align-left">
+                  <ng-container *ngFor="let doc of element?.documents">
+                    <a
+                      class="link-to-document"
+                      (click)="openDocument(doc?.documentUrl)"
+                      target="_blank"
+                      >{{ doc?.documentName }}</a
+                    >
+                    ,
+                  </ng-container>
+                </div>
+              </div>
+              <!-- complaintdescription  -->
+              <!-- <div class="grid-item align-right">
+                                <label class="bold">{{'component.COMPLAINTS_DESCRIPTION' | translate}}</label>
+                            </div>
+                            <div class="grid-item">
+                                <label> {{element?.complaintDescription}}</label>
+                            </div> -->
+              <!-- Remarks on Resolution  -->
+              <!--   <div class="grid-item align-right" *ngIf="element['complaintStatus'] === 'Closed' "><label
+                                    class="bold">{{'component.REMARKS_ON_RESOLUTION' | translate}}</label>
+                            </div>
+                            <div class="grid-item" *ngIf="element['complaintStatus'] === 'Closed' ">
+                                <label> {{element?.resolutionText}}</label>
+                            </div> -->
+
+              <!-- open  -->
+              <!--  <div class="grid-item" *ngIf="element['complaintStatus'] !== 'Closed' "><label
+                                    class="bold"></label>
+                            </div>
+                            <div class="grid-item" *ngIf="element['complaintStatus'] !== 'Closed' ">
+                                <label> </label>
+                            </div>-->
+
+              <!-- Created on date  -->
+              <!--   <div class="grid-item align-right">
+                                <label class="bold ">{{'component.CREATED_ON' | translate}}</label>
+
+                            </div>
+                            <div class="grid-item">
+                                <label>{{element?.createdDate}}</label>
+                            </div> -->
+              <!-- open  -->
+              <!--<div class="grid-item" *ngIf="element['complaintStatus'] !== 'Closed' "><label
+                                    class="bold"></label>
+                            </div>
+                            <div class="grid-item" *ngIf="element['complaintStatus'] !== 'Closed' ">
+                                <label> </label>
+                            </div>-->
+
+              <!-- closed on  -->
+              <!-- <div class="grid-item align-right" *ngIf="element['complaintStatus'] === 'Closed' ">
+                                <label class="bold ">{{'component.CLOSED_ON' | translate}}</label>
+                            </div>
+                            <div class="grid-item" *ngIf="element['complaintStatus'] === 'Closed' ">
+                                <label>{{element?.resolutionDate}}</label>
+                            </div> -->
+              <div></div>
+              <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+                <div fxFlex="20" class="grid-item-inside"></div>
+                <div fxFlex="80" class="grid-item-inside">
+                  <span>
+                    <button
+                      mat-raised-button
+                      id="resolvebtn"
+                      class="resolve-btn"
+                      *ngIf="element?.complaintStatus == 'Open'"
+                      (click)="openDialog(element)"
+                    >
+                      {{ 'component.RESOLVE' | translate }}
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- --mobile description--  -->
+            <div *ngIf="media.isActive('xs') || media.isActive('sm')" class="width">
+              <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                <div fxFlex="50" class="align-right">
+                  <label class="bold">{{ 'component.COMPLAINTS_DESCRIPTION' | translate }}</label>
+                </div>
+                <div fxFlex="50">
+                  <span>{{ element?.complaintDescription }}</span>
+                </div>
+              </div>
+              <div flex fxLayout="row" fxLayoutGap="5px" class="">
+                <div fxFlex="50" class="align-right">
+                  <label class="bold">{{ 'component.CREATED_ON' | translate }}</label>
+                </div>
+                <div fxFlex="50">
+                  <span>{{ element?.createdDate }}</span>
+                </div>
+              </div>
+              <span>
+                <button
+                  mat-raised-button
+                  id="reslovebtn"
+                  class="resolve-btn"
+                  *ngIf="element?.complaintStatus == 'Open'"
+                  (click)="openDialog(element)"
+                >
+                  {{ 'component.RESOLVE' | translate }}
+                </button>
+              </span>
+
+              <ng-container *ngIf="element['complaintStatus'] === 'Closed'">
+                <div flex fxLayout="row" fxLayoutGap="5px" class="complaint-mobile-closed">
+                  <div fxFlex="50" class="align-right">
+                    <label class="bold">{{ 'component.REMARKS_ON_RESOLUTION' | translate }}</label>
+                  </div>
+
+                  <div fxFlex="50" class="">
+                    <span>{{ element?.resolutionText }}</span>
+                  </div>
+                </div>
+                <div flex fxLayout="row" fxLayoutGap="5px" class="mobile-view-details">
+                  <div fxFlex="50" class="align-right">
+                    <label class="bold">{{ 'component.CLOSED_ON' | translate }}</label>
+                  </div>
+                  <div fxFlex="50" class="">
+                    <span>{{ element?.resolutionDate }}</span>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let element; columns: displayedColumns"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+    <mat-paginator
+      [length]="complaintsArrSearchCopy?.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChange($event)"
+    >
+    </mat-paginator>
+  </div>
+  <!-- <mat-progress-spinner [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+    </mat-progress-spinner> -->
+</div>

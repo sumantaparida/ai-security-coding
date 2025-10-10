@@ -1,0 +1,33 @@
+/* .edit-quote-container {
+    height: 10rem;
+    width: 20rem;
+} */
+
+.add-customer-container {
+    position: relative;
+}
+.add-customerpopup {
+    display: -ms-inline-grid !important;
+}
+
+.finish-editing-heading {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
+}
+
+.update-btn {
+    background: #03dac5;
+    color: white;
+    width: 100%;
+}
+
+.cancel-btn {
+    background: #b00020;
+    color: white;
+    width: 100%;
+}

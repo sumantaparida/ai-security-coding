@@ -1,0 +1,160 @@
+<div
+  flex
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayout.sm="column"
+  fxLayoutGap="10px"
+  class="more-details-container"
+>
+  <!-- --Plan Name Col--  -->
+  <div fxFlex="30">
+    <div flex fxLayout="row" class="background heading-row">
+      <div fxFlex="100" class="heading"><label>Your Plan Name</label></div>
+    </div>
+    <div flex fxLayout="row" class="plan-name-row background">
+      <div fxFlex="100" class="plan-name">
+        <label
+          >{{ policyQuoteArr?.productName }} <span *ngIf="policyQuoteArr?.planName !== ''">-</span>
+          {{ policyQuoteArr?.planName }}
+        </label>
+      </div>
+    </div>
+    <div flex fxLayout="row" class="">
+      <div fxFlex="50" class="background padding-10"><label>Total Premium</label></div>
+      <div fxFlex="50" class="background padding-10 text-right">
+        <label>{{ totalPremiumDisplayed | currency: 'INR':'symbol':'1.0-0' }}</label>
+      </div>
+    </div>
+    <!-- --Premium break up--starts -->
+    <div flex fxLayout="row" class="row-gap">
+      <div fxFlex="100">
+        <a class="need-help-text" (click)="hideShowPremiumBreakup()">Premium Break-up</a>
+      </div>
+    </div>
+    <ng-container *ngIf="isShowPremiumBreakup">
+      <div flex fxLayout="row" class="row-gap" fxLayoutGap="10px">
+        <div fxFlex="100">
+          <p class="need-help-text1" class="fontstyle"></p>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap" fxLayoutGap="10px">
+        <div fxFlex="50" class="background">
+          <label>Base Premium</label>
+        </div>
+        <div fxFlex="50" class="background text-right">
+          <label>{{ basePremiumDisplayed | currency: 'INR':'symbol':'1.0-0' }}</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap" fxLayoutGap="10px">
+        <div fxFlex="50" class="background">
+          <label>GST</label>
+        </div>
+        <div fxFlex="50" class="background text-right">
+          <label>{{ gstDisplayed | currency: 'INR':'symbol':'1.0-0' }}</label>
+        </div>
+      </div>
+      <div flex fxLayout="row" class="row-gap" fxLayoutGap="10px">
+        <div fxFlex="50" class="background">
+          <label>Total Premium</label>
+        </div>
+        <div fxFlex="50" class="background text-right">
+          <label>{{ totalPremiumDisplayed | currency: 'INR':'symbol':'1.0-0' }}</label>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- --Premium break up ends-- -->
+
+    <div flex fxLayout="row" class="buy-btn-row row-gap">
+      <div fxFlex="100" class="">
+        <button class="buy-now-btn" mat-raised-button (click)="onBuyNow()">Buy Now</button>
+      </div>
+    </div>
+    <!-- --Link to Brochure & Plan Details--  -->
+    <div
+      flex
+      fxLayout="row"
+      class="help-text row-gap"
+      *ngIf="policyQuoteArr?.premiums[premiumKey]?.illustrationUrl"
+    >
+      <div fxFlex="100" class="" *ngIf="policyQuoteArr?.insurerId !== 130">
+        <a
+          class="link-to-document"
+          (click)="brochureLink(policyQuoteArr?.premiums[premiumKey]?.illustrationUrl)"
+          target="_blank"
+          >See Illustration</a
+        >
+      </div>
+    </div>
+    <div flex fxLayout="row" class="help-text row-gap">
+      <div fxFlex="100" class="">
+        <a
+          class="link-to-document"
+          (click)="brochureLink(policyQuoteArr?.brochureUrl)"
+          target="_blank"
+          >View Brochure</a
+        >
+      </div>
+    </div>
+  </div>
+  <!-- --Plan Details Col-- -->
+  <div fxFlex="60">
+    <div flex fxLayout="row" class="heading-row">
+      <div fxFlex="100" class="background heading"><label>Policy Details</label></div>
+    </div>
+    <div flex fxLayout="row" class="row-gap" fxLayoutGap="10px">
+      <div fxFlex="50" class="padding-10 background"><label>Minimum Death Benefit</label></div>
+      <div fxFlex="50" class="padding-10 background">
+        <label>{{ policyQuoteArr?.sa | currency: 'INR':'symbol':'1.0-0' }}</label>
+      </div>
+    </div>
+    <div flex fxLayout="row" class="row-gap" fxLayoutGap="10px">
+      <div fxFlex="50" class="padding-10 background"><label>Frequency of Premium</label></div>
+      <div fxFlex="50" class="padding-10 background">
+        <label *ngIf="premiumKey == '1'">Annual</label>
+        <label *ngIf="premiumKey == '2'">Half Yearly</label>
+        <label *ngIf="premiumKey == '4'">Quarterly</label>
+        <label *ngIf="premiumKey == '12'">Monthly</label>
+        <label *ngIf="premiumKey == '0'">Single</label>
+      </div>
+    </div>
+    <div flex fxLayout="row" class="row-gap" fxLayoutGap="10px">
+      <div fxFlex="50" class="padding-10 background">
+        <label>Your Policy Cover will last for</label>
+      </div>
+      <div fxFlex="50" class="padding-10 background">
+        <label>{{ policyQuoteArr?.pt }} Year(s)</label>
+      </div>
+    </div>
+    <div flex fxLayout="row" class="row-gap" fxLayoutGap="10px">
+      <div fxFlex="50" class="padding-10 background"><label>You will pay Premiums for</label></div>
+      <div fxFlex="50" class="padding-10 background">
+        <label>{{ policyQuoteArr?.ppt }} Year(s)</label>
+      </div>
+    </div>
+
+    <!-- --Benifits-- -->
+    <div flex fxLayout="row" class="heading-row row-gap">
+      <div fxFlex="100" class="background heading"><label>Benefits</label></div>
+    </div>
+    <ng-container *ngFor="let benefit of includedBenefit; let i = index">
+      <div flex fxLayout="row" fxLayoutGap="10px" class="heading-row">
+        <div fxFlex="50" class="padding-10 benefits-list background">
+          <label>{{ benefit?.displayName }}</label>
+        </div>
+        <div fxFlex="50" class="padding-10 benefits-list background"><label>Included</label></div>
+      </div>
+      <div flex fxLayout="row" fxLayoutGap="10px" class="">
+        <div fxFlex="100" class="">
+          <a class="padding-left" (click)="toggleShow(i)">What is this?</a>
+          <div class="need-help-description" *ngIf="isShowDescription[i]">
+            <p>{{ benefit?.benefitText }}</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div fxFLex="5">
+    <span class="material-icons close-icon" (click)="exitMoreDetails()"> close </span>
+  </div>
+</div>

@@ -1,0 +1,189 @@
+<div class="posp_container" [class.mid-align-posp]="pospDetails.length <= 0">
+  <div class="heading_container">
+    <div>
+      <form [formGroup]="pospForm">
+        <ng-container *ngIf="user['userGroups'].includes('ADMIN_POSP')&& user['roles'].includes('POSP.USER.LIST')">
+          <label>Branch</label>
+          &nbsp;
+          <mat-form-field appearance="outline" class="inactive-btn">
+            <mat-label>Filter by Branch </mat-label>
+            <mat-select formControlName="branchCode" (selectionChange)="onSearchFieldChange($event)">
+              <mat-option>
+                <ngx-mat-select-search
+                placeholderLabel="Search"
+                noEntriesFoundLabel="Not Found"
+                formControlName="searchCtrl"
+              >
+              </ngx-mat-select-search>
+              </mat-option>
+              <mat-option value="">Select</mat-option>
+              <mat-option *ngFor="let branch of branchCodes  | searchDropDown :pospForm.get('searchCtrl').value :'value'" [value]="branch.id">
+                {{ branch.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </form>
+    
+    </div>
+    <!-- <ng-container *ngIf="user.roles.every(role=>{
+      return role
+    })"> -->
+      <div *ngIf="!hasPospCourseRoles && !user['userGroups'].includes('ADMIN_POSP')"  class="search-div" [class.mid-align]="pospDetails.length <= 0">
+        <p>Click the POSP Course button to proceed</p>
+        <button mat-raised-button (click)="generateMagicLink()">
+          <mat-icon class="mat-icon-blue"> library_books </mat-icon>
+          POSP Course
+        </button>
+      </div>
+    <!-- </ng-container> -->
+  </div>
+  
+    <div class="table-margin mat-elevation-z8" *ngIf="pospDetails.length > 0">
+      <div class="example-table-container">
+        <div style="overflow: scroll;">
+       
+        <table
+          mat-table
+          [dataSource]="pospDetails"
+          class="example-table"
+          matSort
+          matSortActive="created"
+          matSortDisableClear
+          matSortDirection="desc"
+          multiTemplateDataRows
+        >
+          <!--"Start Date -->
+    
+          <ng-container matColumnDef="{{ column }}" *ngFor="let column of displayedColumns">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              [ngClass]="{
+                'theme-table-red': orgCode === 'SIB',
+                'theme-table-purple': orgCode !== 'SIB'
+              }"
+              color="primary"
+            >
+              <span *ngIf="column === 'Name'">Name</span>
+              <span *ngIf="column === 'Branch'">Branch</span>
+              <span *ngIf="column === 'Gicourse'">GI Course</span>
+              <span *ngIf="column === 'Giexam'">GI Exam</span>
+              <span *ngIf="column === 'Licourse'">LI COURSE</span>
+              <span *ngIf="column === 'Liexam'">LI EXAM</span>
+              <span *ngIf="column === 'Action'">ACTION</span>
+            </th>
+    
+            <td mat-cell *matCellDef="let element">
+              <span class="padding-left" *ngIf="column === 'Name'">{{
+                 element?.name
+              }}</span>
+              <span class="padding-left" *ngIf="column === 'Branch'">{{
+                element?.branchName
+              }}</span>
+              <span class="padding-left" *ngIf="column === 'Gicourse'">{{
+                element?.giPospDetails?.courseStatus 
+              }}</span>
+              <span class="padding-left" *ngIf="column === 'Giexam'">{{  element?.giPospDetails?.examStatus  }}
+                
+              </span>
+              <span class="padding-left" *ngIf="column === 'Licourse'"
+                >{{ element.liPospDetails.courseStatus}}</span
+              >
+              <span style="position: relative;"class="padding-left" *ngIf="column === 'Liexam'">
+                {{element.liPospDetails.examStatus}}
+               
+                </span >
+              <span class="padding-left" *ngIf="column === 'Action'">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button
+                  mat-flat-button
+                  class="download-btn"
+                  *ngIf="element.giPospDetails.certificateAvailable"
+                  (click)="downloadFile(element.giPospDetails.certificateLink)"
+                >
+                  GI POSP Certificate <span class="material-icons"> file_download</span>
+                </button>
+                <button
+                  mat-flat-button
+                  class="download-btn"
+                  *ngIf="element.liPospDetails.certificateAvailable"
+                  (click)="downloadFile(element.liPospDetails.certificateLink)"
+                >
+                  LI POSP Certificate <span class="material-icons"> file_download</span>
+                </button>
+                </mat-menu>
+              
+              </span>
+            </td>
+          </ng-container>
+           <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <!-- <div class="example-element-diagram">
+          <div class="example-element-position"> {{element.position}} </div>
+          <div class="example-element-symbol"> {{element.symbol}} </div>
+          <div class="example-element-name"> {{element.name}} </div>
+          <div class="example-element-weight"> {{element.weight}} </div>
+        </div> -->
+        <div class="example-element-description">
+            <div class="detail_container">
+              <div>
+                <h2>GI Course Details:</h2>
+                <p>
+                  Course Joined At:  {{element.giPospDetails?.courseJoinedAt}}
+                </p>
+                <p>
+                  Course Completed At:   {{element.giPospDetails?.courseCompletedAt}}
+                </p>
+                <p>
+                  Exam Score:      {{element.giPospDetails?.examScore}}
+                </p>
+              </div>
+              <div>
+                <h2>LI Course Details:</h2>
+                <p>
+                  Course Joined At: {{element.liPospDetails?.courseJoinedAt}}
+                </p>
+                <p>
+                  Course Completed At: {{element.liPospDetails?.courseCompletedAt}}
+                </p>
+                <p>
+                  Exam Score: {{element.liPospDetails?.examScore}}
+                </p>
+              </div>
+            </div>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let element; columns: displayedColumns"
+          class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        </table>
+        <mat-paginator
+        [length]="resultsLength"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"
+      >
+      </mat-paginator>
+        </div>
+
+      
+      </div>
+      
+    </div>
+</div>
+
+
+ 
+

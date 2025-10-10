@@ -1,0 +1,23 @@
+<div
+  flex
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayout.sm="column"
+  fxLayoutGap=""
+  class="customer-layout"
+>
+  <div fxFlex="35" [ngClass]="{ 'only-customer': isSubmited === false }">
+    <app-loan-search
+      [loanAccountNo]="loanAccountNumber"
+      [inputType]="inputType"
+      (submitClicked)="onSubmitClicked($event)"
+    ></app-loan-search>
+  </div>
+  <div *ngIf="isSubmited === true" fxFlex="60">
+    <app-loan-details
+      [applicationDetails]="applicationDetails"
+      [loanTypeMaster]="loanTypeMaster"
+      [inputType]="inputType"
+    ></app-loan-details>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div mat-dialog-content >
+      <div class="heading">
+    <span class="material-icons style-icon-policy"> person </span>
+    <span class="font-size-20">Add User</span>
+  </div>
+  <div class="actions-style" mat-dialog-actions>
+    <button mat-button class="single" routerLink="/user-management/add-user" (click)="onOkClicked('single')" cdkFocusInitial>
+      Single User
+    </button>
+    <button mat-button class="bulk"  routerLink="/user-management/file-upload" (click)="onOkClicked('bulk')" cdkFocusInitial>
+      Bulk Upload
+    </button>
+    <button mat-icon-button class="close-button" (click)="onNoClick()">
+      <mat-icon class="close-icon" color="warn">close</mat-icon>
+    </button>
+  </div>
+  

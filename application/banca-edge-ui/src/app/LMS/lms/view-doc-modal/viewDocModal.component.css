@@ -1,0 +1,57 @@
+.heading{
+    text-align: center;
+}
+
+.margin-right{
+    margin-right: 10px;
+
+}
+
+.label{
+    color: grey;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.list-doc{
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.submit-btn {
+    /* width: 10rem; */
+    /* padding: 5px 5px; */
+    background: #03dac5;
+    color: white;
+   
+    border:none;
+    margin-right: 5px;
+  }
+  
+  .green{
+    background-color: #007D64;
+    color: white;
+
+  }
+
+  .width-8{
+    width: 8rem;
+  }
+
+  .center{
+    text-align: center;
+    margin-top: 25px;
+  }
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  .error-msg{
+    color: red;
+    text-align: center;
+  }

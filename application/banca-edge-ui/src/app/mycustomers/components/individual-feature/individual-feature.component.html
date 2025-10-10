@@ -1,0 +1,517 @@
+<div *ngIf="customer" class="padding">
+  <form [formGroup]="customer" (ngSubmit)="onSubmit(f)" autocomplete="off">
+    <h2>
+      <mat-icon>account_box</mat-icon><span>{{'component.ADD_INDIVIDUAL_CUSTOMER' | translate }} </span>
+    </h2>
+    <div class="form-container">
+      <div *ngIf="showBranchSelector" class="form-fields">
+        <div class="row required-field">
+          <mat-form-field appearance="fill">
+            <mat-label class="cus-form-label">{{'component.BRANCH'|translate }} </mat-label>
+            <mat-select formControlName="branchName">
+              <mat-option *ngFor="let branch of branches; let i = index" [value]="branch">
+                {{branch.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'branchName'}"></ng-container>
+        </div>
+        <!-- <div class="row required-field">
+      <mat-form-field appearance="fill">
+        <mat-label class="cus-form-label">Organization Code</mat-label>
+        <input matInput class="form-control minimal" id="customerId"
+               formControlName="organizationCode">
+      </mat-form-field>
+    </div>
+    <div class="row required-field">
+      <mat-form-field appearance="fill">
+        <mat-label class="cus-form-label">Branch Code</mat-label>
+        <input matInput class="form-control minimal" id="customerId"
+               formControlName="branchCode">
+      </mat-form-field>
+    </div>
+
+    <div class="row required-field">
+
+      <mat-form-field appearance="fill">
+        <mat-label class="cus-form-label">Bank CustomerId</mat-label>
+        <input matInput class="form-control minimal" id="customerId"
+               formControlName="customerId">
+      </mat-form-field>
+
+    </div>-->
+
+      </div>
+      <div class="form-fields">
+
+
+
+        <div class="row required-field">
+          <mat-form-field appearance="fill">
+            <mat-label class="cus-form-label">{{'component.CUSTOMER_FIRST_NAME'|translate }}<span
+                class="man-field">*</span></mat-label>
+            <input matInput class="form-control minimal text-capitalize" id="firstName" formControlName="firstName"
+              mask="S*">
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'firstName'}"></ng-container>
+
+
+        </div>
+        <div class="row required-field">
+          <mat-form-field appearance="fill">
+            <mat-label class="cus-form-label">{{'component.CUSTOMER_LAST_NAME'|translate }}<span
+                class="man-field">*</span></mat-label>
+            <input matInput class="form-control minimal text-capitalize" id="lastName" formControlName="lastName"
+              mask="S*">
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'lastName'}"></ng-container>
+
+        </div>
+
+        <div class="row required-field">
+          <mat-form-field appearance="fill">
+            <mat-label class="cus-form-label">{{'component.DATE_OF_BIRTH'|translate }}<span class="man-field">*</span>
+            </mat-label>
+            <input (dateInput)="inputEvent($event)" matInput [matDatepicker]="dobpicker" readonly [min]="MinDate()"
+              [max]="maxAdultDate" class="form-control minimal" id="dob" formControlName="dob">
+            <mat-datepicker-toggle matSuffix [for]="dobpicker"></mat-datepicker-toggle>
+            <mat-datepicker #dobpicker></mat-datepicker>
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'dob'}"></ng-container>
+
+        </div>
+
+
+        <div class="row required-field">
+          <mat-form-field appearance="fill">
+            <mat-label class="cus-form-label">{{'component.GENDER'|translate }}<span class="man-field">*</span>
+            </mat-label>
+            <mat-select formControlName="gender">
+              <mat-option value="M">{{'component.MALE'|translate }}</mat-option>
+              <mat-option value="F">{{'component.FEMALE'|translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'gender'}"></ng-container>
+
+        </div>
+
+        <div class="row required-field">
+          <mat-form-field appearance="fill">
+            <mat-label class="cus-form-label">{{'component.MOBILE_NUMBER'|translate }}<span class="man-field">*</span>
+            </mat-label>
+            <input matInput class="form-control minimal" id="mobileNo" formControlName="mobileNo" mask="0000000000">
+          </mat-form-field>
+          <ng-container *ngTemplateOutlet="customerErrorTemplate; context:{key:'mobileNo'}"></ng-container>
+
+        </div>
+      </div>
+
+
+      <h3>
+        <mat-icon>location_on</mat-icon>{{'component.ADDRESSES' | translate}}
+      </h3>
+      <div class="form-fields">
+        <!-- Addresses-->
+
+        <table width="100%" class="col-lg-8 white-bg" id="addressTable">
+          <tbody>
+
+            <tr formArrayName="addressList" *ngFor="let control of addressList.controls; let i=index">
+              <ng-container [formGroupName]="i">
+                <td>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label class="cus-form-label">{{'component.ADDRESS_TYPE'|translate }}<span
+                        class="man-field">*</span></mat-label>
+                    <mat-select formControlName="addressType" (selectionChange)="checkAddType($event,i)">
+                      <mat-option value="PERMANENT">{{'component.PERMANENT'|translate }}</mat-option>
+                      <mat-option value="CORRESPONDENCE">{{'component.CORRESPONDENCE'|translate }}</mat-option>
+                      <mat-option value="OFFICE">{{'component.OFFICE'|translate }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'addressType', row:i, group:'addressList'}">
+                  </ng-container>
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell width-30">{{'component.ADDRESS_LINE1'|translate}}<span
+                        class="man-field">*</span></mat-label>
+                    <input matInput class="form-control minimal" id="addressline1_{{i}}" formControlName="addressline1">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'addressline1', row:i, group:'addressList'}">
+                  </ng-container>
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell width-30">{{'component.ADDRESS_LINE2'|translate}}<span
+                        class="man-field">*</span></mat-label>
+                    <input matInput class="form-control minimal" id="addressline2_{{i}}" formControlName="addressline2">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'addressline2', row:i, group:'addressList'}">
+                  </ng-container>
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell width-30">{{'component.ADDRESS_LINE3'|translate}}</mat-label>
+                    <input matInput class="form-control minimal" id="addressLine3_{{i}}" formControlName="addressline3">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'addressline3', row:i, group:'addressList'}">
+                  </ng-container>
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+
+                    <mat-label class="bordered-cell">{{'component.POSTAL_CODE'|translate}}<span
+                        class="man-field">*</span></mat-label>
+                    <input matInput class="form-control minimal" id="address_postalcode_{{i}}"
+                      formControlName="postalcode" mask="000000" (change)="onPostalCodeChange($event.target.value,i)">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'postalcode', row:i, group:'addressList'}">
+                  </ng-container>
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.CITY'|translate}}<span class="man-field">*</span>
+                    </mat-label>
+                    <input matInput [readonly]="notEditable" class="form-control minimal" id="address_city_{{i}}"
+                      formControlName="city">
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="ListErrorTemplate; context:{key:'city', row:i, group:'addressList'}">
+                  </ng-container>
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.STATE'|translate}}<span class="man-field">*</span>
+                    </mat-label>
+                    <input matInput [readonly]="notEditable" class="form-control minimal" id="address_state_{{i}}"
+                      formControlName="state">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'state', row:i, group:'addressList'}">
+                  </ng-container>
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.DISTRICT'|translate}}</mat-label>
+                    <input matInput class="form-control minimal" id="address_district_{{i}}" formControlName="district"
+                      mask="S*">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'district', row:i, group:'addressList'}">
+                  </ng-container>
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.COUNTRY'|translate}}<span class="man-field">*</span>
+                    </mat-label>
+                    <input matInput class="form-control minimal" id="address_country_{{i}}" formControlName="country"
+                      mask="S*">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'country', row:i, group:'addressList'}">
+                  </ng-container>
+                </td>
+                <td>
+                  <!-- <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.COUNTRY_CODE'|translate}}<span class="man-field">*</span></mat-label>
+                    <input matInput class="form-control minimal" id="address_countryCode_{{i}}"
+                           formControlName="countryCode">
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="ListErrorTemplate; context:{key:'countryCode', row:i, group:'addressList'}"></ng-container> -->
+                </td>
+
+
+                <td>
+                  <ng-container *ngIf="i>0">
+                    <button type="button" mat-icon-button class="minus-icon" id="{{'address_'+'remoeMinus' +i}}"
+                      (click)="removeAddressGroup(i)">
+                      <mat-icon>remove_circle_outline</mat-icon>
+                    </button>
+                  </ng-container>
+                  <ng-container>
+                    <button type="button" mat-icon-button class="add-icon" id="{{'address_'+'addrec' }}"
+                      (click)="addNewAddressGroup(i)">
+                      <mat-icon>add_circle_outline</mat-icon>
+                    </button>
+                  </ng-container>
+
+                </td>
+              </ng-container>
+            </tr>
+
+
+          </tbody>
+
+        </table>
+      </div>
+
+      <!--Contacts Email-->
+      <h3>
+        <mat-icon>contact_mail</mat-icon>{{'component.EMAIL'|translate}}
+      </h3>
+      <div class="form-fields">
+        <table width="100%" class="col-lg-8 white-bg" id="emailTable">
+          <tbody>
+
+            <tr formArrayName="contactEmailList" *ngFor="let control of contactEmailList.controls;let i=index">
+              <ng-container [formGroupName]="i">
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="cus-form-label">{{'component.EMAIL_TYPE'|translate}}<span
+                        class="man-field">*</span></mat-label>
+                    <mat-select formControlName="emailType">
+                      <mat-option value="EMAIL">{{'component.EMAIL'|translate}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'emailType', row:i, group:'contactEmailList'}">
+                  </ng-container>
+
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.EMAIL'|translate}}<span class="man-field">*</span>
+                    </mat-label>
+                    <input matInput class="form-control minimal lowercase" id="emailText{{i}}"
+                      formControlName="emailText">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'emailText', row:i,group:'contactEmailList'}">
+                  </ng-container>
+
+                </td>
+                <td>
+                  <ng-container *ngIf="i>0">
+                    <button type="button" mat-icon-button class="minus-icon" (click)="removeContactEmailGroup(i)">
+                      <mat-icon>remove_circle_outline</mat-icon>
+                    </button>
+                  </ng-container>
+                  <ng-container>
+
+                    <button type="button" mat-icon-button class="add-icon" (click)="addNewContactEmailGroup(i)">
+                      <mat-icon>add_circle_outline</mat-icon>
+                    </button>
+                  </ng-container>
+
+                </td>
+              </ng-container>
+            </tr>
+
+
+
+          </tbody>
+        </table>
+
+      </div>
+      <!--Contacts Phone-->
+      <h3>
+        <mat-icon>contact_phone</mat-icon>{{'component.PHONE'|translate}}
+      </h3>
+      <div class="form-fields">
+
+        <table width="100%" class="col-lg-8 white-bg" id="contactPhoneTable">
+          <tbody>
+            <tr formArrayName="contactPhoneList" *ngFor="let control of contactPhoneList.controls; let i=index">
+              <ng-container [formGroupName]="i">
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="cus-form-label">{{'component.PHONE_TYPE'|translate}}<span
+                        class="man-field">*</span></mat-label>
+                    <mat-select formControlName="phoneType" (selectionChange)="checkPhoneType($event,i)">
+                      <mat-option value="HOME_PHONE">{{'component.HOME_PHONE'|translate}}</mat-option>
+                      <mat-option value="WORK_PHONE">{{'component.WORK_PHONE'|translate}}</mat-option>
+                      <mat-option value="MOBILE">{{'component.MOBILE'|translate}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'phoneType',row:i,group:'contactPhoneList'}">
+                  </ng-container>
+
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.PHONE'|translate}}<span class="man-field">*</span>
+                    </mat-label>
+                    <input matInput class="form-control minimal" formControlName="phoneText"
+                      (keypress)="onKeyPressPhone($event,i)" mask="0000000000">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'phoneText',row:i,group:'contactPhoneList'}">
+                  </ng-container>
+
+                </td>
+                <td>
+                  <ng-container *ngIf="i>0">
+                    <button type="button" mat-icon-button class="minus-icon" (click)="removeContactPhoneGroup(i)">
+                      <mat-icon>remove_circle_outline</mat-icon>
+                    </button>
+                  </ng-container>
+                  <ng-container>
+
+                    <button type="button" mat-icon-button class="add-icon" (click)="addNewContactPhoneGroup(i)">
+                      <mat-icon>add_circle_outline</mat-icon>
+                    </button>
+                  </ng-container>
+
+                </td>
+              </ng-container>
+            </tr>
+
+
+          </tbody>
+        </table>
+      </div>
+
+
+      <!-- Dependents-->
+      <!-- <h3>
+        <mat-icon>supervisor_account</mat-icon>{{'component.DEPENDENTS'|translate}}
+      </h3> -->
+      <!-- <div class="form-fields">
+
+        <table width="100%" class="col-lg-8 white-bg" id="dependentsTable">
+
+          <tbody>
+
+            <tr formArrayName="dependentList" *ngFor="let control of dependentList.controls; let i=index">
+              <ng-container [formGroupName]="i">
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.DEPENDENTS_FIRST_NAME'|translate}}</mat-label>
+                    <input matInput class="form-control minimal text-capitalize" id="dependents_firstName_{{i}}"
+                      formControlName="firstName" mask="S*">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'firstName',row:i,group:'dependentList'}">
+                  </ng-container>
+
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.DEPENDENTS_LAST_NAME'|translate}}</mat-label>
+                    <input matInput class="form-control minimal text-capitalize" id="dependents_lastName_{{i}}"
+                      formControlName="lastName" mask="S*">
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'lastName',row:i,group:'dependentList'}">
+                  </ng-container>
+
+                </td>
+                <td>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.RELATIONSHIP_TYPE'|translate}}</mat-label>
+                    <mat-select formControlName="relationshipType" (selectionChange)="checkRelType($event,i)">
+                      <mat-option value="SELF">{{'component.SELF'|translate}}</mat-option> -->
+      <!-- <mat-option value="SPOUSE">{{'component.SPOUSE'|translate}}</mat-option>
+                      <mat-option value="SON">{{'component.SON'|translate}}</mat-option>
+                      <mat-option value="DAUGHTER">{{'component.DAUGHTER'|translate}}</mat-option>
+                      <mat-option value="FATHER">{{'component.FATHER'|translate}}</mat-option>
+                      <mat-option value="MOTHER">{{'component.MOTHER'|translate}}</mat-option>
+                      <mat-option value="OTHER">{{'component.OTHER'|translate}}</mat-option>
+                      <mat-option *ngFor="let relation of relation; let i = index" [value]="relation.id">
+                        {{relation.value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="ListErrorTemplate; context:{key:'relationshipType',row:i,group:'dependentList'}">
+                  </ng-container>
+
+                </td>
+                <td>
+                  <mat-form-field appearance="fill">
+                    <mat-label class="bordered-cell">{{'component.DATE_OF_BIRTH'|translate}}</mat-label>
+                    <input (dateInput)="inputEvent2($event,i)" matInput [matDatepicker]="dependentDobpicker" disabled
+                      [min]="MinDate()" [max]="dependentMaxDate(i)" class="form-control minimal"
+                      id="dependents_dob_{{i}}" formControlName="dob">
+                    <mat-datepicker-toggle matSuffix [for]="dependentDobpicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #dependentDobpicker></mat-datepicker>
+                  </mat-form-field>
+                  <ng-container *ngTemplateOutlet="ListErrorTemplate; context:{key:'dob',row:i,group:'dependentList'}">
+                  </ng-container>
+
+                </td>
+
+                <td>
+                  <ng-container *ngIf="i>0">
+                    <button type="button" mat-icon-button class="minus-icon" id="{{'dependents_'+'remoeMinus' +i}}"
+                      (click)="removeDependentsGroup(i)">
+                      <mat-icon>remove_circle_outline</mat-icon>
+                    </button>
+                  </ng-container>
+                  <ng-container>
+
+                    <button type="button" mat-icon-button class="add-icon" id="{{'dependents_'+'addrec'+ i }}"
+                      (click)="addNewDependentsGroup(i)">
+                      <mat-icon>add_circle_outline</mat-icon>
+                    </button>
+                  </ng-container>
+
+                </td>
+              </ng-container>
+            </tr>
+
+
+
+          </tbody>
+        </table>
+      </div> -->
+
+
+
+      <alert></alert>
+      <div class="action">
+        <button mat-raised-button type="button" (click)="redirectTo()" color="warn" class="cancel-btn">
+          <mat-icon>loop</mat-icon>CANCEL
+        </button>
+        <button mat-raised-button type="submit" [disabled]="!disableSaveButton()" class="next-btn">
+          <mat-icon>save</mat-icon>SAVE
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div><!-- show only if customer is ready -->
+
+<ng-template #customerErrorTemplate let-key="key">
+  <div class="validation-container">
+    <ng-container *ngFor="let validation of validationMessages[key]">
+      <div
+        *ngIf="customer.get(key)?.hasError(validation.type) && (customer.get(key)?.dirty || customer.get(key)?.touched)"
+        class="invalid-feedback">
+        {{validation.message}}
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
+
+<!--<ng-template #addressListErrorTemplate let-key="key" let-row="row">
+  <div class="validation-container">
+       {{row}}: {{key|json}} , {{group}}
+    <ng-container *ngFor="let validation of validationMessages[key]">
+      <div *ngIf="submitted && addressList.controls[row].get(key)?.hasError(validation.type) && (addressList.controls[row].get(key)?.dirty || addressList.controls[row].get(key)?.touched)" class="invalid-feedback">
+        {{validation.message}}
+      </div>
+    </ng-container>
+  </div>
+</ng-template> -->
+
+<ng-template #ListErrorTemplate let-key="key" let-row="row" let-group="group">
+  <div class="validation-container">
+
+    <ng-container *ngFor="let validation of validationMessages[key]">
+      <div
+        *ngIf="customer.get(group)['controls'][row].get(key)?.hasError(validation.type) && (customer.get(group)['controls'][row].get(key)?.dirty || customer.get(group)['controls'][row].get(key)?.touched)"
+        class="invalid-feedback">
+        {{validation.message}}
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

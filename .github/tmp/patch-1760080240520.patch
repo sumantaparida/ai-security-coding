@@ -1,0 +1,23 @@
+--- a/src/app/quote/annuity/annuity.component.ts
++++ b/src/app/quote/annuity/annuity.component.ts
+@@ -1,5 +1,5 @@
+-import { Component } from '@angular/core';
++import { Component, OnInit } from '@angular/core';
+
+ @Component({
+   selector: 'app-annuity',
+   templateUrl: './annuity.component.html',
+   styleUrls: ['./annuity.component.css']
+ })
+-export class AnnuityComponent {
++export class AnnuityComponent implements OnInit {
+   constructor() { }
+
++  ngOnInit() {
++    this.loadModule();
++  }
++
++  loadModule() {
++    // Code to load the module eagerly instead of lazily
++  }
+ }

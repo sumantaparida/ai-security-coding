@@ -1,0 +1,100 @@
+<div
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayout.sm="column"
+  fxLayoutGap="10px"
+  class="need-help-critical-div"
+>
+  <div fxFlex="80" class="heading-div">
+    <h1>Need some help?</h1>
+  </div>
+
+  <div fxFlex="16" class="customer-care">
+    <div fxLayout="row" fxLayoutGap="5px">
+      <div fxFlex="100" class="customer-heading">Contact Us</div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="5px">
+      <div fxFlex="10" class="label-custom">
+        <mat-icon> phone</mat-icon>
+      </div>
+      <div fxFlex="90">
+        <span>+91 22 61915757</span>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="5px">
+      <div fxFlex="10" class="label-custom">
+        <mat-icon> mail_outline</mat-icon>
+      </div>
+      <div fxFlex="100">
+        <!-- <span *ngIf="orgCode === 'CSB'">csb.support@lastdecimal.com</span> -->
+        <span *ngIf="orgCode === 'CSB'">csbsupport@turtlefin.in</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  flex
+  class="help-page"
+  fxLayout="row wrap"
+  fxLayout.xs="column"
+  fxLayout.sm="column"
+  fxLayoutGap="10px"
+>
+  <div *ngFor="let pdf of pdfArr" fxFlex="0 1 calc(16% - 0.5%)">
+    <mat-card class="example-card card-one">
+      <mat-card-header>
+        <img class="img-size" mat-card-image src="{{ pdf.img }}" />
+        <!-- <div mat-card-avatar class="example-header-image-manipal"></div>
+      <mat-card-title>Shiba Inu</mat-card-title>
+      <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+      </mat-card-header>
+      <mat-card-title>{{ pdf?.name }} </mat-card-title>
+      <mat-card-subtitle>{{ pdf?.subtitle }}</mat-card-subtitle>
+      <mat-card-content>
+        <p>{{ pdf?.question }}</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button class="next-btn" (click)="downloadPdf(pdf?.value)">
+          <mat-icon> cloud_download </mat-icon>
+          <label class="margin-5">Download Pdf</label>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- <mat-card class="example-card card-two">
+    <mat-card-header>
+      <img mat-card-image src="../../../../assets/logos/future-generali.svg" />
+    </mat-card-header>
+    <mat-card-title>Future Generali</mat-card-title>
+    <mat-card-subtitle>Total Insurance Solutions</mat-card-subtitle>
+    <mat-card-content>
+      <p>How to issue Future Generali Health Total Vital policy?</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button class="next-btn" (click)="downloadPdf('fg')">
+        <mat-icon> cloud_download </mat-icon>
+        <label class="margin-5">Download Pdf</label>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <img mat-card-image src="../../../../assets/logos/future-generali.svg" />
+    </mat-card-header>
+    <mat-card-title>SP Approval</mat-card-title>
+    <mat-card-subtitle>Approval</mat-card-subtitle>
+    <mat-card-content>
+      <p>How to do a SP Approval?</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button class="next-btn" (click)="downloadPdf('sp')">
+        <mat-icon> cloud_download </mat-icon>
+        <label class="margin-5">Download Pdf</label>
+      </button>
+    </mat-card-actions>
+  </mat-card> -->
+</div>

@@ -11,6 +11,7 @@ const snippetModeBtn = document.getElementById('snippetModeBtn');
 const directoryModeBtn = document.getElementById('directoryModeBtn');
 const snippetForm = document.getElementById('snippet-form');
 const directoryForm = document.getElementById('directory-form');
+const dependencyModeBtn = document.getElementById('dependencyModeBtn');
 
 // Example data for quick testing
 const examples = {
@@ -148,9 +149,44 @@ async function handleFormSubmission(event) {
     if (snippetModeBtn.classList.contains('active')) {
         console.log('Snippet mode is active');
         await handleSnippetScan();
-    } else {
+    } else if (directoryModeBtn.classList.contains('active')) {
         console.log('Directory mode is active');
         await handleDirectoryScan();
+    } else {
+        console.log('Dependency mode is active');
+        await handleDependencyScan();
+    }
+}
+
+async function handleDependencyScan() {
+    console.log('handleDependencyScan called');
+    setLoadingState(true);
+
+    try {
+        const response = await fetch('/scan-dependencies', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || `HTTP error! status: ${response.status}`);
+        }
+
+        console.log(data);
+        updateStatus('Dependency scan complete', 'success');
+
+    } catch (error) {
+        console.error('API Error:', error);
+        displayError({
+            message: `Failed to scan dependencies: ${error.message}`,
+            details: 'Please ensure the server is running.'
+        });
+    } finally {
+        setLoadingState(false);
     }
 }
 
@@ -342,17 +378,29 @@ function initializeEventListeners() {
     snippetModeBtn.addEventListener('click', () => {
         snippetModeBtn.classList.add('active');
         directoryModeBtn.classList.remove('active');
+        dependencyModeBtn.classList.remove('active');
         snippetForm.style.display = 'block';
         directoryForm.style.display = 'none';
+        vulnerabilityForm.style.display = 'block';
         submitBtn.querySelector('span').textContent = 'Generate Security Patch';
     });
 
     directoryModeBtn.addEventListener('click', () => {
         directoryModeBtn.classList.add('active');
         snippetModeBtn.classList.remove('active');
+        dependencyModeBtn.classList.remove('active');
         directoryForm.style.display = 'block';
         snippetForm.style.display = 'none';
+        vulnerabilityForm.style.display = 'block';
         submitBtn.querySelector('span').textContent = 'Scan Directory';
+    });
+
+    dependencyModeBtn.addEventListener('click', () => {
+        dependencyModeBtn.classList.add('active');
+        snippetModeBtn.classList.remove('active');
+        directoryModeBtn.classList.remove('active');
+        vulnerabilityForm.style.display = 'none';
+        submitBtn.querySelector('span').textContent = 'Scan Dependencies';
     });
     
     // Example buttons

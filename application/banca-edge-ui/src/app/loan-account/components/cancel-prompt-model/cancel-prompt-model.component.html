@@ -1,0 +1,16 @@
+<div class="width">
+  <h2 class="dialog-actions">Are you sure you want to cancel</h2>
+
+  <div mat-dialog-actions class="dialog-actions">
+    <button
+      class="submit-btn"
+      mat-button
+      cdkFocusInitial
+      [mat-dialog-close]="'Y'"
+      [routerLink]="['group-credit']"
+    >
+      Yes
+    </button>
+    <button class="cancel-btn" mat-button [mat-dialog-close]="'N'">No</button>
+  </div>
+</div>

@@ -1,0 +1,169 @@
+<div class="health-details-container">
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+        <div fxFlex="70" class="health-details-header">
+            <div fxLayout="row" fxLayout.xs="column" class="heading-row" fxLayout.sm="column" fxLayoutGap="10px">
+                <div class="heading-text">
+                    <span>Fire Insurance</span>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px"
+                class="need-help-critical-div">
+                <div fxFlex="70">
+                    <a>Need Help
+                    </a>
+                </div>
+            </div>
+
+            <ng-container *ngIf="">
+                <div fxLayout="row" fxLayout.xs="column" class="help-description" fxLayout.sm="column"
+                    fxLayoutGap="10px">
+                    <!-- Policy Description column  -->
+
+
+                    <div fxFlex="30" class="policy-description">
+                        <img class="health-details-img" src="../../../assets/images/Health_Hospi_ICON.svg"
+                            alt="Critical Illness">
+                    </div>
+
+                    <div fxFlex="60">
+                        <p>
+                            {{'quote.HI_DEFINITION' | translate}}
+                            <!-- Health-Hospitalization protects against hospitalization and surgical
+                        expenses. Health-Hospitalization plans help to fund expenses associated with specific
+                        hospital-related expenses. When looking at these plans, consider the level and type of
+                        treatment covered/available from the plan. -->
+                        </p>
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+    </div>
+
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+        <div fxFlex="70" class="health-details-form">
+            <form [formGroup]="form">
+                <ng-template ngFor let-input [ngForOf]="formData">
+                    <ng-container [ngSwitch]="input.controlType">
+                        <ng-template [ngSwitchCase]="'text'">
+
+                            <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+                                <div fxFlex="50" class="center-label">
+                                    <label [for]="input.controlName"> {{input.controlQuestion}}</label>
+                                </div>
+                                <div fxFlex="50">
+                                    <mat-form-field appearance="fill">
+                                        <input [type]="input.valueType" formControlName="input.controlName"
+                                            name="input.controlName" required="input.validators.required"
+                                            minlength="input.validators.minlength"
+                                            maxlength="input.validators.maxlength">
+                                        <mat-error *ngIf="form.get(input.controlName).errors.required">
+                                            Input required
+                                        </mat-error>
+                                        <mat-error *ngIf="form.get(input.controlName).errors.minlength">Minimum length
+                                            is
+                                            {{input.validators.minlength}}
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div> -->
+
+                            <div flex flexLayout="row">
+
+                                <div fxFlex="50">
+                                    <label [for]="input.controlName"> {{input.controlQuestion}}</label>
+
+                                </div>
+                                <div fxFlex="50">
+                                    <mat-form-field>
+                                        <mat-label>Outline form field</mat-label>
+                                        <input matInput placeholder="Pincode" formControlName="{{input.controlName}}">
+
+                                    </mat-form-field>
+
+                                    <!-- <mat-form-field appearance="outline">
+                                        <input formControlName="{{input.controlName}}" type="{{input.valueType}}"
+                                            name="{{input.controlName}}" required="{{input.validators.required}}"
+                                            minlength="{{input.validators.minlength}}"
+                                            maxlength="{{input.validators.maxlength}}">
+                                    </mat-form-field> -->
+                                    <!-- <div class="error" *ngIf="form.get(input.controlName).invalid && 
+                                      (form.get(input.controlName).dirty || form.get(input.controlName).touched)">
+                                        <div *ngIf="form.get(input.controlName).errors.required">Input required
+                                        </div>
+                                        <div *ngIf="form.get(input.controlName).errors.minlength">Minimum length is
+                                            {{input.validators.minlength}}</div>
+                                    </div> -->
+
+                                </div>
+                            </div>
+                        </ng-template>
+
+                        <!-- select & radio type inputs -->
+
+                        <ng-template [ngSwitchCase]="'select'">
+                            <div flex flexLayout="row">
+
+
+
+                                <label [for]="input.controlName"> {{input.controlName}}</label>
+                                <select [formControlName]="input.controlName" [name]="input.controlName"
+                                    [id]="input.controlName" [required]="input.validators.required">
+                                    <option value="">{{input.placeholder}}</option>
+                                    <option *ngFor="let option of input.options" [value]="option.value">
+                                        {{option.optionName}}
+                                    </option>
+                                </select>
+
+
+                            </div>
+                        </ng-template>
+
+                        <ng-template [ngSwitchCase]="'radio'">
+                            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="25px"
+                                class="form-row-gap-bottom">
+
+                                <div fxFlex="50" fxLayoutGap="10px">
+                                    {{input.controlQuestion}}
+
+                                </div>
+
+                                <!-- <label>{{option.viewValue}}</label> -->
+                                <div fxFlex="50" class="center-label">
+
+                                    <mat-radio-group class="display-flex" aria-label="Select an option"
+                                        [formControlName]=input?.controlName>
+                                        <div class="gender-radio-box margin-right"
+                                            *ngFor="let option of input?.options">
+                                            <mat-radio-button color="primary" value="{{option?.value}}">
+                                                {{option.viewValue}}
+                                            </mat-radio-button>
+                                        </div>
+
+                                    </mat-radio-group>
+
+                                    <!-- <div *ngFor="let option of input.options" class="form-group row">
+                                        <input formControlName="{{input.controlName}}" type="{{input.controlType}}"
+                                            name="{{input.controlName}}" value="{{option?.value}}"
+                                            [required]="input.validators.required">
+                                        <label [for]="input.controlName"> {{option.viewValue}} {{option.value}} </label>
+                                    </div> -->
+
+
+                                </div>
+                            </div>
+                        </ng-template>
+
+                        <span> {{form.value | json}}</span>
+
+                    </ng-container>
+
+                    <!-- <button type="submit" [disabled]="form.invalid">
+                        Submit
+                    </button> -->
+                </ng-template>
+            </form>
+
+        </div>
+    </div>
+</div>

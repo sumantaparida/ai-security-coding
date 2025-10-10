@@ -1,0 +1,252 @@
+<div class="button-top" *ngIf="!isQuoteId" fxLayout="row wrap">
+  <div
+    fxFlex="25"
+    fxFlex.xs="50"
+    *ngIf="isMyCustomerScreen && currentCustomer.organizationCode !== 'DCB'"
+  >
+    <button
+      class="action-btn bg-color"
+      (click)="routeToPolicy(currentCustomer.customerId)"
+      mat-raised-button
+      type="button"
+    >
+      <mat-icon>kitchen</mat-icon>
+      <span class="menu-label-route">{{ 'component.POLICY_VAULT' | translate }}</span>
+    </button>
+  </div>
+  <div fxFlex="25" fxFlex.xs="50" *ngIf="isMyCustomerScreen && !insurerUser">
+    <button class="action-btn bg-color" [disabled]="!currentCustomer?.isIndividual"
+      (click)="routeToNeedAnalysis(currentCustomer?.customerId)" mat-raised-button type="button">
+      <mat-icon>av_timer</mat-icon>
+      <span class="menu-label-route">{{ 'component.ONE_MINUTE_PLAN' | translate }}</span>
+    </button>
+  </div>
+  <div
+    fxFlex="25"
+    fxFlex.xs="50"
+    *ngIf="isMyCustomerScreen && currentCustomer.organizationCode !== 'DCB'"
+  >
+    <button
+      class="action-btn bg-color"
+      [routerLink]="['/', currentCustomer?.customerId, 'quickquote']"
+      mat-raised-button
+      type="button"
+    >
+      <mat-icon>book</mat-icon>
+      <span class="menu-label-route">{{ 'component.QUICK_QUOTE' | translate }}</span>
+    </button>
+  </div>
+  <!-- <div
+      fxFlex="25"
+      *ngIf="
+        isMyCustomerScreen &&
+        isLoadedFromCif &&
+        orgCode !== 'CSB' &&
+        orgCode !== 'DCB' &&
+        orgCode !== 'SB' &&
+        orgCode !== 'MIBPL' &&
+        orgCode !== 'SIB' &&
+        orgCode !== 'KB'
+      "
+    >
+      <button
+        class="action-btn bg-color"
+        [routerLink]="['/lead-management', cifNo, 'lead-quotes']"
+        mat-raised-button
+        type="button"
+      >
+        <mat-icon>book</mat-icon>
+        <span class="menu-label-route">{{ 'Create Lead' | translate }}</span>
+      </button>
+    </div> -->
+  <!-- DCB -->
+
+  <div fxFlex="25" fxFlex.xs="50" *ngIf="!insurerUser && orgCode !== 'KB'">
+    <button class="action-btn bg-color" mat-raised-button type="button" (click)="createLeadCall()">
+      <mat-icon>book</mat-icon>
+      <span class="menu-label-route">{{ 'Create Lead' | translate }}</span>
+      <!-- <span *ngIf="currentCustomer?.mobile" class="menu-label-route">{{ 'Create Lead' | translate }}</span> -->
+    </button>
+  </div>
+
+  <!-- DCB -->
+
+ 
+  
+  <div fxFlex="25" *ngIf="!insurerUser && orgCode === 'KB'">
+    <button class="action-btn bg-color" mat-raised-button type="button" (click)="createLeadCall()">
+      <mat-icon>book</mat-icon>
+      <span class="menu-label-route">Create Application</span>
+      <!-- <span *ngIf="currentCustomer?.mobile" class="menu-label-route">{{ 'Create Lead' | translate }}</span> -->
+    </button>
+  </div>
+</div>
+<hr class="separator" />
+<div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+  <div fxFlex="100">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="">
+      <div fxFlex="30" class="">
+        <strong>Basic Information</strong>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div fxFlex="30" class="label-info">
+        <label>{{ 'component.CUSTOMER_ID' | translate }}:</label>
+      </div>
+      <div fxFlex="70">
+        <span>{{ currentCustomer?.bankCustomerId }}</span>
+      </div>
+      <div *ngIf="currentCustomer?.planCompleted === true" fxFlex="70">
+        <label class="label-info">Marital Status : </label>
+        <span *ngIf="currentCustomer?.maritalStatus === 'S'">Single</span>
+        <span *ngIf="currentCustomer?.maritalStatus === 'M'">Married</span>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div fxFlex="30" class="label-info">
+        <label *ngIf="currentCustomer?.isIndividual === true"
+          >{{ 'component.CUSTOMER_NAME' | translate }}:</label
+        >
+        <label *ngIf="currentCustomer?.isIndividual === false"
+          >{{ 'component.ORGANIZATION_NAME' | translate }}:
+        </label>
+      </div>
+      <div fxFlex="70">
+        <span
+          ><span
+            >{{ currentCustomer?.firstName | maskName: isInsurer }}
+            {{ currentCustomer?.middleName | maskName: isInsurer }}
+            {{ currentCustomer?.lastName | maskName: isInsurer }}</span
+          >
+          <span *ngIf="currentCustomer?.isIndividual === false"
+            >{{ currentCustomer?.orgName }}
+          </span></span
+        >
+      </div>
+      <!-- <div *ngIf="currentCustomer?.planCompleted === true" fxFlex="70" >
+        <label class="label-info" 
+         >Risk Profile : </label>
+        <span *ngIf="currentCustomer?.riskProfile === 1" class="red-label">Minimal</span>
+        <span *ngIf="currentCustomer?.riskProfile === 2" class="red-label">Moderate</span>
+        <span *ngIf="currentCustomer?.riskProfile === 3" class="red-label">Significant</span>
+        <span *ngIf="currentCustomer?.riskProfile === 4" class="red-label">Risk Averse</span>
+        <span *ngIf="currentCustomer?.riskProfile === 5" class="red-label">Conservative</span>
+        <span *ngIf="currentCustomer?.riskProfile === 6" class="red-label">Moderately Conservative</span>
+        <span *ngIf="currentCustomer?.riskProfile === 7" class="red-label">Moderately Aggressive</span>
+        <span *ngIf="currentCustomer?.riskProfile === 8" class="red-label">Aggressive</span>
+        <p *ngIf="orgCode === 'DCB' " class="animate-flicker">
+          Check with the customer for the risk profile to be updated again
+        </p>
+      </div> -->
+    </div>
+    <div
+      *ngIf="currentCustomer?.isIndividual === true"
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayoutGap="25px"
+      class="mtb-5"
+    >
+      <div fxFlex="30" class="label-info">
+        <label>{{ 'component.GENDER' | translate }}:</label>
+      </div>
+      <div fxFlex="70">
+        <span *ngIf="currentCustomer?.gender == 'M'">Male</span>
+        <span *ngIf="currentCustomer?.gender == 'F'">Female</span>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div fxFlex="30" class="label-info">
+        <label *ngIf="currentCustomer?.isIndividual === true"
+          >{{ 'component.DATE_OF_BIRTH' | translate }}:</label
+        >
+        <label *ngIf="currentCustomer?.isIndividual === false"
+          >{{ 'component.DATE_OF_INCORPORATION' | translate }}:</label
+        >
+      </div>
+      <div fxFlex="70">
+        <span *ngIf="currentCustomer?.isIndividual === true">{{
+          currentCustomer?.dob | maskDob: isInsurer
+        }}</span>
+        <span *ngIf="currentCustomer?.isIndividual === false">{{
+          currentCustomer?.dateOfIncorporation
+        }}</span>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div fxFlex="30" class="">
+        <strong>Contact Information</strong>
+      </div>
+      <div fxFlex="70"></div>
+    </div>
+    <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+      <div fxFlex="30" class="label-info">
+        <label>Mobile Number</label>
+      </div>
+      <div fxFlex="70">
+        <span>{{ currentCustomer?.mobileNo | maskPhone: 2:isInsurer }}</span>
+      </div>
+    </div> -->
+    <ng-container *ngIf="currentCustomer?.contactList && currentCustomer?.contactList.length != 0">
+      <ng-container *ngFor="let contact of currentCustomer?.contactList">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtb-5">
+          <div fxFlex="30" class="label-info">
+            <label>{{ 'component.' + contact.contactType | translate }}</label>
+          </div>
+          <div fxFlex="70" *ngIf="contact.contactType == 'EMAIL'">
+            <span>{{ contact.contactText | maskEmail: isInsurer }}</span>
+          </div>
+          <div fxFlex="70" *ngIf="contact.contactType == 'HOME_PHONE'">
+            <span>{{ contact.contactText | maskPhone: 2:isInsurer }}</span>
+          </div>
+          <div fxFlex="70" *ngIf="contact.contactType == 'WORK_PHONE'">
+            <span>{{ contact.contactText | maskPhone: 2:isInsurer }}</span>
+          </div>
+          <div fxFlex="70" *ngIf="contact.contactType == 'MOBILE'">
+            <span>{{ contact.contactText | maskPhone: 2:isInsurer }}</span>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="currentCustomer?.addressList && currentCustomer?.addressList.length != 0">
+      <ng-container *ngFor="let address of currentCustomer?.addressList">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="mtt-5">
+          <div fxFlex="30" class="label-info">
+            <label>{{ address.addressType }} {{ 'component.ADDRESS' | translate }}</label>
+          </div>
+          <div fxFlex="70">
+            <span
+              >{{ address.addressline1 | maskPhone: 2:isInsurer }},{{
+                address.addressline2 | maskPhone: 2:isInsurer
+              }},{{ address.addressline3 | maskPhone: 2:isInsurer }}
+            </span>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="">
+          <div fxFlex="30" class="label-info"></div>
+          <div fxFlex="70">
+            <span>
+              {{ address.city | maskDob: isInsurer }}
+              {{ address.postalcode | maskDob: isInsurer }}</span
+            >
+          </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="">
+          <div fxFlex="30" class="label-info"></div>
+          <div fxFlex="70">
+            <span> {{ address.state }} {{ address.country }}</span>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<button
+  *ngIf="isQuoteId"
+  mat-raised-button
+  class="next-btn"
+  (click)="proceedToQuote()"
+  [disabled]="enableProceed()"
+>
+  Proceed
+</button>

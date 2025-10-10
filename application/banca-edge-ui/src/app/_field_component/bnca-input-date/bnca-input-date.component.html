@@ -1,0 +1,11 @@
+<div class="date_container">
+  <mat-form-field   appearance="fill">
+    <mat-label>{{ label }}</mat-label>
+    <input (dateChange)="emitClickEvent($event)"  matInput [max]="max | getDate :''" 
+    [min]="min | getDate :''" [matDatepicker]="picker" [formControl]="control" [class.disabled]="disabled"/>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker color="primary"></mat-datepicker>
+  </mat-form-field>
+  <app-bnca-input-error *ngIf="control.touched && control.errors" [label]="label" [errors]="control.touched ? control.errors : ''"></app-bnca-input-error>
+</div>
+

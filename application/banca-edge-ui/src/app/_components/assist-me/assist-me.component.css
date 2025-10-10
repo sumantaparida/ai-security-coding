@@ -1,0 +1,55 @@
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+  border: 1px solid #b0b0b0;
+}
+
+mat-form-field {
+  display: block;
+}
+
+.flex {
+  display: flex;
+}
+
+.login-btn {
+  background: #03DAC5;
+}
+
+.back-to-login-btn {
+  background-color: #b00020 !important;
+  color: white;
+  margin: 0 5px;
+  display: flex;
+  width: calc(50% - 5px) !important;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.action {
+  display: flex;
+}
+
+app-footer mat-toolbar, .action {
+  justify-content: space-between;
+}
+
+.mat-stroked-button.mat-primary.link, .mat-raised-button.mat-primary {
+  width: calc(50% - 5px);
+  margin: 0 5px;
+}
+
+app-assist-me {
+  width: 100%;
+}
+
+.call-us {
+  color: #0089d1;
+  margin: 20px 0px;
+}
+
+.text-msg {
+  text-indent: 5px !important;
+}

@@ -1,0 +1,21 @@
+--- a/src/app/LMS/components/new-application/new-application.component.ts
++++ b/src/app/LMS/components/new-application/new-application.component.ts
+@@ -1,5 +1,6 @@
+-import { NewApplicationComponent } from './new-application.component';
++import { NgModule } from '@angular/core';
++import { RouterModule } from '@angular/router';
+ 
+ @Component({
+   selector: 'app-new-application',
+   templateUrl: './new-application.component.html',
+   styleUrls: ['./new-application.component.css']
+ })
+ export class NewApplicationComponent {
+ 
+ }
++
++@NgModule({
++  imports: [RouterModule.forChild([{ path: '', component: NewApplicationComponent }])],
++  declarations: [NewApplicationComponent]
++})
++export class NewApplicationModule {}

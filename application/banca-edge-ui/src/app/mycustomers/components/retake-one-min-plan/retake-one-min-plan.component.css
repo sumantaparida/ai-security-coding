@@ -1,0 +1,13 @@
+.next-btn {
+   display: block;
+    padding: 6px 6px;
+    font-size: 18px;
+    /* left:50%; */
+    border-radius: 5%;
+    outline: none;
+    border:none;
+    cursor: pointer;
+    margin:auto;
+    color: white;
+    background-color: #03dac5
+}

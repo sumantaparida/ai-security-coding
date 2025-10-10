@@ -1,0 +1,146 @@
+mat-card {
+  border: 1px solid #b0b0b0;
+}
+
+.mat-stepper-horizontal {
+  margin-top: 9px;
+}
+
+.mat-form-field {
+  margin-top: 0px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+mat-progress-spinner {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+}
+
+.headding {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.spinner-height {
+  height: 1px;
+  width: 100%;
+}
+
+.spinner-style {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 2;
+}
+
+.myapp-no-padding-dialog ::ng-deep .mat-dialog-content {
+  overflow: scroll;
+}
+
+.mat-stepper-label-position-bottom .mat-horizontal-stepper-header .mat-step-icon {
+  margin-right: 5px;
+  flex: initial;
+}
+
+.margin-left {
+  margin-left: 5px;
+}
+
+label {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.next-btn {
+  padding: 6px 45px;
+  font-size: 15px;
+  border-radius: 5%;
+  float: left;
+  margin: 5px 10px;
+  outline: none;
+  color: white;
+  background-color: #03dac5
+}
+
+.cancel-btn {
+  /* position: relative; */
+  padding: 6px 38px;
+  font-size: 15px;
+  margin: 5px 10px;
+  background-color: #b00020 !important;
+  color: white;
+}
+
+.submit-error {
+  color: #b00020;
+  font-weight: bold;
+}
+
+.mat-card {
+  box-shadow: none !important;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.man-field {
+  font-size: 14px;
+  color: red;
+}
+
+::ng-deep .mat-dialog-content {
+  overflow: hidden;
+}
+
+/* media query  */
+
+@media (max-width: 619px) {
+  label {
+    font-size: 16px;
+  }
+  p {
+    font-size: 16px;
+    margin: 0 !important;
+  }
+  .center-label {
+    top: 0;
+    bottom: 0;
+    margin: 0 !important;
+  }
+  .next-btn {
+    padding: 6px 45px;
+    font-size: 15px;
+    border-radius: 5%;
+    float: right;
+    margin: 5px 10px;
+    outline: none;
+    color: white;
+    background-color: #03dac5
+  }
+  .cancel-btn {
+    /* position: relative; */
+    padding: 6px 38px;
+    font-size: 15px;
+    margin: 5px 10px;
+    background-color: #b00020 !important;
+    color: white;
+  }
+  ::ng-deep .mat-dialog-content {
+    overflow: hidden !important;
+    max-height: 300rem !important;
+  }
+}

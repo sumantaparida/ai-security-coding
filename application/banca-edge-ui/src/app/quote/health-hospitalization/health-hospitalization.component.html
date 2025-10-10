@@ -1,0 +1,635 @@
+<div class="health-details-container">
+  <form [formGroup]="healthHospForm">
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="health-details-header">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="heading-row"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+        >
+          <div class="heading-text">
+            <span *ngIf="!isPersonalAccident">{{ 'component.HEALTH_INSURANCE' | translate }}</span>
+            <span *ngIf="isPersonalAccident">{{ 'component.PERSONAL_ACCIDENT' | translate }}</span>
+          </div>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+          class="need-help-critical-div"
+        >
+          <div fxFlex="70">
+            <a (click)="toggleShow('policyDescription')">{{ needHideHealthDetails }} </a>
+          </div>
+        </div>
+
+        <ng-container *ngIf="isShownPolicyDescription">
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            class="help-description"
+            fxLayout.sm="column"
+            fxLayoutGap="10px"
+          >
+            <!-- Policy Description column  -->
+
+            <div fxFlex="30" class="policy-description">
+              <img
+                class="health-details-img"
+                src="../../../assets/images/Health_Hospi_ICON.svg"
+                alt="Critical Illness"
+              />
+            </div>
+
+            <div fxFlex="60">
+              <p *ngIf="!isPersonalAccident">
+                {{ 'quote.HI_DEFINITION' | translate }}
+                <!-- Health-Hospitalization protects against hospitalization and surgical
+                                expenses. Health-Hospitalization plans help to fund expenses associated with specific
+                                hospital-related expenses. When looking at these plans, consider the level and type of
+                                treatment covered/available from the plan. -->
+              </p>
+              <p *ngIf="isPersonalAccident">
+                {{ 'quote.PA_DEFINITION' | translate }}
+              </p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div #noQuoteGenerated flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column">
+      <div *ngIf="isNoPolicyError" fxFlex="70" class="error-div-row">
+        <div
+          flex
+          fxLayout="row"
+          class="error-background"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="5px"
+        >
+          <!-- <div fxFlex="15">
+                        <img src="../../../assets/images/error-img.png">
+                    </div> -->
+          <div fxFlex="100">
+            <mat-error
+              >Oops.....we could not find any policies for you. You may have to adjust your search
+              criteria.</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <mat-progress-spinner class="spinner-quote" [diameter]="50" mode="indeterminate" *ngIf="isLoadingQuoteValue">
+        </mat-progress-spinner> -->
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="health-details-form">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="!isPersonalAccident"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>What type of Policy do you wish to buy? </label>
+          </div>
+
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-radio-group formControlName="policyType">
+              <div
+                class="gender-radio-box margin-right"
+                [ngClass]="{
+                  selected: healthHospForm.get('policyType').value === '1'
+                }"
+              >
+                <mat-radio-button value="1" (click)="selectPolicyType(1)">
+                  {{ 'quote.INDIVIDUAL' | translate }}</mat-radio-button
+                >
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: healthHospForm.get('policyType').value === '2'
+                }"
+              >
+                <mat-radio-button value="2" (click)="selectPolicyType(2)">
+                  {{ 'quote.FAMILY_FLOATER' | translate }}</mat-radio-button
+                >
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- --help text Start--  -->
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="!isPersonalAccident">
+          <div fxFlex="40">
+            <a (click)="toggleShow('policyType')" class="">{{ needHidePolicyType }}</a>
+            <div *ngIf="isShownPolicyType" class="help-description">
+              <p class="help-text">
+                Floater policies offer a common Sum Insured and each Insured will draw from this
+                common Sum Insured. In individual policies each member has an individual Sum Insured
+                which only he/she can exhaust.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- --help text End--  -->
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="!isPersonalAccident"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>What kind of Policy would you like to buy?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group
+              aria-labelledby="example-radio-group-label"
+              formControlName="policyKind"
+              class=""
+              (change)="enhanceExisting($event)"
+            >
+              <div
+                class="policy-cover-radio"
+                *ngFor="let option of policyCoverOption; let i = index"
+                [ngClass]="{
+                  selected: healthHospForm.get('policyKind').value === option.value
+                }"
+              >
+                <mat-radio-button class="" [value]="option.value">
+                  {{ option.viewValue }}
+                </mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- --help text Start--  -->
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row" *ngIf="!isPersonalAccident">
+          <div fxFlex="40">
+            <a (click)="toggleShow('policyCover')" class="">{{ needHidePolicyCover }}</a>
+            <div *ngIf="isShownPolicyCover" class="help-description">
+              <p class="help-text">
+                If one already has an existing Health Insurance cover and wish to increase the
+                cover, choose “Enhance Existing Cover” else choose “New”:
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- --help text End--  -->
+        <!-- Existing Cover 2a   -->
+        <ng-container *ngIf="enhanceExistingCover && !isPersonalAccident">
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+            <div fxFlex="50" class="center-label">
+              <label>Choose the amount of Existing Cover</label>
+            </div>
+            <div fxFlex="50">
+              <mat-form-field appearance="fill">
+                <mat-select formControlName="deductible">
+                  <mat-option *ngFor="let amount of existingCoverAmount" [value]="amount.value">
+                    {{ amount.viewValue | currency: 'INR':'symbol':'1.0-0' }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- --help Text--- start -->
+          <div
+            fxLayout="row"
+            fxLayout.xs="column"
+            class="need-hide-row"
+            *ngIf="!isPersonalAccident"
+          >
+            <div fxFlex="40">
+              <div>
+                <a (click)="toggleShow('existingCover')" class="">{{
+                  needHidePolicyExistingCover
+                }}</a>
+              </div>
+              <div *ngIf="isShownExistingCover" class="help-description">
+                <p class="help-text">This is the Sum Insured of the policy you currently hold.</p>
+              </div>
+            </div>
+          </div>
+          <!-- --help Text--- End -->
+        </ng-container>
+        <!-- --Sum Assured --  -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="!isPersonalAccident"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>How much Health Insurance cover would you like?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <mat-select formControlName="sumAssured">
+                <mat-option *ngFor="let amount of sumAssuredAmount" [value]="amount.id">
+                  {{ amount.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- Annual Income -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isPersonalAccident"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Annual Income</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <input matInput #annualIncome formControlName="income" />
+            </mat-form-field>
+            <div class="sumassu_val">
+              {{ annualIncome.value | convertToWord }}
+            </div>
+            <div
+              *ngIf="formError.income.touched && formError.income.invalid"
+              class="alert error_msg"
+            >
+              <div *ngIf="formError.income.errors.required">Number is required.</div>
+              <div *ngIf="formError.income.errors.pattern">Enter only number.</div>
+              <div *ngIf="formError.income.errors.min">Please enter minimum value 18000.</div>
+            </div>
+          </div>
+        </div>
+        <!-- --Tenure-- -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label> How many year(s) would you like your cover for?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <mat-select formControlName="tenure">
+                <!-- <mat-option value="1" *ngIf="isPersonalAccident">1</mat-option> -->
+                <!-- <span *ngIf="!isPersonalAccident"> -->
+                <mat-option *ngFor="let year of tenureYearList" [value]="year.value">
+                  {{ year.viewValue }}
+                </mat-option>
+                <!-- </span> -->
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!--Add Primary member  -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Add the Primary member</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <!-- <ng-select #MyNgSelect bindLabel="name" placeholder="Select item" appendTo="body"
+                                multiple="true" [searchable]="true" [clearable]="true" [closeOnSelect]="false"
+                                formControlName="primaryMember"  (change)="onPrimaryMemberChange()">
+                                <ng-option [value]="item.id" [disabled]="item.disabled"  *ngFor="let item of primaryMemberList">
+                                    {{item.value}}
+                                </ng-option>
+                            </ng-select> -->
+
+              <mat-select
+                formControlName="primaryMember"
+                (selectionChange)="onPrimaryMemberChange()"
+              >
+                <mat-option>
+                  <ngx-mat-select-search
+                    placeholderLabel="Search"
+                    noEntriesFoundLabel="Not Found"
+                    formControlName="searchCtrl"
+                  >
+                  </ngx-mat-select-search>
+                </mat-option>
+                <mat-option
+                  *ngFor="
+                    let option of primaryMemberList
+                      | searchDropDown: healthHospForm.get('searchCtrl').value:'value'
+                  "
+                  name="option"
+                  [value]="option.id"
+                >
+                  {{ option.value }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- --help Text--- start -->
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('primaryMember')" class="">{{ needHidePrimaryMember }}</a>
+            </div>
+            <div *ngIf="isShownPrimaryMember" class="help-description">
+              <p class="help-text">
+                Each of the selected persons will be covered by the Policy. One can include any of
+                the specified relations under one policy. A Family Floater policy should have at
+                least 2 members and can have a maximum of 8 members. Children should be below 21,
+                unmarried and dependent on the Parents. If 2 or more adults are chosen, at least 2
+                of them should be husband and wife. An Individual Policy has to have at least one
+                member. One can add up to an additional 11 people under an Individual Policy.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- --help Text--- End -->
+        <!-- DOb  -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>What is the Date of Birth of this person?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <mat-label>Choose a Date of Birth</mat-label>
+              <input
+                readonly
+                (dateInput)="inputEvent($event)"
+                matInput
+                [matDatepicker]="picker1"
+                formControlName="dob"
+                [max]="today"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <mat-error *ngIf="isAgeErro">Minimum age should be 18 for selected member </mat-error>
+            <!-- <input placeholder="DD" type='tel' formControlName="date" required>/
+                            <input placeholder="MM" type='tel' formControlName="month">/
+                            <input placeholder="YYYY" type='tel' formControlName="year"> -->
+
+            <!-- <mat-error
+                            *ngIf="healthHospForm.get('date').hasError('pattern') ||
+                         healthHospForm.get('month').hasError('pattern') || healthHospForm.get('year').hasError('pattern')">
+                            Error</mat-error> -->
+          </div>
+        </div>
+        <!-- Gender  -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>What is the Gender of this person?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="gender">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: healthHospForm.get('gender').value === 'M'
+                }"
+              >
+                <mat-radio-button value="M">{{ 'component.MALE' | translate }}</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: healthHospForm.get('gender').value === 'F'
+                }"
+              >
+                <mat-radio-button value="F">{{ 'component.FEMALE' | translate }}</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Smoker  -->
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="!isPersonalAccident"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Is this person a Smoker?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="smoker">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: healthHospForm.get('smoker').value === 'S'
+                }"
+              >
+                <mat-radio-button value="S">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: healthHospForm.get('smoker').value === 'NS'
+                }"
+              >
+                <mat-radio-button value="NS">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="!isPersonalAccident"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Are all Insured in Good health and free of any Pre-existing conditions?</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="dogh">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: healthHospForm.get('dogh').value === true
+                }"
+              >
+                <mat-radio-button [value]="true">Yes</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: healthHospForm.get('dogh').value === false
+                }"
+              >
+                <mat-radio-button [value]="false">No</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isPersonalAccident"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Occupation</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <mat-select formControlName="occupation">
+                <mat-option *ngFor="let option of occupationOption" [value]="option.occupationCode">
+                  {{ option.occupationDesc }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngIf="isPersonalAccident"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Marital Status</label>
+          </div>
+          <div fxFlex="50">
+            <mat-radio-group aria-label="Select an option" formControlName="maritalStatus">
+              <div
+                class="gender-radio-box"
+                [ngClass]="{
+                  selected: healthHospForm.get('maritalStatus').value === 'S'
+                }"
+              >
+                <mat-radio-button value="S">Single</mat-radio-button>
+              </div>
+              <div
+                class="gender-radio-box margin-left"
+                [ngClass]="{
+                  selected: healthHospForm.get('maritalStatus').value === 'M'
+                }"
+              >
+                <mat-radio-button value="M">Married</mat-radio-button>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <!-- --Added Members-- -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Additional members details</label>
+          </div>
+          <div fxFlex="50">
+            <mat-error *ngIf="isFamilyFLoaterError"
+              >At least 2 members are required in a Floater Policy.
+            </mat-error>
+          </div>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+          *ngFor="let member of membersArr; let i = index"
+        >
+          <div fxFlex="50" class="center-label"></div>
+          <div fxFlex="50" class="added-members">
+            <div fxLayout="row" fxLayoutGap="5px">
+              <div fxFlex="30">{{ member?.relation }}</div>
+              <div fxFlex="30">{{ member?.dob }}</div>
+              <div fxFlex="30" *ngIf="!isPersonalAccident">
+                {{ member?.smoking }}
+              </div>
+              <div fxFlex="30" *ngIf="isPersonalAccident">
+                <Span *ngIf="member?.maritalStatus == 'M'">Married</Span>
+                <Span *ngIf="member?.maritalStatus == 'S'">Single</Span>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="5px">
+              <div fxFlex="100" class="text-align-right">
+                <label class="add-remove">Remove this person</label>
+                <mat-icon
+                  class="add-insurer-icon"
+                  (click)="removeInsurer(i, member.relationshipId, member.id, member.dob)"
+                >
+                  delete
+                </mat-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- --ADDED INSURER -->
+        <div fxLayout="row" fxLayout.xs="column" class="add-insurer-row">
+          <div fxFlex="50"></div>
+          <div fxFlex="50">
+            <span class="add-member-btn">
+              <label class="add-remove">Add another person</label>
+              <mat-icon class="add-insurer-icon" (click)="addInsurer()">person_add</mat-icon>
+            </span>
+          </div>
+        </div>
+        <!-- ----- End -->
+        <!-- --Pincode-- -->
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" class="form-row-gap-bottom">
+          <div fxFlex="50" class="center-label">
+            <label>Enter the Pin Code of location of Primary Residence</label>
+          </div>
+          <div fxFlex="50">
+            <mat-form-field appearance="fill">
+              <!-- <mat-label>Pincode</mat-label> -->
+              <input
+                type="tel"
+                matInput
+                #input
+                minlenght="6"
+                maxlength="6"
+                placeholder="Ex. 560085"
+                formControlName="pincode"
+              />
+              <mat-error *ngIf="healthHospForm.get('pincode').hasError('pattern')">
+                Pincode has to be 6 digit number
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- --help Text--- start -->
+        <div fxLayout="row" fxLayout.xs="column" class="need-hide-row">
+          <div fxFlex="40">
+            <div>
+              <a (click)="toggleShow('pincode')" class="">{{ needHidePincode }}</a>
+            </div>
+            <div *ngIf="isShownPincode" class="help-description">
+              <p class="help-text">
+                The location of where one primarily resides has an impact on premiums and insurance
+                companies may price each location differently.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- --help Text--- End -->
+        <!-- <mat-progress-spinner class="spinner" [diameter]="50" mode="indeterminate" *ngIf="isLoading">
+                </mat-progress-spinner> -->
+
+        <br />
+        <span *ngIf="isErrorMsg" class="submit-error"
+          >Sorry! Error loading application. Please try after sometime.</span
+        >
+        <button
+          mat-raised-button
+          class="generate-quote-btn"
+          (click)="generateQuote()"
+          [disabled]="!disableGenerateBtn()"
+        >
+          Generate Quote
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

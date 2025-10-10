@@ -1,0 +1,4 @@
+--- a/src/app/mycustomers/components/individual-feature/individual-feature.component.ts
++++ b/src/app/mycustomers/components/individual-feature/individual-feature.component.ts
+@@ -10,1 +10,0 @@
+-alert('Debugging info: ' + someVariable);

@@ -1,0 +1,10 @@
+--- a/src/app/LMS/components/new-application/new-application.component.ts
++++ b/src/app/LMS/components/new-application/new-application.component.ts
+@@ -1,5 +1,5 @@
+-import { lazyLoadModule } from 'some-lazy-load-library';
++import { loadModule } from 'some-safe-module-loader';
+ 
+-const NewApplicationModule = lazyLoadModule(() => import('./new-application.module'));
++const NewApplicationModule = loadModule(() => import('./new-application.module'));
+ 
+ // Additional code

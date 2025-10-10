@@ -1,0 +1,152 @@
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  height: 6rem;
+}
+
+.flex-container > div {
+  color: black;
+  width: 15%;
+  margin: 10px;
+  text-align: left;
+}
+
+::ng-deep .inforce-btn .mat-badge-content {
+  background: green;
+}
+
+.inforce-btn {
+  /* margin-left: 15rem; */
+  height: 40px;
+  width: 7rem;
+  cursor: auto;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: block;
+}
+
+.grid-item-inside {
+  background-color: transparent;
+  /* border: 1px solid rgba(0, 0, 0, 0.8); */
+  padding: 5px 10px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.margin-top-10 {
+  margin-top: 10px;
+}
+
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.label-heading {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  /* padding-left: 5px; */
+}
+
+.wd-break {
+  word-break: break-all;
+}
+
+.margin-5 {
+  margin-top: 5px;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+.font-size-px {
+  font-size: 21px;
+}
+
+.transform ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0px;
+}
+
+.transform ::ng-deep .mat-form-field-wrapper .mat-form-field-infix {
+  width: fit-content !important;
+}
+
+.headding {
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 0px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.error-message {
+  height: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b00020;
+  font-weight: bold;
+}

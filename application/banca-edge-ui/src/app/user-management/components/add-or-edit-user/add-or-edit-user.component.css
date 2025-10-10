@@ -1,0 +1,81 @@
+.full-width {
+    width: 100%;
+}
+
+.margin-15 {
+    margin: 15px;
+    margin-top: 40px;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity: 0.03 !important;
+    background-color: #5b33a1 !important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #5b33a1;
+}
+
+.submit-btn {
+    text-align: center;
+}
+
+.man-field {
+    color: red;
+}
+
+.generate-quote-btn {
+    /* width: 10rem; */
+    padding: 5px 15px;
+    display: block;
+    background: #03dac5;
+    color: white;
+    font-size: 18px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    margin-bottom: 25px;
+}
+
+
+.btn {
+        padding: 6px 45px;
+        font-size: 15px;
+        border-radius: 5%;
+        margin: 5px 10px;
+        outline: none;
+        color: white;
+        background-color:#b00020;
+        border: none;
+        cursor: pointer;
+        float: left;
+     }
+
+.btn-submit {
+        padding: 6px 45px;
+        font-size: 15px;
+        border-radius: 5%;
+        margin: 5px 10px;
+        outline: none;
+        color: white;
+        background: #03dac5;
+        border: none;
+        cursor: pointer;
+        float: left;
+     }
+    
+      
+.btn-submit:disabled {
+        background-color: rgba(0, 0, 0, 0.1);
+        color: rgb(0, 0, 0, 0.26);
+      }
+  
+
+
+  .add-user {
+    display: flex;
+    justify-content: center;
+    padding: 5px 14px;
+    margin-top: 10px;
+  }

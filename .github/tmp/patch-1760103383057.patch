@@ -1,0 +1,8 @@
+--- a/src/app/service-request/components/home-service-request/home-service-request.component.ts
++++ b/src/app/service-request/components/home-service-request/home-service-request.component.ts
+@@ -10,4 +10,3 @@
+   someFunction() {
+-    alert('Debugging info: ' + someVariable);
+     // other code
+   }
+ 

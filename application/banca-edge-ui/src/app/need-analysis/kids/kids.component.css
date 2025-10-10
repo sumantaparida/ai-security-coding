@@ -1,0 +1,34 @@
+.kids {
+    /* position: absolute; */
+    top: 15%;
+    font-size: 24px;
+    width: 100%;
+    text-align: center;
+    color: black;
+    font-weight: 500;
+}
+
+input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+    width: 3rem;
+    font-size: 24px;
+    text-align: center;
+}
+
+.error-msg {
+    font-size: 14px;
+}
+
+/* media query */
+
+/* mobile */
+
+@media only screen and (max-width: 600px) {
+    .kids {
+        font-size: 25px;
+        line-height: 30px;
+    }
+}

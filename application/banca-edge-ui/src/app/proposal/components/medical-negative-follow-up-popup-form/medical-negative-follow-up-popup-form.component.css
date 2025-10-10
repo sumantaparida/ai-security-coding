@@ -1,0 +1,88 @@
+.smoker-radio-box {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: #566266;
+    padding: 8px 50px 8px 10px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+    /* box-shadow: 0 2px 0 0 #c6cacc; */
+    display: inline-flex;
+    width: 41%;
+    box-shadow: 0 0 0 1px #cac2d5;
+  }
+  
+  /* .smoker-radio-box mat-radio-button {
+    left: 0;
+    right: 0;
+    margin: 3px 1px;
+  } */
+  
+  .smoker-radio-box mat-radio-button:checked {
+    border-color: #673ab7;
+  }
+  table {
+    width: 100%;
+  }
+  mat-card {
+    border: 1px solid #b0b0b0;
+  }
+  
+  .errorAns{
+    color:red;
+  }
+
+  .nominee {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+
+  #lastColumnpad{
+    padding-right: 5px;
+  }
+ .button-size{
+  display:flex;
+  width:30px;
+  height:30px;
+  margin-left: 0.5em;
+  flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: center;
+    align-items: center;
+ }
+
+  .button-align{
+  display: flex;
+  
+  justify-content: space-around;
+
+  }
+  .margin-left {
+    margin-left: 5px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .margin-top-5 {
+    margin-top: -5px;
+  }
+
+  .margin-bottom{
+    margin-bottom: 15px;
+  }
+  
+  .display-flex {
+    display: flex;
+  }
+  
+  .man-field {
+    font-size: 14px;
+    color: red;
+  }
+  
+  .margin-bottom-30 {
+    margin-bottom: 30px;
+  }
+  

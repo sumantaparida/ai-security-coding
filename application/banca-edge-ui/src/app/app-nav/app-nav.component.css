@@ -1,0 +1,169 @@
+.logo img {
+  /* border:2px solid #fff; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.user-name {
+  font-size: 14px;
+}
+
+.sidenav {
+  width: 263px;
+}
+
+.margin-right {
+  margin-right: 2px;
+}
+
+.sidenav .mat-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.sidenav h2 a.mat-list-item {
+  color: rgba(0, 0, 0, .87) !important;
+}
+
+.sidenav h2 a.mat-list-item .mat-list-item-content {
+  padding: 0;
+}
+
+.sidenav h2 {
+  margin-bottom: 0;
+  padding: 10px 10px;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content {
+  padding: 0
+}
+
+.sidenav .mat-menu-item .material-icons {
+  margin-right: 10px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.sidenav-container .mat-nav-list .mat-list-item {
+  color: #673ab7;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar .mat-list-item {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+  height: 76px;
+  overflow: hidden;
+}
+
+.mat-sidenav-content .mat-button {
+  width: auto
+}
+
+mat-icon.mat-badge {
+  margin-right: 20px;
+}
+
+.app-container {
+  /*  margin: 10px auto;*/
+  padding: 0 15px;
+}
+
+.n-main-div {
+  border-bottom: 1px solid rgba(0, 0, 0, .12) !important;
+}
+
+.n-main-div:last-child {
+  border-bottom: none !important;
+}
+
+a.n-text {
+  width: 100% !important;
+}
+
+.n-delete {
+  float: right;
+}
+
+.notification-btn {
+  cursor: pointer;
+}
+
+.user-icon {
+  cursor: pointer;
+}
+
+@media (min-width:769px) {
+  .leftside, .menu-icon {
+    display: none;
+  }
+  .mat-sidenav-content .mat-button {
+    display: block;
+    color: 'primary';
+  }
+  .mat-sidenav-content {
+    margin-left: 0 !important;
+  }
+  .mat-drawer-inner-container {
+    display: none;
+  }
+  mat-sidenav {
+    width: 0 !important;
+  }
+}
+
+@media(max-width:768px) {
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    height: 84px;
+    overflow: hidden;
+  }
+  .mat-sidenav-content .mat-button, .mat-drawer-opened+div+.mat-sidenav-content>.mat-toolbar>.mat-icon-button, .user-icon {
+    display: none;
+  }
+  .leftside {
+    display: block;
+  }
+  .logo {
+    display: flex;
+  }
+  .logo img {
+    width: calc(100% - 168px);
+  }
+}
+
+@media (max-width:599px) {
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    height: 66px;
+  }
+  mat-icon.mat-badge {
+    margin-right: 15px;
+  }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    height: 66px;
+  }
+  mat-icon.mat-badge {
+    margin-right: 15px;
+  }
+}

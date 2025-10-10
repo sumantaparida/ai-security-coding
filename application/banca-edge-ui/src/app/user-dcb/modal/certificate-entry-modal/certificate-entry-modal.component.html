@@ -1,0 +1,181 @@
+<div class="main-div">
+  <h2>Update {{ heading }}</h2>
+
+  <form class="example-form" [formGroup]="certificateForm">
+    <table class="example-full-width" cellspacing="0">
+      <tr>
+        <td class="text-align-left">UserName</td>
+        <!-- <td *ngIf="isBranch" class="text-align-left">Domain</td> -->
+
+        
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label  >Username</mat-label>
+            <!-- <mat-label *ngIf="isBranch">Domain</mat-label> -->
+
+            <input matInput formControlName="userName" readonly />
+          </mat-form-field>
+        </td>
+      </tr>
+      <!-- <tr *ngIf="isCertificate">
+        <td class="text-align-left">SP</td>
+
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-radio-group aria-label="Select an option" formControlName="sp">
+              <mat-radio-button value="2" *ngIf="!data.sp">Make as SP User</mat-radio-button>
+              <mat-radio-button value="1" *ngIf="data.sp">Make as Branch User</mat-radio-button>
+            </mat-radio-group>
+            <input matInput />
+          </mat-form-field>
+        </td>
+      </tr> -->
+      <tr *ngIf="isCertificate">
+        <td class="text-align-left">License Code</td>
+
+        <td>
+          <mat-form-field class="example-full-width" floatLabel="always">
+            <mat-label>License Code</mat-label>
+
+            <input matInput formControlName="licenseCode" type="tel" class="margin-bottom-10" />
+            <span matPrefix>SP0089</span>
+            <mat-error *ngIf="certificateForm.get('licenseCode').hasError('pattern')">
+              Lincense code should be 12 digits & please enter only number
+            </mat-error>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr *ngIf="isRole">
+        <td class="text-align-left">Role Code</td>
+
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Role Code</mat-label>
+            <mat-select formControlName="roleCode">
+              <mat-option *ngFor="let role of roles" [value]="role.id">
+                {{ role.name }}
+              </mat-option>
+            </mat-select>
+            <input matInput formControlName="roleCode" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="isBranch">
+        <td class="text-align-left">Branch Code</td>
+
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Branch Code</mat-label>
+            <!-- ---- search dropdown --- -->
+            <mat-select formControlName="branchCode">
+              <mat-option>
+                <ngx-mat-select-search
+                  placeholderLabel="Search"
+                  noEntriesFoundLabel="Not Found"
+                  formControlName="searchCtrl1"
+                >
+                </ngx-mat-select-search>
+              </mat-option>
+              <mat-option
+                *ngFor="
+                  let branch of availableBranches
+                    | searchDropDown 
+                    : certificateForm.get('searchCtrl1').value
+                    :'value'
+                "
+                [value]="branch.id"
+              >
+               {{ branch.value }} 
+              </mat-option>
+            </mat-select>
+
+            <!-- ---- ----  -->
+            <!-- <mat-select formControlName="branchCode">
+              <mat-option *ngFor="let branch of Object.keys(availableBranches)" [value]="branch" >
+                {{branch}}_{{ availableBranches[branch]}}
+              </mat-option>
+            </mat-select> -->
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="isCertificate">
+        <td class="text-align-left">License Start Date</td>
+
+        <td>
+          <mat-form-field>
+            <mat-label>Choose Start date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker1"
+              formControlName="licenseStartDate"
+              (dateChange)="onStartDate()"
+              readonly
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="isCertificate">
+        <td class="text-align-left">License Expiry Date</td>
+
+        <td>
+          <mat-form-field>
+            <mat-label>Choose Expiry date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="licenseExpiryDate"
+              [min]="startDate"
+              
+              readonly
+              [disabled]="disableExpiryDate()"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr *ngIf="isCertificate">
+        <td class="text-align-left">License Type</td>
+
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="licenseType">
+              <mat-option *ngFor="let type of licenseTypes" [value]="type.value">
+                {{ type.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr class="align-center">
+        <td colspan="2">
+          <!-- <button mat-raised-button (click)="updateHandler(true)" class="submit-btn" [disabled]="formValid()">Make as SP User</button> -->
+          <button
+            mat-raised-button
+            *ngIf="data.sp && isCertificate"
+            (click)="updateHandler(false)"
+            class="submit-btn"
+            [disabled]="formValid()"
+          >
+            Make as Branch User
+          </button>
+
+          <button
+            mat-raised-button
+            (click)="updateHandler(true)"
+            class="submit-btn"
+            [disabled]="formValid()"
+          >
+            {{ submitBtn }}
+          </button>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>

@@ -1,0 +1,105 @@
+<div class="search-container">
+  <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="" class="">
+    <div fxFlex="80" class="search-div">
+      <img class="customer-icon" src="../../../../assets/quote-images/customer-logo.svg" />
+    </div>
+  </div>
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-15"
+  >
+    <div fxFlex="80" class="search-div">
+      <!-- commenting for BOM prod --  -->
+      <button mat-button class="add-customer-btn" (click)="onClick()">
+        <mat-icon>person_add</mat-icon>
+        <label class="margin-left-10">Add Loan Details</label>
+      </button>
+      <mat-menu>
+        <button mat-menu-item>
+          <mat-icon class="mat-icon-blue"> account_box </mat-icon>
+        </button>
+        <button mat-menu-item>
+          <mat-icon class="mat-icon-blue"> location_city </mat-icon>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-10"
+  >
+    <div fxFlex="80" class="search-div">
+      <label class="label-header">Select By</label>
+    </div>
+  </div>
+
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-10"
+  >
+    <div fxFlex="80" class="search-div">
+      <form [formGroup]="searchByLoan">
+        <span class="cif-label">Loan ACC Number</span>
+        <mat-slide-toggle formControlName="inputType" (change)="onToggled()"
+          >Loan APP Number
+        </mat-slide-toggle>
+      </form>
+    </div>
+  </div>
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-15"
+  >
+    <div fxFlex="80" class="search-div">
+      <form [formGroup]="searchByLoan">
+        <mat-form-field appearance="outline">
+          <mat-label *ngIf="searchByLoan.get('inputType').value === false"
+            >Loan Account Number
+          </mat-label>
+          <mat-label *ngIf="searchByLoan.get('inputType').value === true"
+            >Loan Application Number
+          </mat-label>
+          <input formControlName="loanAccountNo" matInput placeholder="" />
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+
+  <div
+    flex
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutGap=""
+    class="margin-bottom-10"
+  >
+    <div fxFlex="80" class="search-div">
+      <button
+        mat-raised-button
+        matStepperNext
+        class="next-btn"
+        (click)="onSubmitClicked()"
+        [disabled]="!this.searchByLoan.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+<div class="main-container">
+  <div class="flex-container-viewPlan" *ngIf="media.isActive('md') || media.isActive('lg')">
+    <div style="flex-basis: 20%">
+      <span class="material-icons style-icon-policy"> book </span
+      ><span class="font-size-20">{{ 'component.MY_QUOTE' | translate }}</span>
+    </div>
+
+    <!-- <div class="policy-vault-name box" color="primary">
+            <span class="material-icons style-icon-policy" style="font-size:20px;">
+                restore_page
+            </span>{{'component.MY_RENEWALS'| translate }}
+        </div> -->
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <ng-container *ngIf="media.isActive('xs') || media.isActive('sm')">
+    <div flex fxLayout="row" fxLayoutGap="5px" class="parent">
+      <div fxFlex="50" class="child-one">
+        <span class="material-icons style-icon-policy"> book </span
+        ><span class="font-size-20">{{ 'component.MY_QUOTE' | translate }}</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <div flex fxLayout="row" fxLayoutGap="5px" class="priority-row">
+    <!-- <div fxFlex="100"> -->
+
+    <!-- <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+                <mat-radio-button class="example-radio-button quick-radio" *ngFor="let priority of planPriorities"
+                    [ngClass]="{'blue':priority.id == 2 ,'green':priority.id==3 ,
+                   'orange':priority.id==1 ,'grey':priority.id==0 }"> -->
+    <div fxFlex="60" class="margin-center">
+      <div fxFlex="25" *ngFor="let priority of planPriorities">
+        <span
+          [ngClass]="{
+            blue: priority.id == '2',
+            green: priority.id == '3',
+            orange: priority.id == '1',
+            grey: priority.id == '0'
+          }"
+        ></span>
+        <span *ngIf="priority.id == '0'">{{ 'component.NOT_NEEDED' | translate }} </span>
+        <span *ngIf="priority.id == '1'">{{ 'component.CONSIDER' | translate }} </span>
+        <span *ngIf="priority.id == '2'">{{ 'component.IMPORTANT' | translate }} </span>
+        <span *ngIf="priority.id == '3'">{{ 'component.MUST_HAVE' | translate }} </span>
+        <!-- </mat-radio-button>
+            </mat-radio-group> -->
+      </div>
+    </div>
+  </div>
+
+  <div flex fxLayout="row wrap" fxLayoutGap="5px" class="container-plans">
+    <div
+      fxFlex="25"
+      class=""
+      *ngFor="let product of insuranceProductsCopy"
+      fxFlex="0 1 calc(16% - 0.5%)"
+      fxFlex.lt-md="0 1 calc(31% - 0.5%)"
+      fxFlex.lt-sm="45%"
+    >
+      <!-- <mat-radio-group> -->
+      <img class="plan-img" src="{{ product.img }}" (click)="routeToQuote(product.value)" />
+      <!-- <mat-radio-button [checked]="true" [ngClass]="{'blue':product.score == 2 ,'green':product.score==3 ,
+              'orange':product.score==1 ,'grey':product.score==0 }" value="1"> -->
+      <p>
+        <span
+          [ngClass]="{
+            blue: product.score == 2,
+            green: product.score == 3,
+            orange: product.score == 1,
+            grey: product.score == 0
+          }"
+        ></span>
+        <span id="Protection" *ngIf="product.name === 'Protection'"
+          >{{ 'component.PROTECTION' | translate }}
+        </span>
+        <span *ngIf="product.name === 'Child Education'"
+          >{{ 'component.CHILD_EDUCATION' | translate }}
+        </span>
+        <span *ngIf="product.name === 'Critical Illness'"
+          >{{ 'component.CRITICAL_ILLNESS' | translate }}
+        </span>
+        <span id="cybertheft" *ngIf="product.name === 'Cyber Theft'"
+          >{{ 'component.CYBER_THEFT' | translate }}
+        </span>
+        <span *ngIf="product.name === 'Health Insurance'">{{
+          'component.HEALTH_INSURANCE' | translate
+        }}</span>
+        <span *ngIf="product.name === 'Home Insurance'"
+          >{{ 'component.HOME_INSURANCE' | translate }}
+        </span>
+        <span *ngIf="product.name === 'Regular Income'"
+          >{{ 'component.REGULAR_INCOME' | translate }}
+        </span>
+        <span *ngIf="product.name === 'Saving Traditional'">{{
+          'component.SAVING_TRADITIONAL' | translate
+        }}</span>
+        <span id="car" *ngIf="product.name === 'Car'"
+          >{{ 'component.MOTOR_INSURANCE' | translate }}
+        </span>
+        <span *ngIf="product.name === 'Saving Unit Linked'">{{
+          'component.SAVING_UNIT_LINKED' | translate
+        }}</span>
+        <span *ngIf="product.name === 'Two Wheeler'"
+          >{{ 'component.TWO_WHEELER' | translate }}
+        </span>
+        <span *ngIf="product.value === 'pa'">{{ 'component.PERSONAL_ACCIDENT' | translate }} </span>
+        <span *ngIf="product.value === 'travel'"
+          >{{ 'component.TRAVEL_INSURANCE' | translate }}
+        </span>
+        <!-- <span *ngIf="product.value === 'sme'">{{ 'component.FIRE_INSURANCE' | translate }} </span> -->
+        <span *ngIf="product.name === 'Shop Keeper' && product.value === 'sme'">Shop Keeper </span>
+        <span *ngIf="product.value === 'ann'">Life Annuity </span>
+        <span *ngIf="product.value === 'offline' && orgCode !== 'CSB'"
+          >Comprehensive Insurance System</span
+        >
+        <span *ngIf="product.value === 'offline' && orgCode === 'CSB'">Lead Management System</span>
+      </p>
+      <!-- </mat-radio-button>
+                </mat-radio-group> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,136 @@
+.date-wrap {
+    height: 50px;
+    box-shadow: 0 0 0 1px #cac2d5;
+    border-radius: 2px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.2s linear;
+    -webkit-transition: all 0.2s linear;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    -webkit-align-items: center;
+    color: #566266;
+    background-color: rgba(0, 0, 0, .04);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #673ab7;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #673ab7;
+}
+
+.date-wrap input {
+    width: 32%;
+    border: 0 none;
+    text-align: center;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, .04);
+}
+
+/* .conatiner-pop-up{
+    width: 50rem;
+} */
+
+.font-14 {
+    font-size: 14px;
+}
+
+.gender-radio-box {
+    background-color: rgba(0, 0, 0, .04);
+    color: #566266;
+    padding: 8px 9px 8px 9px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+    /* box-shadow: 0 2px 0 0 #c6cacc; */
+    transition: all 0.1s linear;
+    -webkit-transition: all 0.1s linear;
+    display: inline-flex;
+    width: 36%;
+    box-shadow: 0 0 0 1px #cac2d5;
+}
+
+.gender-radio-box mat-radio-button {
+    left: 0;
+    right: 0;
+    margin: 3px 1px;
+}
+
+.margin-left {
+    margin-left: 15px
+}
+
+.form-row-gap-bottom {
+    margin-top: 20px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.center-label {
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.generate-quote-btn {
+    /* width: 10rem; */
+    /* padding: 5px 15px; */
+    /* display: block; */
+    background: #03dac5;
+    color: white;
+    font-size: 15px;
+    padding: 0px 25px;
+}
+
+.cancel-btn-div {
+    text-align: left;
+}
+
+.cancel-btn {
+    background-color: #b00020;
+    color: white;
+    font-size: 15px;
+    padding: 0px 15px;
+}
+
+.add-btn {
+    text-align: right !important;
+}
+
+.selected {
+    box-shadow: 0 0 0 2px #673ab7 !important;
+}
+
+.radio-option ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #673ab7;
+}
+
+.radio-option ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #673ab7;
+}
+
+@media (max-width: 619px) {
+    .margin-left {
+        margin-left: 10px;
+    }
+    .add-btn {
+        text-align: right !important;
+        width: 48%;
+        display: inline-block;
+    }
+    .cancel-btn-div {
+        text-align: left;
+        width: 48%;
+        float: right;
+    }
+    .add-cancle {
+        display: block !important;
+    }
+}

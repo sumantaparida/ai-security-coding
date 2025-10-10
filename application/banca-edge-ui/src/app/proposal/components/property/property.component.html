@@ -1,0 +1,469 @@
+<form [formGroup]="propertyForm">
+  <ng-container *ngFor="let section of sections">
+    <mat-card
+      *ngIf="
+        section
+          | displaySection
+            : sections
+            : (section?.dependsOnControl !== ''
+                ? propertyForm?.get(section?.dependsOnControl)?.value
+                : undefined)
+            : propertyForm
+      "
+      class="margin-bottom-30"
+    >
+      <p *ngIf="section?.sectionName !== ''" style="font-size: large">
+        {{ section?.sectionName }}
+      </p>
+      <mat-card-content>
+        <div fxLayout="row wrap" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="15px">
+          <ng-template ngFor let-input [ngForOf]="section?.formData">
+            <ng-container [ngSwitch]="input.controlType">
+              <ng-template
+                [ngSwitchCase]="'text'"
+                *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName
+                      : propertyForm
+                      : (propertyForm.get(
+                          input?.dependentFieldControlName +
+                            (input?.key !== '' ? '-' + input?.key : '')
+                        )
+                          ? propertyForm.get(
+                              input?.dependentFieldControlName +
+                                (input?.key !== '' ? '-' + input?.key : '')
+                            ).value
+                          : undefined)
+                      : propertyDetails
+                "
+              >
+                <div fxFlex="40" fxLayoutAlign=" center">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (change)="
+                        onDataChanged(
+                          section,
+                          input,
+                          input?.controlName,
+                          input?.key,
+                          input?.valueType,
+                          $event
+                        )
+                      "
+                      matInput
+                      maxlength="{{ input?.maxChar }}"
+                      placeholder="{{ input?.placeholder }}"
+                      formControlName="{{ input?.controlName }}{{
+                        input?.key !== '' ? '-' + input?.key : ''
+                      }}"
+                    />
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <!-- handling select & radio type inputs -->
+
+              <ng-template
+                [ngSwitchCase]="'select'"
+                *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName
+                      : propertyForm
+                      : (propertyForm.get(
+                          input?.dependentFieldControlName +
+                            (input?.key !== '' ? '-' + input?.key : '')
+                        )
+                          ? propertyForm.get(
+                              input?.dependentFieldControlName +
+                                (input?.key !== '' ? '-' + input?.key : '')
+                            ).value
+                          : undefined)
+                      : propertyDetails
+                "
+              >
+                <div fxFlex="40" fxLayout="row" fxLayoutAlign=" center">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>{{ input?.label }}<span class="man-field">*</span> </mat-label>
+                    <mat-select
+                      (selectionChange)="
+                        onSelectionChanged(
+                          section,
+                          input,
+                          input?.controlName,
+                          input?.key,
+                          input?.valueType,
+                          $event
+                        )
+                      "
+                      formControlName="{{ input?.controlName }}{{
+                        input?.key !== '' ? '-' + input?.key : ''
+                      }}"
+                    >
+                      <mat-option *ngFor="let option of input?.options" [value]="option.id">
+                        {{ option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <!-- <ng-template [ngSwitchCase]="'seachableDropdown'">
+                <div fxFlex="40" fxLayoutAlign=" center">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ input?.label }}<span class="man-field">*</span>
+                    </mat-label>
+                    <mat-select
+                      (selectionChange)="
+                        onSelectionChanged(
+                          section,
+                          input,
+                          input?.controlName,
+                          input?.key,
+                          input?.valueType,
+                          $event
+                        )
+                      "
+                      formControlName="{{ input?.controlName }}{{
+                        input?.key !== '' ? '-' + input?.key : ''
+                      }}"
+                    >
+                      <mat-option>
+                        <ngx-mat-select-search
+                          placeholderLabel="Search"
+                          noEntriesFoundLabel="Not Found"
+                          formControlName="searchCtrl"
+                        >
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option
+                        *ngFor="
+                          let option of input?.options
+                            | searchDropDown
+                              : propertyForm.get('searchCtrl').value
+                              : 'value'
+                        "
+                        [value]="option.id"
+                      >
+                        {{ option.value }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control:
+                          input?.controlName +
+                          (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template> -->
+
+              <ng-template [ngSwitchCase]="'date'">
+                <div fxFlex="32" fxLayoutAlign=" center">
+                  <mat-form-field class="full-width" color="accent" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (dateChange)="onDateChanged(input?.controlName, $event)"
+                      readonly
+                      matInput
+                      [max]="input.maxDate | getDate: null"
+                      [min]="input.minDate | getDate: null"
+                      [matDatepicker]="picker"
+                      formControlName="{{ input?.controlName }}"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker color="primary"></mat-datepicker>
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName,
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template
+                [ngSwitchCase]="'number'"
+                *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName
+                      : propertyForm
+                      : (propertyForm.get(
+                          input?.dependentFieldControlName +
+                            (input?.key !== '' ? '-' + input?.key : '')
+                        )
+                          ? propertyForm.get(
+                              input?.dependentFieldControlName +
+                                (input?.key !== '' ? '-' + input?.key : '')
+                            ).value
+                          : undefined)
+                      : propertyDetails
+                "
+              >
+                <div fxFlex="40" *ngIf="!input?.isFieldDependentOnOtherControl">
+                  <mat-form-field class="full-width" appearance="fill">
+                    <mat-label
+                      >{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (change)="
+                        onDataChanged(
+                          section,
+                          input,
+                          input?.controlName,
+                          input?.key,
+                          input?.valueType,
+                          $event
+                        )
+                      "
+                      matInput
+                      placeholder="{{ input?.placeholder }}"
+                      type="number"
+                      formControlName="{{ input?.controlName }}{{
+                        input?.key !== '' ? '-' + input?.key : ''
+                      }}"
+                    />
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+
+                <div
+                  fxFlex="{{ input?.dependentFieldControlName === 'buildingType' ? 50 : 100 }}"
+                  *ngIf="input?.isFieldDependentOnOtherControl"
+                >
+                  <mat-form-field
+                    class="{{
+                      input.dependentFieldControlName === 'buildingType'
+                        ? 'new-width'
+                        : 'adjust-width'
+                    }}"
+                    appearance="fill"
+                  >
+                    <mat-label
+                      >{{ input?.label
+                      }}<span *ngIf="input?.validators?.required" class="man-field"
+                        >*</span
+                      ></mat-label
+                    >
+                    <input
+                      (change)="
+                        onDataChanged(
+                          section,
+                          input,
+                          input?.controlName,
+                          input?.key,
+                          input?.valueType,
+                          $event
+                        )
+                      "
+                      matInput
+                      placeholder="{{ input?.placeholder }}"
+                      type="number"
+                      formControlName="{{ input?.controlName }}{{
+                        input?.key !== '' ? '-' + input?.key : ''
+                      }}"
+                    />
+                  </mat-form-field>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      proposerErrorTemplate;
+                      context: {
+                        control: input?.controlName + (input?.key !== '' ? '-' + input?.key : ''),
+                        label: input?.label
+                      }
+                    "
+                  >
+                  </ng-container>
+                </div>
+              </ng-template>
+
+              <ng-template
+                [ngSwitchCase]="'radio'"
+                *ngIf="
+                  section.formData
+                    | displayFormField
+                      : (input?.isFieldDependentOnOtherControl
+                          ? input?.dependentFieldControlName
+                          : undefined)
+                      : input?.controlName
+                      : propertyForm
+                      : (propertyForm.get(
+                          input?.dependentFieldControlName +
+                            (input?.key !== '' ? '-' + input?.key : '')
+                        )
+                          ? propertyForm.get(
+                              input?.dependentFieldControlName +
+                                (input?.key !== '' ? '-' + input?.key : '')
+                            ).value
+                          : undefined)
+                      : propertyDetails
+                "
+              >
+                <div class="margin-top-5" fxFlex="100" fxLayoutAlign=" center">
+                  <label fxFlex="41.5">{{ input?.label }}</label>
+                  <mat-radio-group
+                    fxFlex="30"
+                    fxLayoutGap="10px"
+                    (change)="
+                      onRadioChange(
+                        section,
+                        input,
+                        input?.controlName,
+                        input?.valueType,
+                        input?.key,
+                        $event
+                      )
+                    "
+                    class="display-flex"
+                    aria-label="Select an option"
+                    formControlName="{{ input?.controlName }}{{
+                      input?.key !== '' ? '-' + input?.key : ''
+                    }}"
+                  >
+                    <ng-container *ngFor="let form of input?.options; let first = first">
+                      <div class="vehicle-screen-radio-box" [ngClass]="{ 'margin-left': !first }">
+                        <mat-radio-button color="primary" value="{{ form?.id }}"
+                          >{{ form?.value }}
+                        </mat-radio-button>
+                      </div>
+                    </ng-container>
+                  </mat-radio-group>
+                </div>
+              </ng-template>
+            </ng-container>
+          </ng-template>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</form>
+<p class="saError" fxFlexAlign="center" *ngIf="saMax">
+  Value of total sum assurred cannot exceed 5 Crore
+</p>
+<ng-template #proposerErrorTemplate let-control="control" let-label="label">
+  <div
+    *ngIf="propertyForm.get(control).touched && propertyForm.get(control).hasError('required')"
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is required.</span>
+  </div>
+  <div
+    *ngIf="propertyForm.get(control).touched && propertyForm.get(control).hasError('minlength')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a minimum of
+      {{ propertyForm.get(control).errors.minlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="propertyForm.get(control).touched && propertyForm.get(control).hasError('maxlength')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be a maximum of
+      {{ propertyForm.get(control).errors.maxlength.requiredLength }}
+      characters.</span
+    >
+  </div>
+  <div
+    *ngIf="propertyForm.get(control).touched && propertyForm.get(control).hasError('max')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at max
+      {{ propertyForm.get(control).errors.max.max }}
+    </span>
+  </div>
+  <div
+    *ngIf="propertyForm.get(control).touched && propertyForm.get(control).hasError('min')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} should be at least
+      {{ propertyForm.get(control).errors.min.min }}
+    </span>
+  </div>
+  <div
+    *ngIf="propertyForm.get(control).touched && propertyForm.get(control).hasError('pattern')"
+    class="full-width"
+  >
+    <span class="man-field">{{ label }} is not valid </span>
+  </div>
+  <div
+    *ngIf="propertyForm.get(control).touched && propertyForm.get(control).hasError('maxvalueVal')"
+    class="full-width"
+  >
+    <span class="man-field"
+      >{{ label }} can have max value of
+      {{ propertyForm.get(control).errors.maxvalue }}
+    </span>
+  </div>
+</ng-template>

@@ -1,0 +1,35 @@
+.payment-request-screen {
+    margin-top: 0px;
+}
+
+.search-field {
+    margin-top: 15px;
+    text-align: right;
+    padding-right: 15px;
+}
+
+.approve-btn {
+    padding: 6px 45px;
+    font-size: 15px;
+    border-radius: 5%;
+    margin: 5px 10px;
+    outline: none;
+    color: white;
+    background-color: #03dac5;
+    border: 0px;
+}
+.proposal_link {
+    text-decoration: none;
+    color: blue;
+  }
+
+.reject-btn {
+    padding: 6px 45px;
+    font-size: 15px;
+    border-radius: 5%;
+    margin: 5px 10px;
+    outline: none;
+    color: white;
+    background-color: #b13a4e;
+    border: 0px;
+}

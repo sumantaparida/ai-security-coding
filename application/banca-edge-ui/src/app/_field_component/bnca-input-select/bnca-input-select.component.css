@@ -1,0 +1,137 @@
+.select_container{
+  position: relative;
+}
+  .customSelect{
+    position: relative;
+  }
+
+.customSelect .selectbox.highlight {
+  outline: 2px solid rgb(0 137 208 / 61%);
+  box-shadow: none;
+}
+
+.customSelect .seachableDropdown input.highlight{
+  outline: 2px solid rgb(0 137 208 / 61%);
+  box-shadow: none;
+}
+
+.customSelect .selectbox.valid{
+  box-shadow: 0px 0px 2px 0px rgb(0 137 208);
+  /* background-color: #aafbbb63; */
+}
+
+ .customSelect .seachableDropdown{
+  display: flex;
+
+}
+
+.customSelect .selectbox.disabled{
+  background: #aee7b8bf;
+    color: #728574;
+}
+
+.seachableDropdown input.disabled{
+  background: #aee7b8bf;
+  color: #728574;
+}
+
+.seachableDropdown input{
+  flex: 1;
+  max-width: 90.5%;
+}
+
+.seachableDropdown img{
+  flex: 0;
+  width: 12.492px;
+  height: 15px;
+  margin-left: auto;
+  opacity: 0.6;
+  align-self: center;
+  /* margin-right: 50px; */
+  justify-content: center;
+  position: absolute;
+  left: calc(93% - 1.5%);
+  top: 30%;
+}
+
+.customSelect .selectbox {
+  margin-left: 9px;
+  width: 90.6%;
+  height: 15px;
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0px 0px 2px 0px rgb(0 137 208);
+  color: #0000008a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  contain: content;
+}
+
+.selectbox img{
+  flex: 0;
+  width: 12.492px;
+  height: 15px;
+  margin-left: auto;
+  opacity: 0.6;
+}
+
+  .menuContainer {
+    position: absolute;
+    top: 130%;
+    left: 2%;
+    width: 94%;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 0px 1px 1px rgb(204 199 199);
+    z-index: 200;
+    max-height: 200px;
+    overflow: auto;
+  }
+
+  .menuContainer .option_item:hover{
+    box-shadow: 0px 0px 2px 0px rgb(201, 238, 209);
+    background-color: rgb(59 244 118 / 51%);
+    transform: scale(1.018);
+  }
+
+  .menuContainer .option_item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    transition: transform 0.2s;
+    height: 30px;
+    border-bottom: 1px solid #8080804d;
+  }
+
+  .customSelect .custom-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 29px;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    color: #999;
+  }
+
+
+  .customSelect.focused .custom-placeholder {
+    top: -1px;
+    font-size: 12px;
+   /* Customize the color as needed */
+    color: crimson; 
+    background-color: white;
+    padding:0px 5px;
+  }
+
+  .customSelect .custom-placeholder.enteredVal {
+    color: #19d228ea; 
+  }
+
+  .menuContainer.above {
+    bottom: calc(100% + 10px); /* Position the dropdown above the select box */
+    top: auto;
+  }

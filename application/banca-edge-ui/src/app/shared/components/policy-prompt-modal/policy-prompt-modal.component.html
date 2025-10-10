@@ -1,0 +1,14 @@
+<div class="buttonRight">
+  <button class="close" mat-button (click)="onNoClick('')">X</button>
+</div>
+<p class="headding" mat-dialog-title>
+  Would you like to answer a few questions and issue the policy immediately? If
+  so Click Yes.
+</p>
+<p class="headding" mat-dialog-title>
+  If you require support in the application process, please Click No.
+</p>
+<div mat-dialog-actions class="btn-div">
+  <button mat-button class="yes-btn" (click)="onClick('Long')">Yes</button>
+  <button mat-button class="no-btn" (click)="onClick('Short')">No</button>
+</div>

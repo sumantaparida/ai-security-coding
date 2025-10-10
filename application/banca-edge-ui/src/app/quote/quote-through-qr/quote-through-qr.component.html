@@ -1,0 +1,131 @@
+<div class="quote-container">
+  <form [formGroup]="quoteForm">
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="quote-details-header">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          class="heading-row"
+          fxLayout.sm="column"
+          fxLayoutGap="10px"
+        >
+          <div class="heading-text">
+            <span>Please Enter Details</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div flex fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="10px">
+      <div fxFlex="70" class="health-details-form">
+        <div
+          fxLayout="row"
+          fxLayout.xs="column"
+          fxLayout.sm="column"
+          fxLayoutGap="25px"
+          class="form-row-gap-bottom"
+        >
+          <div fxFlex="50" class="center-label">
+            <label>Please select the plan you want to proceed with</label>
+          </div>
+          <div fxFlex="50" fxLayoutGap="10px">
+            <mat-form-field appearance="fill">
+              <mat-select formControlName="plan">
+                <mat-option *ngFor="let planDetail of planDetails" [value]="planDetail.planId">
+                  {{ planDetail?.planName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <div class="center-text">
+            <table [width]="'100%'">
+              <tr>
+                <th rowspan="3">Cover Details</th>
+                <th colspan="3">Plan Selection Option</th>
+              </tr>
+              <tr>
+                <th>Bronze</th>
+                <th>Silver</th>
+                <th>Gold</th>
+              </tr>
+              <tr>
+                <th colspan="3">Sum Insured</th>
+              </tr>
+              <tr>
+                <td style="text-align: left">Accidental Death Benifit</td>
+                <td>{{ 500000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 750000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 1000000 | currency: 'INR':'symbol':'3.0' }}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Permanent Total Disablement Benifit (PTD)</td>
+                <td>{{ 500000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 750000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 1000000 | currency: 'INR':'symbol':'3.0' }}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Permanent Partial Disablement Benifit (PPD)</td>
+                <td>x</td>
+                <td>{{ 750000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 1000000 | currency: 'INR':'symbol':'3.0' }}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left">
+                  Permanent Total Disablement Benifit (Common Carrier)
+                </td>
+                <td>{{ 500000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 750000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 1000000 | currency: 'INR':'symbol':'3.0' }}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Accidental Death Benifit (common Carrier)</td>
+                <td>{{ 500000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 750000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 1000000 | currency: 'INR':'symbol':'3.0' }}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Emergency Road Ambulance Benifit</td>
+                <td>{{ 5000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 10000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 10000 | currency: 'INR':'symbol':'3.0' }}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Education Fund Benifit</td>
+                <td>x</td>
+                <td>{{ 250000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 250000 | currency: 'INR':'symbol':'3.0' }}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Funeral Expenses Benifit</td>
+                <td>{{ 10000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 10000 | currency: 'INR':'symbol':'3.0' }}</td>
+                <td>{{ 10000 | currency: 'INR':'symbol':'3.0' }}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Hospital Cash Benifit</td>
+                <td>x</td>
+                <td>x</td>
+                <td>{{ 1000 | currency: 'INR':'symbol':'3.0' }}/Day</td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Coma Benifit</td>
+                <td>x</td>
+                <td>x</td>
+                <td>{{ 1000000 | currency: 'INR':'symbol':'3.0' }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      mat-raised-button
+      class="generate-quote-btn"
+      (click)="onBuyNowClicked()"
+      [disabled]="!quoteForm.valid"
+    >
+      Buy Now
+    </button>
+  </form>
+</div>
